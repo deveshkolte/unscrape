@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Licious — 3-City Quick-Commerce Dark-Store Audit Scorecard | Unscrape Radar</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background-color: #07080d; color: #f3f4f6; font-family: Inter, system-ui, -apple-system, sans-serif; }
+  </style>
+</head>
+<body class="min-h-screen pb-24">
+  <!-- Top Bar -->
+  <header class="border-b border-slate-800 bg-slate-950/90 backdrop-blur sticky top-0 z-20">
+    <div class="max-w-7xl mx-auto px-6 py-3.5 flex items-center justify-between flex-wrap gap-3">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="text-emerald-400 font-black text-lg tracking-tight hover:text-emerald-300">⚡ UNSCRAPE RADAR</a>
+        <span class="text-xs text-slate-500">/</span>
+        <span class="text-sm font-bold text-white">Licious Executive Scorecard</span>
+      </div>
+      <div class="flex items-center gap-2.5 text-xs">
+        <a href="index.html" class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700">← All 56 Brand Audits</a>
+        <button onclick="downloadCsv()" class="px-3.5 py-1.5 rounded-lg bg-emerald-500 text-slate-950 font-bold hover:bg-emerald-400">⬇ Download Raw CSV (46 SKUs)</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-6 pt-8">
+    <!-- Executive Header -->
+    <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 mb-8">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+        <div>
+          <div class="flex items-center gap-2.5 mb-2">
+            <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded bg-slate-800 text-emerald-400">Fresh Meat &amp; Ready-to-Cook</span>
+            <span class="text-xs text-slate-400 font-mono">Audited: 2026-10-30</span>
+          </div>
+          <h1 class="text-3xl md:text-4xl font-black text-white tracking-tight">Licious — Hyperlocal Dark-Store Audit</h1>
+          <p class="text-slate-400 text-sm mt-1">
+            Live multi-platform inventory & MOP/MRP price variance scan across <strong>Bengaluru (560001)</strong>, <strong>Mumbai (400001)</strong>, and <strong>Delhi (110001)</strong>.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 shrink-0">
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">SKUs Audited</div>
+            <div class="text-2xl font-black text-white mt-1">46</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">OOS Leaks</div>
+            <div class="text-2xl font-black text-rose-400 mt-1">4</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">Max Markdown</div>
+            <div class="text-2xl font-black text-amber-300 mt-1">60%</div>
+          </div>
+          <div class="border rounded-xl p-3.5 text-center bg-amber-500/15 text-amber-300 border-amber-500/30">
+            <div class="text-[11px] uppercase font-bold opacity-80">Shelf Health</div>
+            <div class="text-2xl font-black mt-1">91%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="bg-rose-950/50 border border-rose-500/40 rounded-2xl p-6 mb-8">
+      <div class="flex items-center justify-between flex-wrap gap-3 mb-4">
+        <div class="flex items-center gap-3">
+          <span class="px-3 py-1 rounded-full bg-rose-500 text-slate-950 font-black text-xs uppercase tracking-wider">🚨 REVENUE LEAK DETECTED</span>
+          <h2 class="text-lg font-bold text-white">4 Out-of-Stock Dark-Store Listing(s) Caught Live</h2>
+        </div>
+        <span class="text-xs font-mono text-rose-300">Immediate Shelf Conversion Loss</span>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+        
+          <div class="bg-slate-950/90 border border-rose-500/30 rounded-xl p-3.5 flex items-center justify-between gap-3">
+            <div>
+              <div class="text-sm font-bold text-white">Licious Chicken Curry Cut (Small Pieces)</div>
+              <div class="text-xs text-slate-400 mt-1">
+                Platform: <span class="text-rose-300 font-mono">blinkit.com</span> ·
+                City: <span class="text-slate-200">Bengaluru (560001)</span> ·
+                Pack: <span class="text-slate-300">2 x 450 g</span>
+              </div>
+            </div>
+            <div class="text-right shrink-0">
+              <div class="text-sm font-extrabold text-rose-400">OUT OF STOCK</div>
+              <div class="text-xs text-slate-400">₹414</div>
+            </div>
+          </div>
+          <div class="bg-slate-950/90 border border-rose-500/30 rounded-xl p-3.5 flex items-center justify-between gap-3">
+            <div>
+              <div class="text-sm font-bold text-white">Licious Chicken - Curry Cut (Small)</div>
+              <div class="text-xs text-slate-400 mt-1">
+                Platform: <span class="text-rose-300 font-mono">zeptonow.com</span> ·
+                City: <span class="text-slate-200">Bengaluru (560001)</span> ·
+                Pack: <span class="text-slate-300">450 g</span>
+              </div>
+            </div>
+            <div class="text-right shrink-0">
+              <div class="text-sm font-extrabold text-rose-400">OUT OF STOCK</div>
+              <div class="text-xs text-slate-400">₹209</div>
+            </div>
+          </div>
+          <div class="bg-slate-950/90 border border-rose-500/30 rounded-xl p-3.5 flex items-center justify-between gap-3">
+            <div>
+              <div class="text-sm font-bold text-white">Licious Chicken (Skinless) - Curry Cut (Large)</div>
+              <div class="text-xs text-slate-400 mt-1">
+                Platform: <span class="text-rose-300 font-mono">zeptonow.com</span> ·
+                City: <span class="text-slate-200">Bengaluru (560001)</span> ·
+                Pack: <span class="text-slate-300">450 g</span>
+              </div>
+            </div>
+            <div class="text-right shrink-0">
+              <div class="text-sm font-extrabold text-rose-400">OUT OF STOCK</div>
+              <div class="text-xs text-slate-400">₹209</div>
+            </div>
+          </div>
+          <div class="bg-slate-950/90 border border-rose-500/30 rounded-xl p-3.5 flex items-center justify-between gap-3">
+            <div>
+              <div class="text-sm font-bold text-white">Licious Chicken Drumsticks - Pack of 2</div>
+              <div class="text-xs text-slate-400 mt-1">
+                Platform: <span class="text-rose-300 font-mono">zeptonow.com</span> ·
+                City: <span class="text-slate-200">Bengaluru (560001)</span> ·
+                Pack: <span class="text-slate-300">1 pack (2 pcs)</span>
+              </div>
+            </div>
+            <div class="text-right shrink-0">
+              <div class="text-sm font-extrabold text-rose-400">OUT OF STOCK</div>
+              <div class="text-xs text-slate-400">₹134</div>
+            </div>
+          </div>
+      </div>
+    </div>
+
+    <!-- Filter Controls -->
+    <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+      <div class="flex items-center gap-2 text-xs">
+        <button onclick="filterRows('all')" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-semibold">All SKUs (46)</button>
+        <button onclick="filterRows('oos')" class="px-3 py-1.5 rounded-lg bg-rose-500/15 border border-rose-500/30 text-rose-300 hover:bg-rose-500/25 font-semibold">Out-of-Stock Only (4)</button>
+        <button onclick="filterRows('instock')" class="px-3 py-1.5 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 hover:bg-emerald-500/25 font-semibold">In-Stock (42)</button>
+      </div>
+      <div class="flex items-center gap-2">
+        <input id="skuSearch" type="text" oninput="searchSkus()" placeholder="Filter SKU title or platform..." class="bg-slate-900 border border-slate-800 rounded-lg px-3.5 py-1.5 text-xs text-white w-64" />
+      </div>
+    </div>
+
+    <!-- SKU Table -->
+    <div class="bg-slate-900/50 border border-slate-800 rounded-2xl overflow-x-auto">
+      <table class="w-full text-left text-xs">
+        <thead class="bg-slate-950/90 text-slate-400 uppercase border-b border-slate-800">
+          <tr>
+            <th class="px-4 py-3">SKU Title</th>
+            <th class="px-4 py-3">Platform</th>
+            <th class="px-4 py-3">City / Pin</th>
+            <th class="px-4 py-3">Pack Size</th>
+            <th class="px-4 py-3">Selling Price</th>
+            <th class="px-4 py-3">MRP</th>
+            <th class="px-4 py-3">Discount</th>
+            <th class="px-4 py-3">Stock Status</th>
+            <th class="px-4 py-3">ETA</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-800/60">
+          <tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="maggi nutri-licious masala veg atta noodles 72.5 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Maggi Nutri-Licious Masala Veg Atta Noodles 72.5 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.39/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹28</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹30</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">7% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="maggi nutri-licious masala veg atta noodles 290 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Maggi Nutri-Licious Masala Veg Atta Noodles 290 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.38/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹110</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹116</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="maggi 2-minute double masala noddles 95 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Maggi 2-Minute Double Masala Noddles 95 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.20/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹19</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹20</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="zoff 5mins gravy chicken 60gm pack of 5">
+        <td class="px-4 py-3 font-medium text-white max-w-md">ZOFF 5MINS GRAVY CHICKEN 60Gm Pack of 5</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">3.30/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹198</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹375</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">47% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="thillai's crispy chicken classic 250g -pack of 2">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Thillai's Crispy Chicken classic 250g -Pack of 2</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">100.00/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹200</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹300</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">33% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="hearty meals assorted instant chicken premix pack of 9, 765g | gravy masala mix for varieties of chicken | ready in 20 - 25 min | serves 45-54 | no preservatives | ready to cook indian premix masala spice">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Hearty Meals Assorted Instant Chicken Premix Pack of 9, 765g | Gravy Masala Mix for Varieties of Chicken | Ready in 20 - 25 min | Serves 45-54 | No Preservatives | Ready To Cook Indian Premix Masala Spice</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1.11/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹849</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹943</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">10% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="maggi nutri-licious masala veg atta noodles 72.5 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Maggi Nutri-Licious Masala Veg Atta Noodles 72.5 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.39/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹28</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹30</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">7% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="maggi nutri-licious masala veg atta noodles 290 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Maggi Nutri-Licious Masala Veg Atta Noodles 290 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.38/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹110</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹116</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="maggi 2-minute double masala noddles 95 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Maggi 2-Minute Double Masala Noddles 95 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.20/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹19</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹20</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="zoff 5mins gravy chicken 60gm pack of 5">
+        <td class="px-4 py-3 font-medium text-white max-w-md">ZOFF 5MINS GRAVY CHICKEN 60Gm Pack of 5</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">3.30/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹198</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹375</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">47% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="thillai's crispy chicken classic 250g -pack of 2">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Thillai's Crispy Chicken classic 250g -Pack of 2</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">100.00/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹200</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹300</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">33% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="hearty meals assorted instant chicken premix pack of 9, 765g | gravy masala mix for varieties of chicken | ready in 20 - 25 min | serves 45-54 | no preservatives | ready to cook indian premix masala spice">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Hearty Meals Assorted Instant Chicken Premix Pack of 9, 765g | Gravy Masala Mix for Varieties of Chicken | Ready in 20 - 25 min | Serves 45-54 | No Preservatives | Ready To Cook Indian Premix Masala Spice</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1.11/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹849</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹943</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">10% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="maggi nutri-licious masala veg atta noodles 72.5 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Maggi Nutri-Licious Masala Veg Atta Noodles 72.5 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.39/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹28</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹30</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">7% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="maggi nutri-licious masala veg atta noodles 290 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Maggi Nutri-Licious Masala Veg Atta Noodles 290 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.38/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹110</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹116</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="maggi 2-minute double masala noddles 95 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Maggi 2-Minute Double Masala Noddles 95 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.20/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹19</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹20</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="zoff 5mins gravy chicken 60gm pack of 5">
+        <td class="px-4 py-3 font-medium text-white max-w-md">ZOFF 5MINS GRAVY CHICKEN 60Gm Pack of 5</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">3.30/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹198</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹375</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">47% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="thillai's crispy chicken classic 250g -pack of 2">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Thillai's Crispy Chicken classic 250g -Pack of 2</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">100.00/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹200</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹300</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">33% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="hearty meals assorted instant chicken premix pack of 9, 765g | gravy masala mix for varieties of chicken | ready in 20 - 25 min | serves 45-54 | no preservatives | ready to cook indian premix masala spice">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Hearty Meals Assorted Instant Chicken Premix Pack of 9, 765g | Gravy Masala Mix for Varieties of Chicken | Ready in 20 - 25 min | Serves 45-54 | No Preservatives | Ready To Cook Indian Premix Masala Spice</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1.11/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹849</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹943</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">10% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="fsipl’s chef’s art crispy cajun breading spicy crunchy coating for chicken, fish &amp; veggies">
+        <td class="px-4 py-3 font-medium text-white max-w-md">FSIPL’s Chef’s Art Crispy Cajun Breading Spicy Crunchy Coating for Chicken, Fish &amp; Veggies</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹331</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹418</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">21% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="aaahara chicken masala 40g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">AAAHARA Chicken Masala 40g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">40g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹198</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹225</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">12% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="desi treat mock chicken">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Desi Treat Mock Chicken</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1424</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹2100</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">32% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="desi treat fresh baby corn + vegan mock chicken combo">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Desi Treat Fresh Baby Corn + Vegan Mock Chicken Combo</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹351</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹630</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">44% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="shaan-e jaipur chicken fish roasted masala pack of 2 grill tandoori mix">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Shaan-E Jaipur Chicken Fish Roasted Masala Pack of 2 Grill Tandoori Mix</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹175</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹199</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">12% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="tasty nibbles ready to cook chicken roast gravy mix 300g|no added preservatives 300 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Tasty Nibbles Ready To Cook Chicken Roast Gravy Mix 300g|No Added Preservatives 300 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">300g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹235</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹250</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">6% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="licious sizzl loaded chicken momos">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Licious Sizzl Loaded Chicken Momos</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">6 pcs</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹139</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹189</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">26% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="licious chicken curry cut (small pieces)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Licious Chicken Curry Cut (Small Pieces)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">450 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹209</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹209</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="oos" data-platform="blinkit.com" data-title="licious chicken curry cut (small pieces)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Licious Chicken Curry Cut (Small Pieces)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">2 x 450 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹414</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹418</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">1% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-rose-500/20 text-rose-400 border border-rose-500/30 font-mono text-[11px] font-bold">OUT OF STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="licious chicken curry cut">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Licious Chicken Curry Cut</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">450 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹209</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹209</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="licious chicken curry cut">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Licious Chicken Curry Cut</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">2 x 450 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹414</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹418</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">1% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="licious chicken breast - boneless">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Licious Chicken Breast - Boneless</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">400 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹349</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹349</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="licious chicken breast - boneless">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Licious Chicken Breast - Boneless</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">2 x 400 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹692</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹698</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">1% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="licious sizzl loaded chicken momos">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Licious Sizzl Loaded Chicken Momos</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">16 pcs</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹299</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹379</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">21% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="soultari ready to eat smoky butter chicken | succulent chunks of boneless chicken in a creamy aromatic tomato gravy | sufficent for two | just heat and eat | - 300 gram |pack of 1|">
+        <td class="px-4 py-3 font-medium text-white max-w-md">SOULTARI Ready To Eat Smoky Butter Chicken | Succulent Chunks Of Boneless Chicken In A Creamy Aromatic Tomato Gravy | Sufficent For Two | Just Heat And Eat | - 300 Gram |Pack Of 1|</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹256</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹85.33</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Sat, 7 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="freshtohome premium chicken | curry cut | 450g pack | skinless | antibiotic-residue-free | tender | fresh | never frozen">
+        <td class="px-4 py-3 font-medium text-white max-w-md">FreshToHome Premium Chicken | Curry Cut | 450g Pack | Skinless | Antibiotic-Residue-Free | Tender | Fresh | Never Frozen</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">450g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹199</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹442.22</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">55% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Today 4 pm - 8 pm</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="freshtohome premium chicken biryani cut | 450g pack | skinless | antibiotic-residue-free | tender | fresh | never frozen">
+        <td class="px-4 py-3 font-medium text-white max-w-md">FreshToHome Premium Chicken Biryani Cut | 450g Pack | Skinless | Antibiotic-Residue-Free | Tender | Fresh | Never Frozen</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">450g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹195</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹433.33</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">55% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Today 4 pm - 8 pm</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="freshtohome premium chicken boneless breast fillet | 400g pack | antibiotic-residue-free | tender | fresh | never frozen">
+        <td class="px-4 py-3 font-medium text-white max-w-md">FreshToHome Premium Chicken Boneless Breast Fillet | 400g Pack | Antibiotic-residue-free | Tender | Fresh | Never Frozen</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">400g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹244</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹610</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">60% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Today 4 pm - 8 pm</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="freshtohome preium chicken drumsticks | 450g to 520g pack | skinless | tender | antibiotic-residue-free | fresh | never frozen">
+        <td class="px-4 py-3 font-medium text-white max-w-md">FreshToHome Preium Chicken Drumsticks | 450g to 520g Pack | Skinless | Tender | Antibiotic-Residue-Free | Fresh | Never Frozen</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">450g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹207</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹398.08</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">48% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Today 4 pm - 8 pm</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="mirza sahab chicken special combo ( chicken masala, chicken tikka, chicken fish fry, chicken changezi, butter chicken, dilli kat-a-kat)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Mirza Sahab Chicken Special Combo ( Chicken Masala, Chicken Tikka, Chicken Fish Fry, Chicken Changezi, Butter Chicken, Dilli Kat-a-kat)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹399</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹399</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Fri, 6 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="godrej real good chicken drumstick | freshly frozen | no hormones, no preservatives">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Godrej Real Good Chicken Drumstick | Freshly Frozen | No Hormones, No Preservatives</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (500 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹249</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹270</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">8% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="licious chicken breast boneless">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Licious Chicken Breast Boneless</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">400 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹349</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹349</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="abis pro chicken curry cut without skin">
+        <td class="px-4 py-3 font-medium text-white max-w-md">ABIS PRO Chicken Curry Cut without Skin</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (450 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹144</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹175</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">18% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="licious korean chicken momos">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Licious Korean Chicken Momos</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (6 pcs)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹159</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹199</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="abis pro chicken breast boneless">
+        <td class="px-4 py-3 font-medium text-white max-w-md">ABIS PRO Chicken Breast Boneless</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (400 g or 450 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹214</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹269</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="oos" data-platform="zeptonow.com" data-title="licious chicken - curry cut (small)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Licious Chicken - Curry Cut (Small)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">450 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹209</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹209</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-rose-500/20 text-rose-400 border border-rose-500/30 font-mono text-[11px] font-bold">OUT OF STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="oos" data-platform="zeptonow.com" data-title="licious chicken (skinless) - curry cut (large)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Licious Chicken (Skinless) - Curry Cut (Large)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">450 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹209</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹209</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-rose-500/20 text-rose-400 border border-rose-500/30 font-mono text-[11px] font-bold">OUT OF STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="oos" data-platform="zeptonow.com" data-title="licious chicken drumsticks - pack of 2">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Licious Chicken Drumsticks - Pack of 2</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (2 pcs)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹134</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹149</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">10% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-rose-500/20 text-rose-400 border border-rose-500/30 font-mono text-[11px] font-bold">OUT OF STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- Sticky CTA Footer -->
+  <div class="fixed bottom-0 inset-x-0 bg-slate-950/95 border-t border-emerald-500/30 backdrop-blur px-6 py-3.5 z-30">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+      <div class="text-slate-200">
+        <span class="text-emerald-400 font-bold">⚡ Unscrape Radar:</span> Want real-time Slack/WhatsApp/Telegram alerts within 15 mins whenever <strong>Licious</strong> SKUs go Out-of-Stock across 20 BLR/MUM/DEL dark-store pin codes?
+      </div>
+      <div class="flex items-center gap-2.5 shrink-0">
+        <a href="https://github.com/deveshkolte/unscrape" target="_blank" class="px-4 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold">Unlock Automated 20-Pin-Code Monitor →</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const RAW_CSV = "brand,city,pincode,platform,skuId,title,sellingPriceInr,mrpInr,discountPercent,unit,inStock,deliveryEta,url\nLicious,Bengaluru,560001,bigbasket.com/jiomart,7515612,Maggi Nutri-Licious Masala Veg Atta Noodles 72.5 g,28,30,7,0.39/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/maggi-nutri-licious-masala-instant-veg-atta-noodles-725-g-mffmxn-7515612/7515612\nLicious,Bengaluru,560001,bigbasket.com/jiomart,7513378,Maggi Nutri-Licious Masala Veg Atta Noodles 290 g,110,116,5,0.38/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/maggi-nutri-licious-masala-veg-atta-noodles-290-g-mffmwm-7513378/7513378\nLicious,Bengaluru,560001,bigbasket.com/jiomart,7548961,Maggi 2-Minute Double Masala Noddles 95 g,19,20,5,0.20/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/maggi-2-minute-double-masala-noddles-95-g-mffndl-7548961/7548961\nLicious,Bengaluru,560001,bigbasket.com/jiomart,137942489,ZOFF 5MINS GRAVY CHICKEN 60Gm Pack of 5,198,375,47,3.30/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/zoff-5mins-gravy-chicken-60gm-pack-of-5-msaljm-137942489/137942489\nLicious,Bengaluru,560001,bigbasket.com/jiomart,67737053,Thillai's Crispy Chicken classic 250g -Pack of 2,200,300,33,100.00/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/thillai-s-crispy-chicken-classic-250g-pack-of-2-mjhfgo-67737053/67737053\nLicious,Bengaluru,560001,bigbasket.com/jiomart,135953022,\"Hearty Meals Assorted Instant Chicken Premix Pack of 9, 765g | Gravy Masala Mix for Varieties of Chicken | Ready in 20 - 25 min | Serves 45-54 | No Preservatives | Ready To Cook Indian Premix Masala Spice\",849,943,10,1.11/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/hearty-meals-assorted-instant-chicken-premix-pack-of-9-765g-gravy-masala-mix-for-varieties-of-chicken-ready-in-20-25-min-serves-45-54-no-preservatives-ready-to-cook-indian-premix-masala-spice-ms0het-135953022/135953022\nLicious,Mumbai,400001,bigbasket.com/jiomart,7515612,Maggi Nutri-Licious Masala Veg Atta Noodles 72.5 g,28,30,7,0.39/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/maggi-nutri-licious-masala-instant-veg-atta-noodles-725-g-mffmxn-7515612/7515612\nLicious,Mumbai,400001,bigbasket.com/jiomart,7513378,Maggi Nutri-Licious Masala Veg Atta Noodles 290 g,110,116,5,0.38/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/maggi-nutri-licious-masala-veg-atta-noodles-290-g-mffmwm-7513378/7513378\nLicious,Mumbai,400001,bigbasket.com/jiomart,7548961,Maggi 2-Minute Double Masala Noddles 95 g,19,20,5,0.20/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/maggi-2-minute-double-masala-noddles-95-g-mffndl-7548961/7548961\nLicious,Mumbai,400001,bigbasket.com/jiomart,137942489,ZOFF 5MINS GRAVY CHICKEN 60Gm Pack of 5,198,375,47,3.30/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/zoff-5mins-gravy-chicken-60gm-pack-of-5-msaljm-137942489/137942489\nLicious,Mumbai,400001,bigbasket.com/jiomart,67737053,Thillai's Crispy Chicken classic 250g -Pack of 2,200,300,33,100.00/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/thillai-s-crispy-chicken-classic-250g-pack-of-2-mjhfgo-67737053/67737053\nLicious,Mumbai,400001,bigbasket.com/jiomart,135953022,\"Hearty Meals Assorted Instant Chicken Premix Pack of 9, 765g | Gravy Masala Mix for Varieties of Chicken | Ready in 20 - 25 min | Serves 45-54 | No Preservatives | Ready To Cook Indian Premix Masala Spice\",849,943,10,1.11/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/hearty-meals-assorted-instant-chicken-premix-pack-of-9-765g-gravy-masala-mix-for-varieties-of-chicken-ready-in-20-25-min-serves-45-54-no-preservatives-ready-to-cook-indian-premix-masala-spice-ms0het-135953022/135953022\nLicious,Delhi,110001,bigbasket.com/jiomart,7515612,Maggi Nutri-Licious Masala Veg Atta Noodles 72.5 g,28,30,7,0.39/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/maggi-nutri-licious-masala-instant-veg-atta-noodles-725-g-mffmxn-7515612/7515612\nLicious,Delhi,110001,bigbasket.com/jiomart,7513378,Maggi Nutri-Licious Masala Veg Atta Noodles 290 g,110,116,5,0.38/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/maggi-nutri-licious-masala-veg-atta-noodles-290-g-mffmwm-7513378/7513378\nLicious,Delhi,110001,bigbasket.com/jiomart,7548961,Maggi 2-Minute Double Masala Noddles 95 g,19,20,5,0.20/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/maggi-2-minute-double-masala-noddles-95-g-mffndl-7548961/7548961\nLicious,Delhi,110001,bigbasket.com/jiomart,137942489,ZOFF 5MINS GRAVY CHICKEN 60Gm Pack of 5,198,375,47,3.30/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/zoff-5mins-gravy-chicken-60gm-pack-of-5-msaljm-137942489/137942489\nLicious,Delhi,110001,bigbasket.com/jiomart,67737053,Thillai's Crispy Chicken classic 250g -Pack of 2,200,300,33,100.00/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/thillai-s-crispy-chicken-classic-250g-pack-of-2-mjhfgo-67737053/67737053\nLicious,Delhi,110001,bigbasket.com/jiomart,135953022,\"Hearty Meals Assorted Instant Chicken Premix Pack of 9, 765g | Gravy Masala Mix for Varieties of Chicken | Ready in 20 - 25 min | Serves 45-54 | No Preservatives | Ready To Cook Indian Premix Masala Spice\",849,943,10,1.11/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/hearty-meals-assorted-instant-chicken-premix-pack-of-9-765g-gravy-masala-mix-for-varieties-of-chicken-ready-in-20-25-min-serves-45-54-no-preservatives-ready-to-cook-indian-premix-masala-spice-ms0het-135953022/135953022\nLicious,Bengaluru,560001,flipkart.com,SCMHHZ77HZPF3Z8K,\"FSIPL’s Chef’s Art Crispy Cajun Breading Spicy Crunchy Coating for Chicken, Fish & Veggies\",331,418,21,1 unit,true,15 MINS,https://www.flipkart.com/fsipls-chefs-art-crispy-cajun-breading-spicy-crunchy-coating-chicken-fish-veggies/p/itm79dc4eb331b40?pid=SCMHHZ77HZPF3Z8K&lid=LSTSCMHHZ77HZPF3Z8K4I9RRX&marketplace=FLIPKART&q=licious+chicken&store=eat&srno=s_1_1&otracker=search&fm=organic&iid=en_SIxpOhbQaa-6l16BOatH5PGtCy5HONKsy3uyABuIbDkXe4Uh5nq39oEOTgEzrT0i3f05L-GXaMPw_1tbtXGoXYNc30AE5m-WYBUnZkiCD_ZhWjBltLNlh_AJHKQBp78R&ppt=None&ppn=None&ssid=ee2elm7po00000001793387229937&qH=0b05c53daaca8648&ov_redirect=true&ov_redirect=true\nLicious,Bengaluru,560001,flipkart.com,SCMHM54DFYGJ7ZQ3,AAAHARA Chicken Masala 40g,198,225,12,40g,true,15 MINS,https://www.flipkart.com/aaahara-chicken-masala-40g/p/itm00d5f1084623d?pid=SCMHM54DFYGJ7ZQ3&lid=LSTSCMHM54DFYGJ7ZQ3G7HJEQ&marketplace=FLIPKART&q=licious+chicken&store=eat&srno=s_1_2&otracker=search&fm=organic&iid=en_SIxpOhbQaa-6l16BOatH5PGtCy5HONKsy3uyABuIbDm3W_gqiO842NHzPasPRrm9Ci6pTjCYcS8SZx5rVcaCfrkIeb-ARpNdslU_zFo4IPJhWjBltLNlh_AJHKQBp78R&ppt=None&ppn=None&ssid=ee2elm7po00000001793387229937&qH=0b05c53daaca8648&ov_redirect=true&ov_redirect=true\nLicious,Bengaluru,560001,flipkart.com,RMDGTUAFZTCDFAKG,Desi Treat Mock Chicken,1424,2100,32,1 unit,true,15 MINS,https://www.flipkart.com/desi-treat-mock-chicken/p/itm5c862a250a286?pid=RMDGTUAFZTCDFAKG&lid=LSTRMDGTUAFZTCDFAKGOEKAKL&marketplace=FLIPKART&q=licious+chicken&store=eat&srno=s_1_3&otracker=search&fm=organic&iid=373855f2-1c49-4612-b84e-c7b2ed83bbf4.RMDGTUAFZTCDFAKG.SEARCH&ppt=None&ppn=None&ssid=ee2elm7po00000001793387229937&qH=0b05c53daaca8648&ov_redirect=true&ov_redirect=true\nLicious,Bengaluru,560001,flipkart.com,RMDGE2HR66HDJE2M,Desi Treat Fresh Baby Corn + Vegan Mock Chicken Combo,351,630,44,1 unit,true,15 MINS,https://www.flipkart.com/desi-treat-fresh-baby-corn-vegan-mock-chicken-combo/p/itm235d1cb4e3c23?pid=RMDGE2HR66HDJE2M&lid=LSTRMDGE2HR66HDJE2MFG7WWS&marketplace=FLIPKART&q=licious+chicken&store=eat&srno=s_1_4&otracker=search&fm=organic&iid=373855f2-1c49-4612-b84e-c7b2ed83bbf4.RMDGE2HR66HDJE2M.SEARCH&ppt=None&ppn=None&ssid=ee2elm7po00000001793387229937&qH=0b05c53daaca8648&ov_redirect=true&ov_redirect=true\nLicious,Bengaluru,560001,flipkart.com,SCMHHVK7FSXN6HBF,Shaan-E Jaipur Chicken Fish Roasted Masala Pack of 2 Grill Tandoori Mix,175,199,12,1 unit,true,15 MINS,https://www.flipkart.com/shaan-e-jaipur-chicken-fish-roasted-masala-pack-2-grill-tandoori-mix/p/itma19b91e85065e?pid=SCMHHVK7FSXN6HBF&lid=LSTSCMHHVK7FSXN6HBFNIFXQJ&marketplace=FLIPKART&q=licious+chicken&store=eat&srno=s_1_5&otracker=search&fm=organic&iid=373855f2-1c49-4612-b84e-c7b2ed83bbf4.SCMHHVK7FSXN6HBF.SEARCH&ppt=None&ppn=None&ssid=ee2elm7po00000001793387229937&qH=0b05c53daaca8648&ov_redirect=true&ov_redirect=true\nLicious,Bengaluru,560001,flipkart.com,RYMH6PZEHFKJSV34,Tasty Nibbles Ready To Cook Chicken Roast Gravy Mix 300g|No Added Preservatives 300 g,235,250,6,300g,true,15 MINS,https://www.flipkart.com/tasty-nibbles-ready-cook-chicken-roast-gravy-mix-300g-no-added-preservatives-300-g/p/itm32ee2259afc52?pid=RYMH6PZEHFKJSV34&lid=LSTRYMH6PZEHFKJSV34PSZ84R&marketplace=FLIPKART&q=licious+chicken&store=eat&srno=s_1_6&otracker=search&fm=organic&iid=en_SIxpOhbQaa-6l16BOatH5PGtCy5HONKsy3uyABuIbDnMzFFwDO1dKm_gVD4TQLPLzmtSWN-eQgDzlU9TtatpLmf9hWXFAJbQBcI54wQgm-Rd6d3HOB5LDMKJgH92IZR2&ppt=None&ppn=None&ssid=ee2elm7po00000001793387229937&qH=0b05c53daaca8648&ov_redirect=true&ov_redirect=true\nLicious,Bengaluru,560001,blinkit.com,755911,Licious Sizzl Loaded Chicken Momos,139,189,26,6 pcs,true,10 MINS,https://blinkit.com/prn/licious-sizzl-loaded-chicken-momos/prid/755911\nLicious,Bengaluru,560001,blinkit.com,495638,Licious Chicken Curry Cut (Small Pieces),209,209,0,450 g,true,10 MINS,https://blinkit.com/prn/licious-chicken-curry-cut-small-pieces/prid/495638\nLicious,Bengaluru,560001,blinkit.com,729411,Licious Chicken Curry Cut (Small Pieces),414,418,1,2 x 450 g,false,10 MINS,https://blinkit.com/prn/licious-chicken-curry-cut-small-pieces/prid/729411\nLicious,Bengaluru,560001,blinkit.com,443860,Licious Chicken Curry Cut,209,209,0,450 g,true,10 MINS,https://blinkit.com/prn/licious-chicken-curry-cut/prid/443860\nLicious,Bengaluru,560001,blinkit.com,729412,Licious Chicken Curry Cut,414,418,1,2 x 450 g,true,10 MINS,https://blinkit.com/prn/licious-chicken-curry-cut/prid/729412\nLicious,Bengaluru,560001,blinkit.com,481137,Licious Chicken Breast - Boneless,349,349,0,400 g,true,10 MINS,https://blinkit.com/prn/licious-chicken-breast-boneless/prid/481137\nLicious,Bengaluru,560001,blinkit.com,728575,Licious Chicken Breast - Boneless,692,698,1,2 x 400 g,true,10 MINS,https://blinkit.com/prn/licious-chicken-breast-boneless/prid/728575\nLicious,Bengaluru,560001,blinkit.com,755940,Licious Sizzl Loaded Chicken Momos,299,379,21,16 pcs,true,10 MINS,https://blinkit.com/prn/licious-sizzl-loaded-chicken-momos/prid/755940\nLicious,Bengaluru,560001,amazon.in,B0CWLLCMFC,SOULTARI Ready To Eat Smoky Butter Chicken | Succulent Chunks Of Boneless Chicken In A Creamy Aromatic Tomato Gravy | Sufficent For Two | Just Heat And Eat | - 300 Gram |Pack Of 1|,256,85.33,0,1 unit,true,\"Sat, 7 Nov\",https://www.amazon.in/dp/B0CWLLCMFC\nLicious,Bengaluru,560001,amazon.in,B09ZF4BB48,FreshToHome Premium Chicken | Curry Cut | 450g Pack | Skinless | Antibiotic-Residue-Free | Tender | Fresh | Never Frozen,199,442.22,55,450g,true,Today 4 pm - 8 pm,https://www.amazon.in/dp/B09ZF4BB48\nLicious,Bengaluru,560001,amazon.in,B09ZF4S65G,FreshToHome Premium Chicken Biryani Cut | 450g Pack | Skinless | Antibiotic-Residue-Free | Tender | Fresh | Never Frozen,195,433.33,55,450g,true,Today 4 pm - 8 pm,https://www.amazon.in/dp/B09ZF4S65G\nLicious,Bengaluru,560001,amazon.in,B0BNF2FV99,FreshToHome Premium Chicken Boneless Breast Fillet | 400g Pack | Antibiotic-residue-free | Tender | Fresh | Never Frozen,244,610,60,400g,true,Today 4 pm - 8 pm,https://www.amazon.in/dp/B0BNF2FV99\nLicious,Bengaluru,560001,amazon.in,B09ZF4M4QP,FreshToHome Preium Chicken Drumsticks | 450g to 520g Pack | Skinless | Tender | Antibiotic-Residue-Free | Fresh | Never Frozen,207,398.08,48,450g,true,Today 4 pm - 8 pm,https://www.amazon.in/dp/B09ZF4M4QP\nLicious,Bengaluru,560001,amazon.in,B07WWYG8GQ,\"Mirza Sahab Chicken Special Combo ( Chicken Masala, Chicken Tikka, Chicken Fish Fry, Chicken Changezi, Butter Chicken, Dilli Kat-a-kat)\",399,399,0,1 unit,true,\"Fri, 6 Nov\",https://www.amazon.in/dp/B07WWYG8GQ\nLicious,Bengaluru,560001,zeptonow.com,0afaded3-8671-5041-aec4-f50cc37461cd,\"Godrej Real Good Chicken Drumstick | Freshly Frozen | No Hormones, No Preservatives\",249,270,8,1 pack (500 g),true,10 MINS,https://www.zepto.com/pn/godrej-real-good-chicken-drumstick-freshly-frozen-no-hormones-no-preservatives/pvid/b14fbf64-ab1b-4144-be64-8239f1c0a234\nLicious,Bengaluru,560001,zeptonow.com,e4b2fe2d-099e-5168-a177-bf4e6bac54e7,Licious Chicken Breast Boneless,349,349,0,400 g,true,10 MINS,https://www.zepto.com/pn/licious-chicken-breast-boneless/pvid/8ff55a82-411a-4793-8259-396e72f415fb\nLicious,Bengaluru,560001,zeptonow.com,efb16080-fca9-55a4-893d-d0d099f5ee8d,ABIS PRO Chicken Curry Cut without Skin,144,175,18,1 pack (450 g),true,10 MINS,https://www.zepto.com/pn/abis-pro-chicken-curry-cut-without-skin/pvid/04552b60-15e7-46e1-a326-5ab5fab50631\nLicious,Bengaluru,560001,zeptonow.com,2c72f978-0e79-5c8b-a533-a399ee9740ae,Licious Korean Chicken Momos,159,199,20,1 pack (6 pcs),true,10 MINS,https://www.zepto.com/pn/licious-korean-chicken-momos/pvid/8bdf13cf-50ad-4c33-9e25-caaf9aad563a\nLicious,Bengaluru,560001,zeptonow.com,7e431767-1b59-55b2-b26a-bbd2fa4f9bc7,ABIS PRO Chicken Breast Boneless,214,269,20,1 pack (400 g or 450 g),true,10 MINS,https://www.zepto.com/pn/abis-pro-chicken-breast-boneless/pvid/78dd10b2-7441-4a5a-bc76-4d87c39fe719\nLicious,Bengaluru,560001,zeptonow.com,f77c7770-1b50-5723-982a-01ee63ef91a7,Licious Chicken - Curry Cut (Small),209,209,0,450 g,false,10 MINS,https://www.zepto.com/pn/licious-chicken-curry-cut-small/pvid/35b25e1e-60fa-4471-b229-dc235c303997\nLicious,Bengaluru,560001,zeptonow.com,d0d0e336-ae6f-5a3e-9a8d-38117ebbd7e4,Licious Chicken (Skinless) - Curry Cut (Large),209,209,0,450 g,false,10 MINS,https://www.zepto.com/pn/licious-chicken-skinless-curry-cut-large/pvid/43bd1151-c365-4c5f-95bb-0e24a5161933\nLicious,Bengaluru,560001,zeptonow.com,1b4cf741-5325-56a6-8e56-4a9edb77d492,Licious Chicken Drumsticks - Pack of 2,134,149,10,1 pack (2 pcs),false,10 MINS,https://www.zepto.com/pn/licious-chicken-drumsticks-pack-of-2/pvid/45dbd593-5afb-4f67-87d5-423d5deb66e8\n";
+
+    function filterRows(mode) {
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const stock = row.getAttribute('data-stock');
+        if (mode === 'all') row.style.display = '';
+        else if (mode === 'oos') row.style.display = stock === 'oos' ? '' : 'none';
+        else if (mode === 'instock') row.style.display = stock === 'instock' ? '' : 'none';
+      });
+    }
+
+    function searchSkus() {
+      const q = document.getElementById('skuSearch').value.toLowerCase();
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const title = row.getAttribute('data-title') || '';
+        const platform = (row.getAttribute('data-platform') || '').toLowerCase();
+        row.style.display = (title.includes(q) || platform.includes(q)) ? '' : 'none';
+      });
+    }
+
+    function downloadCsv() {
+      const blob = new Blob([RAW_CSV], { type: 'text/csv;charset=utf-8;' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'licious-3city-audit.csv';
+      a.click();
+    }
+  </script>
+</body>
+</html>

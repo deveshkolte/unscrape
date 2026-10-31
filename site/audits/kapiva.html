@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kapiva — 3-City Quick-Commerce Dark-Store Audit Scorecard | Unscrape Radar</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background-color: #07080d; color: #f3f4f6; font-family: Inter, system-ui, -apple-system, sans-serif; }
+  </style>
+</head>
+<body class="min-h-screen pb-24">
+  <!-- Top Bar -->
+  <header class="border-b border-slate-800 bg-slate-950/90 backdrop-blur sticky top-0 z-20">
+    <div class="max-w-7xl mx-auto px-6 py-3.5 flex items-center justify-between flex-wrap gap-3">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="text-emerald-400 font-black text-lg tracking-tight hover:text-emerald-300">⚡ UNSCRAPE RADAR</a>
+        <span class="text-xs text-slate-500">/</span>
+        <span class="text-sm font-bold text-white">Kapiva Executive Scorecard</span>
+      </div>
+      <div class="flex items-center gap-2.5 text-xs">
+        <a href="index.html" class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700">← All 56 Brand Audits</a>
+        <button onclick="downloadCsv()" class="px-3.5 py-1.5 rounded-lg bg-emerald-500 text-slate-950 font-bold hover:bg-emerald-400">⬇ Download Raw CSV (46 SKUs)</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-6 pt-8">
+    <!-- Executive Header -->
+    <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 mb-8">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+        <div>
+          <div class="flex items-center gap-2.5 mb-2">
+            <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded bg-slate-800 text-emerald-400">Ayurvedic Nutrition</span>
+            <span class="text-xs text-slate-400 font-mono">Audited: 2026-10-30</span>
+          </div>
+          <h1 class="text-3xl md:text-4xl font-black text-white tracking-tight">Kapiva — Hyperlocal Dark-Store Audit</h1>
+          <p class="text-slate-400 text-sm mt-1">
+            Live multi-platform inventory & MOP/MRP price variance scan across <strong>Bengaluru (560001)</strong>, <strong>Mumbai (400001)</strong>, and <strong>Delhi (110001)</strong>.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 shrink-0">
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">SKUs Audited</div>
+            <div class="text-2xl font-black text-white mt-1">46</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">OOS Leaks</div>
+            <div class="text-2xl font-black text-rose-400 mt-1">1</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">Max Markdown</div>
+            <div class="text-2xl font-black text-amber-300 mt-1">80%</div>
+          </div>
+          <div class="border rounded-xl p-3.5 text-center bg-emerald-500/15 text-emerald-400 border-emerald-500/30">
+            <div class="text-[11px] uppercase font-bold opacity-80">Shelf Health</div>
+            <div class="text-2xl font-black mt-1">98%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="bg-rose-950/50 border border-rose-500/40 rounded-2xl p-6 mb-8">
+      <div class="flex items-center justify-between flex-wrap gap-3 mb-4">
+        <div class="flex items-center gap-3">
+          <span class="px-3 py-1 rounded-full bg-rose-500 text-slate-950 font-black text-xs uppercase tracking-wider">🚨 REVENUE LEAK DETECTED</span>
+          <h2 class="text-lg font-bold text-white">1 Out-of-Stock Dark-Store Listing(s) Caught Live</h2>
+        </div>
+        <span class="text-xs font-mono text-rose-300">Immediate Shelf Conversion Loss</span>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+        
+          <div class="bg-slate-950/90 border border-rose-500/30 rounded-xl p-3.5 flex items-center justify-between gap-3">
+            <div>
+              <div class="text-sm font-bold text-white">Kapiva Shilajit Energy Capsules</div>
+              <div class="text-xs text-slate-400 mt-1">
+                Platform: <span class="text-rose-300 font-mono">blinkit.com</span> ·
+                City: <span class="text-slate-200">Bengaluru (560001)</span> ·
+                Pack: <span class="text-slate-300">2 x 60 pcs</span>
+              </div>
+            </div>
+            <div class="text-right shrink-0">
+              <div class="text-sm font-extrabold text-rose-400">OUT OF STOCK</div>
+              <div class="text-xs text-slate-400">₹1287</div>
+            </div>
+          </div>
+      </div>
+    </div>
+
+    <!-- Filter Controls -->
+    <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+      <div class="flex items-center gap-2 text-xs">
+        <button onclick="filterRows('all')" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-semibold">All SKUs (46)</button>
+        <button onclick="filterRows('oos')" class="px-3 py-1.5 rounded-lg bg-rose-500/15 border border-rose-500/30 text-rose-300 hover:bg-rose-500/25 font-semibold">Out-of-Stock Only (1)</button>
+        <button onclick="filterRows('instock')" class="px-3 py-1.5 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 hover:bg-emerald-500/25 font-semibold">In-Stock (45)</button>
+      </div>
+      <div class="flex items-center gap-2">
+        <input id="skuSearch" type="text" oninput="searchSkus()" placeholder="Filter SKU title or platform..." class="bg-slate-900 border border-slate-800 rounded-lg px-3.5 py-1.5 text-xs text-white w-64" />
+      </div>
+    </div>
+
+    <!-- SKU Table -->
+    <div class="bg-slate-900/50 border border-slate-800 rounded-2xl overflow-x-auto">
+      <table class="w-full text-left text-xs">
+        <thead class="bg-slate-950/90 text-slate-400 uppercase border-b border-slate-800">
+          <tr>
+            <th class="px-4 py-3">SKU Title</th>
+            <th class="px-4 py-3">Platform</th>
+            <th class="px-4 py-3">City / Pin</th>
+            <th class="px-4 py-3">Pack Size</th>
+            <th class="px-4 py-3">Selling Price</th>
+            <th class="px-4 py-3">MRP</th>
+            <th class="px-4 py-3">Discount</th>
+            <th class="px-4 py-3">Stock Status</th>
+            <th class="px-4 py-3">ETA</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-800/60">
+          <tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="kapiva himalaya shilajit 40 grms">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Kapiva Himalaya Shilajit 40 Grms</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1649</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹2998</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">45% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="kapiva himalayan shilajit 10 gram + kapiva ashwagandha gold 60 caps">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Kapiva Himalayan Shilajit 10 Gram + Kapiva Ashwagandha Gold 60 Caps</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1398</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1398</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="kapiva himalayan shilajit- for endurance and stamina| purified and filtered | 30g (pack of 2)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Kapiva Himalayan Shilajit- For Endurance and Stamina| Purified and Filtered | 30g (Pack of 2)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹2499</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹4198</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">40% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="jagat pharma pure shilajit resin 20 g - natural strength, energy vitality | premium quality extact">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Jagat Pharma Pure Shilajit Resin 20 g - Natural Strength, Energy Vitality | Premium Quality Extact</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹599</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹749</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="baidyanath himalayan shilajit resin 10g | rich in fulvic acid | for strength, power &amp; stamina">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Baidyanath Himalayan Shilajit Resin 10g | Rich in Fulvic Acid | For Strength, Power &amp; Stamina</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹499</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹749</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">33% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="my god gift - a promise of quality shilajit gold resin - 10gm| helps in boosting stamina 100% ayurvedic">
+        <td class="px-4 py-3 font-medium text-white max-w-md">My God Gift - A promise of Quality Shilajit Gold Resin - 10GM| Helps in boosting Stamina 100% Ayurvedic</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹289</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹999</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">71% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="kapiva himalaya shilajit 40 grms">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Kapiva Himalaya Shilajit 40 Grms</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1649</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹2998</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">45% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="kapiva himalayan shilajit 10 gram + kapiva ashwagandha gold 60 caps">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Kapiva Himalayan Shilajit 10 Gram + Kapiva Ashwagandha Gold 60 Caps</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1398</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1398</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="kapiva himalayan shilajit- for endurance and stamina| purified and filtered | 30g (pack of 2)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Kapiva Himalayan Shilajit- For Endurance and Stamina| Purified and Filtered | 30g (Pack of 2)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹2499</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹4198</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">40% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="jagat pharma pure shilajit resin 20 g - natural strength, energy vitality | premium quality extact">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Jagat Pharma Pure Shilajit Resin 20 g - Natural Strength, Energy Vitality | Premium Quality Extact</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹599</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹749</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="baidyanath himalayan shilajit resin 10g | rich in fulvic acid | for strength, power &amp; stamina">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Baidyanath Himalayan Shilajit Resin 10g | Rich in Fulvic Acid | For Strength, Power &amp; Stamina</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹499</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹749</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">33% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="my god gift - a promise of quality shilajit gold resin - 10gm| helps in boosting stamina 100% ayurvedic">
+        <td class="px-4 py-3 font-medium text-white max-w-md">My God Gift - A promise of Quality Shilajit Gold Resin - 10GM| Helps in boosting Stamina 100% Ayurvedic</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹289</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹999</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">71% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="kapiva himalaya shilajit 40 grms">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Kapiva Himalaya Shilajit 40 Grms</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1649</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹2998</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">45% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="kapiva himalayan shilajit 10 gram + kapiva ashwagandha gold 60 caps">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Kapiva Himalayan Shilajit 10 Gram + Kapiva Ashwagandha Gold 60 Caps</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1398</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1398</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="kapiva himalayan shilajit- for endurance and stamina| purified and filtered | 30g (pack of 2)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Kapiva Himalayan Shilajit- For Endurance and Stamina| Purified and Filtered | 30g (Pack of 2)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹2499</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹4198</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">40% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="jagat pharma pure shilajit resin 20 g - natural strength, energy vitality | premium quality extact">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Jagat Pharma Pure Shilajit Resin 20 g - Natural Strength, Energy Vitality | Premium Quality Extact</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹599</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹749</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="baidyanath himalayan shilajit resin 10g | rich in fulvic acid | for strength, power &amp; stamina">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Baidyanath Himalayan Shilajit Resin 10g | Rich in Fulvic Acid | For Strength, Power &amp; Stamina</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹499</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹749</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">33% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="my god gift - a promise of quality shilajit gold resin - 10gm| helps in boosting stamina 100% ayurvedic">
+        <td class="px-4 py-3 font-medium text-white max-w-md">My God Gift - A promise of Quality Shilajit Gold Resin - 10GM| Helps in boosting Stamina 100% Ayurvedic</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹289</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹999</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">71% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="man matters shilajit gummies">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Man Matters Shilajit Gummies</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">30 pcs</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹549</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹549</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="kapiva shilajit energy capsules">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Kapiva Shilajit Energy Capsules</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">60 pcs</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹650</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹699</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">7% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="oos" data-platform="blinkit.com" data-title="kapiva shilajit energy capsules">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Kapiva Shilajit Energy Capsules</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">2 x 60 pcs</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1287</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1398</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">8% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-rose-500/20 text-rose-400 border border-rose-500/30 font-mono text-[11px] font-bold">OUT OF STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="dabur himalayan shilajit">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dabur Himalayan Shilajit</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">15 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹593</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1077</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">45% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="himalaya shilajit capsules">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Himalaya Shilajit Capsules</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">60 pcs</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹319</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹375</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="organic india, a tata product - classic shilajit honey sips">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Organic India, A TATA Product - Classic Shilajit Honey Sips</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">240 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹990</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1099</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">10% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="man matters advanced shilajit gummies">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Man Matters Advanced Shilajit Gummies</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">60 pcs</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹999</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1099</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">9% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="wellbeing nutrition testo power testosterone boosters for energy">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Wellbeing Nutrition Testo Power Testosterone Boosters for Energy</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">30 pcs</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹649</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹649</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="kapiva himalayan shilajit resin|rich in fulvic acid|for strength, power &amp; stamina|10g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Kapiva Himalayan Shilajit Resin|Rich in Fulvic Acid|For Strength, Power &amp; Stamina|10g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">10g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹399</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹799</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="kapiva shilajit gold resin | boosts stamina | contains 24 carat gold | 100% ayurvedic">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Kapiva Shilajit Gold Resin | Boosts Stamina | Contains 24 Carat Gold | 100% Ayurvedic</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1316</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1549</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="kapiva shilajit gold resin 10g | boosts stamina | contains 24 carat gold|100% ayurvedic">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Kapiva Shilajit Gold Resin 10g | Boosts Stamina | Contains 24 Carat Gold|100% Ayurvedic</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">10g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹679</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹890</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">24% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="kapiva himalayan shilajit resin|rich in fulvic acid|for strength, power &amp; stamina|20g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Kapiva Himalayan Shilajit Resin|Rich in Fulvic Acid|For Strength, Power &amp; Stamina|20g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">20g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹764</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1199</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">36% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="kapiva shilajit gold 30 capsules | contains 24 carat gold | boosts stamina in 4 weeks">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Kapiva Shilajit Gold 30 Capsules | Contains 24 Carat Gold | Boosts Stamina In 4 Weeks</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹424</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹949</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">55% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="kapiva shilajit tablets |500mg pure shilajit | nabl lab tested | for strength &amp; stamina">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Kapiva Shilajit Tablets |500mg Pure Shilajit | NABL Lab Tested | For Strength &amp; Stamina</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹299</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹599</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="kapiva shilajit energy gummies">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Kapiva Shilajit Energy Gummies</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (4 pcs)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹58</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹89</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">35% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="kapiva him foods shilajit gold resin | premium &amp; natural">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Kapiva Him Foods Shilajit Gold Resin | Premium &amp; Natural</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (20 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1180</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1549</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">24% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="kapiva himalaya shilajit | herbal product">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Kapiva Himalaya Shilajit | Herbal Product</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (20 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹999</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1199</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">17% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="kapiva activ foods shilajit energy 60 capsule">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Kapiva Activ Foods Shilajit Energy 60 Capsule</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (60 pcs)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹608</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹655</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">7% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="kapiva shilajit energy sips with 100 percent pure shilajit 250mg shilajit stick">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Kapiva Shilajit Energy Sips With 100 percent Pure Shilajit 250mg Shilajit Stick</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (30 pcs)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹936</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1199</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">22% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="oyb shilajit stamina &amp; vitality booster | 30 tablets | oyb power peak">
+        <td class="px-4 py-3 font-medium text-white max-w-md">OYB Shilajit Stamina &amp; Vitality Booster | 30 Tablets | OYB Power Peak</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (30 pcs)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹893</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">40% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="kapiva activ foods shilajit energy gummies pack">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Kapiva Activ Foods Shilajit Energy Gummies Pack</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (60 pcs)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹937</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1030</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">9% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="man matters shilajit gummies | boosts stamina | strength | improves energy">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Man Matters Shilajit Gummies | Boosts Stamina | Strength | Improves Energy</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (60 pcs)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹949</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹999</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="shilajit/shilajeet gold resin - 20g | 500mg/serving | 40 servings | boost muscle growth &amp; stamina | contains 24 carat gold | 100% ayurvedic">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Shilajit/Shilajeet Gold Resin - 20g | 500mg/Serving | 40 Servings | Boost Muscle Growth &amp; Stamina | Contains 24 Carat Gold | 100% Ayurvedic</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">20g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1099</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹5495</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">80% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">2 - 8 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="original himalayan shilajit/shilajeet resin 20g | 250mg/serving | for energy, endurance &amp; vitality | 80 servings | 100% ayurvedic">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Original Himalayan Shilajit/Shilajeet Resin 20g | 250mg/Serving | For Energy, Endurance &amp; Vitality | 80 Servings | 100% Ayurvedic</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">20g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹749</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹3745</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">80% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Tue, 3 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="shilajit/shilajeet gold 60 capsules | contains 24 carat gold | for stamina, muscle growth &amp; energy | ashwagandha, gokshura, safed musali &amp; other action herbs &amp; 100% ayurvedic">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Shilajit/Shilajeet Gold 60 Capsules | Contains 24 Carat Gold | For Stamina, Muscle Growth &amp; Energy | Ashwagandha, Gokshura, Safed Musali &amp; Other Action Herbs &amp; 100% Ayurvedic</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹799</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹13.32</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="shilajit/shilajeet gold resin - 40g | super saver pack | 500mg/serving | 80 servings | boost muscle growth &amp; stamina | contains 24 carat gold | 100% ayurvedic">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Shilajit/Shilajeet Gold Resin - 40g | Super Saver Pack | 500mg/Serving | 80 Servings | Boost Muscle Growth &amp; Stamina | Contains 24 Carat Gold | 100% Ayurvedic</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">40g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1954</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹4885</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">60% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="original himalayan shilajit/shilajeet resin 40g |super saver pack| 250mg/serving | for energy, endurance &amp; vitality | 160 servings | 100% ayurvedic">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Original Himalayan Shilajit/Shilajeet Resin 40g |Super Saver Pack| 250mg/Serving | For Energy, Endurance &amp; Vitality | 160 Servings | 100% Ayurvedic</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">40g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1299</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹3247.5</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">60% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Wed, 4 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="shilajit/shilajeet gold resin combo pack (20g + 40g) | 500mg/serving | 120 total servings | boost muscle growth &amp; stamina | contains 24 carat gold | 100% ayurvedic | super saver pack">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Shilajit/Shilajeet Gold Resin Combo Pack (20g + 40g) | 500mg/Serving | 120 Total Servings | Boost Muscle Growth &amp; Stamina | Contains 24 Carat Gold | 100% Ayurvedic | Super Saver Pack</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">20g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹2999</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹4998.33</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">40% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Tue, 3 Nov</td>
+      </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- Sticky CTA Footer -->
+  <div class="fixed bottom-0 inset-x-0 bg-slate-950/95 border-t border-emerald-500/30 backdrop-blur px-6 py-3.5 z-30">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+      <div class="text-slate-200">
+        <span class="text-emerald-400 font-bold">⚡ Unscrape Radar:</span> Want real-time Slack/WhatsApp/Telegram alerts within 15 mins whenever <strong>Kapiva</strong> SKUs go Out-of-Stock across 20 BLR/MUM/DEL dark-store pin codes?
+      </div>
+      <div class="flex items-center gap-2.5 shrink-0">
+        <a href="https://github.com/deveshkolte/unscrape" target="_blank" class="px-4 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold">Unlock Automated 20-Pin-Code Monitor →</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const RAW_CSV = "brand,city,pincode,platform,skuId,title,sellingPriceInr,mrpInr,discountPercent,unit,inStock,deliveryEta,url\nKapiva,Bengaluru,560001,bigbasket.com/jiomart,19678231,Kapiva Himalaya Shilajit 40 Grms,1649,2998,45,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/kapiva-himalaya-shilajit-40-grms-mi960q-19678231/19678231\nKapiva,Bengaluru,560001,bigbasket.com/jiomart,49868114,Kapiva Himalayan Shilajit 10 Gram + Kapiva Ashwagandha Gold 60 Caps,1398,1398,0,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/kapiva-himalayan-shilajit-10-gram-kapiva-ashwagandha-gold-60-caps-mj70eg-49868114/49868114\nKapiva,Bengaluru,560001,bigbasket.com/jiomart,20432780,Kapiva Himalayan Shilajit- For Endurance and Stamina| Purified and Filtered | 30g (Pack of 2),2499,4198,40,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/kapiva-himalayan-shilajit-for-endurance-and-stamina-purified-and-filtered-30g-pack-of-2-mi9wva-20432780/20432780\nKapiva,Bengaluru,560001,bigbasket.com/jiomart,50746402,\"Jagat Pharma Pure Shilajit Resin 20 g - Natural Strength, Energy Vitality | Premium Quality Extact\",599,749,20,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/jagat-pharma-shilajit-resin-20-g-mj753n-50746402/50746402\nKapiva,Bengaluru,560001,bigbasket.com/jiomart,50760479,\"Baidyanath Himalayan Shilajit Resin 10g | Rich in Fulvic Acid | For Strength, Power & Stamina\",499,749,33,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/baidyanath-himalayan-shilajit-resin-10g-rich-in-fulvic-acid-for-strength-power-stamina-mj756g-50760479/50760479\nKapiva,Bengaluru,560001,bigbasket.com/jiomart,50027757,My God Gift - A promise of Quality Shilajit Gold Resin - 10GM| Helps in boosting Stamina 100% Ayurvedic,289,999,71,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/my-god-gift-a-promise-of-quality-shilajit-gold-resin-10gm-helps-in-boosting-stamina-100-ayurvedic-mj71hu-50027757/50027757\nKapiva,Mumbai,400001,bigbasket.com/jiomart,19678231,Kapiva Himalaya Shilajit 40 Grms,1649,2998,45,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/kapiva-himalaya-shilajit-40-grms-mi960q-19678231/19678231\nKapiva,Mumbai,400001,bigbasket.com/jiomart,49868114,Kapiva Himalayan Shilajit 10 Gram + Kapiva Ashwagandha Gold 60 Caps,1398,1398,0,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/kapiva-himalayan-shilajit-10-gram-kapiva-ashwagandha-gold-60-caps-mj70eg-49868114/49868114\nKapiva,Mumbai,400001,bigbasket.com/jiomart,20432780,Kapiva Himalayan Shilajit- For Endurance and Stamina| Purified and Filtered | 30g (Pack of 2),2499,4198,40,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/kapiva-himalayan-shilajit-for-endurance-and-stamina-purified-and-filtered-30g-pack-of-2-mi9wva-20432780/20432780\nKapiva,Mumbai,400001,bigbasket.com/jiomart,50746402,\"Jagat Pharma Pure Shilajit Resin 20 g - Natural Strength, Energy Vitality | Premium Quality Extact\",599,749,20,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/jagat-pharma-shilajit-resin-20-g-mj753n-50746402/50746402\nKapiva,Mumbai,400001,bigbasket.com/jiomart,50760479,\"Baidyanath Himalayan Shilajit Resin 10g | Rich in Fulvic Acid | For Strength, Power & Stamina\",499,749,33,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/baidyanath-himalayan-shilajit-resin-10g-rich-in-fulvic-acid-for-strength-power-stamina-mj756g-50760479/50760479\nKapiva,Mumbai,400001,bigbasket.com/jiomart,50027757,My God Gift - A promise of Quality Shilajit Gold Resin - 10GM| Helps in boosting Stamina 100% Ayurvedic,289,999,71,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/my-god-gift-a-promise-of-quality-shilajit-gold-resin-10gm-helps-in-boosting-stamina-100-ayurvedic-mj71hu-50027757/50027757\nKapiva,Delhi,110001,bigbasket.com/jiomart,19678231,Kapiva Himalaya Shilajit 40 Grms,1649,2998,45,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/kapiva-himalaya-shilajit-40-grms-mi960q-19678231/19678231\nKapiva,Delhi,110001,bigbasket.com/jiomart,49868114,Kapiva Himalayan Shilajit 10 Gram + Kapiva Ashwagandha Gold 60 Caps,1398,1398,0,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/kapiva-himalayan-shilajit-10-gram-kapiva-ashwagandha-gold-60-caps-mj70eg-49868114/49868114\nKapiva,Delhi,110001,bigbasket.com/jiomart,20432780,Kapiva Himalayan Shilajit- For Endurance and Stamina| Purified and Filtered | 30g (Pack of 2),2499,4198,40,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/kapiva-himalayan-shilajit-for-endurance-and-stamina-purified-and-filtered-30g-pack-of-2-mi9wva-20432780/20432780\nKapiva,Delhi,110001,bigbasket.com/jiomart,50746402,\"Jagat Pharma Pure Shilajit Resin 20 g - Natural Strength, Energy Vitality | Premium Quality Extact\",599,749,20,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/jagat-pharma-shilajit-resin-20-g-mj753n-50746402/50746402\nKapiva,Delhi,110001,bigbasket.com/jiomart,50760479,\"Baidyanath Himalayan Shilajit Resin 10g | Rich in Fulvic Acid | For Strength, Power & Stamina\",499,749,33,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/baidyanath-himalayan-shilajit-resin-10g-rich-in-fulvic-acid-for-strength-power-stamina-mj756g-50760479/50760479\nKapiva,Delhi,110001,bigbasket.com/jiomart,50027757,My God Gift - A promise of Quality Shilajit Gold Resin - 10GM| Helps in boosting Stamina 100% Ayurvedic,289,999,71,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/my-god-gift-a-promise-of-quality-shilajit-gold-resin-10gm-helps-in-boosting-stamina-100-ayurvedic-mj71hu-50027757/50027757\nKapiva,Bengaluru,560001,blinkit.com,565963,Man Matters Shilajit Gummies,549,549,0,30 pcs,true,10 MINS,https://blinkit.com/prn/man-matters-shilajit-gummies/prid/565963\nKapiva,Bengaluru,560001,blinkit.com,625841,Kapiva Shilajit Energy Capsules,650,699,7,60 pcs,true,10 MINS,https://blinkit.com/prn/kapiva-shilajit-energy-capsules/prid/625841\nKapiva,Bengaluru,560001,blinkit.com,634850,Kapiva Shilajit Energy Capsules,1287,1398,8,2 x 60 pcs,false,10 MINS,https://blinkit.com/prn/kapiva-shilajit-energy-capsules/prid/634850\nKapiva,Bengaluru,560001,blinkit.com,537638,Dabur Himalayan Shilajit,593,1077,45,15 g,true,10 MINS,https://blinkit.com/prn/dabur-himalayan-shilajit/prid/537638\nKapiva,Bengaluru,560001,blinkit.com,582062,Himalaya Shilajit Capsules,319,375,15,60 pcs,true,10 MINS,https://blinkit.com/prn/himalaya-shilajit-capsules/prid/582062\nKapiva,Bengaluru,560001,blinkit.com,772691,\"Organic India, A TATA Product - Classic Shilajit Honey Sips\",990,1099,10,240 g,true,10 MINS,https://blinkit.com/prn/organic-india-a-tata-product-classic-shilajit-honey-sips/prid/772691\nKapiva,Bengaluru,560001,blinkit.com,675016,Man Matters Advanced Shilajit Gummies,999,1099,9,60 pcs,true,10 MINS,https://blinkit.com/prn/man-matters-advanced-shilajit-gummies/prid/675016\nKapiva,Bengaluru,560001,blinkit.com,499612,Wellbeing Nutrition Testo Power Testosterone Boosters for Energy,649,649,0,30 pcs,true,10 MINS,https://blinkit.com/prn/wellbeing-nutrition-testo-power-testosterone-boosters-for-energy/prid/499612\nKapiva,Bengaluru,560001,flipkart.com,AYDGFXMJJUHVTUWR,\"Kapiva Himalayan Shilajit Resin|Rich in Fulvic Acid|For Strength, Power & Stamina|10g\",399,799,50,10g,true,15 MINS,https://www.flipkart.com/kapiva-himalayan-shilajit-resin-rich-fulvic-acid-for-strength-power-stamina-10g/p/itmbe3b332ffeaaa?pid=AYDGFXMJJUHVTUWR&lid=LSTAYDGFXMJJUHVTUWRO890BV&marketplace=FLIPKART&q=kapiva+shilajit&store=hlc%2Fah4%2Fiim%2Fp5k&spotlightTagId=default_BestsellerId_hlc%2Fah4%2Fiim%2Fp5k&srno=s_1_1&otracker=search&fm=organic&iid=0db3c0f4-64d0-4fdf-85fa-7a4b52ee612b.AYDGFXMJJUHVTUWR.SEARCH&ppt=None&ppn=None&ssid=fliy3b2oqo0000001793387222779&qH=8a8acb49a79659a8&ov_redirect=true&ov_redirect=true\nKapiva,Bengaluru,560001,flipkart.com,AYDGJHFZMQU2T4ZD,Kapiva Shilajit Gold Resin | Boosts Stamina | Contains 24 Carat Gold | 100% Ayurvedic,1316,1549,15,1 unit,true,15 MINS,https://www.flipkart.com/kapiva-shilajit-gold-resin-boosts-stamina-contains-24-carat-100-ayurvedic/p/itmf6e24e842c746?pid=AYDGJHFZMQU2T4ZD&lid=LSTAYDGJHFZMQU2T4ZDXNPBX3&marketplace=FLIPKART&q=kapiva+shilajit&store=hlc%2Fah4%2Fiim%2Fp5k&spotlightTagId=default_BestsellerId_hlc%2Fah4%2Fiim%2Fp5k&srno=s_1_2&otracker=search&fm=organic&iid=0db3c0f4-64d0-4fdf-85fa-7a4b52ee612b.AYDGJHFZMQU2T4ZD.SEARCH&ppt=None&ppn=None&ssid=fliy3b2oqo0000001793387222779&qH=8a8acb49a79659a8&ov_redirect=true&ov_redirect=true\nKapiva,Bengaluru,560001,flipkart.com,AYDHFJ8YPU6FXZM8,Kapiva Shilajit Gold Resin 10g | Boosts Stamina | Contains 24 Carat Gold|100% Ayurvedic,679,890,24,10g,true,15 MINS,https://www.flipkart.com/kapiva-shilajit-gold-resin-10g-boosts-stamina-contains-24-carat-gold-100-ayurvedic/p/itmc824fdf040e9e?pid=AYDHFJ8YPU6FXZM8&lid=LSTAYDHFJ8YPU6FXZM83HLDR7&marketplace=FLIPKART&q=kapiva+shilajit&store=hlc%2Fah4%2Fiim%2Fp5k&srno=s_1_3&otracker=search&fm=organic&iid=0db3c0f4-64d0-4fdf-85fa-7a4b52ee612b.AYDHFJ8YPU6FXZM8.SEARCH&ppt=None&ppn=None&ssid=fliy3b2oqo0000001793387222779&qH=8a8acb49a79659a8&ov_redirect=true&ov_redirect=true\nKapiva,Bengaluru,560001,flipkart.com,AYDG4ZXGCEGJ8MHQ,\"Kapiva Himalayan Shilajit Resin|Rich in Fulvic Acid|For Strength, Power & Stamina|20g\",764,1199,36,20g,true,15 MINS,https://www.flipkart.com/kapiva-himalayan-shilajit-resin-rich-fulvic-acid-for-strength-power-stamina-20g/p/itmcd2f6e705ff3e?pid=AYDG4ZXGCEGJ8MHQ&lid=LSTAYDG4ZXGCEGJ8MHQVPH1PL&marketplace=FLIPKART&q=kapiva+shilajit&store=hlc%2Fah4%2Fiim%2Fp5k&srno=s_1_4&otracker=search&fm=organic&iid=0db3c0f4-64d0-4fdf-85fa-7a4b52ee612b.AYDG4ZXGCEGJ8MHQ.SEARCH&ppt=None&ppn=None&ssid=fliy3b2oqo0000001793387222779&qH=8a8acb49a79659a8&ov_redirect=true&ov_redirect=true\nKapiva,Bengaluru,560001,flipkart.com,AYDGMMGVCDDZREY7,Kapiva Shilajit Gold 30 Capsules | Contains 24 Carat Gold | Boosts Stamina In 4 Weeks,424,949,55,1 unit,true,15 MINS,https://www.flipkart.com/kapiva-shilajit-gold-30-capsules-contains-24-carat-boosts-stamina-4-weeks/p/itm49d99f846f88c?pid=AYDGMMGVCDDZREY7&lid=LSTAYDGMMGVCDDZREY7DDQYDU&marketplace=FLIPKART&q=kapiva+shilajit&store=hlc%2Fah4%2Fiim%2Fp5k&srno=s_1_5&otracker=search&fm=organic&iid=0db3c0f4-64d0-4fdf-85fa-7a4b52ee612b.AYDGMMGVCDDZREY7.SEARCH&ppt=None&ppn=None&ssid=fliy3b2oqo0000001793387222779&qH=8a8acb49a79659a8&ov_redirect=true&ov_redirect=true\nKapiva,Bengaluru,560001,flipkart.com,AYDHPY4AAJHZPURT,Kapiva Shilajit Tablets |500mg Pure Shilajit | NABL Lab Tested | For Strength & Stamina,299,599,50,1 unit,true,15 MINS,https://www.flipkart.com/kapiva-shilajit-tablets-500mg-pure-nabl-lab-tested-strength-stamina/p/itm51ea86efcc00d?pid=AYDHPY4AAJHZPURT&lid=LSTAYDHPY4AAJHZPURTW2LIPA&marketplace=FLIPKART&q=kapiva+shilajit&store=hlc%2Fah4%2Fiim%2Fp5k&srno=s_1_6&otracker=search&fm=organic&iid=0db3c0f4-64d0-4fdf-85fa-7a4b52ee612b.AYDHPY4AAJHZPURT.SEARCH&ppt=None&ppn=None&ssid=fliy3b2oqo0000001793387222779&qH=8a8acb49a79659a8&ov_redirect=true&ov_redirect=true\nKapiva,Bengaluru,560001,zeptonow.com,9a3be205-1b29-5b91-a583-1a3e4ab04d6f,Kapiva Shilajit Energy Gummies,58,89,35,1 pack (4 pcs),true,10 MINS,https://www.zepto.com/pn/kapiva-shilajit-energy-gummies/pvid/1428fc4d-8a3d-4ada-9bf8-f153df930798\nKapiva,Bengaluru,560001,zeptonow.com,94779711-a5a8-54bc-af1c-a5a6e75a1047,Kapiva Him Foods Shilajit Gold Resin | Premium & Natural,1180,1549,24,1 pack (20 g),true,10 MINS,https://www.zepto.com/pn/kapiva-him-foods-shilajit-gold-resin-premium-natural/pvid/e0bafa4e-7fca-4e6f-95a0-cbbd47f60dec\nKapiva,Bengaluru,560001,zeptonow.com,fdb11e2c-5229-59a9-9bfc-71ccd8e80b2b,Kapiva Himalaya Shilajit | Herbal Product,999,1199,17,1 pc (20 g),true,10 MINS,https://www.zepto.com/pn/kapiva-himalaya-shilajit-herbal-product/pvid/8307dead-68c0-42d1-bd95-cb452cc0c2f8\nKapiva,Bengaluru,560001,zeptonow.com,73aad12f-1e06-55ff-8221-5c275403da25,Kapiva Activ Foods Shilajit Energy 60 Capsule,608,655,7,1 pack (60 pcs),true,10 MINS,https://www.zepto.com/pn/kapiva-activ-foods-shilajit-energy-60-capsule/pvid/1d3d73ef-aafd-4638-b6bf-5262a9a969dd\nKapiva,Bengaluru,560001,zeptonow.com,6b7ae81f-4d9b-55fb-9127-873468c6baf1,Kapiva Shilajit Energy Sips With 100 percent Pure Shilajit 250mg Shilajit Stick,936,1199,22,1 pack (30 pcs),true,10 MINS,https://www.zepto.com/pn/kapiva-shilajit-energy-sips-with-100-percent-pure-shilajit-250mg-shilajit-stick/pvid/78400ea4-3f66-4b78-a61b-c46cc2838b2b\nKapiva,Bengaluru,560001,zeptonow.com,e1a7eae0-0267-5e2c-b0d1-7f7207a88c82,OYB Shilajit Stamina & Vitality Booster | 30 Tablets | OYB Power Peak,893,1499,40,1 pc (30 pcs),true,10 MINS,https://www.zepto.com/pn/oyb-shilajit-stamina-vitality-booster-30-tablets-oyb-power-peak/pvid/1f0dceeb-234a-4017-9748-182a0f5220ba\nKapiva,Bengaluru,560001,zeptonow.com,09062e00-beee-586f-94b4-6c4c235c9c21,Kapiva Activ Foods Shilajit Energy Gummies Pack,937,1030,9,1 pack (60 pcs),true,10 MINS,https://www.zepto.com/pn/kapiva-activ-foods-shilajit-energy-gummies-pack/pvid/f336572b-5818-4f42-9c84-87f055eb904d\nKapiva,Bengaluru,560001,zeptonow.com,31b4ac70-ce2b-5995-a81b-befd194c6302,Man Matters Shilajit Gummies | Boosts Stamina | Strength | Improves Energy,949,999,5,1 pack (60 pcs),true,10 MINS,https://www.zepto.com/pn/man-matters-shilajit-gummies-boosts-stamina-strength-improves-energy/pvid/85201180-ab45-4b94-9841-a74503b2cccd\nKapiva,Bengaluru,560001,amazon.in,B0BL3TN1QC,Shilajit/Shilajeet Gold Resin - 20g | 500mg/Serving | 40 Servings | Boost Muscle Growth & Stamina | Contains 24 Carat Gold | 100% Ayurvedic,1099,5495,80,20g,true,2 - 8 Nov,https://www.amazon.in/dp/B0BL3TN1QC\nKapiva,Bengaluru,560001,amazon.in,B09BZNDYT2,\"Original Himalayan Shilajit/Shilajeet Resin 20g | 250mg/Serving | For Energy, Endurance & Vitality | 80 Servings | 100% Ayurvedic\",749,3745,80,20g,true,\"Tue, 3 Nov\",https://www.amazon.in/dp/B09BZNDYT2\nKapiva,Bengaluru,560001,amazon.in,B0BPLVZRNZ,\"Shilajit/Shilajeet Gold 60 Capsules | Contains 24 Carat Gold | For Stamina, Muscle Growth & Energy | Ashwagandha, Gokshura, Safed Musali & Other Action Herbs & 100% Ayurvedic\",799,13.32,0,1 unit,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0BPLVZRNZ\nKapiva,Bengaluru,560001,amazon.in,B0C2PK2KH5,Shilajit/Shilajeet Gold Resin - 40g | Super Saver Pack | 500mg/Serving | 80 Servings | Boost Muscle Growth & Stamina | Contains 24 Carat Gold | 100% Ayurvedic,1954,4885,60,40g,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0C2PK2KH5\nKapiva,Bengaluru,560001,amazon.in,B09TFQ9TLZ,\"Original Himalayan Shilajit/Shilajeet Resin 40g |Super Saver Pack| 250mg/Serving | For Energy, Endurance & Vitality | 160 Servings | 100% Ayurvedic\",1299,3247.5,60,40g,true,\"Wed, 4 Nov\",https://www.amazon.in/dp/B09TFQ9TLZ\nKapiva,Bengaluru,560001,amazon.in,B0F9XBF572,Shilajit/Shilajeet Gold Resin Combo Pack (20g + 40g) | 500mg/Serving | 120 Total Servings | Boost Muscle Growth & Stamina | Contains 24 Carat Gold | 100% Ayurvedic | Super Saver Pack,2999,4998.33,40,20g,true,\"Tue, 3 Nov\",https://www.amazon.in/dp/B0F9XBF572\n";
+
+    function filterRows(mode) {
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const stock = row.getAttribute('data-stock');
+        if (mode === 'all') row.style.display = '';
+        else if (mode === 'oos') row.style.display = stock === 'oos' ? '' : 'none';
+        else if (mode === 'instock') row.style.display = stock === 'instock' ? '' : 'none';
+      });
+    }
+
+    function searchSkus() {
+      const q = document.getElementById('skuSearch').value.toLowerCase();
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const title = row.getAttribute('data-title') || '';
+        const platform = (row.getAttribute('data-platform') || '').toLowerCase();
+        row.style.display = (title.includes(q) || platform.includes(q)) ? '' : 'none';
+      });
+    }
+
+    function downloadCsv() {
+      const blob = new Blob([RAW_CSV], { type: 'text/csv;charset=utf-8;' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'kapiva-3city-audit.csv';
+      a.click();
+    }
+  </script>
+</body>
+</html>

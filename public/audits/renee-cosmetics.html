@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RENEE Cosmetics — 3-City Quick-Commerce Dark-Store Audit Scorecard | Unscrape Radar</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background-color: #07080d; color: #f3f4f6; font-family: Inter, system-ui, -apple-system, sans-serif; }
+  </style>
+</head>
+<body class="min-h-screen pb-24">
+  <!-- Top Bar -->
+  <header class="border-b border-slate-800 bg-slate-950/90 backdrop-blur sticky top-0 z-20">
+    <div class="max-w-7xl mx-auto px-6 py-3.5 flex items-center justify-between flex-wrap gap-3">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="text-emerald-400 font-black text-lg tracking-tight hover:text-emerald-300">⚡ UNSCRAPE RADAR</a>
+        <span class="text-xs text-slate-500">/</span>
+        <span class="text-sm font-bold text-white">RENEE Cosmetics Executive Scorecard</span>
+      </div>
+      <div class="flex items-center gap-2.5 text-xs">
+        <a href="index.html" class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700">← All 56 Brand Audits</a>
+        <button onclick="downloadCsv()" class="px-3.5 py-1.5 rounded-lg bg-emerald-500 text-slate-950 font-bold hover:bg-emerald-400">⬇ Download Raw CSV (38 SKUs)</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-6 pt-8">
+    <!-- Executive Header -->
+    <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 mb-8">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+        <div>
+          <div class="flex items-center gap-2.5 mb-2">
+            <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded bg-slate-800 text-emerald-400">Makeup &amp; Fragrances</span>
+            <span class="text-xs text-slate-400 font-mono">Audited: 2026-10-30</span>
+          </div>
+          <h1 class="text-3xl md:text-4xl font-black text-white tracking-tight">RENEE Cosmetics — Hyperlocal Dark-Store Audit</h1>
+          <p class="text-slate-400 text-sm mt-1">
+            Live multi-platform inventory & MOP/MRP price variance scan across <strong>Bengaluru (560001)</strong>, <strong>Mumbai (400001)</strong>, and <strong>Delhi (110001)</strong>.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 shrink-0">
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">SKUs Audited</div>
+            <div class="text-2xl font-black text-white mt-1">38</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">OOS Leaks</div>
+            <div class="text-2xl font-black text-emerald-400 mt-1">0</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">Max Markdown</div>
+            <div class="text-2xl font-black text-amber-300 mt-1">71%</div>
+          </div>
+          <div class="border rounded-xl p-3.5 text-center bg-emerald-500/15 text-emerald-400 border-emerald-500/30">
+            <div class="text-[11px] uppercase font-bold opacity-80">Shelf Health</div>
+            <div class="text-2xl font-black mt-1">100%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="bg-emerald-950/30 border border-emerald-500/30 rounded-2xl p-5 mb-8 flex items-center justify-between flex-wrap gap-3">
+      <div>
+        <span class="px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 font-bold text-xs uppercase">✓ 100% In-Stock Snapshot</span>
+        <span class="text-sm text-slate-200 ml-2">All 38 audited dark-store listings across Bengaluru, Mumbai & Delhi were in stock during this scan. Max discount variance: <strong>71% below MRP</strong>.</span>
+      </div>
+    </div>
+
+    <!-- Filter Controls -->
+    <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+      <div class="flex items-center gap-2 text-xs">
+        <button onclick="filterRows('all')" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-semibold">All SKUs (38)</button>
+        <button onclick="filterRows('oos')" class="px-3 py-1.5 rounded-lg bg-rose-500/15 border border-rose-500/30 text-rose-300 hover:bg-rose-500/25 font-semibold">Out-of-Stock Only (0)</button>
+        <button onclick="filterRows('instock')" class="px-3 py-1.5 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 hover:bg-emerald-500/25 font-semibold">In-Stock (38)</button>
+      </div>
+      <div class="flex items-center gap-2">
+        <input id="skuSearch" type="text" oninput="searchSkus()" placeholder="Filter SKU title or platform..." class="bg-slate-900 border border-slate-800 rounded-lg px-3.5 py-1.5 text-xs text-white w-64" />
+      </div>
+    </div>
+
+    <!-- SKU Table -->
+    <div class="bg-slate-900/50 border border-slate-800 rounded-2xl overflow-x-auto">
+      <table class="w-full text-left text-xs">
+        <thead class="bg-slate-950/90 text-slate-400 uppercase border-b border-slate-800">
+          <tr>
+            <th class="px-4 py-3">SKU Title</th>
+            <th class="px-4 py-3">Platform</th>
+            <th class="px-4 py-3">City / Pin</th>
+            <th class="px-4 py-3">Pack Size</th>
+            <th class="px-4 py-3">Selling Price</th>
+            <th class="px-4 py-3">MRP</th>
+            <th class="px-4 py-3">Discount</th>
+            <th class="px-4 py-3">Stock Status</th>
+            <th class="px-4 py-3">ETA</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-800/60">
+          <tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="renee stay forever matte liquid lipstick combo - transfer-proof, smudge-proof, long lasting, infused with vitamin e &amp; jojoba oil - perfect for gifting, wedding, special occasions, travel pack of 10">
+        <td class="px-4 py-3 font-medium text-white max-w-md">RENEE Stay Forever Matte Liquid Lipstick Combo - Transfer-Proof, Smudge-Proof, Long Lasting, Infused with Vitamin E &amp; Jojoba Oil - Perfect for Gifting, Wedding, Special Occasions, Travel Pack of 10</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹659</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹750</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">12% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="renee very matte lipstick - petal | long-lasting, hydrating, and velvety formula | paraben-free lip color for all skin tones">
+        <td class="px-4 py-3 font-medium text-white max-w-md">RENEE Very Matte Lipstick - Petal | Long-Lasting, Hydrating, and Velvety Formula | Paraben-Free Lip Color for All Skin Tones</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">175.00/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹175</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹199</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">12% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="renee very matte lipstick - rouge | long-lasting, hydrating, and velvety formula | paraben-free lip color for all skin tones">
+        <td class="px-4 py-3 font-medium text-white max-w-md">RENEE Very Matte Lipstick - Rouge | Long-Lasting, Hydrating, and Velvety Formula | Paraben-Free Lip Color for All Skin Tones</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">175.00/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹175</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹199</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">12% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="renee very matte lipstick 08 wine whisper">
+        <td class="px-4 py-3 font-medium text-white max-w-md">RENEE Very Matte Lipstick 08 Wine Whisper</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹175</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹199</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">12% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="renee very matte lipstick - spice | long-lasting, hydrating, and velvety formula | paraben-free lip color for all skin tones">
+        <td class="px-4 py-3 font-medium text-white max-w-md">RENEE Very Matte Lipstick - Spice | Long-Lasting, Hydrating, and Velvety Formula | Paraben-Free Lip Color for All Skin Tones</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">175.00/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹175</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹199</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">12% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="renee very matte lipstick 03 toffee touch">
+        <td class="px-4 py-3 font-medium text-white max-w-md">RENEE Very Matte Lipstick 03 Toffee Touch</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹175</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹199</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">12% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="renee stay forever matte liquid lipstick combo - transfer-proof, smudge-proof, long lasting, infused with vitamin e &amp; jojoba oil - perfect for gifting, wedding, special occasions, travel pack of 10">
+        <td class="px-4 py-3 font-medium text-white max-w-md">RENEE Stay Forever Matte Liquid Lipstick Combo - Transfer-Proof, Smudge-Proof, Long Lasting, Infused with Vitamin E &amp; Jojoba Oil - Perfect for Gifting, Wedding, Special Occasions, Travel Pack of 10</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹659</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹750</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">12% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="renee very matte lipstick - petal | long-lasting, hydrating, and velvety formula | paraben-free lip color for all skin tones">
+        <td class="px-4 py-3 font-medium text-white max-w-md">RENEE Very Matte Lipstick - Petal | Long-Lasting, Hydrating, and Velvety Formula | Paraben-Free Lip Color for All Skin Tones</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">175.00/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹175</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹199</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">12% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="renee very matte lipstick - rouge | long-lasting, hydrating, and velvety formula | paraben-free lip color for all skin tones">
+        <td class="px-4 py-3 font-medium text-white max-w-md">RENEE Very Matte Lipstick - Rouge | Long-Lasting, Hydrating, and Velvety Formula | Paraben-Free Lip Color for All Skin Tones</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">175.00/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹175</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹199</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">12% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="renee very matte lipstick 08 wine whisper">
+        <td class="px-4 py-3 font-medium text-white max-w-md">RENEE Very Matte Lipstick 08 Wine Whisper</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹175</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹199</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">12% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="renee very matte lipstick - spice | long-lasting, hydrating, and velvety formula | paraben-free lip color for all skin tones">
+        <td class="px-4 py-3 font-medium text-white max-w-md">RENEE Very Matte Lipstick - Spice | Long-Lasting, Hydrating, and Velvety Formula | Paraben-Free Lip Color for All Skin Tones</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">175.00/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹175</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹199</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">12% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="renee very matte lipstick 03 toffee touch">
+        <td class="px-4 py-3 font-medium text-white max-w-md">RENEE Very Matte Lipstick 03 Toffee Touch</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹175</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹199</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">12% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="renee stay forever matte liquid lipstick combo - transfer-proof, smudge-proof, long lasting, infused with vitamin e &amp; jojoba oil - perfect for gifting, wedding, special occasions, travel pack of 10">
+        <td class="px-4 py-3 font-medium text-white max-w-md">RENEE Stay Forever Matte Liquid Lipstick Combo - Transfer-Proof, Smudge-Proof, Long Lasting, Infused with Vitamin E &amp; Jojoba Oil - Perfect for Gifting, Wedding, Special Occasions, Travel Pack of 10</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹659</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹750</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">12% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="renee very matte lipstick - petal | long-lasting, hydrating, and velvety formula | paraben-free lip color for all skin tones">
+        <td class="px-4 py-3 font-medium text-white max-w-md">RENEE Very Matte Lipstick - Petal | Long-Lasting, Hydrating, and Velvety Formula | Paraben-Free Lip Color for All Skin Tones</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">175.00/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹175</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹199</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">12% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="renee very matte lipstick - rouge | long-lasting, hydrating, and velvety formula | paraben-free lip color for all skin tones">
+        <td class="px-4 py-3 font-medium text-white max-w-md">RENEE Very Matte Lipstick - Rouge | Long-Lasting, Hydrating, and Velvety Formula | Paraben-Free Lip Color for All Skin Tones</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">175.00/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹175</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹199</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">12% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="renee very matte lipstick 08 wine whisper">
+        <td class="px-4 py-3 font-medium text-white max-w-md">RENEE Very Matte Lipstick 08 Wine Whisper</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹175</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹199</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">12% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="renee very matte lipstick - spice | long-lasting, hydrating, and velvety formula | paraben-free lip color for all skin tones">
+        <td class="px-4 py-3 font-medium text-white max-w-md">RENEE Very Matte Lipstick - Spice | Long-Lasting, Hydrating, and Velvety Formula | Paraben-Free Lip Color for All Skin Tones</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">175.00/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹175</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹199</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">12% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="renee very matte lipstick 03 toffee touch">
+        <td class="px-4 py-3 font-medium text-white max-w-md">RENEE Very Matte Lipstick 03 Toffee Touch</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹175</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹199</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">12% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="renee stay matte liquid lipstick combo - transfer &amp; smudge-proof, long lasting">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Renee Stay Matte Liquid Lipstick Combo - Transfer &amp; Smudge-Proof, Long Lasting</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹487</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹750</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">35% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="just herbs herb enriched intense color ayurvedic micro mini lipstick set - 16 shades">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Just Herbs Herb Enriched Intense Color Ayurvedic Micro Mini Lipstick Set - 16 Shades</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹171</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹599</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">71% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="renee very matte pack of 4 matte lipsticks 1.6gm each">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Renee Very Matte Pack of 4 Matte Lipsticks 1.6gm each</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1.6gm</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹449</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹599</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">25% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="renee very matte lipstick- rouge">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Renee Very Matte Lipstick- Rouge</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹169</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹199</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="love earth liquid mousse lipstick browns matte finish mini pack of 3, waterproof lipstick">
+        <td class="px-4 py-3 font-medium text-white max-w-md">LOVE EARTH Liquid Mousse Lipstick Browns Matte Finish Mini Pack of 3, Waterproof Lipstick</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹249</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹714</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">65% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="renee madness ph - black stick with glossy pink payoff color, long lasting">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Renee Madness Ph - Black Stick With Glossy Pink Payoff Color, Long Lasting</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹354</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">29% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="almost lipstick tinted lip balm in nude honey | sheer + lightweight moisturizing lipstick">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Almost Lipstick Tinted Lip Balm in Nude Honey | Sheer + Lightweight Moisturizing Lipstick</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹2125</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹2500</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Tue, 3 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="infallible matte resistance liquid lipstick - nude 635, 5ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Infallible Matte Resistance Liquid Lipstick - Nude 635, 5ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">5ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹595</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹999</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">40% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Thu, 5 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="hd matte lipstick, transfer-proof makeup, midnight snack, 4.2g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">HD Matte Lipstick, Transfer-Proof Makeup, Midnight Snack, 4.2g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">4.2g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹778.1</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1050</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">26% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="superstay vinyl ink mithai limited edition - berry barfi, 4.2g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Superstay Vinyl Ink Mithai Limited Edition - Berry Barfi, 4.2g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">4.2g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹499</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹849</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">41% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="herb enriched lipstick kit | 8 creamy matte shades | travel friendly &amp; richly pigmented | infused with ashwagandha, brahmi &amp; castor oil | curated for indian skin tones">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Herb Enriched Lipstick Kit | 8 Creamy Matte Shades | Travel Friendly &amp; Richly Pigmented | Infused with Ashwagandha, Brahmi &amp; Castor Oil | Curated for Indian Skin Tones</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹165</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹350</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">53% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="madness ph lipstick | black lipstick with glossy pink payoff| long lasting nourishment, enriched with vitamin e &amp; jojoba oil| vegan &amp; paraben free | 3gm">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Madness Ph Lipstick | Black Lipstick With Glossy Pink Payoff| Long Lasting Nourishment, Enriched With Vitamin E &amp; Jojoba Oil| Vegan &amp; Paraben Free | 3gm</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">3gm</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹354</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">29% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="renee everyday quick stay liquid lipstick | 02 toffee temptation">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Renee Everyday Quick Stay Liquid Lipstick | 02 Toffee Temptation</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹99</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹119</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">17% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="renee everyday quick stay liquid lipstick | 03 red hour">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Renee Everyday Quick Stay Liquid Lipstick | 03 Red Hour</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹99</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹119</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">17% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="renee very matte pack of 4 matte lipsticks | long-lasting color">
+        <td class="px-4 py-3 font-medium text-white max-w-md">RENEE Very Matte Pack Of 4 Matte Lipsticks | Long-Lasting Color</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (4 pcs)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹510</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹599</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="renee very matte lipstick | 08 wine whisper">
+        <td class="px-4 py-3 font-medium text-white max-w-md">RENEE Very Matte Lipstick | 08 Wine Whisper</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (1.6 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹169</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹199</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="just herbs ayurvedic matte liquid lipstick set of 10 | bridal &amp; karwa chauth shringar gift for women">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Just Herbs Ayurvedic Matte Liquid Lipstick Set of 10 | Bridal &amp; Karwa Chauth Shringar Gift for Women</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (10 x 0.9 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹446</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹825</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">46% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="renee everyday dozen pout set lipsticks">
+        <td class="px-4 py-3 font-medium text-white max-w-md">RENEE Everyday Dozen Pout Set Lipsticks</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 set (12 pcs)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹335</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹399</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">16% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="sugar cosmetics glide peptide plumping gloss stick|03 taupe tick">
+        <td class="px-4 py-3 font-medium text-white max-w-md">SUGAR Cosmetics Glide Peptide Plumping Gloss Stick|03 Taupe Tick</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (2.7 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹376</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹699</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">46% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="sugar la la love 18 hr liquid lipstick | festive kit| long-lasting color">
+        <td class="px-4 py-3 font-medium text-white max-w-md">SUGAR La La Love 18 Hr Liquid Lipstick | Festive Kit| Long-Lasting Color</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">3 x 5 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹444</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1197</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">63% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- Sticky CTA Footer -->
+  <div class="fixed bottom-0 inset-x-0 bg-slate-950/95 border-t border-emerald-500/30 backdrop-blur px-6 py-3.5 z-30">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+      <div class="text-slate-200">
+        <span class="text-emerald-400 font-bold">⚡ Unscrape Radar:</span> Want real-time Slack/WhatsApp/Telegram alerts within 15 mins whenever <strong>RENEE Cosmetics</strong> SKUs go Out-of-Stock across 20 BLR/MUM/DEL dark-store pin codes?
+      </div>
+      <div class="flex items-center gap-2.5 shrink-0">
+        <a href="https://github.com/deveshkolte/unscrape" target="_blank" class="px-4 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold">Unlock Automated 20-Pin-Code Monitor →</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const RAW_CSV = "brand,city,pincode,platform,skuId,title,sellingPriceInr,mrpInr,discountPercent,unit,inStock,deliveryEta,url\nRENEE Cosmetics,Bengaluru,560001,bigbasket.com/jiomart,19548254,\"RENEE Stay Forever Matte Liquid Lipstick Combo - Transfer-Proof, Smudge-Proof, Long Lasting, Infused with Vitamin E & Jojoba Oil - Perfect for Gifting, Wedding, Special Occasions, Travel Pack of 10\",659,750,12,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/renee-stay-forever-matte-liquid-lipstick-combo-transfer-proof-smudge-proof-long-lasting-infused-with-vitamin-e-jojoba-oil-perfect-for-gifting-wedding-special-occasions-travel-pack-of-10-mi9203-19548254/19548254\nRENEE Cosmetics,Bengaluru,560001,bigbasket.com/jiomart,19432593,\"RENEE Very Matte Lipstick - Petal | Long-Lasting, Hydrating, and Velvety Formula | Paraben-Free Lip Color for All Skin Tones\",175,199,12,175.00/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/renee-very-matte-lipstick-petal-long-lasting-hydrating-and-velvety-formula-paraben-free-lip-color-for-all-skin-tones-mi8xsn-19432593/19432593\nRENEE Cosmetics,Bengaluru,560001,bigbasket.com/jiomart,19402873,\"RENEE Very Matte Lipstick - Rouge | Long-Lasting, Hydrating, and Velvety Formula | Paraben-Free Lip Color for All Skin Tones\",175,199,12,175.00/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/renee-very-matte-lipstick-rouge-long-lasting-hydrating-and-velvety-formula-paraben-free-lip-color-for-all-skin-tones-mi8wv4-19402873/19402873\nRENEE Cosmetics,Bengaluru,560001,bigbasket.com/jiomart,20278392,RENEE Very Matte Lipstick 08 Wine Whisper,175,199,12,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/renee-very-matte-lipstick-08-wine-whisper-intense-color-pay-off-full-coverage-long-lasting-weightless-easy-glide-formula-with-velvety-finish-suitable-for-all-occasion-ideal-for-gifting-mi9q0l-20278392/20278392\nRENEE Cosmetics,Bengaluru,560001,bigbasket.com/jiomart,19339555,\"RENEE Very Matte Lipstick - Spice | Long-Lasting, Hydrating, and Velvety Formula | Paraben-Free Lip Color for All Skin Tones\",175,199,12,175.00/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/renee-very-matte-lipstick-spice-long-lasting-hydrating-and-velvety-formula-paraben-free-lip-color-for-all-skin-tones-mi8umg-19339555/19339555\nRENEE Cosmetics,Bengaluru,560001,bigbasket.com/jiomart,19323280,RENEE Very Matte Lipstick 03 Toffee Touch,175,199,12,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/renee-very-matte-lipstick-03-toffee-touch-intense-color-pay-off-full-coverage-long-lasting-weightless-easy-glide-formula-with-velvety-finish-suitable-for-all-occasion-ideal-for-gifting-mi8u3x-19323280/19323280\nRENEE Cosmetics,Mumbai,400001,bigbasket.com/jiomart,19548254,\"RENEE Stay Forever Matte Liquid Lipstick Combo - Transfer-Proof, Smudge-Proof, Long Lasting, Infused with Vitamin E & Jojoba Oil - Perfect for Gifting, Wedding, Special Occasions, Travel Pack of 10\",659,750,12,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/renee-stay-forever-matte-liquid-lipstick-combo-transfer-proof-smudge-proof-long-lasting-infused-with-vitamin-e-jojoba-oil-perfect-for-gifting-wedding-special-occasions-travel-pack-of-10-mi9203-19548254/19548254\nRENEE Cosmetics,Mumbai,400001,bigbasket.com/jiomart,19432593,\"RENEE Very Matte Lipstick - Petal | Long-Lasting, Hydrating, and Velvety Formula | Paraben-Free Lip Color for All Skin Tones\",175,199,12,175.00/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/renee-very-matte-lipstick-petal-long-lasting-hydrating-and-velvety-formula-paraben-free-lip-color-for-all-skin-tones-mi8xsn-19432593/19432593\nRENEE Cosmetics,Mumbai,400001,bigbasket.com/jiomart,19402873,\"RENEE Very Matte Lipstick - Rouge | Long-Lasting, Hydrating, and Velvety Formula | Paraben-Free Lip Color for All Skin Tones\",175,199,12,175.00/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/renee-very-matte-lipstick-rouge-long-lasting-hydrating-and-velvety-formula-paraben-free-lip-color-for-all-skin-tones-mi8wv4-19402873/19402873\nRENEE Cosmetics,Mumbai,400001,bigbasket.com/jiomart,20278392,RENEE Very Matte Lipstick 08 Wine Whisper,175,199,12,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/renee-very-matte-lipstick-08-wine-whisper-intense-color-pay-off-full-coverage-long-lasting-weightless-easy-glide-formula-with-velvety-finish-suitable-for-all-occasion-ideal-for-gifting-mi9q0l-20278392/20278392\nRENEE Cosmetics,Mumbai,400001,bigbasket.com/jiomart,19339555,\"RENEE Very Matte Lipstick - Spice | Long-Lasting, Hydrating, and Velvety Formula | Paraben-Free Lip Color for All Skin Tones\",175,199,12,175.00/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/renee-very-matte-lipstick-spice-long-lasting-hydrating-and-velvety-formula-paraben-free-lip-color-for-all-skin-tones-mi8umg-19339555/19339555\nRENEE Cosmetics,Mumbai,400001,bigbasket.com/jiomart,19323280,RENEE Very Matte Lipstick 03 Toffee Touch,175,199,12,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/renee-very-matte-lipstick-03-toffee-touch-intense-color-pay-off-full-coverage-long-lasting-weightless-easy-glide-formula-with-velvety-finish-suitable-for-all-occasion-ideal-for-gifting-mi8u3x-19323280/19323280\nRENEE Cosmetics,Delhi,110001,bigbasket.com/jiomart,19548254,\"RENEE Stay Forever Matte Liquid Lipstick Combo - Transfer-Proof, Smudge-Proof, Long Lasting, Infused with Vitamin E & Jojoba Oil - Perfect for Gifting, Wedding, Special Occasions, Travel Pack of 10\",659,750,12,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/renee-stay-forever-matte-liquid-lipstick-combo-transfer-proof-smudge-proof-long-lasting-infused-with-vitamin-e-jojoba-oil-perfect-for-gifting-wedding-special-occasions-travel-pack-of-10-mi9203-19548254/19548254\nRENEE Cosmetics,Delhi,110001,bigbasket.com/jiomart,19432593,\"RENEE Very Matte Lipstick - Petal | Long-Lasting, Hydrating, and Velvety Formula | Paraben-Free Lip Color for All Skin Tones\",175,199,12,175.00/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/renee-very-matte-lipstick-petal-long-lasting-hydrating-and-velvety-formula-paraben-free-lip-color-for-all-skin-tones-mi8xsn-19432593/19432593\nRENEE Cosmetics,Delhi,110001,bigbasket.com/jiomart,19402873,\"RENEE Very Matte Lipstick - Rouge | Long-Lasting, Hydrating, and Velvety Formula | Paraben-Free Lip Color for All Skin Tones\",175,199,12,175.00/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/renee-very-matte-lipstick-rouge-long-lasting-hydrating-and-velvety-formula-paraben-free-lip-color-for-all-skin-tones-mi8wv4-19402873/19402873\nRENEE Cosmetics,Delhi,110001,bigbasket.com/jiomart,20278392,RENEE Very Matte Lipstick 08 Wine Whisper,175,199,12,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/renee-very-matte-lipstick-08-wine-whisper-intense-color-pay-off-full-coverage-long-lasting-weightless-easy-glide-formula-with-velvety-finish-suitable-for-all-occasion-ideal-for-gifting-mi9q0l-20278392/20278392\nRENEE Cosmetics,Delhi,110001,bigbasket.com/jiomart,19339555,\"RENEE Very Matte Lipstick - Spice | Long-Lasting, Hydrating, and Velvety Formula | Paraben-Free Lip Color for All Skin Tones\",175,199,12,175.00/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/renee-very-matte-lipstick-spice-long-lasting-hydrating-and-velvety-formula-paraben-free-lip-color-for-all-skin-tones-mi8umg-19339555/19339555\nRENEE Cosmetics,Delhi,110001,bigbasket.com/jiomart,19323280,RENEE Very Matte Lipstick 03 Toffee Touch,175,199,12,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/renee-very-matte-lipstick-03-toffee-touch-intense-color-pay-off-full-coverage-long-lasting-weightless-easy-glide-formula-with-velvety-finish-suitable-for-all-occasion-ideal-for-gifting-mi8u3x-19323280/19323280\nRENEE Cosmetics,Bengaluru,560001,flipkart.com,LSKGXJNYAWZPFFDG,\"Renee Stay Matte Liquid Lipstick Combo - Transfer & Smudge-Proof, Long Lasting\",487,750,35,1 unit,true,15 MINS,https://www.flipkart.com/renee-stay-matte-liquid-lipstick-combo-transfer-smudge-proof-long-lasting/p/itm215322f988922?pid=LSKGXJNYAWZPFFDG&lid=LSTLSKGXJNYAWZPFFDGIYU7TA&marketplace=FLIPKART&q=renee+lipstick&store=g9b%2Fffi%2Ftv5%2Funa&srno=s_1_4&otracker=search&fm=organic&iid=dbdf6d8d-150f-497a-a40c-d87e9a721b22.LSKGXJNYAWZPFFDG.SEARCH&ppt=sp&ppn=sp&ssid=oa2sp2ip4w0000001793387351162&qH=11f7d3dcc4788b5c&ov_redirect=true&ov_redirect=true\nRENEE Cosmetics,Bengaluru,560001,flipkart.com,LSKGSHNFVRRZGCZE,Just Herbs Herb Enriched Intense Color Ayurvedic Micro Mini Lipstick Set - 16 Shades,171,599,71,1 unit,true,15 MINS,https://www.flipkart.com/just-herbs-herb-enriched-intense-color-ayurvedic-micro-mini-lipstick-set-16-shades/p/itm49ce6c54c7eb2?pid=LSKGSHNFVRRZGCZE&lid=LSTLSKGSHNFVRRZGCZEQWLCE7&marketplace=FLIPKART&q=renee+lipstick&store=g9b%2Fffi%2Ftv5%2Funa&srno=s_1_2&otracker=search&fm=organic&iid=en_efhWl9BzMdUuxD3EmCrfLL2rEy_gZmQPuT5PR1eJeI70WdvvnGwu7Mx22YHvUaIjLIm34BCxGj6fe8aHRhz8lGIQRXAkUZu7bOdLAdFsFLkuwbYUU4-rPn6Y2lBkDVGi&ppt=sp&ppn=sp&ssid=oa2sp2ip4w0000001793387351162&qH=11f7d3dcc4788b5c&ov_redirect=true&ov_redirect=true\nRENEE Cosmetics,Bengaluru,560001,flipkart.com,LSKGQHBFNGUBZ9B9,Renee Very Matte Pack of 4 Matte Lipsticks 1.6gm each,449,599,25,1.6gm,true,15 MINS,https://www.flipkart.com/renee-very-matte-pack-4-lipsticks-1-6gm-each/p/itm0c7bd2fe9769b?pid=LSKGQHBFNGUBZ9B9&lid=LSTLSKGQHBFNGUBZ9B9C91TBU&marketplace=FLIPKART&q=renee+lipstick&store=g9b%2Fffi%2Ftv5%2Funa&srno=s_1_3&otracker=search&fm=organic&iid=dbdf6d8d-150f-497a-a40c-d87e9a721b22.LSKGQHBFNGUBZ9B9.SEARCH&ppt=sp&ppn=sp&ssid=oa2sp2ip4w0000001793387351162&qH=11f7d3dcc4788b5c&ov_redirect=true&ov_redirect=true\nRENEE Cosmetics,Bengaluru,560001,flipkart.com,LSKH3DJZCJXMQ7MA,Renee Very Matte Lipstick- Rouge,169,199,15,1 unit,true,15 MINS,https://www.flipkart.com/renee-very-matte-lipstick-rouge/p/itm78882065d77f5?pid=LSKH3DJZCJXMQ7MA&lid=LSTLSKH3DJZCJXMQ7MA3TSYC4&marketplace=FLIPKART&q=renee+lipstick&store=g9b%2Fffi%2Ftv5%2Funa&srno=s_1_5&otracker=search&fm=organic&iid=dbdf6d8d-150f-497a-a40c-d87e9a721b22.LSKH3DJZCJXMQ7MA.SEARCH&ppt=sp&ppn=sp&ssid=oa2sp2ip4w0000001793387351162&qH=11f7d3dcc4788b5c&ov_redirect=true&ov_redirect=true\nRENEE Cosmetics,Bengaluru,560001,flipkart.com,LSKHBHYZJNEW7ZHY,\"LOVE EARTH Liquid Mousse Lipstick Browns Matte Finish Mini Pack of 3, Waterproof Lipstick\",249,714,65,1 unit,true,15 MINS,https://www.flipkart.com/love-earth-liquid-mousse-lipstick-browns-matte-finish-mini-pack-3-waterproof/p/itma7fad185439af?pid=LSKHBHYZJNEW7ZHY&lid=LSTLSKHBHYZJNEW7ZHYUUXNYT&marketplace=FLIPKART&q=renee+lipstick&store=g9b%2Fffi%2Ftv5%2Funa&srno=s_1_6&otracker=search&fm=organic&iid=en_efhWl9BzMdUuxD3EmCrfLL2rEy_gZmQPuT5PR1eJeI5njg9LShR6hS3GUf1JCEHVtoXPKTR-zDdkv0_lOneov8D1mDgbI-JIBpQRjcax3cezLu1JNBHQLAyjPjs2Rozu&ppt=sp&ppn=sp&ssid=oa2sp2ip4w0000001793387351162&qH=11f7d3dcc4788b5c&ov_redirect=true&ov_redirect=true\nRENEE Cosmetics,Bengaluru,560001,flipkart.com,LSKGBCZRZRMJHXCS,\"Renee Madness Ph - Black Stick With Glossy Pink Payoff Color, Long Lasting\",354,499,29,1 unit,true,15 MINS,https://www.flipkart.com/renee-madness-ph-black-stick-glossy-pink-payoff-color-long-lasting/p/itmfbb4c46fce886?pid=LSKGBCZRZRMJHXCS&lid=LSTLSKGBCZRZRMJHXCSLBZT7V&marketplace=FLIPKART&q=renee+lipstick&store=g9b%2Fffi%2Ftv5%2Funa&srno=s_1_7&otracker=search&fm=organic&iid=dbdf6d8d-150f-497a-a40c-d87e9a721b22.LSKGBCZRZRMJHXCS.SEARCH&ppt=sp&ppn=sp&ssid=oa2sp2ip4w0000001793387351162&qH=11f7d3dcc4788b5c&ov_redirect=true&ov_redirect=true\nRENEE Cosmetics,Bengaluru,560001,amazon.in,B0F9D2R74D,Almost Lipstick Tinted Lip Balm in Nude Honey | Sheer + Lightweight Moisturizing Lipstick,2125,2500,15,1 unit,true,\"Tue, 3 Nov\",https://www.amazon.in/dp/B0F9D2R74D\nRENEE Cosmetics,Bengaluru,560001,amazon.in,B0D6Y4MDLY,\"Infallible Matte Resistance Liquid Lipstick - Nude 635, 5ml\",595,999,40,5ml,true,\"Thu, 5 Nov\",https://www.amazon.in/dp/B0D6Y4MDLY\nRENEE Cosmetics,Bengaluru,560001,amazon.in,B0FQJXSVTY,\"HD Matte Lipstick, Transfer-Proof Makeup, Midnight Snack, 4.2g\",778.1,1050,26,4.2g,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0FQJXSVTY\nRENEE Cosmetics,Bengaluru,560001,amazon.in,B0H9X23WP7,\"Superstay Vinyl Ink Mithai Limited Edition - Berry Barfi, 4.2g\",499,849,41,4.2g,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0H9X23WP7\nRENEE Cosmetics,Bengaluru,560001,amazon.in,B0FDRFC41Z,\"Herb Enriched Lipstick Kit | 8 Creamy Matte Shades | Travel Friendly & Richly Pigmented | Infused with Ashwagandha, Brahmi & Castor Oil | Curated for Indian Skin Tones\",165,350,53,1 unit,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0FDRFC41Z\nRENEE Cosmetics,Bengaluru,560001,amazon.in,B09RK7SCMD,\"Madness Ph Lipstick | Black Lipstick With Glossy Pink Payoff| Long Lasting Nourishment, Enriched With Vitamin E & Jojoba Oil| Vegan & Paraben Free | 3gm\",354,499,29,3gm,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B09RK7SCMD\nRENEE Cosmetics,Bengaluru,560001,zeptonow.com,9a74149e-5739-5583-9e35-69c1e64867ae,Renee Everyday Quick Stay Liquid Lipstick | 02 Toffee Temptation,99,119,17,1 pc,true,10 MINS,https://www.zepto.com/pn/renee-everyday-quick-stay-liquid-lipstick-02-toffee-temptation/pvid/205cc0d4-7769-41d4-9201-cca6527e8277\nRENEE Cosmetics,Bengaluru,560001,zeptonow.com,00a51d9c-75cc-55a1-a795-04fe8fdb1bfe,Renee Everyday Quick Stay Liquid Lipstick | 03 Red Hour,99,119,17,1 pc,true,10 MINS,https://www.zepto.com/pn/renee-everyday-quick-stay-liquid-lipstick-03-red-hour/pvid/a060b409-a316-40fd-bc9a-285c7f43c32d\nRENEE Cosmetics,Bengaluru,560001,zeptonow.com,3d4a1e73-3891-5e6e-9c13-2ca27e249b9d,RENEE Very Matte Pack Of 4 Matte Lipsticks | Long-Lasting Color,510,599,15,1 pack (4 pcs),true,10 MINS,https://www.zepto.com/pn/renee-very-matte-pack-of-4-matte-lipsticks-long-lasting-color/pvid/c2528fdc-c6c6-4770-a8f0-a67346332f5d\nRENEE Cosmetics,Bengaluru,560001,zeptonow.com,3269c276-cd59-509f-9710-896337e1a8c6,RENEE Very Matte Lipstick | 08 Wine Whisper,169,199,15,1 pc (1.6 g),true,10 MINS,https://www.zepto.com/pn/renee-very-matte-lipstick-08-wine-whisper/pvid/815f4f32-8b33-4e99-9f8e-90edb1afd9a5\nRENEE Cosmetics,Bengaluru,560001,zeptonow.com,ab10e8d0-fd15-5b53-b785-c8803edaa51c,Just Herbs Ayurvedic Matte Liquid Lipstick Set of 10 | Bridal & Karwa Chauth Shringar Gift for Women,446,825,46,1 pack (10 x 0.9 ml),true,10 MINS,https://www.zepto.com/pn/just-herbs-ayurvedic-matte-liquid-lipstick-set-of-10-bridal-karwa-chauth-shringar-gift-for-women/pvid/8f78b5da-c5c1-4b48-8124-dbc40ab8abfb\nRENEE Cosmetics,Bengaluru,560001,zeptonow.com,db654b07-c27f-543b-9f3f-c0eecb74b5dd,RENEE Everyday Dozen Pout Set Lipsticks,335,399,16,1 set (12 pcs),true,10 MINS,https://www.zepto.com/pn/renee-everyday-dozen-pout-set-lipsticks/pvid/70a69222-6dd1-4f30-90fd-8cbcb52f0bb7\nRENEE Cosmetics,Bengaluru,560001,zeptonow.com,d2ba5263-1ef9-593d-8c1b-266580bca48b,SUGAR Cosmetics Glide Peptide Plumping Gloss Stick|03 Taupe Tick,376,699,46,1 pc (2.7 g),true,10 MINS,https://www.zepto.com/pn/sugar-cosmetics-glide-peptide-plumping-gloss-stick-03-taupe-tick/pvid/a9fde8a9-3074-4236-8657-6314a0e6432a\nRENEE Cosmetics,Bengaluru,560001,zeptonow.com,9b6be43e-3bbe-59fd-ab9f-6e0cfc86d122,SUGAR La La Love 18 Hr Liquid Lipstick | Festive Kit| Long-Lasting Color,444,1197,63,3 x 5 ml,true,10 MINS,https://www.zepto.com/pn/sugar-la-la-love-18-hr-liquid-lipstick-festive-kit-long-lasting-color/pvid/4b7f0591-25f4-4042-b4b9-d91829cc2fe7\n";
+
+    function filterRows(mode) {
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const stock = row.getAttribute('data-stock');
+        if (mode === 'all') row.style.display = '';
+        else if (mode === 'oos') row.style.display = stock === 'oos' ? '' : 'none';
+        else if (mode === 'instock') row.style.display = stock === 'instock' ? '' : 'none';
+      });
+    }
+
+    function searchSkus() {
+      const q = document.getElementById('skuSearch').value.toLowerCase();
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const title = row.getAttribute('data-title') || '';
+        const platform = (row.getAttribute('data-platform') || '').toLowerCase();
+        row.style.display = (title.includes(q) || platform.includes(q)) ? '' : 'none';
+      });
+    }
+
+    function downloadCsv() {
+      const blob = new Blob([RAW_CSV], { type: 'text/csv;charset=utf-8;' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'renee-cosmetics-3city-audit.csv';
+      a.click();
+    }
+  </script>
+</body>
+</html>

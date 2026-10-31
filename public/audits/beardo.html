@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Beardo — 3-City Quick-Commerce Dark-Store Audit Scorecard | Unscrape Radar</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background-color: #07080d; color: #f3f4f6; font-family: Inter, system-ui, -apple-system, sans-serif; }
+  </style>
+</head>
+<body class="min-h-screen pb-24">
+  <!-- Top Bar -->
+  <header class="border-b border-slate-800 bg-slate-950/90 backdrop-blur sticky top-0 z-20">
+    <div class="max-w-7xl mx-auto px-6 py-3.5 flex items-center justify-between flex-wrap gap-3">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="text-emerald-400 font-black text-lg tracking-tight hover:text-emerald-300">⚡ UNSCRAPE RADAR</a>
+        <span class="text-xs text-slate-500">/</span>
+        <span class="text-sm font-bold text-white">Beardo Executive Scorecard</span>
+      </div>
+      <div class="flex items-center gap-2.5 text-xs">
+        <a href="index.html" class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700">← All 56 Brand Audits</a>
+        <button onclick="downloadCsv()" class="px-3.5 py-1.5 rounded-lg bg-emerald-500 text-slate-950 font-bold hover:bg-emerald-400">⬇ Download Raw CSV (46 SKUs)</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-6 pt-8">
+    <!-- Executive Header -->
+    <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 mb-8">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+        <div>
+          <div class="flex items-center gap-2.5 mb-2">
+            <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded bg-slate-800 text-emerald-400">Men's Grooming</span>
+            <span class="text-xs text-slate-400 font-mono">Audited: 2026-10-30</span>
+          </div>
+          <h1 class="text-3xl md:text-4xl font-black text-white tracking-tight">Beardo — Hyperlocal Dark-Store Audit</h1>
+          <p class="text-slate-400 text-sm mt-1">
+            Live multi-platform inventory & MOP/MRP price variance scan across <strong>Bengaluru (560001)</strong>, <strong>Mumbai (400001)</strong>, and <strong>Delhi (110001)</strong>.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 shrink-0">
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">SKUs Audited</div>
+            <div class="text-2xl font-black text-white mt-1">46</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">OOS Leaks</div>
+            <div class="text-2xl font-black text-rose-400 mt-1">2</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">Max Markdown</div>
+            <div class="text-2xl font-black text-amber-300 mt-1">99%</div>
+          </div>
+          <div class="border rounded-xl p-3.5 text-center bg-amber-500/15 text-amber-300 border-amber-500/30">
+            <div class="text-[11px] uppercase font-bold opacity-80">Shelf Health</div>
+            <div class="text-2xl font-black mt-1">96%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="bg-rose-950/50 border border-rose-500/40 rounded-2xl p-6 mb-8">
+      <div class="flex items-center justify-between flex-wrap gap-3 mb-4">
+        <div class="flex items-center gap-3">
+          <span class="px-3 py-1 rounded-full bg-rose-500 text-slate-950 font-black text-xs uppercase tracking-wider">🚨 REVENUE LEAK DETECTED</span>
+          <h2 class="text-lg font-bold text-white">2 Out-of-Stock Dark-Store Listing(s) Caught Live</h2>
+        </div>
+        <span class="text-xs font-mono text-rose-300">Immediate Shelf Conversion Loss</span>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+        
+          <div class="bg-slate-950/90 border border-rose-500/30 rounded-xl p-3.5 flex items-center justify-between gap-3">
+            <div>
+              <div class="text-sm font-bold text-white">Ustraa Growth Beard Oil - Pack of 2</div>
+              <div class="text-xs text-slate-400 mt-1">
+                Platform: <span class="text-rose-300 font-mono">blinkit.com</span> ·
+                City: <span class="text-slate-200">Bengaluru (560001)</span> ·
+                Pack: <span class="text-slate-300">2 x 35 ml</span>
+              </div>
+            </div>
+            <div class="text-right shrink-0">
+              <div class="text-sm font-extrabold text-rose-400">OUT OF STOCK</div>
+              <div class="text-xs text-slate-400">₹704</div>
+            </div>
+          </div>
+          <div class="bg-slate-950/90 border border-rose-500/30 rounded-xl p-3.5 flex items-center justify-between gap-3">
+            <div>
+              <div class="text-sm font-bold text-white">Beardo Rosemary Essential Oil</div>
+              <div class="text-xs text-slate-400 mt-1">
+                Platform: <span class="text-rose-300 font-mono">zeptonow.com</span> ·
+                City: <span class="text-slate-200">Bengaluru (560001)</span> ·
+                Pack: <span class="text-slate-300">1 pc (15 ml)</span>
+              </div>
+            </div>
+            <div class="text-right shrink-0">
+              <div class="text-sm font-extrabold text-rose-400">OUT OF STOCK</div>
+              <div class="text-xs text-slate-400">₹227</div>
+            </div>
+          </div>
+      </div>
+    </div>
+
+    <!-- Filter Controls -->
+    <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+      <div class="flex items-center gap-2 text-xs">
+        <button onclick="filterRows('all')" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-semibold">All SKUs (46)</button>
+        <button onclick="filterRows('oos')" class="px-3 py-1.5 rounded-lg bg-rose-500/15 border border-rose-500/30 text-rose-300 hover:bg-rose-500/25 font-semibold">Out-of-Stock Only (2)</button>
+        <button onclick="filterRows('instock')" class="px-3 py-1.5 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 hover:bg-emerald-500/25 font-semibold">In-Stock (44)</button>
+      </div>
+      <div class="flex items-center gap-2">
+        <input id="skuSearch" type="text" oninput="searchSkus()" placeholder="Filter SKU title or platform..." class="bg-slate-900 border border-slate-800 rounded-lg px-3.5 py-1.5 text-xs text-white w-64" />
+      </div>
+    </div>
+
+    <!-- SKU Table -->
+    <div class="bg-slate-900/50 border border-slate-800 rounded-2xl overflow-x-auto">
+      <table class="w-full text-left text-xs">
+        <thead class="bg-slate-950/90 text-slate-400 uppercase border-b border-slate-800">
+          <tr>
+            <th class="px-4 py-3">SKU Title</th>
+            <th class="px-4 py-3">Platform</th>
+            <th class="px-4 py-3">City / Pin</th>
+            <th class="px-4 py-3">Pack Size</th>
+            <th class="px-4 py-3">Selling Price</th>
+            <th class="px-4 py-3">MRP</th>
+            <th class="px-4 py-3">Discount</th>
+            <th class="px-4 py-3">Stock Status</th>
+            <th class="px-4 py-3">ETA</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-800/60">
+          <tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="urba bbest beard and hair oil 30 ml, light beardoil for men, pleasant fragrance, ideal for daily use">
+        <td class="px-4 py-3 font-medium text-white max-w-md">URBA BBest Beard and Hair Oil 30 ml, Light BeardOil for Men, Pleasant Fragrance, Ideal for daily use</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹199</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹255</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">22% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="7 days beard serum (50 ml)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">7 Days beard serum (50 ml)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹250</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹350</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">29% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="7 days 10days hair growth booster hair strengthening serum for men (100 ml)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">7 Days 10Days Hair Growth Booster Hair Strengthening Serum for Men (100 ml)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹314</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹699</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">55% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="7 days beard growth serum for shin &amp;amp; style (60 ml)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">7 Days Beard growth serum for shin &amp;amp; style (60 ml)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹299</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹699</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">57% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="7 days natural advance beard growth oil for beard smooth shine &amp; style (30 ml)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">7 Days Natural Advance Beard Growth oil for beard smooth shine &amp; style (30 ml)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹229</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">54% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="intimify beard oil nourishes and promotes beard, for smooth, shiny and soft beard">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Intimify Beard Oil Nourishes and Promotes Beard, for Smooth, Shiny and Soft Beard</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">219.00/L</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹219</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹599</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">63% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="urba bbest beard and hair oil 30 ml, light beardoil for men, pleasant fragrance, ideal for daily use">
+        <td class="px-4 py-3 font-medium text-white max-w-md">URBA BBest Beard and Hair Oil 30 ml, Light BeardOil for Men, Pleasant Fragrance, Ideal for daily use</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹199</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹255</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">22% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="7 days beard serum (50 ml)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">7 Days beard serum (50 ml)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹250</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹350</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">29% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="7 days 10days hair growth booster hair strengthening serum for men (100 ml)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">7 Days 10Days Hair Growth Booster Hair Strengthening Serum for Men (100 ml)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹314</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹699</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">55% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="7 days beard growth serum for shin &amp;amp; style (60 ml)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">7 Days Beard growth serum for shin &amp;amp; style (60 ml)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹299</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹699</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">57% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="7 days natural advance beard growth oil for beard smooth shine &amp; style (30 ml)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">7 Days Natural Advance Beard Growth oil for beard smooth shine &amp; style (30 ml)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹229</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">54% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="intimify beard oil nourishes and promotes beard, for smooth, shiny and soft beard">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Intimify Beard Oil Nourishes and Promotes Beard, for Smooth, Shiny and Soft Beard</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">219.00/L</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹219</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹599</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">63% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="urba bbest beard and hair oil 30 ml, light beardoil for men, pleasant fragrance, ideal for daily use">
+        <td class="px-4 py-3 font-medium text-white max-w-md">URBA BBest Beard and Hair Oil 30 ml, Light BeardOil for Men, Pleasant Fragrance, Ideal for daily use</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹199</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹255</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">22% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="7 days beard serum (50 ml)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">7 Days beard serum (50 ml)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹250</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹350</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">29% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="7 days 10days hair growth booster hair strengthening serum for men (100 ml)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">7 Days 10Days Hair Growth Booster Hair Strengthening Serum for Men (100 ml)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹314</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹699</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">55% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="7 days beard growth serum for shin &amp;amp; style (60 ml)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">7 Days Beard growth serum for shin &amp;amp; style (60 ml)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹299</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹699</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">57% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="7 days natural advance beard growth oil for beard smooth shine &amp; style (30 ml)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">7 Days Natural Advance Beard Growth oil for beard smooth shine &amp; style (30 ml)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹229</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">54% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="intimify beard oil nourishes and promotes beard, for smooth, shiny and soft beard">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Intimify Beard Oil Nourishes and Promotes Beard, for Smooth, Shiny and Soft Beard</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">219.00/L</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹219</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹599</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">63% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="beardo godfather lite beard and moustache oil for men 30 ml|non-sticky, light beard oil hair oil">
+        <td class="px-4 py-3 font-medium text-white max-w-md">BEARDO Godfather Lite Beard and Moustache Oil For Men 30 ml|Non-Sticky, Light Beard Oil Hair Oil</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">30 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹217</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹350</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">38% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="beardo hair growth oil combo hair oil">
+        <td class="px-4 py-3 font-medium text-white max-w-md">BEARDO Hair Growth Oil Combo Hair Oil</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹759</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1332</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">43% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="beardo men beard &amp; hair growth oil for growth &amp; thicker looking no harmful chemicals hair oil">
+        <td class="px-4 py-3 font-medium text-white max-w-md">BEARDO Men Beard &amp; Hair Growth Oil For Growth &amp; Thicker Looking No Harmful Chemicals Hair Oil</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹397</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹440</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">10% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="beardo godfather beard wash, 100ml and godfather lite beard oil, 30ml gift set combo (pack of 2)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">BEARDO Godfather Beard Wash, 100ml and Godfather Lite Beard Oil, 30ml Gift Set Combo (Pack of 2)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">100ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹427</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹700</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">39% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="beardo beard hair growth oil &amp; dermaroller 0.5 mm| 540 needles | thicker looking beard">
+        <td class="px-4 py-3 font-medium text-white max-w-md">BEARDO Beard Hair Growth Oil &amp; Dermaroller 0.5 mm| 540 Needles | Thicker Looking Beard</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹705</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1041</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">32% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="beardo godfather lite beard oil combo with natural ingredients hair oil">
+        <td class="px-4 py-3 font-medium text-white max-w-md">BEARDO Godfather Lite Beard Oil Combo With Natural Ingredients Hair Oil</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹560</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹700</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="the man company growth beard oil -almond &amp; thyme">
+        <td class="px-4 py-3 font-medium text-white max-w-md">The Man Company Growth Beard Oil -Almond &amp; Thyme</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">30 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹298</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹349</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="rise for men patchy beard fix">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Rise for Men Patchy Beard Fix</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">10 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹499</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹799</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">38% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="mancode beard oil">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Mancode Beard Oil</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">50 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹249</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="coco crush beard oil with derma roller">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Coco Crush Beard Oil with Derma Roller</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 set</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹399</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹690</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">42% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="urbangabru beard growth oil">
+        <td class="px-4 py-3 font-medium text-white max-w-md">UrbanGabru Beard Growth Oil</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">60 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹351</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹399</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">12% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="soul stories 100% pure and organic beard oil for thicker beard">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Soul Stories 100% Pure and Organic Beard Oil for Thicker Beard</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">50 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹650</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹799</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">19% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="oos" data-platform="blinkit.com" data-title="ustraa growth beard oil - pack of 2">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Ustraa Growth Beard Oil - Pack of 2</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">2 x 35 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹704</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹800</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">12% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-rose-500/20 text-rose-400 border border-rose-500/30 font-mono text-[11px] font-bold">OUT OF STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="beardo godfather beard wash for men">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Beardo Godfather Beard Wash for Men</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">100 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹245</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹350</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">30% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="oos" data-platform="zeptonow.com" data-title="beardo rosemary essential oil">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Beardo Rosemary Essential Oil</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (15 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹227</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹399</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">43% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-rose-500/20 text-rose-400 border border-rose-500/30 font-mono text-[11px] font-bold">OUT OF STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="the man company beard growth oil i almond &amp; thyme">
+        <td class="px-4 py-3 font-medium text-white max-w-md">The Man Company Beard Growth Oil I Almond &amp; Thyme</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (30 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹309</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹349</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">11% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="urbangabru beard booster growth oil | enriched with natural herb &amp; jadibuti | fills patchy beard">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Urbangabru Beard Booster Growth Oil | Enriched With Natural Herb &amp; Jadibuti | Fills Patchy Beard</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (60 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹351</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹399</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">12% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="mancode beard oil">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Mancode Beard Oil</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (50 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹249</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="bravado duo beard &amp; face wash for men | 2-in-1 beard shampoo, face cleanser &amp; oil control">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bravado Duo Beard &amp; Face Wash for Men | 2-in-1 Beard Shampoo, Face Cleanser &amp; Oil Control</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹464</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹999</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">54% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="ustraa beard growth oil">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Ustraa Beard Growth Oil</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (35 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹360</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹400</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">10% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="inde wild champi hair oil">
+        <td class="px-4 py-3 font-medium text-white max-w-md">inde wild Champi Hair Oil</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (50 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹717</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹844</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="thriveco rosemary essential oil for hair growth &amp; hair fall control for men &amp; women">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Thriveco Rosemary Essential Oil For Hair Growth &amp; Hair Fall Control For Men &amp; Women</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (15 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹189</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹449</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">58% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="beard and hair growth oil - 50 ml for faster beard growth and thicker looking beard | natural actives only | no harmful chemicals">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Beard and Hair Growth Oil - 50 ml for faster beard growth and thicker looking beard | Natural Actives Only | No Harmful Chemicals</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">50 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹399</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹798</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="don’s beard growth pro kit | complete beard growth &amp; grooming kit for men | ideal gift for men | beard care starter kit | gift for husband">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Don’s Beard Growth Pro Kit | Complete Beard Growth &amp; Grooming Kit for Men | Ideal Gift for Men | Beard Care Starter Kit | Gift for Husband</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹739</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹73900</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">99% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="beardgro beard growth serum for men 30ml | 4% anagain, 2% aminexil, 1% rosemary | reduces patchy beard, promotes thicker beard growth | lightweight and fast absorption">
+        <td class="px-4 py-3 font-medium text-white max-w-md">BeardGro Beard Growth Serum for Men 30ml | 4% Anagain, 2% Aminexil, 1% Rosemary | Reduces Patchy Beard, Promotes Thicker Beard Growth | Lightweight and Fast Absorption</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">30ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹474</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1580</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">70% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="beard oil for growing beard faster with almond &amp; thyme, natural, best beard growth oil for man, nourishes &amp; strengthens uneven patchy beard - 30ml |">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Beard Oil for Growing Beard Faster with Almond &amp; Thyme, NATURAL, Best Beard Growth Oil for Man, Nourishes &amp; Strengthens Uneven Patchy Beard - 30ML |</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">30ML</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹299</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹996.67</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">70% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="beard growth duo | beard &amp; hair growth oil 50ml &amp; beard activator | promotes thicker, longer &amp; fuller beard growth | for patchy beard- set of 2">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Beard Growth Duo | Beard &amp; Hair Growth Oil 50ml &amp; Beard Activator | Promotes Thicker, Longer &amp; Fuller Beard Growth | For Patchy Beard- Set of 2</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">50ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹599</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1198</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="godfather lite beard and moustache oil, 30 ml | non-sticky, light beard oil for men| pleasant fragrance | ideal for daily use .">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Godfather Lite Beard and Moustache Oil, 30 ml | Non-Sticky, Light Beard Oil for Men| Pleasant Fragrance | Ideal for daily use .</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">30 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹199</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹663.33</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">70% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- Sticky CTA Footer -->
+  <div class="fixed bottom-0 inset-x-0 bg-slate-950/95 border-t border-emerald-500/30 backdrop-blur px-6 py-3.5 z-30">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+      <div class="text-slate-200">
+        <span class="text-emerald-400 font-bold">⚡ Unscrape Radar:</span> Want real-time Slack/WhatsApp/Telegram alerts within 15 mins whenever <strong>Beardo</strong> SKUs go Out-of-Stock across 20 BLR/MUM/DEL dark-store pin codes?
+      </div>
+      <div class="flex items-center gap-2.5 shrink-0">
+        <a href="https://github.com/deveshkolte/unscrape" target="_blank" class="px-4 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold">Unlock Automated 20-Pin-Code Monitor →</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const RAW_CSV = "brand,city,pincode,platform,skuId,title,sellingPriceInr,mrpInr,discountPercent,unit,inStock,deliveryEta,url\nBeardo,Bengaluru,560001,bigbasket.com/jiomart,21462734,\"URBA BBest Beard and Hair Oil 30 ml, Light BeardOil for Men, Pleasant Fragrance, Ideal for daily use\",199,255,22,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/urba-bbest-beard-and-hair-oil-30-ml-light-beardoil-for-men-pleasant-fragrance-ideal-for-daily-use-miasus-21462734/21462734\nBeardo,Bengaluru,560001,bigbasket.com/jiomart,21911757,7 Days beard serum (50 ml),250,350,29,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/7-days-beard-serum-50-ml-mib5ub-21911757/21911757\nBeardo,Bengaluru,560001,bigbasket.com/jiomart,50396210,7 Days 10Days Hair Growth Booster Hair Strengthening Serum for Men (100 ml),314,699,55,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/7-days-10days-hair-growth-booster-hair-strengthening-serum-for-men-100-ml-mj737n-50396210/50396210\nBeardo,Bengaluru,560001,bigbasket.com/jiomart,50111346,7 Days Beard growth serum for shin &amp; style (60 ml),299,699,57,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/7-days-beard-growth-serum-for-shin-amp-style-60-ml-mj71ru-50111346/50111346\nBeardo,Bengaluru,560001,bigbasket.com/jiomart,22007616,7 Days Natural Advance Beard Growth oil for beard smooth shine & style (30 ml),229,499,54,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/7-days-natural-advance-beard-growth-oil-for-beard-smooth-shine-style-30-ml-mib948-22007616/22007616\nBeardo,Bengaluru,560001,bigbasket.com/jiomart,49902523,\"Intimify Beard Oil Nourishes and Promotes Beard, for Smooth, Shiny and Soft Beard\",219,599,63,219.00/L,true,15-30 MINS,https://www.jiomart.com/p/groceries/intimify-beard-oil-nourishes-and-promotes-beard-for-smooth-shiny-and-soft-beard-mj70us-49902523/49902523\nBeardo,Mumbai,400001,bigbasket.com/jiomart,21462734,\"URBA BBest Beard and Hair Oil 30 ml, Light BeardOil for Men, Pleasant Fragrance, Ideal for daily use\",199,255,22,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/urba-bbest-beard-and-hair-oil-30-ml-light-beardoil-for-men-pleasant-fragrance-ideal-for-daily-use-miasus-21462734/21462734\nBeardo,Mumbai,400001,bigbasket.com/jiomart,21911757,7 Days beard serum (50 ml),250,350,29,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/7-days-beard-serum-50-ml-mib5ub-21911757/21911757\nBeardo,Mumbai,400001,bigbasket.com/jiomart,50396210,7 Days 10Days Hair Growth Booster Hair Strengthening Serum for Men (100 ml),314,699,55,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/7-days-10days-hair-growth-booster-hair-strengthening-serum-for-men-100-ml-mj737n-50396210/50396210\nBeardo,Mumbai,400001,bigbasket.com/jiomart,50111346,7 Days Beard growth serum for shin &amp; style (60 ml),299,699,57,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/7-days-beard-growth-serum-for-shin-amp-style-60-ml-mj71ru-50111346/50111346\nBeardo,Mumbai,400001,bigbasket.com/jiomart,22007616,7 Days Natural Advance Beard Growth oil for beard smooth shine & style (30 ml),229,499,54,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/7-days-natural-advance-beard-growth-oil-for-beard-smooth-shine-style-30-ml-mib948-22007616/22007616\nBeardo,Mumbai,400001,bigbasket.com/jiomart,49902523,\"Intimify Beard Oil Nourishes and Promotes Beard, for Smooth, Shiny and Soft Beard\",219,599,63,219.00/L,true,15-30 MINS,https://www.jiomart.com/p/groceries/intimify-beard-oil-nourishes-and-promotes-beard-for-smooth-shiny-and-soft-beard-mj70us-49902523/49902523\nBeardo,Delhi,110001,bigbasket.com/jiomart,21462734,\"URBA BBest Beard and Hair Oil 30 ml, Light BeardOil for Men, Pleasant Fragrance, Ideal for daily use\",199,255,22,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/urba-bbest-beard-and-hair-oil-30-ml-light-beardoil-for-men-pleasant-fragrance-ideal-for-daily-use-miasus-21462734/21462734\nBeardo,Delhi,110001,bigbasket.com/jiomart,21911757,7 Days beard serum (50 ml),250,350,29,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/7-days-beard-serum-50-ml-mib5ub-21911757/21911757\nBeardo,Delhi,110001,bigbasket.com/jiomart,50396210,7 Days 10Days Hair Growth Booster Hair Strengthening Serum for Men (100 ml),314,699,55,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/7-days-10days-hair-growth-booster-hair-strengthening-serum-for-men-100-ml-mj737n-50396210/50396210\nBeardo,Delhi,110001,bigbasket.com/jiomart,50111346,7 Days Beard growth serum for shin &amp; style (60 ml),299,699,57,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/7-days-beard-growth-serum-for-shin-amp-style-60-ml-mj71ru-50111346/50111346\nBeardo,Delhi,110001,bigbasket.com/jiomart,22007616,7 Days Natural Advance Beard Growth oil for beard smooth shine & style (30 ml),229,499,54,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/7-days-natural-advance-beard-growth-oil-for-beard-smooth-shine-style-30-ml-mib948-22007616/22007616\nBeardo,Delhi,110001,bigbasket.com/jiomart,49902523,\"Intimify Beard Oil Nourishes and Promotes Beard, for Smooth, Shiny and Soft Beard\",219,599,63,219.00/L,true,15-30 MINS,https://www.jiomart.com/p/groceries/intimify-beard-oil-nourishes-and-promotes-beard-for-smooth-shiny-and-soft-beard-mj70us-49902523/49902523\nBeardo,Bengaluru,560001,flipkart.com,HOLFM425BB6EG3BK,\"BEARDO Godfather Lite Beard and Moustache Oil For Men 30 ml|Non-Sticky, Light Beard Oil Hair Oil\",217,350,38,30 ml,true,15 MINS,https://www.flipkart.com/beardo-godfather-lite-beard-moustache-oil-men-30-ml-non-sticky-light-hair/p/itmf0e956a782a01?pid=HOLFM425BB6EG3BK&lid=LSTHOLFM425BB6EG3BK4WPIV9&marketplace=FLIPKART&q=beardo+beard+oil&store=g9b&srno=s_1_4&otracker=search&fm=organic&iid=819715f2-79da-420b-88aa-5fc061a99f2e.HOLFM425BB6EG3BK.SEARCH&ppt=sp&ppn=sp&ssid=at8fg1qnsw0000001793387217834&qH=6b92afa6cd7fdf90&ov_redirect=true&ov_redirect=true\nBeardo,Bengaluru,560001,flipkart.com,HOLFWJQ8QUYFCVJZ,BEARDO Hair Growth Oil Combo Hair Oil,759,1332,43,1 unit,true,15 MINS,https://www.flipkart.com/beardo-hair-growth-oil-combo/p/itmdfffe950d619d?pid=HOLFWJQ8QUYFCVJZ&lid=LSTHOLFWJQ8QUYFCVJZY1LOJP&marketplace=FLIPKART&q=beardo+beard+oil&store=g9b&srno=s_1_2&otracker=search&fm=organic&iid=en_kbs1XFA3F3s0-PRSQyTQB00dUg4Fmb7fB3CjGPNrR86I1edvMvshyfaLm7GJhU6wcynxZ3xGhtaTayG77wQmwyhG3W0d_agE4Q5du05D9kX-O2hjIMjWDhWUogllX5SB&ppt=sp&ppn=sp&ssid=at8fg1qnsw0000001793387217834&qH=6b92afa6cd7fdf90&ov_redirect=true&ov_redirect=true\nBeardo,Bengaluru,560001,flipkart.com,HOLGUYGYSCWSPHYG,BEARDO Men Beard & Hair Growth Oil For Growth & Thicker Looking No Harmful Chemicals Hair Oil,397,440,10,1 unit,true,15 MINS,https://www.flipkart.com/beardo-men-beard-hair-growth-oil-thicker-looking-no-harmful-chemicals/p/itm849210b38e96b?pid=HOLGUYGYSCWSPHYG&lid=LSTHOLGUYGYSCWSPHYGR6OOFL&marketplace=FLIPKART&q=beardo+beard+oil&store=g9b&srno=s_1_3&otracker=search&fm=organic&iid=819715f2-79da-420b-88aa-5fc061a99f2e.HOLGUYGYSCWSPHYG.SEARCH&ppt=sp&ppn=sp&ssid=at8fg1qnsw0000001793387217834&qH=6b92afa6cd7fdf90&ov_redirect=true&ov_redirect=true\nBeardo,Bengaluru,560001,flipkart.com,CBKGHADMYTNUAYER,\"BEARDO Godfather Beard Wash, 100ml and Godfather Lite Beard Oil, 30ml Gift Set Combo (Pack of 2)\",427,700,39,100ml,true,15 MINS,https://www.flipkart.com/beardo-godfather-beard-wash-100ml-lite-oil-30ml-gift-set-combo-pack-2/p/itm7a67ff427164d?pid=CBKGHADMYTNUAYER&lid=LSTCBKGHADMYTNUAYERHYDSY1&marketplace=FLIPKART&q=beardo+beard+oil&store=g9b&srno=s_1_6&otracker=search&fm=organic&iid=en_kbs1XFA3F3s0-PRSQyTQB00dUg4Fmb7fB3CjGPNrR87nnbso0Oo4VbTsBZBtnpZNh9Y9rvVocpRXxN-SF2CLlJO_6NgvJSGtCQdIPwxNoWMzb4GtvIQ0RE8jNnOrhCd89QWMJPI4egdmz5nn89L_DQ%3D%3D&ppt=sp&ppn=sp&ssid=at8fg1qnsw0000001793387217834&qH=6b92afa6cd7fdf90&ov_redirect=true&ov_redirect=true\nBeardo,Bengaluru,560001,flipkart.com,CBKGXVZHUHPSBUJY,BEARDO Beard Hair Growth Oil & Dermaroller 0.5 mm| 540 Needles | Thicker Looking Beard,705,1041,32,1 unit,true,15 MINS,https://www.flipkart.com/beardo-beard-hair-growth-oil-dermaroller-0-5-mm-540-needles-thicker-looking/p/itmad3d1bbbf2b03?pid=CBKGXVZHUHPSBUJY&lid=LSTCBKGXVZHUHPSBUJYYO4RWL&marketplace=FLIPKART&q=beardo+beard+oil&store=g9b&srno=s_1_7&otracker=search&fm=organic&iid=819715f2-79da-420b-88aa-5fc061a99f2e.CBKGXVZHUHPSBUJY.SEARCH&ppt=sp&ppn=sp&ssid=at8fg1qnsw0000001793387217834&qH=6b92afa6cd7fdf90&ov_redirect=true&ov_redirect=true\nBeardo,Bengaluru,560001,flipkart.com,HOLFXNJSFMYZPABA,BEARDO Godfather Lite Beard Oil Combo With Natural Ingredients Hair Oil,560,700,20,1 unit,true,15 MINS,https://www.flipkart.com/beardo-godfather-lite-beard-oil-combo-natural-ingredients-hair/p/itmed845dba9a7b3?pid=HOLFXNJSFMYZPABA&lid=LSTHOLFXNJSFMYZPABALKWJ5A&marketplace=FLIPKART&q=beardo+beard+oil&store=g9b&srno=s_1_8&otracker=search&fm=organic&iid=819715f2-79da-420b-88aa-5fc061a99f2e.HOLFXNJSFMYZPABA.SEARCH&ppt=sp&ppn=sp&ssid=at8fg1qnsw0000001793387217834&qH=6b92afa6cd7fdf90&ov_redirect=true&ov_redirect=true\nBeardo,Bengaluru,560001,blinkit.com,365105,The Man Company Growth Beard Oil -Almond & Thyme,298,349,15,30 ml,true,10 MINS,https://blinkit.com/prn/the-man-company-growth-beard-oil-almond-thyme/prid/365105\nBeardo,Bengaluru,560001,blinkit.com,640504,Rise for Men Patchy Beard Fix,499,799,38,10 g,true,10 MINS,https://blinkit.com/prn/rise-for-men-patchy-beard-fix/prid/640504\nBeardo,Bengaluru,560001,blinkit.com,629260,Mancode Beard Oil,249,499,50,50 ml,true,10 MINS,https://blinkit.com/prn/mancode-beard-oil/prid/629260\nBeardo,Bengaluru,560001,blinkit.com,787472,Coco Crush Beard Oil with Derma Roller,399,690,42,1 set,true,10 MINS,https://blinkit.com/prn/coco-crush-beard-oil-with-derma-roller/prid/787472\nBeardo,Bengaluru,560001,blinkit.com,690862,UrbanGabru Beard Growth Oil,351,399,12,60 ml,true,10 MINS,https://blinkit.com/prn/urbangabru-beard-growth-oil/prid/690862\nBeardo,Bengaluru,560001,blinkit.com,709779,Soul Stories 100% Pure and Organic Beard Oil for Thicker Beard,650,799,19,50 ml,true,10 MINS,https://blinkit.com/prn/soul-stories-100-pure-and-organic-beard-oil-for-thicker-beard/prid/709779\nBeardo,Bengaluru,560001,blinkit.com,489494,Ustraa Growth Beard Oil - Pack of 2,704,800,12,2 x 35 ml,false,10 MINS,https://blinkit.com/prn/ustraa-growth-beard-oil-pack-of-2/prid/489494\nBeardo,Bengaluru,560001,blinkit.com,519335,Beardo Godfather Beard Wash for Men,245,350,30,100 ml,true,10 MINS,https://blinkit.com/prn/beardo-godfather-beard-wash-for-men/prid/519335\nBeardo,Bengaluru,560001,zeptonow.com,f4fcb491-8609-544b-a364-e371aa41c0b2,Beardo Rosemary Essential Oil,227,399,43,1 pc (15 ml),false,10 MINS,https://www.zepto.com/pn/beardo-rosemary-essential-oil/pvid/b018443d-7983-4951-b13f-7148de85a42d\nBeardo,Bengaluru,560001,zeptonow.com,73555683-0d95-5aae-97b9-b132f2d8d8d3,The Man Company Beard Growth Oil I Almond & Thyme,309,349,11,1 pc (30 ml),true,10 MINS,https://www.zepto.com/pn/the-man-company-beard-growth-oil-i-almond-thyme/pvid/5b276746-93e9-4734-bc3b-21e336f436ed\nBeardo,Bengaluru,560001,zeptonow.com,601a621c-7974-5685-8a16-3ffbe1dd3c0b,Urbangabru Beard Booster Growth Oil | Enriched With Natural Herb & Jadibuti | Fills Patchy Beard,351,399,12,1 pc (60 ml),true,10 MINS,https://www.zepto.com/pn/urbangabru-beard-booster-growth-oil-enriched-with-natural-herb-jadibuti-fills-patchy-beard/pvid/cf854ef7-2df7-42d6-a561-14caf00b44a6\nBeardo,Bengaluru,560001,zeptonow.com,0968db52-67ca-5ce0-bb61-76c8f55c8292,Mancode Beard Oil,249,499,50,1 pc (50 ml),true,10 MINS,https://www.zepto.com/pn/mancode-beard-oil/pvid/92cedc3c-6691-4e79-a9dc-18babfcdcc5e\nBeardo,Bengaluru,560001,zeptonow.com,1fdbd6b1-9c68-5f8e-8671-15fe01a61b07,\"Bravado Duo Beard & Face Wash for Men | 2-in-1 Beard Shampoo, Face Cleanser & Oil Control\",464,999,54,1 pc,true,10 MINS,https://www.zepto.com/pn/bravado-duo-beard-face-wash-for-men-2-in-1-beard-shampoo-face-cleanser-oil-control/pvid/4e460cc6-429d-4906-837f-2dfe72448fb4\nBeardo,Bengaluru,560001,zeptonow.com,5d314b4b-f5ad-5795-b2a3-30deff339c6b,Ustraa Beard Growth Oil,360,400,10,1 pc (35 ml),true,10 MINS,https://www.zepto.com/pn/ustraa-beard-growth-oil/pvid/570e3c9b-9421-4b51-b261-9544f1b853f3\nBeardo,Bengaluru,560001,zeptonow.com,7c706d6b-0ba9-541f-96e0-7ca2acee8aab,inde wild Champi Hair Oil,717,844,15,1 pc (50 ml),true,10 MINS,https://www.zepto.com/pn/inde-wild-champi-hair-oil/pvid/07e74fc5-7ecd-43d8-a3a8-6b6cd221026a\nBeardo,Bengaluru,560001,zeptonow.com,5c225887-c917-5482-ba52-02f89b9607f2,Thriveco Rosemary Essential Oil For Hair Growth & Hair Fall Control For Men & Women,189,449,58,1 pc (15 ml),true,10 MINS,https://www.zepto.com/pn/thriveco-rosemary-essential-oil-for-hair-growth-hair-fall-control-for-men-women/pvid/807e7977-bf6b-4944-ad8b-dd823cede624\nBeardo,Bengaluru,560001,amazon.in,B01C8FM764,Beard and Hair Growth Oil - 50 ml for faster beard growth and thicker looking beard | Natural Actives Only | No Harmful Chemicals,399,798,50,50 ml,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B01C8FM764\nBeardo,Bengaluru,560001,amazon.in,B08WLR4X7S,Don’s Beard Growth Pro Kit | Complete Beard Growth & Grooming Kit for Men | Ideal Gift for Men | Beard Care Starter Kit | Gift for Husband,739,73900,99,1 unit,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B08WLR4X7S\nBeardo,Bengaluru,560001,amazon.in,B0CWRKDC7Q,\"BeardGro Beard Growth Serum for Men 30ml | 4% Anagain, 2% Aminexil, 1% Rosemary | Reduces Patchy Beard, Promotes Thicker Beard Growth | Lightweight and Fast Absorption\",474,1580,70,30ml,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0CWRKDC7Q\nBeardo,Bengaluru,560001,amazon.in,B01J1KFWQG,\"Beard Oil for Growing Beard Faster with Almond & Thyme, NATURAL, Best Beard Growth Oil for Man, Nourishes & Strengthens Uneven Patchy Beard - 30ML |\",299,996.67,70,30ML,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B01J1KFWQG\nBeardo,Bengaluru,560001,amazon.in,B0BFQZJMKN,\"Beard Growth Duo | Beard & Hair Growth Oil 50ml & Beard Activator | Promotes Thicker, Longer & Fuller Beard Growth | For Patchy Beard- Set of 2\",599,1198,50,50ml,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0BFQZJMKN\nBeardo,Bengaluru,560001,amazon.in,B01M1FWOKU,\"Godfather Lite Beard and Moustache Oil, 30 ml | Non-Sticky, Light Beard Oil for Men| Pleasant Fragrance | Ideal for daily use .\",199,663.33,70,30 ml,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B01M1FWOKU\n";
+
+    function filterRows(mode) {
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const stock = row.getAttribute('data-stock');
+        if (mode === 'all') row.style.display = '';
+        else if (mode === 'oos') row.style.display = stock === 'oos' ? '' : 'none';
+        else if (mode === 'instock') row.style.display = stock === 'instock' ? '' : 'none';
+      });
+    }
+
+    function searchSkus() {
+      const q = document.getElementById('skuSearch').value.toLowerCase();
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const title = row.getAttribute('data-title') || '';
+        const platform = (row.getAttribute('data-platform') || '').toLowerCase();
+        row.style.display = (title.includes(q) || platform.includes(q)) ? '' : 'none';
+      });
+    }
+
+    function downloadCsv() {
+      const blob = new Blob([RAW_CSV], { type: 'text/csv;charset=utf-8;' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'beardo-3city-audit.csv';
+      a.click();
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Too Yumm — 3-City Quick-Commerce Dark-Store Audit Scorecard | Unscrape Radar</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background-color: #07080d; color: #f3f4f6; font-family: Inter, system-ui, -apple-system, sans-serif; }
+  </style>
+</head>
+<body class="min-h-screen pb-24">
+  <!-- Top Bar -->
+  <header class="border-b border-slate-800 bg-slate-950/90 backdrop-blur sticky top-0 z-20">
+    <div class="max-w-7xl mx-auto px-6 py-3.5 flex items-center justify-between flex-wrap gap-3">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="text-emerald-400 font-black text-lg tracking-tight hover:text-emerald-300">⚡ UNSCRAPE RADAR</a>
+        <span class="text-xs text-slate-500">/</span>
+        <span class="text-sm font-bold text-white">Too Yumm Executive Scorecard</span>
+      </div>
+      <div class="flex items-center gap-2.5 text-xs">
+        <a href="index.html" class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700">← All 56 Brand Audits</a>
+        <button onclick="downloadCsv()" class="px-3.5 py-1.5 rounded-lg bg-emerald-500 text-slate-950 font-bold hover:bg-emerald-400">⬇ Download Raw CSV (46 SKUs)</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-6 pt-8">
+    <!-- Executive Header -->
+    <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 mb-8">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+        <div>
+          <div class="flex items-center gap-2.5 mb-2">
+            <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded bg-slate-800 text-emerald-400">Healthy Baked Snacks</span>
+            <span class="text-xs text-slate-400 font-mono">Audited: 2026-10-30</span>
+          </div>
+          <h1 class="text-3xl md:text-4xl font-black text-white tracking-tight">Too Yumm — Hyperlocal Dark-Store Audit</h1>
+          <p class="text-slate-400 text-sm mt-1">
+            Live multi-platform inventory & MOP/MRP price variance scan across <strong>Bengaluru (560001)</strong>, <strong>Mumbai (400001)</strong>, and <strong>Delhi (110001)</strong>.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 shrink-0">
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">SKUs Audited</div>
+            <div class="text-2xl font-black text-white mt-1">46</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">OOS Leaks</div>
+            <div class="text-2xl font-black text-rose-400 mt-1">1</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">Max Markdown</div>
+            <div class="text-2xl font-black text-amber-300 mt-1">79%</div>
+          </div>
+          <div class="border rounded-xl p-3.5 text-center bg-emerald-500/15 text-emerald-400 border-emerald-500/30">
+            <div class="text-[11px] uppercase font-bold opacity-80">Shelf Health</div>
+            <div class="text-2xl font-black mt-1">98%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="bg-rose-950/50 border border-rose-500/40 rounded-2xl p-6 mb-8">
+      <div class="flex items-center justify-between flex-wrap gap-3 mb-4">
+        <div class="flex items-center gap-3">
+          <span class="px-3 py-1 rounded-full bg-rose-500 text-slate-950 font-black text-xs uppercase tracking-wider">🚨 REVENUE LEAK DETECTED</span>
+          <h2 class="text-lg font-bold text-white">1 Out-of-Stock Dark-Store Listing(s) Caught Live</h2>
+        </div>
+        <span class="text-xs font-mono text-rose-300">Immediate Shelf Conversion Loss</span>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+        
+          <div class="bg-slate-950/90 border border-rose-500/30 rounded-xl p-3.5 flex items-center justify-between gap-3">
+            <div>
+              <div class="text-sm font-bold text-white">Too Yumm Indian Masala Potato Chips</div>
+              <div class="text-xs text-slate-400 mt-1">
+                Platform: <span class="text-rose-300 font-mono">blinkit.com</span> ·
+                City: <span class="text-slate-200">Bengaluru (560001)</span> ·
+                Pack: <span class="text-slate-300">2 x 79 g + 79 g</span>
+              </div>
+            </div>
+            <div class="text-right shrink-0">
+              <div class="text-sm font-extrabold text-rose-400">OUT OF STOCK</div>
+              <div class="text-xs text-slate-400">₹98</div>
+            </div>
+          </div>
+      </div>
+    </div>
+
+    <!-- Filter Controls -->
+    <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+      <div class="flex items-center gap-2 text-xs">
+        <button onclick="filterRows('all')" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-semibold">All SKUs (46)</button>
+        <button onclick="filterRows('oos')" class="px-3 py-1.5 rounded-lg bg-rose-500/15 border border-rose-500/30 text-rose-300 hover:bg-rose-500/25 font-semibold">Out-of-Stock Only (1)</button>
+        <button onclick="filterRows('instock')" class="px-3 py-1.5 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 hover:bg-emerald-500/25 font-semibold">In-Stock (45)</button>
+      </div>
+      <div class="flex items-center gap-2">
+        <input id="skuSearch" type="text" oninput="searchSkus()" placeholder="Filter SKU title or platform..." class="bg-slate-900 border border-slate-800 rounded-lg px-3.5 py-1.5 text-xs text-white w-64" />
+      </div>
+    </div>
+
+    <!-- SKU Table -->
+    <div class="bg-slate-900/50 border border-slate-800 rounded-2xl overflow-x-auto">
+      <table class="w-full text-left text-xs">
+        <thead class="bg-slate-950/90 text-slate-400 uppercase border-b border-slate-800">
+          <tr>
+            <th class="px-4 py-3">SKU Title</th>
+            <th class="px-4 py-3">Platform</th>
+            <th class="px-4 py-3">City / Pin</th>
+            <th class="px-4 py-3">Pack Size</th>
+            <th class="px-4 py-3">Selling Price</th>
+            <th class="px-4 py-3">MRP</th>
+            <th class="px-4 py-3">Discount</th>
+            <th class="px-4 py-3">Stock Status</th>
+            <th class="px-4 py-3">ETA</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-800/60">
+          <tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="too yumm multigrain dahi papdi chaat chips 70 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Too Yumm Multigrain Dahi Papdi Chaat Chips 70 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.41/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹29</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹35</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">17% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="too yumm bhoot chips 79 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Too Yumm Bhoot Chips 79 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.56/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹44</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹55</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="too yumm! indian masala potato chips 79 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Too Yumm! Indian Masala Potato Chips 79 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.49/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹39</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹49</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="too yumm! american style cream and onion potato chips 79 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Too Yumm! American Style Cream and Onion Potato Chips 79 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.49/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹39</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹49</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="too yumm spicy chilly wafers 79 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Too Yumm Spicy Chilly Wafers 79 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.52/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹41</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹49</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">16% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="too yumm aloo chat potato stix 70 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Too Yumm Aloo Chat Potato Stix 70 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.63/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹44</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹55</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="too yumm multigrain dahi papdi chaat chips 70 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Too Yumm Multigrain Dahi Papdi Chaat Chips 70 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.41/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹29</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹35</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">17% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="too yumm bhoot chips 79 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Too Yumm Bhoot Chips 79 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.56/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹44</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹55</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="too yumm! indian masala potato chips 79 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Too Yumm! Indian Masala Potato Chips 79 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.49/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹39</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹49</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="too yumm! american style cream and onion potato chips 79 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Too Yumm! American Style Cream and Onion Potato Chips 79 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.49/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹39</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹49</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="too yumm spicy chilly wafers 79 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Too Yumm Spicy Chilly Wafers 79 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.52/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹41</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹49</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">16% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="too yumm aloo chat potato stix 70 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Too Yumm Aloo Chat Potato Stix 70 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.63/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹44</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹55</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="too yumm multigrain dahi papdi chaat chips 70 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Too Yumm Multigrain Dahi Papdi Chaat Chips 70 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.41/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹29</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹35</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">17% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="too yumm bhoot chips 79 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Too Yumm Bhoot Chips 79 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.56/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹44</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹55</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="too yumm! indian masala potato chips 79 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Too Yumm! Indian Masala Potato Chips 79 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.49/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹39</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹49</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="too yumm! american style cream and onion potato chips 79 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Too Yumm! American Style Cream and Onion Potato Chips 79 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.49/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹39</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹49</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="too yumm spicy chilly wafers 79 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Too Yumm Spicy Chilly Wafers 79 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.52/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹41</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹49</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">16% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="too yumm aloo chat potato stix 70 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Too Yumm Aloo Chat Potato Stix 70 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.63/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹44</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹55</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="brochips healthy bro combo (no palm oil, trans fat &amp; gluten free) chips">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Brochips Healthy Bro Combo (No Palm Oil, Trans Fat &amp; Gluten Free) Chips</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹153</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹200</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">24% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="brochips all-in-1 healthy chips (no palm oil, 0 added sugar, gluten free) chips">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Brochips All-in-1 Healthy Chips (No Palm Oil, 0 Added Sugar, Gluten Free) Chips</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹227</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹400</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">43% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="blink beetroot cream n onion chips – crunchy, tangy &amp; flavor-rich snack chips">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Blink Beetroot Cream n Onion Chips – Crunchy, Tangy &amp; Flavor-Rich Snack Chips</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹169</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">66% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="shahi sevda kerala banana chips | crispy nendran chips with rock salt | chips for fasting | chips">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Shahi Sevda Kerala Banana Chips | Crispy Nendran Chips with Rock Salt | Chips for Fasting | Chips</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹175</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹849</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">79% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="nginx diyanshi kerala banana chips chips">
+        <td class="px-4 py-3 font-medium text-white max-w-md">nginx DIYANSHI KERALA BANANA CHIPS Chips</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹155</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹210</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">26% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="vr cart natural raw potato chips | unfried aloo wafers chips">
+        <td class="px-4 py-3 font-medium text-white max-w-md">VR CART Natural Raw Potato Chips | Unfried Aloo Wafers Chips</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹112</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹149</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">25% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="too yumm protein chips masala magic">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Too Yumm Protein Chips Masala Magic</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">60 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹47</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹50</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">6% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="too yumm protein potato chips - masala magic">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Too Yumm Protein Potato Chips - Masala Magic</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">2 x 60 g + 60 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹100</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹150</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">33% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="too yumm baked dahi papdi chaat multigrain chips">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Too Yumm Baked Dahi Papdi Chaat Multigrain Chips</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">70 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹29</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹35</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">17% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="too yumm baked dahi papdi chaat multigrain chips - pack of 2">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Too Yumm Baked Dahi Papdi Chaat Multigrain Chips - Pack of 2</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">2 x 70 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹57</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹70</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">19% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="too yumm baked dahi papdi chaat multigrain chips">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Too Yumm Baked Dahi Papdi Chaat Multigrain Chips</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">2 x 70 g + 70 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹70</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹105</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">33% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="too yumm indian masala potato chips">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Too Yumm Indian Masala Potato Chips</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">79 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹44</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹49</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">10% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="too yumm indian masala potato chips">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Too Yumm Indian Masala Potato Chips</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">2 x 79 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹87</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹98</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">11% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="oos" data-platform="blinkit.com" data-title="too yumm indian masala potato chips">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Too Yumm Indian Masala Potato Chips</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">2 x 79 g + 79 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹98</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹147</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">33% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-rose-500/20 text-rose-400 border border-rose-500/30 font-mono text-[11px] font-bold">OUT OF STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="too yumm kashmiri chilli potato chips, 40% less saturated fats, no palm oil healthy spicy chips">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Too Yumm Kashmiri Chilli Potato Chips, 40% Less Saturated Fats, No Palm Oil Healthy Spicy Chips</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (44 g or 52 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹24</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹25</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">4% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="too yumm dahi papdi chaat multigrain chips, 60% less saturated fats, no palm oil healthy chips">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Too Yumm Dahi Papdi Chaat Multigrain Chips, 60% Less Saturated Fats, No Palm Oil Healthy Chips</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (41 g or 43.5 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹16</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹20</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="too yumm smoking hot bhoot potato chips, no palm oil healthy spicy chips, 35% less saturated fats">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Too Yumm Smoking Hot Bhoot Potato Chips, No Palm Oil Healthy Spicy Chips, 35% Less Saturated Fats</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (44 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹19</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹20</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="lay's india's magic masala | crunchy potato chips">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Lay's India's Magic Masala | Crunchy Potato Chips</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (52.9 g or 58 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹25</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹25</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="too yumm sour cream &amp; onion veggie stix, 60% less saturated fats, no palm oil healthy snacks">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Too Yumm Sour Cream &amp; Onion Veggie Stix, 60% Less Saturated Fats, No Palm Oil Healthy Snacks</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (70 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹32</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹35</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">9% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="heka bites roasted jowar puffs cheesy salsa | low calorie &amp; healthy snacks">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Heka Bites Roasted Jowar Puffs Cheesy Salsa | Low Calorie &amp; Healthy Snacks</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (40 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹44</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹48</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">8% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="heka bites roasted quinoa puffs indian chaat | low calorie &amp; healthy snacks">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Heka Bites Roasted Quinoa Puffs Indian Chaat | Low Calorie &amp; Healthy Snacks</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (40 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹44</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹48</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">8% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="let's try desi masala chips">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Let's Try Desi Masala Chips</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (45 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹42</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹60</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">30% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="multigrain protein chips - cheese &amp; tomato (pack of 1) | 10g protein, 3g fiber, no added sugar, no palm oil, baked | 100% vegetarian | thinnest, lightest and healthiest protein snack | 40g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Multigrain Protein Chips - Cheese &amp; Tomato (Pack of 1) | 10g Protein, 3g Fiber, No Added Sugar, No Palm Oil, Baked | 100% Vegetarian | Thinnest, Lightest and Healthiest Protein Snack | 40g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">10g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹35</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹35</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="american style potato chips - cream &amp; onion, 58 gm/52.9 gm [weight may vary]">
+        <td class="px-4 py-3 font-medium text-white max-w-md">American Style Potato Chips - Cream &amp; Onion, 58 Gm/52.9 Gm [weight may vary]</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">58 Gm</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹35</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹70</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Fri, 6 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="sizzlin’ hot potato chips 48g/52.9g, crispy wavy chips and snacks">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Sizzlin’ Hot Potato Chips 48g/52.9g, Crispy Wavy Chips and Snacks</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">48g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹45</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹90</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Fri, 6 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="keto jalapeno nacho chips, 150 gms, 1 pack, 2.5g net carb &amp; 18% high protein/serving, identical to regular nacho chips, ultra low carb, pre-biotic high fibre, low gi, for keto diet, weight loss">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Keto Jalapeno Nacho Chips, 150 Gms, 1 Pack, 2.5g Net Carb &amp; 18% High Protein/Serving, Identical to Regular Nacho Chips, Ultra Low Carb, Pre-Biotic High Fibre, Low GI, For Keto Diet, Weight Loss</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 Pack</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹269</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹179.33</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">3 - 4 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="mad angles achaari masti – desi mango pickle flavour crunchy triangle chips | tasty snack for any time cravings, 124.8g/117g/106g (weight may vary)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Mad Angles Achaari Masti – Desi Mango Pickle Flavour Crunchy Triangle Chips | Tasty Snack for Any Time Cravings, 124.8g/117g/106g (Weight may vary)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">124.8g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹80</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹64.1</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Fri, 6 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="smoking hot bhoot jolokia potato chips | no palm oil | healthy chips | spicy chips | 35% less saturated fats | 79g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Smoking Hot Bhoot Jolokia Potato Chips | No Palm Oil | Healthy Chips | Spicy Chips | 35% Less saturated Fats | 79g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">79g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹70</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹88.61</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">21% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Fri, 6 Nov</td>
+      </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- Sticky CTA Footer -->
+  <div class="fixed bottom-0 inset-x-0 bg-slate-950/95 border-t border-emerald-500/30 backdrop-blur px-6 py-3.5 z-30">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+      <div class="text-slate-200">
+        <span class="text-emerald-400 font-bold">⚡ Unscrape Radar:</span> Want real-time Slack/WhatsApp/Telegram alerts within 15 mins whenever <strong>Too Yumm</strong> SKUs go Out-of-Stock across 20 BLR/MUM/DEL dark-store pin codes?
+      </div>
+      <div class="flex items-center gap-2.5 shrink-0">
+        <a href="https://github.com/deveshkolte/unscrape" target="_blank" class="px-4 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold">Unlock Automated 20-Pin-Code Monitor →</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const RAW_CSV = "brand,city,pincode,platform,skuId,title,sellingPriceInr,mrpInr,discountPercent,unit,inStock,deliveryEta,url\nToo Yumm,Bengaluru,560001,bigbasket.com/jiomart,7517234,Too Yumm Multigrain Dahi Papdi Chaat Chips 70 g,29,35,17,0.41/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/too-yumm-multigrain-dahi-papdi-chaat-chips-75-g-mffmyf-7517234/7517234\nToo Yumm,Bengaluru,560001,bigbasket.com/jiomart,7507136,Too Yumm Bhoot Chips 79 g,44,55,20,0.56/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/too-yumm-bhoot-chips-82-g-mffmtm-7507136/7507136\nToo Yumm,Bengaluru,560001,bigbasket.com/jiomart,7515478,Too Yumm! Indian Masala Potato Chips 79 g,39,49,20,0.49/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/too-yumm-indian-masala-potato-chips-82-g-mffmxl-7515478/7515478\nToo Yumm,Bengaluru,560001,bigbasket.com/jiomart,7523741,Too Yumm! American Style Cream and Onion Potato Chips 79 g,39,49,20,0.49/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/too-yumm-american-style-cream-and-onion-potato-chips-82-g-mffn1d-7523741/7523741\nToo Yumm,Bengaluru,560001,bigbasket.com/jiomart,7530925,Too Yumm Spicy Chilly Wafers 79 g,41,49,16,0.52/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/too-yumm-spicy-chilly-wafers-82-g-mffn4s-7530925/7530925\nToo Yumm,Bengaluru,560001,bigbasket.com/jiomart,7533112,Too Yumm Aloo Chat Potato Stix 70 g,44,55,20,0.63/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/too-yum-aloo-chat-potato-stix-70-g-mffn5r-7533112/7533112\nToo Yumm,Mumbai,400001,bigbasket.com/jiomart,7517234,Too Yumm Multigrain Dahi Papdi Chaat Chips 70 g,29,35,17,0.41/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/too-yumm-multigrain-dahi-papdi-chaat-chips-75-g-mffmyf-7517234/7517234\nToo Yumm,Mumbai,400001,bigbasket.com/jiomart,7507136,Too Yumm Bhoot Chips 79 g,44,55,20,0.56/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/too-yumm-bhoot-chips-82-g-mffmtm-7507136/7507136\nToo Yumm,Mumbai,400001,bigbasket.com/jiomart,7515478,Too Yumm! Indian Masala Potato Chips 79 g,39,49,20,0.49/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/too-yumm-indian-masala-potato-chips-82-g-mffmxl-7515478/7515478\nToo Yumm,Mumbai,400001,bigbasket.com/jiomart,7523741,Too Yumm! American Style Cream and Onion Potato Chips 79 g,39,49,20,0.49/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/too-yumm-american-style-cream-and-onion-potato-chips-82-g-mffn1d-7523741/7523741\nToo Yumm,Mumbai,400001,bigbasket.com/jiomart,7530925,Too Yumm Spicy Chilly Wafers 79 g,41,49,16,0.52/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/too-yumm-spicy-chilly-wafers-82-g-mffn4s-7530925/7530925\nToo Yumm,Mumbai,400001,bigbasket.com/jiomart,7533112,Too Yumm Aloo Chat Potato Stix 70 g,44,55,20,0.63/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/too-yum-aloo-chat-potato-stix-70-g-mffn5r-7533112/7533112\nToo Yumm,Delhi,110001,bigbasket.com/jiomart,7517234,Too Yumm Multigrain Dahi Papdi Chaat Chips 70 g,29,35,17,0.41/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/too-yumm-multigrain-dahi-papdi-chaat-chips-75-g-mffmyf-7517234/7517234\nToo Yumm,Delhi,110001,bigbasket.com/jiomart,7507136,Too Yumm Bhoot Chips 79 g,44,55,20,0.56/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/too-yumm-bhoot-chips-82-g-mffmtm-7507136/7507136\nToo Yumm,Delhi,110001,bigbasket.com/jiomart,7515478,Too Yumm! Indian Masala Potato Chips 79 g,39,49,20,0.49/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/too-yumm-indian-masala-potato-chips-82-g-mffmxl-7515478/7515478\nToo Yumm,Delhi,110001,bigbasket.com/jiomart,7523741,Too Yumm! American Style Cream and Onion Potato Chips 79 g,39,49,20,0.49/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/too-yumm-american-style-cream-and-onion-potato-chips-82-g-mffn1d-7523741/7523741\nToo Yumm,Delhi,110001,bigbasket.com/jiomart,7530925,Too Yumm Spicy Chilly Wafers 79 g,41,49,16,0.52/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/too-yumm-spicy-chilly-wafers-82-g-mffn4s-7530925/7530925\nToo Yumm,Delhi,110001,bigbasket.com/jiomart,7533112,Too Yumm Aloo Chat Potato Stix 70 g,44,55,20,0.63/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/too-yum-aloo-chat-potato-stix-70-g-mffn5r-7533112/7533112\nToo Yumm,Bengaluru,560001,flipkart.com,CHPHZX64TAFBDGQF,\"Brochips Healthy Bro Combo (No Palm Oil, Trans Fat & Gluten Free) Chips\",153,200,24,1 unit,true,15 MINS,https://www.flipkart.com/brochips-healthy-bro-combo-no-palm-oil-trans-fat-gluten-free-chips/p/itm01a6e5fd89cdd?pid=CHPHZX64TAFBDGQF&lid=LSTCHPHZX64TAFBDGQFUPDUH0&marketplace=FLIPKART&q=too+yumm+chips&store=eat%2Flng&srno=s_1_1&otracker=search&fm=organic&iid=en_tGni5eCrbDaFoUizUcalY6z1pXpEebGJzGctM9txvQ7PfBP_MWQXwyhHpYPOfhkOyscSKHnswZ6UwafBLY-oABHn4oGiNSUbWRh12sLMA6sVk_DtgaRKn-aJ-mWIvFSc&ppt=None&ppn=None&ssid=0prxmuwi2o0000001793387244035&qH=709e8d7842e12a74&ov_redirect=true&ov_redirect=true\nToo Yumm,Bengaluru,560001,flipkart.com,CHPHZK8YMW6MF4AZ,\"Brochips All-in-1 Healthy Chips (No Palm Oil, 0 Added Sugar, Gluten Free) Chips\",227,400,43,1 unit,true,15 MINS,https://www.flipkart.com/brochips-all-in-1-healthy-chips-no-palm-oil-0-added-sugar-gluten-free/p/itm5f707b5bc12d7?pid=CHPHZK8YMW6MF4AZ&lid=LSTCHPHZK8YMW6MF4AZXIZ0K2&marketplace=FLIPKART&q=too+yumm+chips&store=eat%2Flng&srno=s_1_2&otracker=search&fm=organic&iid=en_tGni5eCrbDaFoUizUcalY6z1pXpEebGJzGctM9txvQ7pMkq_VYpBk5pXrDaduo8MexjtH-ihlAbXyYL1EwedWBHn4oGiNSUbWRh12sLMA6sVk_DtgaRKn-aJ-mWIvFSc&ppt=None&ppn=None&ssid=0prxmuwi2o0000001793387244035&qH=709e8d7842e12a74&ov_redirect=true&ov_redirect=true\nToo Yumm,Bengaluru,560001,flipkart.com,CHPHJ8PEEHEY9F56,\"Blink Beetroot Cream n Onion Chips – Crunchy, Tangy & Flavor-Rich Snack Chips\",169,499,66,1 unit,true,15 MINS,https://www.flipkart.com/blink-beetroot-cream-n-onion-chips-crunchy-tangy-flavor-rich-snack/p/itm584d94ef0ee34?pid=CHPHJ8PEEHEY9F56&lid=LSTCHPHJ8PEEHEY9F56MISBGB&marketplace=FLIPKART&q=too+yumm+chips&store=eat%2Flng&srno=s_1_3&otracker=search&fm=organic&iid=a6aba2a2-13a5-4383-ba87-2c87f2801b5f.CHPHJ8PEEHEY9F56.SEARCH&ppt=None&ppn=None&ssid=0prxmuwi2o0000001793387244035&qH=709e8d7842e12a74&ov_redirect=true&ov_redirect=true\nToo Yumm,Bengaluru,560001,flipkart.com,CHPHJ46UCGC6B5WW,Shahi Sevda Kerala Banana Chips | Crispy Nendran Chips with Rock Salt | Chips for Fasting | Chips,175,849,79,1 unit,true,15 MINS,https://www.flipkart.com/shahi-sevda-kerala-banana-chips-crispy-nendran-rock-salt-fasting/p/itm439349c39bd2a?pid=CHPHJ46UCGC6B5WW&lid=LSTCHPHJ46UCGC6B5WWEQGC2I&marketplace=FLIPKART&q=too+yumm+chips&store=eat%2Flng&srno=s_1_4&otracker=search&fm=organic&iid=a6aba2a2-13a5-4383-ba87-2c87f2801b5f.CHPHJ46UCGC6B5WW.SEARCH&ppt=None&ppn=None&ssid=0prxmuwi2o0000001793387244035&qH=709e8d7842e12a74&ov_redirect=true&ov_redirect=true\nToo Yumm,Bengaluru,560001,flipkart.com,CHPHJGHWUHMWNM68,nginx DIYANSHI KERALA BANANA CHIPS Chips,155,210,26,1 unit,true,15 MINS,https://www.flipkart.com/nginx-diyanshi-kerala-banana-chips/p/itm86ccb591fbe51?pid=CHPHJGHWUHMWNM68&lid=LSTCHPHJGHWUHMWNM68FW2JTY&marketplace=FLIPKART&q=too+yumm+chips&store=eat%2Flng&srno=s_1_5&otracker=search&fm=organic&iid=a6aba2a2-13a5-4383-ba87-2c87f2801b5f.CHPHJGHWUHMWNM68.SEARCH&ppt=None&ppn=None&ssid=0prxmuwi2o0000001793387244035&qH=709e8d7842e12a74&ov_redirect=true&ov_redirect=true\nToo Yumm,Bengaluru,560001,flipkart.com,CHPHP4VNBGEGRKBD,VR CART Natural Raw Potato Chips | Unfried Aloo Wafers Chips,112,149,25,1 unit,true,15 MINS,https://www.flipkart.com/vr-cart-natural-raw-potato-chips-unfried-aloo-wafers/p/itm31bd18acb456d?pid=CHPHP4VNBGEGRKBD&lid=LSTCHPHP4VNBGEGRKBDTIOAC3&marketplace=FLIPKART&q=too+yumm+chips&store=eat%2Flng&srno=s_1_6&otracker=search&fm=organic&iid=en_tGni5eCrbDaFoUizUcalY6z1pXpEebGJzGctM9txvQ7jfg3KtAUyQGAxp_85ztPm8G1y1pj5xnOeZUnodg8xB9iNeWkJteGaJcq7wXbKAooVk_DtgaRKn-aJ-mWIvFSc&ppt=None&ppn=None&ssid=0prxmuwi2o0000001793387244035&qH=709e8d7842e12a74&ov_redirect=true&ov_redirect=true\nToo Yumm,Bengaluru,560001,blinkit.com,1370856,Too Yumm Protein Chips Masala Magic,47,50,6,60 g,true,10 MINS,https://blinkit.com/prn/too-yumm-protein-chips-masala-magic/prid/1370856\nToo Yumm,Bengaluru,560001,blinkit.com,1380466,Too Yumm Protein Potato Chips - Masala Magic,100,150,33,2 x 60 g + 60 g,true,10 MINS,https://blinkit.com/prn/too-yumm-protein-potato-chips-masala-magic/prid/1380466\nToo Yumm,Bengaluru,560001,blinkit.com,397963,Too Yumm Baked Dahi Papdi Chaat Multigrain Chips,29,35,17,70 g,true,10 MINS,https://blinkit.com/prn/too-yumm-baked-dahi-papdi-chaat-multigrain-chips/prid/397963\nToo Yumm,Bengaluru,560001,blinkit.com,398779,Too Yumm Baked Dahi Papdi Chaat Multigrain Chips - Pack of 2,57,70,19,2 x 70 g,true,10 MINS,https://blinkit.com/prn/too-yumm-baked-dahi-papdi-chaat-multigrain-chips-pack-of-2/prid/398779\nToo Yumm,Bengaluru,560001,blinkit.com,400540,Too Yumm Baked Dahi Papdi Chaat Multigrain Chips,70,105,33,2 x 70 g + 70 g,true,10 MINS,https://blinkit.com/prn/too-yumm-baked-dahi-papdi-chaat-multigrain-chips/prid/400540\nToo Yumm,Bengaluru,560001,blinkit.com,455872,Too Yumm Indian Masala Potato Chips,44,49,10,79 g,true,10 MINS,https://blinkit.com/prn/too-yumm-indian-masala-potato-chips/prid/455872\nToo Yumm,Bengaluru,560001,blinkit.com,459611,Too Yumm Indian Masala Potato Chips,87,98,11,2 x 79 g,true,10 MINS,https://blinkit.com/prn/too-yumm-indian-masala-potato-chips/prid/459611\nToo Yumm,Bengaluru,560001,blinkit.com,1437512,Too Yumm Indian Masala Potato Chips,98,147,33,2 x 79 g + 79 g,false,10 MINS,https://blinkit.com/prn/too-yumm-indian-masala-potato-chips/prid/1437512\nToo Yumm,Bengaluru,560001,zeptonow.com,e6918238-a954-5fcd-b5d9-79834f133636,\"Too Yumm Kashmiri Chilli Potato Chips, 40% Less Saturated Fats, No Palm Oil Healthy Spicy Chips\",24,25,4,1 pack (44 g or 52 g),true,10 MINS,https://www.zepto.com/pn/too-yumm-kashmiri-chilli-potato-chips-40-less-saturated-fats-no-palm-oil-healthy-spicy-chips/pvid/57eb7f1a-a728-4adb-811f-62c98cff6a5c\nToo Yumm,Bengaluru,560001,zeptonow.com,709a808b-dac1-5d09-975f-6c74a8535c5e,\"Too Yumm Dahi Papdi Chaat Multigrain Chips, 60% Less Saturated Fats, No Palm Oil Healthy Chips\",16,20,20,1 pack (41 g or 43.5 g),true,10 MINS,https://www.zepto.com/pn/too-yumm-dahi-papdi-chaat-multigrain-chips-60-less-saturated-fats-no-palm-oil-healthy-chips/pvid/18629a52-40f5-4cc0-bbcc-6ecc99c5f2cb\nToo Yumm,Bengaluru,560001,zeptonow.com,ecb530f3-8bf4-5c29-833a-11977b006d4d,\"Too Yumm Smoking Hot Bhoot Potato Chips, No Palm Oil Healthy Spicy Chips, 35% Less Saturated Fats\",19,20,5,1 pack (44 g),true,10 MINS,https://www.zepto.com/pn/too-yumm-smoking-hot-bhoot-potato-chips-no-palm-oil-healthy-spicy-chips-35-less-saturated-fats/pvid/2d82e742-f8fc-4cdc-95a0-f0218064686f\nToo Yumm,Bengaluru,560001,zeptonow.com,850967d4-7308-5e34-bf09-9940cbc9a261,Lay's India's Magic Masala | Crunchy Potato Chips,25,25,0,1 pack (52.9 g or 58 g),true,10 MINS,https://www.zepto.com/pn/lay-s-india-s-magic-masala-crunchy-potato-chips/pvid/07878a63-2656-4618-a7cc-ecfe8c2faf22\nToo Yumm,Bengaluru,560001,zeptonow.com,6b7d2846-c494-56cb-bb67-c71e5f3ebeb1,\"Too Yumm Sour Cream & Onion Veggie Stix, 60% Less Saturated Fats, No Palm Oil Healthy Snacks\",32,35,9,1 pack (70 g),true,10 MINS,https://www.zepto.com/pn/too-yumm-sour-cream-onion-veggie-stix-60-less-saturated-fats-no-palm-oil-healthy-snacks/pvid/3766c613-3984-4648-978e-3c0824b7750f\nToo Yumm,Bengaluru,560001,zeptonow.com,d91a8e73-f486-5f3a-b258-320f02e57e1d,Heka Bites Roasted Jowar Puffs Cheesy Salsa | Low Calorie & Healthy Snacks,44,48,8,1 pack (40 g),true,10 MINS,https://www.zepto.com/pn/heka-bites-roasted-jowar-puffs-cheesy-salsa-low-calorie-healthy-snacks/pvid/20d82fd9-06d4-4ebf-8709-72885009bf4f\nToo Yumm,Bengaluru,560001,zeptonow.com,ccbc85e7-122b-5853-a983-781804b489b7,Heka Bites Roasted Quinoa Puffs Indian Chaat | Low Calorie & Healthy Snacks,44,48,8,1 pack (40 g),true,10 MINS,https://www.zepto.com/pn/heka-bites-roasted-quinoa-puffs-indian-chaat-low-calorie-healthy-snacks/pvid/0fe1c438-e7b4-44c4-b070-ab7517bf6aa6\nToo Yumm,Bengaluru,560001,zeptonow.com,3d727de2-31f1-535e-baca-25ceb03b0b52,Let's Try Desi Masala Chips,42,60,30,1 pack (45 g),true,10 MINS,https://www.zepto.com/pn/let-s-try-desi-masala-chips/pvid/693093aa-84c4-4593-a201-0273a78ad35b\nToo Yumm,Bengaluru,560001,amazon.in,B0FC6TV7MG,\"Multigrain Protein Chips - Cheese & Tomato (Pack of 1) | 10g Protein, 3g Fiber, No Added Sugar, No Palm Oil, Baked | 100% Vegetarian | Thinnest, Lightest and Healthiest Protein Snack | 40g\",35,35,0,10g,true,15 MINS,https://www.amazon.in/dp/B0FC6TV7MG\nToo Yumm,Bengaluru,560001,amazon.in,B00PNQYFFM,\"American Style Potato Chips - Cream & Onion, 58 Gm/52.9 Gm [weight may vary]\",35,70,50,58 Gm,true,\"Fri, 6 Nov\",https://www.amazon.in/dp/B00PNQYFFM\nToo Yumm,Bengaluru,560001,amazon.in,B09L84X5HP,\"Sizzlin’ Hot Potato Chips 48g/52.9g, Crispy Wavy Chips and Snacks\",45,90,50,48g,true,\"Fri, 6 Nov\",https://www.amazon.in/dp/B09L84X5HP\nToo Yumm,Bengaluru,560001,amazon.in,B0BKQRCDBN,\"Keto Jalapeno Nacho Chips, 150 Gms, 1 Pack, 2.5g Net Carb & 18% High Protein/Serving, Identical to Regular Nacho Chips, Ultra Low Carb, Pre-Biotic High Fibre, Low GI, For Keto Diet, Weight Loss\",269,179.33,0,1 Pack,true,3 - 4 Nov,https://www.amazon.in/dp/B0BKQRCDBN\nToo Yumm,Bengaluru,560001,amazon.in,B07RQKHTCK,\"Mad Angles Achaari Masti – Desi Mango Pickle Flavour Crunchy Triangle Chips | Tasty Snack for Any Time Cravings, 124.8g/117g/106g (Weight may vary)\",80,64.1,0,124.8g,true,\"Fri, 6 Nov\",https://www.amazon.in/dp/B07RQKHTCK\nToo Yumm,Bengaluru,560001,amazon.in,B0CJ3CM28K,Smoking Hot Bhoot Jolokia Potato Chips | No Palm Oil | Healthy Chips | Spicy Chips | 35% Less saturated Fats | 79g,70,88.61,21,79g,true,\"Fri, 6 Nov\",https://www.amazon.in/dp/B0CJ3CM28K\n";
+
+    function filterRows(mode) {
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const stock = row.getAttribute('data-stock');
+        if (mode === 'all') row.style.display = '';
+        else if (mode === 'oos') row.style.display = stock === 'oos' ? '' : 'none';
+        else if (mode === 'instock') row.style.display = stock === 'instock' ? '' : 'none';
+      });
+    }
+
+    function searchSkus() {
+      const q = document.getElementById('skuSearch').value.toLowerCase();
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const title = row.getAttribute('data-title') || '';
+        const platform = (row.getAttribute('data-platform') || '').toLowerCase();
+        row.style.display = (title.includes(q) || platform.includes(q)) ? '' : 'none';
+      });
+    }
+
+    function downloadCsv() {
+      const blob = new Blob([RAW_CSV], { type: 'text/csv;charset=utf-8;' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'too-yumm-3city-audit.csv';
+      a.click();
+    }
+  </script>
+</body>
+</html>

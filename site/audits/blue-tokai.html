@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blue Tokai — 3-City Quick-Commerce Dark-Store Audit Scorecard | Unscrape Radar</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background-color: #07080d; color: #f3f4f6; font-family: Inter, system-ui, -apple-system, sans-serif; }
+  </style>
+</head>
+<body class="min-h-screen pb-24">
+  <!-- Top Bar -->
+  <header class="border-b border-slate-800 bg-slate-950/90 backdrop-blur sticky top-0 z-20">
+    <div class="max-w-7xl mx-auto px-6 py-3.5 flex items-center justify-between flex-wrap gap-3">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="text-emerald-400 font-black text-lg tracking-tight hover:text-emerald-300">⚡ UNSCRAPE RADAR</a>
+        <span class="text-xs text-slate-500">/</span>
+        <span class="text-sm font-bold text-white">Blue Tokai Executive Scorecard</span>
+      </div>
+      <div class="flex items-center gap-2.5 text-xs">
+        <a href="index.html" class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700">← All 56 Brand Audits</a>
+        <button onclick="downloadCsv()" class="px-3.5 py-1.5 rounded-lg bg-emerald-500 text-slate-950 font-bold hover:bg-emerald-400">⬇ Download Raw CSV (38 SKUs)</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-6 pt-8">
+    <!-- Executive Header -->
+    <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 mb-8">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+        <div>
+          <div class="flex items-center gap-2.5 mb-2">
+            <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded bg-slate-800 text-emerald-400">Specialty Coffee</span>
+            <span class="text-xs text-slate-400 font-mono">Audited: 2026-10-30</span>
+          </div>
+          <h1 class="text-3xl md:text-4xl font-black text-white tracking-tight">Blue Tokai — Hyperlocal Dark-Store Audit</h1>
+          <p class="text-slate-400 text-sm mt-1">
+            Live multi-platform inventory & MOP/MRP price variance scan across <strong>Bengaluru (560001)</strong>, <strong>Mumbai (400001)</strong>, and <strong>Delhi (110001)</strong>.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 shrink-0">
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">SKUs Audited</div>
+            <div class="text-2xl font-black text-white mt-1">38</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">OOS Leaks</div>
+            <div class="text-2xl font-black text-emerald-400 mt-1">0</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">Max Markdown</div>
+            <div class="text-2xl font-black text-amber-300 mt-1">51%</div>
+          </div>
+          <div class="border rounded-xl p-3.5 text-center bg-emerald-500/15 text-emerald-400 border-emerald-500/30">
+            <div class="text-[11px] uppercase font-bold opacity-80">Shelf Health</div>
+            <div class="text-2xl font-black mt-1">100%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="bg-emerald-950/30 border border-emerald-500/30 rounded-2xl p-5 mb-8 flex items-center justify-between flex-wrap gap-3">
+      <div>
+        <span class="px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 font-bold text-xs uppercase">✓ 100% In-Stock Snapshot</span>
+        <span class="text-sm text-slate-200 ml-2">All 38 audited dark-store listings across Bengaluru, Mumbai & Delhi were in stock during this scan. Max discount variance: <strong>51% below MRP</strong>.</span>
+      </div>
+    </div>
+
+    <!-- Filter Controls -->
+    <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+      <div class="flex items-center gap-2 text-xs">
+        <button onclick="filterRows('all')" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-semibold">All SKUs (38)</button>
+        <button onclick="filterRows('oos')" class="px-3 py-1.5 rounded-lg bg-rose-500/15 border border-rose-500/30 text-rose-300 hover:bg-rose-500/25 font-semibold">Out-of-Stock Only (0)</button>
+        <button onclick="filterRows('instock')" class="px-3 py-1.5 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 hover:bg-emerald-500/25 font-semibold">In-Stock (38)</button>
+      </div>
+      <div class="flex items-center gap-2">
+        <input id="skuSearch" type="text" oninput="searchSkus()" placeholder="Filter SKU title or platform..." class="bg-slate-900 border border-slate-800 rounded-lg px-3.5 py-1.5 text-xs text-white w-64" />
+      </div>
+    </div>
+
+    <!-- SKU Table -->
+    <div class="bg-slate-900/50 border border-slate-800 rounded-2xl overflow-x-auto">
+      <table class="w-full text-left text-xs">
+        <thead class="bg-slate-950/90 text-slate-400 uppercase border-b border-slate-800">
+          <tr>
+            <th class="px-4 py-3">SKU Title</th>
+            <th class="px-4 py-3">Platform</th>
+            <th class="px-4 py-3">City / Pin</th>
+            <th class="px-4 py-3">Pack Size</th>
+            <th class="px-4 py-3">Selling Price</th>
+            <th class="px-4 py-3">MRP</th>
+            <th class="px-4 py-3">Discount</th>
+            <th class="px-4 py-3">Stock Status</th>
+            <th class="px-4 py-3">ETA</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-800/60">
+          <tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="muscleblaze high protein oats (blue tokai cafe mocha, 400g) | 26g protein | breakfast cereals for weight management">
+        <td class="px-4 py-3 font-medium text-white max-w-md">MuscleBlaze High Protein Oats (Blue Tokai Cafe Mocha, 400g) | 26g Protein | Breakfast Cereals for Weight Management</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹286</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹339</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">16% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="muscleblaze biozyme performance whey protein powder, blue tokai coffee (2kg / 4.4lbs) | 25g protein per scoop | clinically tested 50% higher protein absorption">
+        <td class="px-4 py-3 font-medium text-white max-w-md">MuscleBlaze Biozyme Performance Whey Protein Powder, Blue Tokai Coffee (2kg / 4.4lbs) | 25g Protein Per Scoop | Clinically Tested 50% Higher Protein Absorption</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">4099.50/kg</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹8199</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹9699</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="nescafe gold blend rich aroma instant coffee 50 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Nescafe Gold Blend Rich Aroma Instant Coffee 50 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">8.36/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹418</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹440</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="muscleblaze biozyme iso-zero, low carb whey protein isolate, 27g isolate whey per scoop (blue tokai cafe latte, 2kg / 4.4lbs) with usa patent-published enhanced absorption formula (eaf)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">MuscleBlaze Biozyme Iso-Zero, Low Carb Whey Protein Isolate, 27g Isolate Whey Per Scoop (Blue Tokai Cafe Latte, 2kg / 4.4lbs) with USA Patent-Published Enhanced Absorption Formula (EAF)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹11799</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹13099</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">10% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="muscleblaze biozyme iso-zero, low carb whey protein isolate, 27g isolate whey per scoop (blue tokai cafe latte, 1kg / 2.2lbs) with usa patent-published enhanced absorption formula (eaf)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">MuscleBlaze Biozyme Iso-Zero, Low Carb Whey Protein Isolate, 27g Isolate Whey Per Scoop (Blue Tokai Cafe Latte, 1kg / 2.2lbs) with USA Patent-Published Enhanced Absorption Formula (EAF)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹5999</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹6799</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">12% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="octavius roasted coffee beans| medium roasted arabica and robusta coffee beans from south india| perfect for making traditional coffee and cafeteria use - 250 gms">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Octavius Roasted Coffee Beans| Medium Roasted Arabica and Robusta Coffee Beans From South India| Perfect for Making Traditional Coffee and Cafeteria Use - 250 Gms</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1.00/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹249</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹300</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">17% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="muscleblaze high protein oats (blue tokai cafe mocha, 400g) | 26g protein | breakfast cereals for weight management">
+        <td class="px-4 py-3 font-medium text-white max-w-md">MuscleBlaze High Protein Oats (Blue Tokai Cafe Mocha, 400g) | 26g Protein | Breakfast Cereals for Weight Management</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹286</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹339</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">16% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="muscleblaze biozyme performance whey protein powder, blue tokai coffee (2kg / 4.4lbs) | 25g protein per scoop | clinically tested 50% higher protein absorption">
+        <td class="px-4 py-3 font-medium text-white max-w-md">MuscleBlaze Biozyme Performance Whey Protein Powder, Blue Tokai Coffee (2kg / 4.4lbs) | 25g Protein Per Scoop | Clinically Tested 50% Higher Protein Absorption</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">4099.50/kg</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹8199</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹9699</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="nescafe gold blend rich aroma instant coffee 50 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Nescafe Gold Blend Rich Aroma Instant Coffee 50 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">8.36/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹418</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹440</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="muscleblaze biozyme iso-zero, low carb whey protein isolate, 27g isolate whey per scoop (blue tokai cafe latte, 2kg / 4.4lbs) with usa patent-published enhanced absorption formula (eaf)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">MuscleBlaze Biozyme Iso-Zero, Low Carb Whey Protein Isolate, 27g Isolate Whey Per Scoop (Blue Tokai Cafe Latte, 2kg / 4.4lbs) with USA Patent-Published Enhanced Absorption Formula (EAF)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹11799</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹13099</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">10% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="muscleblaze biozyme iso-zero, low carb whey protein isolate, 27g isolate whey per scoop (blue tokai cafe latte, 1kg / 2.2lbs) with usa patent-published enhanced absorption formula (eaf)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">MuscleBlaze Biozyme Iso-Zero, Low Carb Whey Protein Isolate, 27g Isolate Whey Per Scoop (Blue Tokai Cafe Latte, 1kg / 2.2lbs) with USA Patent-Published Enhanced Absorption Formula (EAF)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹5999</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹6799</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">12% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="octavius roasted coffee beans| medium roasted arabica and robusta coffee beans from south india| perfect for making traditional coffee and cafeteria use - 250 gms">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Octavius Roasted Coffee Beans| Medium Roasted Arabica and Robusta Coffee Beans From South India| Perfect for Making Traditional Coffee and Cafeteria Use - 250 Gms</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1.00/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹249</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹300</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">17% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="muscleblaze high protein oats (blue tokai cafe mocha, 400g) | 26g protein | breakfast cereals for weight management">
+        <td class="px-4 py-3 font-medium text-white max-w-md">MuscleBlaze High Protein Oats (Blue Tokai Cafe Mocha, 400g) | 26g Protein | Breakfast Cereals for Weight Management</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹286</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹339</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">16% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="muscleblaze biozyme performance whey protein powder, blue tokai coffee (2kg / 4.4lbs) | 25g protein per scoop | clinically tested 50% higher protein absorption">
+        <td class="px-4 py-3 font-medium text-white max-w-md">MuscleBlaze Biozyme Performance Whey Protein Powder, Blue Tokai Coffee (2kg / 4.4lbs) | 25g Protein Per Scoop | Clinically Tested 50% Higher Protein Absorption</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">4099.50/kg</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹8199</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹9699</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="nescafe gold blend rich aroma instant coffee 50 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Nescafe Gold Blend Rich Aroma Instant Coffee 50 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">8.36/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹418</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹440</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="muscleblaze biozyme iso-zero, low carb whey protein isolate, 27g isolate whey per scoop (blue tokai cafe latte, 2kg / 4.4lbs) with usa patent-published enhanced absorption formula (eaf)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">MuscleBlaze Biozyme Iso-Zero, Low Carb Whey Protein Isolate, 27g Isolate Whey Per Scoop (Blue Tokai Cafe Latte, 2kg / 4.4lbs) with USA Patent-Published Enhanced Absorption Formula (EAF)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹11799</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹13099</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">10% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="muscleblaze biozyme iso-zero, low carb whey protein isolate, 27g isolate whey per scoop (blue tokai cafe latte, 1kg / 2.2lbs) with usa patent-published enhanced absorption formula (eaf)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">MuscleBlaze Biozyme Iso-Zero, Low Carb Whey Protein Isolate, 27g Isolate Whey Per Scoop (Blue Tokai Cafe Latte, 1kg / 2.2lbs) with USA Patent-Published Enhanced Absorption Formula (EAF)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹5999</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹6799</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">12% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="octavius roasted coffee beans| medium roasted arabica and robusta coffee beans from south india| perfect for making traditional coffee and cafeteria use - 250 gms">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Octavius Roasted Coffee Beans| Medium Roasted Arabica and Robusta Coffee Beans From South India| Perfect for Making Traditional Coffee and Cafeteria Use - 250 Gms</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1.00/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹249</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹300</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">17% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="aveon cafe premium | 100% agglomerated instant coffee">
+        <td class="px-4 py-3 font-medium text-white max-w-md">AVEON Cafe Premium | 100% Agglomerated Instant Coffee</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹207</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹350</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">41% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="brew lab instant cappuccino coffee premix with zero sugar| 3 steps preparations- no equipment 250g instant coffee">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Brew Lab instant Cappuccino Coffee Premix with Zero Sugar| 3 Steps Preparations- No Equipment 250g Instant Coffee</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">250g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹233</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹260</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">10% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="toffee coffee roasters blueberry mocha coffee || 100% arabica | medium roast | whole bean roast &amp; ground coffee">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Toffee Coffee Roasters Blueberry Mocha Coffee || 100% Arabica | Medium Roast | Whole Bean Roast &amp; Ground Coffee</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹502</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹740</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">32% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="real mug 100% arabica instant coffee | hot &amp; cold coffee instant coffee (blueberries) instant coffee">
+        <td class="px-4 py-3 font-medium text-white max-w-md">REAL MUG 100% Arabica Instant Coffee | Hot &amp; Cold Coffee Instant Coffee (Blueberries) Instant Coffee</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹615</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">-</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="balanced bites roasted chicory powder (caffeine free) for tea, milkshake, cold coffee roast &amp; ground coffee">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Balanced Bites Roasted Chicory Powder (Caffeine Free) For Tea, Milkshake, Cold Coffee Roast &amp; Ground Coffee</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹148</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹299</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">51% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="aveon cafe premium |100% agglomerated instant coffee">
+        <td class="px-4 py-3 font-medium text-white max-w-md">AVEON Cafe Premium |100% Agglomerated Instant Coffee</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹426</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹700</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">39% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="blue tokai easy pour vienna dark chocolate dark roast hot brew coffee">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Blue Tokai Easy Pour Vienna Dark Chocolate Dark Roast Hot Brew Coffee</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (55 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹279</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹300</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">7% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="third wave coffee vienna roast easy pour bags | dark roast">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Third Wave Coffee Vienna Roast Easy Pour Bags | Dark Roast</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (100 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹475</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹500</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="blue tokai classic cold coffee">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Blue Tokai Classic Cold Coffee</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (220 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹140</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹180</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">22% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="third wave coffee easy pour assorted coffee bags | light to dark roast">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Third Wave Coffee Easy Pour Assorted Coffee Bags | Light To Dark Roast</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (100 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹475</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹500</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="blue tokai vienna french press dark roast ground coffee">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Blue Tokai Vienna French Press Dark Roast Ground Coffee</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (250 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹604</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹650</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">7% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="third wave coffee vienna french press medium dark roasted ground coffee">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Third Wave Coffee Vienna French Press Medium Dark Roasted Ground Coffee</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (250 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹618</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹650</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="sleepy owl cold brew black coffee can | ready to drink coffee beverage">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Sleepy Owl Cold Brew Black Coffee Can | Ready to Drink Coffee Beverage</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (230 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹129</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹170</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">24% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="sleepy owl hazelnut cold coffee can | ready to drink coffee beverage">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Sleepy Owl Hazelnut Cold Coffee Can | Ready to Drink Coffee Beverage</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (230 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹99</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹115</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">14% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="sampler pack of coffee blends | attikan estate - medium dark roast &amp; vienna-dark roast | home espresso grind 75g each | 100% arabica beans | pack of 2">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Sampler Pack of Coffee Blends | Attikan Estate - Medium Dark Roast &amp; Vienna-Dark Roast | Home Espresso Grind 75g Each | 100% Arabica Beans | Pack of 2</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">75g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹446</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹297.33</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="baarbara estate - medium dark roast | home espresso grind 250g | robust flavour | 100% arabica beans | specialty coffee | freshly roasted ground coffee">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Baarbara Estate - Medium Dark Roast | Home Espresso Grind 250g | Robust Flavour | 100% Arabica Beans | Specialty Coffee | Freshly Roasted Ground Coffee</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">250g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹665</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹266</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="baarbara estate - medium dark roast | moka pot coffee 250g | rich taste &amp; aroma | 100% arabica beans | specialty coffee | freshly roasted ground coffee">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Baarbara Estate - Medium Dark Roast | Moka Pot Coffee 250g | Rich Taste &amp; Aroma | 100% Arabica Beans | Specialty Coffee | Freshly Roasted Ground Coffee</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">250g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹672</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹268.8</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="cold brew blend bold - medium dark roast | french press grind 250g pouch| rich &amp; smooth coffee blend | 100% arabica beans | specialty coffee | freshly roasted ground coffee">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Cold Brew Blend Bold - Medium Dark Roast | French Press Grind 250G Pouch| Rich &amp; Smooth Coffee Blend | 100% Arabica Beans | Specialty Coffee | Freshly Roasted Ground Coffee</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">250G</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹680</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹272</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="sampler pack of coffee blends | attikan estate, silver oak blend and french roast - medium roast | whole beans 75g each | 100% arabica beans | specialty grade | pack of 3">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Sampler Pack of Coffee Blends | Attikan Estate, Silver Oak Blend and French Roast - Medium Roast | Whole Beans 75g Each | 100% Arabica Beans | Specialty Grade | Pack Of 3</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">75g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹672</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹298.67</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="vienna roast - dark roast | french press grind 250g | 100% arabica beans | specialty coffee bag | freshly roasted ground coffee">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Vienna Roast - Dark Roast | French Press Grind 250g | 100% Arabica Beans | Specialty Coffee Bag | Freshly Roasted Ground Coffee</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">250g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹604</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹241.6</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- Sticky CTA Footer -->
+  <div class="fixed bottom-0 inset-x-0 bg-slate-950/95 border-t border-emerald-500/30 backdrop-blur px-6 py-3.5 z-30">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+      <div class="text-slate-200">
+        <span class="text-emerald-400 font-bold">⚡ Unscrape Radar:</span> Want real-time Slack/WhatsApp/Telegram alerts within 15 mins whenever <strong>Blue Tokai</strong> SKUs go Out-of-Stock across 20 BLR/MUM/DEL dark-store pin codes?
+      </div>
+      <div class="flex items-center gap-2.5 shrink-0">
+        <a href="https://github.com/deveshkolte/unscrape" target="_blank" class="px-4 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold">Unlock Automated 20-Pin-Code Monitor →</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const RAW_CSV = "brand,city,pincode,platform,skuId,title,sellingPriceInr,mrpInr,discountPercent,unit,inStock,deliveryEta,url\nBlue Tokai,Bengaluru,560001,bigbasket.com/jiomart,78839931,\"MuscleBlaze High Protein Oats (Blue Tokai Cafe Mocha, 400g) | 26g Protein | Breakfast Cereals for Weight Management\",286,339,16,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/muscleblaze-high-protein-oats-blue-tokai-cafe-mocha-400g-26g-protein-breakfast-cereals-for-weight-management-mnygsz-78839931/78839931\nBlue Tokai,Bengaluru,560001,bigbasket.com/jiomart,21087291,\"MuscleBlaze Biozyme Performance Whey Protein Powder, Blue Tokai Coffee (2kg / 4.4lbs) | 25g Protein Per Scoop | Clinically Tested 50% Higher Protein Absorption\",8199,9699,15,4099.50/kg,true,15-30 MINS,https://www.jiomart.com/p/groceries/muscleblaze-biozyme-performance-whey-protein-blue-tokai-coffee-2-kg-44-lb-miahts-21087291/21087291\nBlue Tokai,Bengaluru,560001,bigbasket.com/jiomart,7533756,Nescafe Gold Blend Rich Aroma Instant Coffee 50 g,418,440,5,8.36/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/nescafe-gold-blend-rich-aroma-instant-coffee-50-g-mffn62-7533756/7533756\nBlue Tokai,Bengaluru,560001,bigbasket.com/jiomart,78570198,\"MuscleBlaze Biozyme Iso-Zero, Low Carb Whey Protein Isolate, 27g Isolate Whey Per Scoop (Blue Tokai Cafe Latte, 2kg / 4.4lbs) with USA Patent-Published Enhanced Absorption Formula (EAF)\",11799,13099,10,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/muscleblaze-biozyme-iso-zero-low-carb-whey-protein-isolate-27g-isolate-whey-per-scoop-blue-tokai-cafe-latte-2kg-4-4lbs-with-usa-patent-published-enhanced-absorption-formula-eaf-mnpxc1-78570198/78570198\nBlue Tokai,Bengaluru,560001,bigbasket.com/jiomart,78325114,\"MuscleBlaze Biozyme Iso-Zero, Low Carb Whey Protein Isolate, 27g Isolate Whey Per Scoop (Blue Tokai Cafe Latte, 1kg / 2.2lbs) with USA Patent-Published Enhanced Absorption Formula (EAF)\",5999,6799,12,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/muscleblaze-biozyme-iso-zero-low-carb-whey-protein-isolate-27g-isolate-whey-per-scoop-blue-tokai-cafe-latte-1kg-2-2lbs-with-usa-patent-published-enhanced-absorption-formula-eaf-mnoywq-78325114/78325114\nBlue Tokai,Bengaluru,560001,bigbasket.com/jiomart,20344890,Octavius Roasted Coffee Beans| Medium Roasted Arabica and Robusta Coffee Beans From South India| Perfect for Making Traditional Coffee and Cafeteria Use - 250 Gms,249,300,17,1.00/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/octavius-roasted-coffee-beans-medium-roasted-arabica-and-robusta-coffee-beans-from-south-india-perfect-for-making-traditional-coffee-and-cafeteria-use-250-gms-mi9ssh-20344890/20344890\nBlue Tokai,Mumbai,400001,bigbasket.com/jiomart,78839931,\"MuscleBlaze High Protein Oats (Blue Tokai Cafe Mocha, 400g) | 26g Protein | Breakfast Cereals for Weight Management\",286,339,16,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/muscleblaze-high-protein-oats-blue-tokai-cafe-mocha-400g-26g-protein-breakfast-cereals-for-weight-management-mnygsz-78839931/78839931\nBlue Tokai,Mumbai,400001,bigbasket.com/jiomart,21087291,\"MuscleBlaze Biozyme Performance Whey Protein Powder, Blue Tokai Coffee (2kg / 4.4lbs) | 25g Protein Per Scoop | Clinically Tested 50% Higher Protein Absorption\",8199,9699,15,4099.50/kg,true,15-30 MINS,https://www.jiomart.com/p/groceries/muscleblaze-biozyme-performance-whey-protein-blue-tokai-coffee-2-kg-44-lb-miahts-21087291/21087291\nBlue Tokai,Mumbai,400001,bigbasket.com/jiomart,7533756,Nescafe Gold Blend Rich Aroma Instant Coffee 50 g,418,440,5,8.36/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/nescafe-gold-blend-rich-aroma-instant-coffee-50-g-mffn62-7533756/7533756\nBlue Tokai,Mumbai,400001,bigbasket.com/jiomart,78570198,\"MuscleBlaze Biozyme Iso-Zero, Low Carb Whey Protein Isolate, 27g Isolate Whey Per Scoop (Blue Tokai Cafe Latte, 2kg / 4.4lbs) with USA Patent-Published Enhanced Absorption Formula (EAF)\",11799,13099,10,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/muscleblaze-biozyme-iso-zero-low-carb-whey-protein-isolate-27g-isolate-whey-per-scoop-blue-tokai-cafe-latte-2kg-4-4lbs-with-usa-patent-published-enhanced-absorption-formula-eaf-mnpxc1-78570198/78570198\nBlue Tokai,Mumbai,400001,bigbasket.com/jiomart,78325114,\"MuscleBlaze Biozyme Iso-Zero, Low Carb Whey Protein Isolate, 27g Isolate Whey Per Scoop (Blue Tokai Cafe Latte, 1kg / 2.2lbs) with USA Patent-Published Enhanced Absorption Formula (EAF)\",5999,6799,12,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/muscleblaze-biozyme-iso-zero-low-carb-whey-protein-isolate-27g-isolate-whey-per-scoop-blue-tokai-cafe-latte-1kg-2-2lbs-with-usa-patent-published-enhanced-absorption-formula-eaf-mnoywq-78325114/78325114\nBlue Tokai,Mumbai,400001,bigbasket.com/jiomart,20344890,Octavius Roasted Coffee Beans| Medium Roasted Arabica and Robusta Coffee Beans From South India| Perfect for Making Traditional Coffee and Cafeteria Use - 250 Gms,249,300,17,1.00/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/octavius-roasted-coffee-beans-medium-roasted-arabica-and-robusta-coffee-beans-from-south-india-perfect-for-making-traditional-coffee-and-cafeteria-use-250-gms-mi9ssh-20344890/20344890\nBlue Tokai,Delhi,110001,bigbasket.com/jiomart,78839931,\"MuscleBlaze High Protein Oats (Blue Tokai Cafe Mocha, 400g) | 26g Protein | Breakfast Cereals for Weight Management\",286,339,16,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/muscleblaze-high-protein-oats-blue-tokai-cafe-mocha-400g-26g-protein-breakfast-cereals-for-weight-management-mnygsz-78839931/78839931\nBlue Tokai,Delhi,110001,bigbasket.com/jiomart,21087291,\"MuscleBlaze Biozyme Performance Whey Protein Powder, Blue Tokai Coffee (2kg / 4.4lbs) | 25g Protein Per Scoop | Clinically Tested 50% Higher Protein Absorption\",8199,9699,15,4099.50/kg,true,15-30 MINS,https://www.jiomart.com/p/groceries/muscleblaze-biozyme-performance-whey-protein-blue-tokai-coffee-2-kg-44-lb-miahts-21087291/21087291\nBlue Tokai,Delhi,110001,bigbasket.com/jiomart,7533756,Nescafe Gold Blend Rich Aroma Instant Coffee 50 g,418,440,5,8.36/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/nescafe-gold-blend-rich-aroma-instant-coffee-50-g-mffn62-7533756/7533756\nBlue Tokai,Delhi,110001,bigbasket.com/jiomart,78570198,\"MuscleBlaze Biozyme Iso-Zero, Low Carb Whey Protein Isolate, 27g Isolate Whey Per Scoop (Blue Tokai Cafe Latte, 2kg / 4.4lbs) with USA Patent-Published Enhanced Absorption Formula (EAF)\",11799,13099,10,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/muscleblaze-biozyme-iso-zero-low-carb-whey-protein-isolate-27g-isolate-whey-per-scoop-blue-tokai-cafe-latte-2kg-4-4lbs-with-usa-patent-published-enhanced-absorption-formula-eaf-mnpxc1-78570198/78570198\nBlue Tokai,Delhi,110001,bigbasket.com/jiomart,78325114,\"MuscleBlaze Biozyme Iso-Zero, Low Carb Whey Protein Isolate, 27g Isolate Whey Per Scoop (Blue Tokai Cafe Latte, 1kg / 2.2lbs) with USA Patent-Published Enhanced Absorption Formula (EAF)\",5999,6799,12,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/muscleblaze-biozyme-iso-zero-low-carb-whey-protein-isolate-27g-isolate-whey-per-scoop-blue-tokai-cafe-latte-1kg-2-2lbs-with-usa-patent-published-enhanced-absorption-formula-eaf-mnoywq-78325114/78325114\nBlue Tokai,Delhi,110001,bigbasket.com/jiomart,20344890,Octavius Roasted Coffee Beans| Medium Roasted Arabica and Robusta Coffee Beans From South India| Perfect for Making Traditional Coffee and Cafeteria Use - 250 Gms,249,300,17,1.00/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/octavius-roasted-coffee-beans-medium-roasted-arabica-and-robusta-coffee-beans-from-south-india-perfect-for-making-traditional-coffee-and-cafeteria-use-250-gms-mi9ssh-20344890/20344890\nBlue Tokai,Bengaluru,560001,flipkart.com,CFEFGNN3GKBYMSGZ,AVEON Cafe Premium | 100% Agglomerated Instant Coffee,207,350,41,1 unit,true,15 MINS,https://www.flipkart.com/aveon-cafe-premium-100-agglomerated-instant-coffee/p/itme0a84cd38a8e4?pid=CFEFGNN3GKBYMSGZ&lid=LSTCFEFGNN3GKBYMSGZY2G6XM&marketplace=FLIPKART&q=blue+tokai+coffee&store=eat%2Fdui&srno=s_1_1&otracker=search&fm=organic&iid=en_4xfFQ-hHzayB0P3TryOsrZzjqFQBe7GxYEyO-veQU9Tmn2ywQ3PSRW8quOxmlnRwUPii2BvezcCZLmLuA7f7ayyxL6CtfIifFoW__qsRDymsTC5vyUGK5drE7iXaHZTT&ppt=sp&ppn=sp&ssid=5yd3qlu2ls0000001793387232555&qH=ec134b944355a96a&ov_redirect=true&ov_redirect=true\nBlue Tokai,Bengaluru,560001,flipkart.com,CFEG89STX82Y3RKT,Brew Lab instant Cappuccino Coffee Premix with Zero Sugar| 3 Steps Preparations- No Equipment 250g Instant Coffee,233,260,10,250g,true,15 MINS,https://www.flipkart.com/brew-lab-instant-cappuccino-coffee-premix-zero-sugar-3-steps-preparations-no-equipment-250g/p/itma7b836f3b27dc?pid=CFEG89STX82Y3RKT&lid=LSTCFEG89STX82Y3RKTAQEFVG&marketplace=FLIPKART&q=blue+tokai+coffee&store=eat%2Fdui&srno=s_1_2&otracker=search&fm=organic&iid=en_4xfFQ-hHzayB0P3TryOsrZzjqFQBe7GxYEyO-veQU9QAFP8TlvfqbXxf-3OL8ADozRCQAPD4tIOnIob58p0IEpIW_5nhghDS5q933mBW3qasTC5vyUGK5drE7iXaHZTT&ppt=sp&ppn=sp&ssid=5yd3qlu2ls0000001793387232555&qH=ec134b944355a96a&ov_redirect=true&ov_redirect=true\nBlue Tokai,Bengaluru,560001,flipkart.com,CFEGNRVVYCZH3MJM,Toffee Coffee Roasters Blueberry Mocha Coffee || 100% Arabica | Medium Roast | Whole Bean Roast & Ground Coffee,502,740,32,1 unit,true,15 MINS,https://www.flipkart.com/toffee-coffee-roasters-blueberry-mocha-100-arabica-medium-roast-whole-bean-ground/p/itma6a33c8335dd1?pid=CFEGNRVVYCZH3MJM&lid=LSTCFEGNRVVYCZH3MJMA4JC0B&marketplace=FLIPKART&q=blue+tokai+coffee&store=eat%2Fdui&srno=s_1_3&otracker=search&fm=organic&iid=67d2e534-2788-40e4-aff6-b17b212960dc.CFEGNRVVYCZH3MJM.SEARCH&ppt=sp&ppn=sp&ssid=5yd3qlu2ls0000001793387232555&qH=ec134b944355a96a&ov_redirect=true&ov_redirect=true\nBlue Tokai,Bengaluru,560001,flipkart.com,CFEHEH2HUFEGVGER,REAL MUG 100% Arabica Instant Coffee | Hot & Cold Coffee Instant Coffee (Blueberries) Instant Coffee,615,,0,1 unit,true,15 MINS,https://www.flipkart.com/real-mug-100-arabica-instant-coffee-hot-cold-blueberries/p/itm0066f455d5cb1?pid=CFEHEH2HUFEGVGER&lid=LSTCFEHEH2HUFEGVGERFYOEIF&marketplace=FLIPKART&q=blue+tokai+coffee&store=eat%2Fdui&srno=s_1_4&otracker=search&fm=organic&iid=67d2e534-2788-40e4-aff6-b17b212960dc.CFEHEH2HUFEGVGER.SEARCH&ppt=sp&ppn=sp&ssid=5yd3qlu2ls0000001793387232555&qH=ec134b944355a96a&ov_redirect=true&ov_redirect=true\nBlue Tokai,Bengaluru,560001,flipkart.com,CFEH8YTRAGHSMMQU,\"Balanced Bites Roasted Chicory Powder (Caffeine Free) For Tea, Milkshake, Cold Coffee Roast & Ground Coffee\",148,299,51,1 unit,true,15 MINS,https://www.flipkart.com/balanced-bites-roasted-chicory-powder-caffeine-free-tea-milkshake-cold-coffee-roast-ground/p/itm7d76577b8f044?pid=CFEH8YTRAGHSMMQU&lid=LSTCFEH8YTRAGHSMMQUDKJZEW&marketplace=FLIPKART&q=blue+tokai+coffee&store=eat%2Fdui&srno=s_1_5&otracker=search&fm=organic&iid=67d2e534-2788-40e4-aff6-b17b212960dc.CFEH8YTRAGHSMMQU.SEARCH&ppt=sp&ppn=sp&ssid=5yd3qlu2ls0000001793387232555&qH=ec134b944355a96a&ov_redirect=true&ov_redirect=true\nBlue Tokai,Bengaluru,560001,flipkart.com,CFEGZD4HMNZVV6TQ,AVEON Cafe Premium |100% Agglomerated Instant Coffee,426,700,39,1 unit,true,15 MINS,https://www.flipkart.com/aveon-cafe-premium-100-agglomerated-instant-coffee/p/itm38c5de623118e?pid=CFEGZD4HMNZVV6TQ&lid=LSTCFEGZD4HMNZVV6TQYHHWOK&marketplace=FLIPKART&q=blue+tokai+coffee&store=eat%2Fdui&srno=s_1_6&otracker=search&fm=organic&iid=en_4xfFQ-hHzayB0P3TryOsrZzjqFQBe7GxYEyO-veQU9Sge7UzsGDBGEASyD5uIUCdrfu-Znvt-PBwBHq7TjdQdNcQ7EUe_Q1TktK782cr-w9-38IJvIlURzX87HqzyL6l&ppt=sp&ppn=sp&ssid=5yd3qlu2ls0000001793387232555&qH=ec134b944355a96a&ov_redirect=true&ov_redirect=true\nBlue Tokai,Bengaluru,560001,zeptonow.com,6296be21-c5b3-5299-8a63-7b88a8544266,Blue Tokai Easy Pour Vienna Dark Chocolate Dark Roast Hot Brew Coffee,279,300,7,1 pack (55 g),true,10 MINS,https://www.zepto.com/pn/blue-tokai-easy-pour-vienna-dark-chocolate-dark-roast-hot-brew-coffee/pvid/521de474-c357-493d-aaaf-1e144fd3050e\nBlue Tokai,Bengaluru,560001,zeptonow.com,22c90854-c8f7-525e-b6dc-8ec06bdb8da1,Third Wave Coffee Vienna Roast Easy Pour Bags | Dark Roast,475,500,5,1 pack (100 g),true,10 MINS,https://www.zepto.com/pn/third-wave-coffee-vienna-roast-easy-pour-bags-dark-roast/pvid/f241d21a-b160-4498-8bc1-e9dc8ad57c15\nBlue Tokai,Bengaluru,560001,zeptonow.com,d040d612-6486-5e45-9998-b0f28eca6a48,Blue Tokai Classic Cold Coffee,140,180,22,1 pc (220 ml),true,10 MINS,https://www.zepto.com/pn/blue-tokai-classic-cold-coffee/pvid/21e05d44-2315-4787-93f8-78766485f06e\nBlue Tokai,Bengaluru,560001,zeptonow.com,0a37e729-ca0f-5467-83cd-7e628717282c,Third Wave Coffee Easy Pour Assorted Coffee Bags | Light To Dark Roast,475,500,5,1 pack (100 g),true,10 MINS,https://www.zepto.com/pn/third-wave-coffee-easy-pour-assorted-coffee-bags-light-to-dark-roast/pvid/0ab84679-e4c5-4937-af39-f61316259971\nBlue Tokai,Bengaluru,560001,zeptonow.com,ace79ec2-3adc-5e85-bdaf-4781ba08d26d,Blue Tokai Vienna French Press Dark Roast Ground Coffee,604,650,7,1 pack (250 g),true,10 MINS,https://www.zepto.com/pn/blue-tokai-vienna-french-press-dark-roast-ground-coffee/pvid/88e0d2a2-db5b-4024-98c3-5a724821a233\nBlue Tokai,Bengaluru,560001,zeptonow.com,58bc67f0-36ab-5ee9-8729-6cf2e861d81b,Third Wave Coffee Vienna French Press Medium Dark Roasted Ground Coffee,618,650,5,1 pack (250 g),true,10 MINS,https://www.zepto.com/pn/third-wave-coffee-vienna-french-press-medium-dark-roasted-ground-coffee/pvid/80826f7b-7ece-4e6d-b8cb-0924ed958e4f\nBlue Tokai,Bengaluru,560001,zeptonow.com,4f04e278-6e24-5fae-97b1-48f1a7a33dc3,Sleepy Owl Cold Brew Black Coffee Can | Ready to Drink Coffee Beverage,129,170,24,1 pc (230 ml),true,10 MINS,https://www.zepto.com/pn/sleepy-owl-cold-brew-black-coffee-can-ready-to-drink-coffee-beverage/pvid/3be03667-4756-4a42-8f28-72e781069584\nBlue Tokai,Bengaluru,560001,zeptonow.com,ba1049dc-2456-57be-ab8f-3dfa17d7e285,Sleepy Owl Hazelnut Cold Coffee Can | Ready to Drink Coffee Beverage,99,115,14,1 pc (230 ml),true,10 MINS,https://www.zepto.com/pn/sleepy-owl-hazelnut-cold-coffee-can-ready-to-drink-coffee-beverage/pvid/0309e694-62a2-407c-883d-6ce7f1bdec1d\nBlue Tokai,Bengaluru,560001,amazon.in,B0D33RZ5M3,Sampler Pack of Coffee Blends | Attikan Estate - Medium Dark Roast & Vienna-Dark Roast | Home Espresso Grind 75g Each | 100% Arabica Beans | Pack of 2,446,297.33,0,75g,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0D33RZ5M3\nBlue Tokai,Bengaluru,560001,amazon.in,B09SFWSPC6,Baarbara Estate - Medium Dark Roast | Home Espresso Grind 250g | Robust Flavour | 100% Arabica Beans | Specialty Coffee | Freshly Roasted Ground Coffee,665,266,0,250g,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B09SFWSPC6\nBlue Tokai,Bengaluru,560001,amazon.in,B07968VGV1,Baarbara Estate - Medium Dark Roast | Moka Pot Coffee 250g | Rich Taste & Aroma | 100% Arabica Beans | Specialty Coffee | Freshly Roasted Ground Coffee,672,268.8,0,250g,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B07968VGV1\nBlue Tokai,Bengaluru,560001,amazon.in,B0BBRLQHLV,Cold Brew Blend Bold - Medium Dark Roast | French Press Grind 250G Pouch| Rich & Smooth Coffee Blend | 100% Arabica Beans | Specialty Coffee | Freshly Roasted Ground Coffee,680,272,0,250G,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0BBRLQHLV\nBlue Tokai,Bengaluru,560001,amazon.in,B07R4NBM8B,\"Sampler Pack of Coffee Blends | Attikan Estate, Silver Oak Blend and French Roast - Medium Roast | Whole Beans 75g Each | 100% Arabica Beans | Specialty Grade | Pack Of 3\",672,298.67,0,75g,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B07R4NBM8B\nBlue Tokai,Bengaluru,560001,amazon.in,B01C75MJPO,Vienna Roast - Dark Roast | French Press Grind 250g | 100% Arabica Beans | Specialty Coffee Bag | Freshly Roasted Ground Coffee,604,241.6,0,250g,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B01C75MJPO\n";
+
+    function filterRows(mode) {
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const stock = row.getAttribute('data-stock');
+        if (mode === 'all') row.style.display = '';
+        else if (mode === 'oos') row.style.display = stock === 'oos' ? '' : 'none';
+        else if (mode === 'instock') row.style.display = stock === 'instock' ? '' : 'none';
+      });
+    }
+
+    function searchSkus() {
+      const q = document.getElementById('skuSearch').value.toLowerCase();
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const title = row.getAttribute('data-title') || '';
+        const platform = (row.getAttribute('data-platform') || '').toLowerCase();
+        row.style.display = (title.includes(q) || platform.includes(q)) ? '' : 'none';
+      });
+    }
+
+    function downloadCsv() {
+      const blob = new Blob([RAW_CSV], { type: 'text/csv;charset=utf-8;' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'blue-tokai-3city-audit.csv';
+      a.click();
+    }
+  </script>
+</body>
+</html>

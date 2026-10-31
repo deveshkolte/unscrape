@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bold Care — 3-City Quick-Commerce Dark-Store Audit Scorecard | Unscrape Radar</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background-color: #07080d; color: #f3f4f6; font-family: Inter, system-ui, -apple-system, sans-serif; }
+  </style>
+</head>
+<body class="min-h-screen pb-24">
+  <!-- Top Bar -->
+  <header class="border-b border-slate-800 bg-slate-950/90 backdrop-blur sticky top-0 z-20">
+    <div class="max-w-7xl mx-auto px-6 py-3.5 flex items-center justify-between flex-wrap gap-3">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="text-emerald-400 font-black text-lg tracking-tight hover:text-emerald-300">⚡ UNSCRAPE RADAR</a>
+        <span class="text-xs text-slate-500">/</span>
+        <span class="text-sm font-bold text-white">Bold Care Executive Scorecard</span>
+      </div>
+      <div class="flex items-center gap-2.5 text-xs">
+        <a href="index.html" class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700">← All 56 Brand Audits</a>
+        <button onclick="downloadCsv()" class="px-3.5 py-1.5 rounded-lg bg-emerald-500 text-slate-950 font-bold hover:bg-emerald-400">⬇ Download Raw CSV (46 SKUs)</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-6 pt-8">
+    <!-- Executive Header -->
+    <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 mb-8">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+        <div>
+          <div class="flex items-center gap-2.5 mb-2">
+            <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded bg-slate-800 text-emerald-400">Men's Health</span>
+            <span class="text-xs text-slate-400 font-mono">Audited: 2026-10-30</span>
+          </div>
+          <h1 class="text-3xl md:text-4xl font-black text-white tracking-tight">Bold Care — Hyperlocal Dark-Store Audit</h1>
+          <p class="text-slate-400 text-sm mt-1">
+            Live multi-platform inventory & MOP/MRP price variance scan across <strong>Bengaluru (560001)</strong>, <strong>Mumbai (400001)</strong>, and <strong>Delhi (110001)</strong>.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 shrink-0">
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">SKUs Audited</div>
+            <div class="text-2xl font-black text-white mt-1">46</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">OOS Leaks</div>
+            <div class="text-2xl font-black text-emerald-400 mt-1">0</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">Max Markdown</div>
+            <div class="text-2xl font-black text-amber-300 mt-1">85%</div>
+          </div>
+          <div class="border rounded-xl p-3.5 text-center bg-emerald-500/15 text-emerald-400 border-emerald-500/30">
+            <div class="text-[11px] uppercase font-bold opacity-80">Shelf Health</div>
+            <div class="text-2xl font-black mt-1">100%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="bg-emerald-950/30 border border-emerald-500/30 rounded-2xl p-5 mb-8 flex items-center justify-between flex-wrap gap-3">
+      <div>
+        <span class="px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 font-bold text-xs uppercase">✓ 100% In-Stock Snapshot</span>
+        <span class="text-sm text-slate-200 ml-2">All 46 audited dark-store listings across Bengaluru, Mumbai & Delhi were in stock during this scan. Max discount variance: <strong>85% below MRP</strong>.</span>
+      </div>
+    </div>
+
+    <!-- Filter Controls -->
+    <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+      <div class="flex items-center gap-2 text-xs">
+        <button onclick="filterRows('all')" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-semibold">All SKUs (46)</button>
+        <button onclick="filterRows('oos')" class="px-3 py-1.5 rounded-lg bg-rose-500/15 border border-rose-500/30 text-rose-300 hover:bg-rose-500/25 font-semibold">Out-of-Stock Only (0)</button>
+        <button onclick="filterRows('instock')" class="px-3 py-1.5 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 hover:bg-emerald-500/25 font-semibold">In-Stock (46)</button>
+      </div>
+      <div class="flex items-center gap-2">
+        <input id="skuSearch" type="text" oninput="searchSkus()" placeholder="Filter SKU title or platform..." class="bg-slate-900 border border-slate-800 rounded-lg px-3.5 py-1.5 text-xs text-white w-64" />
+      </div>
+    </div>
+
+    <!-- SKU Table -->
+    <div class="bg-slate-900/50 border border-slate-800 rounded-2xl overflow-x-auto">
+      <table class="w-full text-left text-xs">
+        <thead class="bg-slate-950/90 text-slate-400 uppercase border-b border-slate-800">
+          <tr>
+            <th class="px-4 py-3">SKU Title</th>
+            <th class="px-4 py-3">Platform</th>
+            <th class="px-4 py-3">City / Pin</th>
+            <th class="px-4 py-3">Pack Size</th>
+            <th class="px-4 py-3">Selling Price</th>
+            <th class="px-4 py-3">MRP</th>
+            <th class="px-4 py-3">Discount</th>
+            <th class="px-4 py-3">Stock Status</th>
+            <th class="px-4 py-3">ETA</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-800/60">
+          <tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bold care ultra thin long last condoms - pack of 10 - lubricated">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bold Care Ultra Thin Long Last Condoms - Pack of 10 - Lubricated</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">14.90/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹149</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹300</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bold care ocean fresh antiperspirant &amp; anti-sweat deodorant roll-on - controls sweat &amp; removes body odour - all-day freshness for men - alcohol-free - keeps skin fresh &amp; clean - 50ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bold Care Ocean Fresh Antiperspirant &amp; Anti-sweat Deodorant Roll-on - Controls Sweat &amp; Removes Body Odour - All-Day Freshness For Men - Alcohol-Free - Keeps Skin Fresh &amp; Clean - 50ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">3.78/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹189</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹199</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="404 by bold care super ultra thin chocolate flavored condoms for men | 60 microns | 10 units">
+        <td class="px-4 py-3 font-medium text-white max-w-md">404 by Bold Care Super Ultra Thin Chocolate Flavored Condoms For Men | 60 Microns | 10 Units</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">8.90/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹89</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹199</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">55% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bold care vibe - natural personal lubricant - premium chocolate flavour - pack of 2">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bold Care Vibe - Natural Personal Lubricant - Premium Chocolate Flavour - Pack of 2</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹499</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1100</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">55% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bold care ocean fresh antiperspirant &amp; anti-sweat deodorant roll-on - controls sweat &amp; removes body odour - all-day freshness for men - alcohol-free - keeps skin fresh &amp; clean - 50ml ( pack of 2">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bold Care Ocean Fresh Antiperspirant &amp; Anti-sweat Deodorant Roll-on - Controls Sweat &amp; Removes Body Odour - All-Day Freshness For Men - Alcohol-Free - Keeps Skin Fresh &amp; Clean - 50ml ( Pack of 2</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">149.50/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹299</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹354</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">16% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bold care ultra thin long last condoms + 404 super nano thin condoms (50 microns)- combo pack">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bold Care Ultra Thin Long Last Condoms + 404 Super Nano Thin Condoms (50 Microns)- Combo Pack</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹229</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹599</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">62% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bold care ultra thin long last condoms - pack of 10 - lubricated">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bold Care Ultra Thin Long Last Condoms - Pack of 10 - Lubricated</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">14.90/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹149</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹300</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bold care ocean fresh antiperspirant &amp; anti-sweat deodorant roll-on - controls sweat &amp; removes body odour - all-day freshness for men - alcohol-free - keeps skin fresh &amp; clean - 50ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bold Care Ocean Fresh Antiperspirant &amp; Anti-sweat Deodorant Roll-on - Controls Sweat &amp; Removes Body Odour - All-Day Freshness For Men - Alcohol-Free - Keeps Skin Fresh &amp; Clean - 50ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">3.78/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹189</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹199</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="404 by bold care super ultra thin chocolate flavored condoms for men | 60 microns | 10 units">
+        <td class="px-4 py-3 font-medium text-white max-w-md">404 by Bold Care Super Ultra Thin Chocolate Flavored Condoms For Men | 60 Microns | 10 Units</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">8.90/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹89</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹199</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">55% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bold care vibe - natural personal lubricant - premium chocolate flavour - pack of 2">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bold Care Vibe - Natural Personal Lubricant - Premium Chocolate Flavour - Pack of 2</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹499</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1100</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">55% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bold care ocean fresh antiperspirant &amp; anti-sweat deodorant roll-on - controls sweat &amp; removes body odour - all-day freshness for men - alcohol-free - keeps skin fresh &amp; clean - 50ml ( pack of 2">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bold Care Ocean Fresh Antiperspirant &amp; Anti-sweat Deodorant Roll-on - Controls Sweat &amp; Removes Body Odour - All-Day Freshness For Men - Alcohol-Free - Keeps Skin Fresh &amp; Clean - 50ml ( Pack of 2</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">149.50/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹299</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹354</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">16% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bold care ultra thin long last condoms + 404 super nano thin condoms (50 microns)- combo pack">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bold Care Ultra Thin Long Last Condoms + 404 Super Nano Thin Condoms (50 Microns)- Combo Pack</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹229</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹599</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">62% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bold care ultra thin long last condoms - pack of 10 - lubricated">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bold Care Ultra Thin Long Last Condoms - Pack of 10 - Lubricated</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">14.90/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹149</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹300</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bold care ocean fresh antiperspirant &amp; anti-sweat deodorant roll-on - controls sweat &amp; removes body odour - all-day freshness for men - alcohol-free - keeps skin fresh &amp; clean - 50ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bold Care Ocean Fresh Antiperspirant &amp; Anti-sweat Deodorant Roll-on - Controls Sweat &amp; Removes Body Odour - All-Day Freshness For Men - Alcohol-Free - Keeps Skin Fresh &amp; Clean - 50ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">3.78/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹189</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹199</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="404 by bold care super ultra thin chocolate flavored condoms for men | 60 microns | 10 units">
+        <td class="px-4 py-3 font-medium text-white max-w-md">404 by Bold Care Super Ultra Thin Chocolate Flavored Condoms For Men | 60 Microns | 10 Units</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">8.90/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹89</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹199</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">55% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bold care vibe - natural personal lubricant - premium chocolate flavour - pack of 2">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bold Care Vibe - Natural Personal Lubricant - Premium Chocolate Flavour - Pack of 2</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹499</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1100</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">55% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bold care ocean fresh antiperspirant &amp; anti-sweat deodorant roll-on - controls sweat &amp; removes body odour - all-day freshness for men - alcohol-free - keeps skin fresh &amp; clean - 50ml ( pack of 2">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bold Care Ocean Fresh Antiperspirant &amp; Anti-sweat Deodorant Roll-on - Controls Sweat &amp; Removes Body Odour - All-Day Freshness For Men - Alcohol-Free - Keeps Skin Fresh &amp; Clean - 50ml ( Pack of 2</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">149.50/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹299</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹354</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">16% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bold care ultra thin long last condoms + 404 super nano thin condoms (50 microns)- combo pack">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bold Care Ultra Thin Long Last Condoms + 404 Super Nano Thin Condoms (50 Microns)- Combo Pack</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹229</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹599</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">62% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="bold care extend lidocaine long last topical delay spray for men">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bold Care Extend Lidocaine Long Last Topical Delay Spray for Men</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹249</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹309</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">19% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="bold care extend delay spray for men">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bold Care Extend Delay Spray for Men</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹459</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹749</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">39% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="bold care extend delay spray for men -pack of 2">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bold Care Extend Delay Spray for Men -Pack of 2</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹439</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹618</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">29% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="bold care 2x lube ultra smooth delay condoms condom">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bold Care 2X Lube Ultra Smooth Delay Condoms Condom</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹239</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹249</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">4% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="bold care extend delay spray for men for long lasting pleasure">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bold Care Extend Delay Spray for Men for Long Lasting Pleasure</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹589</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1170</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="bold care ultra thin climax delay lubricated - natural latex condom">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bold Care Ultra Thin Climax Delay Lubricated - Natural Latex Condom</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹263</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1800</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">85% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="bold care 2x lubricated delay condom">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bold Care 2x Lubricated Delay Condom</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">10 pcs</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹150</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹249</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">40% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="bold care ultra thin delay condom">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bold Care Ultra Thin Delay Condom</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">10 pcs</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹127</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹199</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">36% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="bold care ultra thin delay condom">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bold Care Ultra Thin Delay Condom</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">2 x 10 pcs</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹251</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹398</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">37% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="bold care ultra thin delay condom">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bold Care Ultra Thin Delay Condom</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">3 x 10 pcs</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹376</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹597</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">37% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="bold care ultra thin delay condom">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bold Care Ultra Thin Delay Condom</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">5 pcs</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹99</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹119</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">17% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="bold care ultra thin delay condom">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bold Care Ultra Thin Delay Condom</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">2 x 5 pcs</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹191</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹238</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="bold care 404 variety pack condom (assorted)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bold Care 404 Variety Pack Condom (Assorted)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">10 pcs</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹87</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹119</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">27% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="bold care extend climax long last delay spray">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bold Care Extend Climax Long Last Delay Spray</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">20 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹259</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹309</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">16% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="ultra thin lubricated condoms (pack of 10) for men with disposable pouches and 4.5% benzocaine | 60 microns | paraben free | close fit barely there condom | transparent extra thin condom">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Ultra Thin Lubricated Condoms (Pack Of 10) For Men With Disposable Pouches And 4.5% Benzocaine | 60 Microns | Paraben Free | Close Fit Barely There Condom | Transparent Extra Thin Condom</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹127</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹12.7</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="aqua rush foaming intimate wash for men [120 ml] with tea tree oil, aloe vera &amp; with hazel | ph balancing wash | no alcohol, no parabens, no sulphates | no itching, irritation &amp; bad odor">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Aqua Rush Foaming Intimate Wash for Men [120 ml] with Tea Tree Oil, Aloe Vera &amp; with hazel | pH Balancing Wash | No Alcohol, No Parabens, No Sulphates | No Itching, Irritation &amp; Bad Odor</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">120 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹249</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹207.5</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="mutual pleasure dotted (576 dots), ribbed &amp; d-lay condoms (pack of 10) | ultra thin with benzocaine &amp; menthol lubrication | 60 microns | comes with disposable pouch | gold standard latex">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Mutual Pleasure Dotted (576 Dots), Ribbed &amp; D-LAY Condoms (Pack of 10) | Ultra thin with benzocaine &amp; menthol lubrication | 60 Microns | Comes with Disposable pouch | Gold Standard Latex</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹159</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹159</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="vibe chocolate water based lube [50 ml] with aloe vera and green tea | lubricant gel wih glyverine | non sticky, skin friendly, silicone and paraben free | no side effects">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Vibe Chocolate Water Based Lube [50 ml] with Aloe vera and green tea | Lubricant Gel wih Glyverine | Non sticky, Skin Friendly, Silicone and Paraben Free | No Side Effects</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">50 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹135</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹270</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Tue, 3 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="404 variety pack with 2 x 5 assorted condoms in each pack - 10 units (pack of 1)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">404 Variety Pack with 2 x 5 Assorted Condoms in each pack - 10 Units (Pack of 1)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹79</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹7.9</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Wed, 4 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="multi-textured condoms (pack of 1)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Multi-textured Condoms (Pack of 1)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹105</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹10.5</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Tue, 3 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="bold care ultra thin delay condoms with benzocaine 4.5%">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bold Care Ultra Thin Delay Condoms with Benzocaine 4.5%</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (10 pcs)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹129</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹199</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">35% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="bold care ultra thin chocolate flavoured condoms">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bold Care Ultra Thin Chocolate Flavoured Condoms</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (10 pcs)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹71</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹199</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">64% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="bold care 404 variety pack condoms | ultra thin, multi-textured, nano thin | chocolate &amp; strawberry">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bold Care 404 Variety Pack Condoms | Ultra Thin, Multi-Textured, Nano Thin | Chocolate &amp; Strawberry</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (10 pcs)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹87</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹119</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">27% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="manforce xtra passion climax delay ultra thin condom">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Manforce Xtra Passion Climax Delay Ultra Thin Condom</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (10 pcs)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹105</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹150</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">30% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="bold care ultra thin climax delay condoms | to help men last 5-7x longer in bed with benzocaine">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bold Care Ultra Thin Climax Delay Condoms | To Help Men Last 5-7X Longer In Bed With Benzocaine</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (3 pcs)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹69</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹90</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">23% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="manforce stay long gel">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Manforce Stay Long Gel</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">8 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹114</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹132</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">14% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="manforce king dot | spiral-dotted condom for enhanced pleasure">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Manforce King Dot | Spiral-Dotted Condom for Enhanced Pleasure</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (10 pcs)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹99</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹150</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">34% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="durex extra time ultra thin condom | safe &amp; comfortable">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Durex Extra Time Ultra Thin Condom | Safe &amp; Comfortable</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (10 pcs)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹378</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹450</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">16% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- Sticky CTA Footer -->
+  <div class="fixed bottom-0 inset-x-0 bg-slate-950/95 border-t border-emerald-500/30 backdrop-blur px-6 py-3.5 z-30">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+      <div class="text-slate-200">
+        <span class="text-emerald-400 font-bold">⚡ Unscrape Radar:</span> Want real-time Slack/WhatsApp/Telegram alerts within 15 mins whenever <strong>Bold Care</strong> SKUs go Out-of-Stock across 20 BLR/MUM/DEL dark-store pin codes?
+      </div>
+      <div class="flex items-center gap-2.5 shrink-0">
+        <a href="https://github.com/deveshkolte/unscrape" target="_blank" class="px-4 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold">Unlock Automated 20-Pin-Code Monitor →</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const RAW_CSV = "brand,city,pincode,platform,skuId,title,sellingPriceInr,mrpInr,discountPercent,unit,inStock,deliveryEta,url\nBold Care,Bengaluru,560001,bigbasket.com/jiomart,19296439,Bold Care Ultra Thin Long Last Condoms - Pack of 10 - Lubricated,149,300,50,14.90/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/bold-care-ultra-thin-long-last-condoms-pack-of-10-lubricated-mi8t3d-19296439/19296439\nBold Care,Bengaluru,560001,bigbasket.com/jiomart,24249379,Bold Care Ocean Fresh Antiperspirant & Anti-sweat Deodorant Roll-on - Controls Sweat & Removes Body Odour - All-Day Freshness For Men - Alcohol-Free - Keeps Skin Fresh & Clean - 50ml,189,199,5,3.78/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/bold-care-ocean-fresh-antiperspirant-anti-sweat-deodorant-roll-on-controls-sweat-removes-body-odour-all-day-freshness-for-men-alcohol-free-keeps-skin-fresh-clean-50ml-mifn4v-24249379/24249379\nBold Care,Bengaluru,560001,bigbasket.com/jiomart,19286815,404 by Bold Care Super Ultra Thin Chocolate Flavored Condoms For Men | 60 Microns | 10 Units,89,199,55,8.90/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/404-by-bold-care-super-ultra-thin-chocolate-flavored-condoms-for-men-60-microns-10-units-mi8smp-19286815/19286815\nBold Care,Bengaluru,560001,bigbasket.com/jiomart,20795311,Bold Care Vibe - Natural Personal Lubricant - Premium Chocolate Flavour - Pack of 2,499,1100,55,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/bold-care-vibe-natural-personal-lubricant-premium-chocolate-flavour-pack-of-2-mia9rf-20795311/20795311\nBold Care,Bengaluru,560001,bigbasket.com/jiomart,19509627,Bold Care Ocean Fresh Antiperspirant & Anti-sweat Deodorant Roll-on - Controls Sweat & Removes Body Odour - All-Day Freshness For Men - Alcohol-Free - Keeps Skin Fresh & Clean - 50ml ( Pack of 2,299,354,16,149.50/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/bold-care-ocean-fresh-antiperspirant-anti-sweat-deodorant-roll-on-controls-sweat-removes-body-odour-all-day-freshness-for-men-alcohol-free-keeps-skin-fresh-clean-50ml-pack-of-2-mi90ld-19509627/19509627\nBold Care,Bengaluru,560001,bigbasket.com/jiomart,19417155,Bold Care Ultra Thin Long Last Condoms + 404 Super Nano Thin Condoms (50 Microns)- Combo Pack,229,599,62,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/bold-care-ultra-thin-long-last-condoms-404-super-nano-thin-condoms-50-microns-combo-pack-mi8xd3-19417155/19417155\nBold Care,Mumbai,400001,bigbasket.com/jiomart,19296439,Bold Care Ultra Thin Long Last Condoms - Pack of 10 - Lubricated,149,300,50,14.90/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/bold-care-ultra-thin-long-last-condoms-pack-of-10-lubricated-mi8t3d-19296439/19296439\nBold Care,Mumbai,400001,bigbasket.com/jiomart,24249379,Bold Care Ocean Fresh Antiperspirant & Anti-sweat Deodorant Roll-on - Controls Sweat & Removes Body Odour - All-Day Freshness For Men - Alcohol-Free - Keeps Skin Fresh & Clean - 50ml,189,199,5,3.78/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/bold-care-ocean-fresh-antiperspirant-anti-sweat-deodorant-roll-on-controls-sweat-removes-body-odour-all-day-freshness-for-men-alcohol-free-keeps-skin-fresh-clean-50ml-mifn4v-24249379/24249379\nBold Care,Mumbai,400001,bigbasket.com/jiomart,19286815,404 by Bold Care Super Ultra Thin Chocolate Flavored Condoms For Men | 60 Microns | 10 Units,89,199,55,8.90/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/404-by-bold-care-super-ultra-thin-chocolate-flavored-condoms-for-men-60-microns-10-units-mi8smp-19286815/19286815\nBold Care,Mumbai,400001,bigbasket.com/jiomart,20795311,Bold Care Vibe - Natural Personal Lubricant - Premium Chocolate Flavour - Pack of 2,499,1100,55,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/bold-care-vibe-natural-personal-lubricant-premium-chocolate-flavour-pack-of-2-mia9rf-20795311/20795311\nBold Care,Mumbai,400001,bigbasket.com/jiomart,19509627,Bold Care Ocean Fresh Antiperspirant & Anti-sweat Deodorant Roll-on - Controls Sweat & Removes Body Odour - All-Day Freshness For Men - Alcohol-Free - Keeps Skin Fresh & Clean - 50ml ( Pack of 2,299,354,16,149.50/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/bold-care-ocean-fresh-antiperspirant-anti-sweat-deodorant-roll-on-controls-sweat-removes-body-odour-all-day-freshness-for-men-alcohol-free-keeps-skin-fresh-clean-50ml-pack-of-2-mi90ld-19509627/19509627\nBold Care,Mumbai,400001,bigbasket.com/jiomart,19417155,Bold Care Ultra Thin Long Last Condoms + 404 Super Nano Thin Condoms (50 Microns)- Combo Pack,229,599,62,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/bold-care-ultra-thin-long-last-condoms-404-super-nano-thin-condoms-50-microns-combo-pack-mi8xd3-19417155/19417155\nBold Care,Delhi,110001,bigbasket.com/jiomart,19296439,Bold Care Ultra Thin Long Last Condoms - Pack of 10 - Lubricated,149,300,50,14.90/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/bold-care-ultra-thin-long-last-condoms-pack-of-10-lubricated-mi8t3d-19296439/19296439\nBold Care,Delhi,110001,bigbasket.com/jiomart,24249379,Bold Care Ocean Fresh Antiperspirant & Anti-sweat Deodorant Roll-on - Controls Sweat & Removes Body Odour - All-Day Freshness For Men - Alcohol-Free - Keeps Skin Fresh & Clean - 50ml,189,199,5,3.78/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/bold-care-ocean-fresh-antiperspirant-anti-sweat-deodorant-roll-on-controls-sweat-removes-body-odour-all-day-freshness-for-men-alcohol-free-keeps-skin-fresh-clean-50ml-mifn4v-24249379/24249379\nBold Care,Delhi,110001,bigbasket.com/jiomart,19286815,404 by Bold Care Super Ultra Thin Chocolate Flavored Condoms For Men | 60 Microns | 10 Units,89,199,55,8.90/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/404-by-bold-care-super-ultra-thin-chocolate-flavored-condoms-for-men-60-microns-10-units-mi8smp-19286815/19286815\nBold Care,Delhi,110001,bigbasket.com/jiomart,20795311,Bold Care Vibe - Natural Personal Lubricant - Premium Chocolate Flavour - Pack of 2,499,1100,55,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/bold-care-vibe-natural-personal-lubricant-premium-chocolate-flavour-pack-of-2-mia9rf-20795311/20795311\nBold Care,Delhi,110001,bigbasket.com/jiomart,19509627,Bold Care Ocean Fresh Antiperspirant & Anti-sweat Deodorant Roll-on - Controls Sweat & Removes Body Odour - All-Day Freshness For Men - Alcohol-Free - Keeps Skin Fresh & Clean - 50ml ( Pack of 2,299,354,16,149.50/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/bold-care-ocean-fresh-antiperspirant-anti-sweat-deodorant-roll-on-controls-sweat-removes-body-odour-all-day-freshness-for-men-alcohol-free-keeps-skin-fresh-clean-50ml-pack-of-2-mi90ld-19509627/19509627\nBold Care,Delhi,110001,bigbasket.com/jiomart,19417155,Bold Care Ultra Thin Long Last Condoms + 404 Super Nano Thin Condoms (50 Microns)- Combo Pack,229,599,62,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/bold-care-ultra-thin-long-last-condoms-404-super-nano-thin-condoms-50-microns-combo-pack-mi8xd3-19417155/19417155\nBold Care,Bengaluru,560001,flipkart.com,DEOFZUG9YWMCQMJ2,Bold Care Extend Lidocaine Long Last Topical Delay Spray for Men,249,309,19,1 unit,true,15 MINS,https://www.flipkart.com/bold-care-extend-lidocaine-long-last-topical-delay-spray-men/p/itmcc6e404002ea2?pid=DEOFZUG9YWMCQMJ2&lid=LSTDEOFZUG9YWMCQMJ2ICEQV5&marketplace=FLIPKART&q=bold+care&store=search.flipkart.com&srno=s_1_1&otracker=search&fm=organic&iid=5138b1f0-1814-4715-9b10-919f7c960fdb.DEOFZUG9YWMCQMJ2.SEARCH&ppt=sp&ppn=sp&ssid=et8h73d1pc0000001793387310401&qH=0e8644662ffda334&ov_redirect=true&ov_redirect=true\nBold Care,Bengaluru,560001,flipkart.com,DSMGVGBU8ERSDCN6,Bold Care Extend Delay Spray for Men,459,749,39,1 unit,true,15 MINS,https://www.flipkart.com/bold-care-extend-delay-spray-men/p/itm2f73647f97cc6?pid=DSMGVGBU8ERSDCN6&lid=LSTDSMGVGBU8ERSDCN69ZIKYM&marketplace=FLIPKART&q=bold+care&store=search.flipkart.com&spotlightTagId=default_FkPickId_hlc%2Fp5s%2Fo8a&srno=s_1_2&otracker=search&fm=organic&iid=5138b1f0-1814-4715-9b10-919f7c960fdb.DSMGVGBU8ERSDCN6.SEARCH&ppt=sp&ppn=sp&ssid=et8h73d1pc0000001793387310401&qH=0e8644662ffda334&ov_redirect=true&ov_redirect=true\nBold Care,Bengaluru,560001,flipkart.com,DSMGPEJDGKPS9SEQ,Bold Care Extend Delay Spray for Men -Pack of 2,439,618,29,1 unit,true,15 MINS,https://www.flipkart.com/bold-care-extend-delay-spray-men-pack-2/p/itm9aef7cc489184?pid=DSMGPEJDGKPS9SEQ&lid=LSTDSMGPEJDGKPS9SEQXJFHX5&marketplace=FLIPKART&q=bold+care&store=search.flipkart.com&spotlightTagId=default_TrendingId_hlc%2Fp5s%2Fo8a&srno=s_1_3&otracker=search&fm=organic&iid=5138b1f0-1814-4715-9b10-919f7c960fdb.DSMGPEJDGKPS9SEQ.SEARCH&ppt=sp&ppn=sp&ssid=et8h73d1pc0000001793387310401&qH=0e8644662ffda334&ov_redirect=true&ov_redirect=true\nBold Care,Bengaluru,560001,flipkart.com,CDMHP8U7KYZ6FXMY,Bold Care 2X Lube Ultra Smooth Delay Condoms Condom,239,249,4,1 unit,true,15 MINS,https://www.flipkart.com/bold-care-2x-lube-ultra-smooth-delay-condoms-condom/p/itm5cb23b9b0c6d2?pid=CDMHP8U7KYZ6FXMY&lid=LSTCDMHP8U7KYZ6FXMYU0KRFZ&marketplace=FLIPKART&q=bold+care&store=search.flipkart.com&srno=s_1_4&otracker=search&fm=organic&iid=5138b1f0-1814-4715-9b10-919f7c960fdb.CDMHP8U7KYZ6FXMY.SEARCH&ppt=sp&ppn=sp&ssid=et8h73d1pc0000001793387310401&qH=0e8644662ffda334&ov_redirect=true&ov_redirect=true\nBold Care,Bengaluru,560001,flipkart.com,DSMGVGBUY4CHSCKH,Bold Care Extend Delay Spray for Men for Long Lasting Pleasure,589,1170,50,1 unit,true,15 MINS,https://www.flipkart.com/bold-care-extend-delay-spray-men-long-lasting-pleasure/p/itmb814649c858cd?pid=DSMGVGBUY4CHSCKH&lid=LSTDSMGVGBUY4CHSCKHRYU1FK&marketplace=FLIPKART&q=bold+care&store=search.flipkart.com&srno=s_1_5&otracker=search&fm=organic&iid=5138b1f0-1814-4715-9b10-919f7c960fdb.DSMGVGBUY4CHSCKH.SEARCH&ppt=sp&ppn=sp&ssid=et8h73d1pc0000001793387310401&qH=0e8644662ffda334&ov_redirect=true&ov_redirect=true\nBold Care,Bengaluru,560001,flipkart.com,CDMGJGHHRU3H3F6M,Bold Care Ultra Thin Climax Delay Lubricated - Natural Latex Condom,263,1800,85,1 unit,true,15 MINS,https://www.flipkart.com/bold-care-ultra-thin-climax-delay-lubricated-natural-latex-condom/p/itm3101613eb0096?pid=CDMGJGHHRU3H3F6M&lid=LSTCDMGJGHHRU3H3F6MJVOOVY&marketplace=FLIPKART&q=bold+care&store=search.flipkart.com&srno=s_1_6&otracker=search&fm=organic&iid=5138b1f0-1814-4715-9b10-919f7c960fdb.CDMGJGHHRU3H3F6M.SEARCH&ppt=sp&ppn=sp&ssid=et8h73d1pc0000001793387310401&qH=0e8644662ffda334&ov_redirect=true&ov_redirect=true\nBold Care,Bengaluru,560001,blinkit.com,776549,Bold Care 2x Lubricated Delay Condom,150,249,40,10 pcs,true,10 MINS,https://blinkit.com/prn/bold-care-2x-lubricated-delay-condom/prid/776549\nBold Care,Bengaluru,560001,blinkit.com,513002,Bold Care Ultra Thin Delay Condom,127,199,36,10 pcs,true,10 MINS,https://blinkit.com/prn/bold-care-ultra-thin-delay-condom/prid/513002\nBold Care,Bengaluru,560001,blinkit.com,554132,Bold Care Ultra Thin Delay Condom,251,398,37,2 x 10 pcs,true,10 MINS,https://blinkit.com/prn/bold-care-ultra-thin-delay-condom/prid/554132\nBold Care,Bengaluru,560001,blinkit.com,554137,Bold Care Ultra Thin Delay Condom,376,597,37,3 x 10 pcs,true,10 MINS,https://blinkit.com/prn/bold-care-ultra-thin-delay-condom/prid/554137\nBold Care,Bengaluru,560001,blinkit.com,704379,Bold Care Ultra Thin Delay Condom,99,119,17,5 pcs,true,10 MINS,https://blinkit.com/prn/bold-care-ultra-thin-delay-condom/prid/704379\nBold Care,Bengaluru,560001,blinkit.com,735277,Bold Care Ultra Thin Delay Condom,191,238,20,2 x 5 pcs,true,10 MINS,https://blinkit.com/prn/bold-care-ultra-thin-delay-condom/prid/735277\nBold Care,Bengaluru,560001,blinkit.com,558764,Bold Care 404 Variety Pack Condom (Assorted),87,119,27,10 pcs,true,10 MINS,https://blinkit.com/prn/bold-care-404-variety-pack-condom-assorted/prid/558764\nBold Care,Bengaluru,560001,blinkit.com,513001,Bold Care Extend Climax Long Last Delay Spray,259,309,16,20 g,true,10 MINS,https://blinkit.com/prn/bold-care-extend-climax-long-last-delay-spray/prid/513001\nBold Care,Bengaluru,560001,amazon.in,B096MGXLC4,Ultra Thin Lubricated Condoms (Pack Of 10) For Men With Disposable Pouches And 4.5% Benzocaine | 60 Microns | Paraben Free | Close Fit Barely There Condom | Transparent Extra Thin Condom,127,12.7,0,1 unit,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B096MGXLC4\nBold Care,Bengaluru,560001,amazon.in,B09Y963BBK,\"Aqua Rush Foaming Intimate Wash for Men [120 ml] with Tea Tree Oil, Aloe Vera & with hazel | pH Balancing Wash | No Alcohol, No Parabens, No Sulphates | No Itching, Irritation & Bad Odor\",249,207.5,0,120 ml,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B09Y963BBK\nBold Care,Bengaluru,560001,amazon.in,B0CJVPGZJ1,\"Mutual Pleasure Dotted (576 Dots), Ribbed & D-LAY Condoms (Pack of 10) | Ultra thin with benzocaine & menthol lubrication | 60 Microns | Comes with Disposable pouch | Gold Standard Latex\",159,159,0,1 unit,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0CJVPGZJ1\nBold Care,Bengaluru,560001,amazon.in,B0CJVRWHDL,\"Vibe Chocolate Water Based Lube [50 ml] with Aloe vera and green tea | Lubricant Gel wih Glyverine | Non sticky, Skin Friendly, Silicone and Paraben Free | No Side Effects\",135,270,50,50 ml,true,\"Tue, 3 Nov\",https://www.amazon.in/dp/B0CJVRWHDL\nBold Care,Bengaluru,560001,amazon.in,B0BNL8RFCY,404 Variety Pack with 2 x 5 Assorted Condoms in each pack - 10 Units (Pack of 1),79,7.9,0,1 unit,true,\"Wed, 4 Nov\",https://www.amazon.in/dp/B0BNL8RFCY\nBold Care,Bengaluru,560001,amazon.in,B096MLYFLV,Multi-textured Condoms (Pack of 1),105,10.5,0,1 unit,true,\"Tue, 3 Nov\",https://www.amazon.in/dp/B096MLYFLV\nBold Care,Bengaluru,560001,zeptonow.com,4a8753e9-b55a-5b25-bcd9-83fa82d74572,Bold Care Ultra Thin Delay Condoms with Benzocaine 4.5%,129,199,35,1 pack (10 pcs),true,10 MINS,https://www.zepto.com/pn/bold-care-ultra-thin-delay-condoms-with-benzocaine-4-5/pvid/531a460e-c8af-4a22-918e-96983daf34fc\nBold Care,Bengaluru,560001,zeptonow.com,dbd2aada-3e93-502d-b4ce-50b111faa1a9,Bold Care Ultra Thin Chocolate Flavoured Condoms,71,199,64,1 pack (10 pcs),true,10 MINS,https://www.zepto.com/pn/bold-care-ultra-thin-chocolate-flavoured-condoms/pvid/48b4e2e8-fc83-4cff-929c-e733bb0675a0\nBold Care,Bengaluru,560001,zeptonow.com,eb8b390f-e85c-5223-a5fc-72b485acb1c0,\"Bold Care 404 Variety Pack Condoms | Ultra Thin, Multi-Textured, Nano Thin | Chocolate & Strawberry\",87,119,27,1 pack (10 pcs),true,10 MINS,https://www.zepto.com/pn/bold-care-404-variety-pack-condoms-ultra-thin-multi-textured-nano-thin-chocolate-strawberry/pvid/4186fcf9-4358-496b-99fd-ae5597902ce2\nBold Care,Bengaluru,560001,zeptonow.com,de74faab-8504-5660-b1a9-1c29cb08884f,Manforce Xtra Passion Climax Delay Ultra Thin Condom,105,150,30,1 pc (10 pcs),true,10 MINS,https://www.zepto.com/pn/manforce-xtra-passion-climax-delay-ultra-thin-condom/pvid/0d5c56ea-010b-4e17-b7b2-6d0f57e5e5b0\nBold Care,Bengaluru,560001,zeptonow.com,d3a30547-50da-5f85-8ec4-4cdebc5d0081,Bold Care Ultra Thin Climax Delay Condoms | To Help Men Last 5-7X Longer In Bed With Benzocaine,69,90,23,1 pack (3 pcs),true,10 MINS,https://www.zepto.com/pn/bold-care-ultra-thin-climax-delay-condoms-to-help-men-last-5-7x-longer-in-bed-with-benzocaine/pvid/e741c07c-fa03-410e-9911-ab28ab91f591\nBold Care,Bengaluru,560001,zeptonow.com,a766a095-be93-5055-a321-232ef8fa42a0,Manforce Stay Long Gel,114,132,14,8 g,true,10 MINS,https://www.zepto.com/pn/manforce-stay-long-gel/pvid/b348581a-b84a-4a6d-8fb8-59a19e78c509\nBold Care,Bengaluru,560001,zeptonow.com,78e8350b-1264-526b-91ca-ab0d158643ec,Manforce King Dot | Spiral-Dotted Condom for Enhanced Pleasure,99,150,34,1 pack (10 pcs),true,10 MINS,https://www.zepto.com/pn/manforce-king-dot-spiral-dotted-condom-for-enhanced-pleasure/pvid/7bc808f3-073d-4b02-84af-408d84e1b4fb\nBold Care,Bengaluru,560001,zeptonow.com,c7378d01-addf-5928-8a3c-5252b2a74186,Durex Extra Time Ultra Thin Condom | Safe & Comfortable,378,450,16,1 pack (10 pcs),true,10 MINS,https://www.zepto.com/pn/durex-extra-time-ultra-thin-condom-safe-comfortable/pvid/b898ee84-5f35-435e-b8eb-bebaea114b3a\n";
+
+    function filterRows(mode) {
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const stock = row.getAttribute('data-stock');
+        if (mode === 'all') row.style.display = '';
+        else if (mode === 'oos') row.style.display = stock === 'oos' ? '' : 'none';
+        else if (mode === 'instock') row.style.display = stock === 'instock' ? '' : 'none';
+      });
+    }
+
+    function searchSkus() {
+      const q = document.getElementById('skuSearch').value.toLowerCase();
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const title = row.getAttribute('data-title') || '';
+        const platform = (row.getAttribute('data-platform') || '').toLowerCase();
+        row.style.display = (title.includes(q) || platform.includes(q)) ? '' : 'none';
+      });
+    }
+
+    function downloadCsv() {
+      const blob = new Blob([RAW_CSV], { type: 'text/csv;charset=utf-8;' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'bold-care-3city-audit.csv';
+      a.click();
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Farmley — 3-City Quick-Commerce Dark-Store Audit Scorecard | Unscrape Radar</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background-color: #07080d; color: #f3f4f6; font-family: Inter, system-ui, -apple-system, sans-serif; }
+  </style>
+</head>
+<body class="min-h-screen pb-24">
+  <!-- Top Bar -->
+  <header class="border-b border-slate-800 bg-slate-950/90 backdrop-blur sticky top-0 z-20">
+    <div class="max-w-7xl mx-auto px-6 py-3.5 flex items-center justify-between flex-wrap gap-3">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="text-emerald-400 font-black text-lg tracking-tight hover:text-emerald-300">⚡ UNSCRAPE RADAR</a>
+        <span class="text-xs text-slate-500">/</span>
+        <span class="text-sm font-bold text-white">Farmley Executive Scorecard</span>
+      </div>
+      <div class="flex items-center gap-2.5 text-xs">
+        <a href="index.html" class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700">← All 56 Brand Audits</a>
+        <button onclick="downloadCsv()" class="px-3.5 py-1.5 rounded-lg bg-emerald-500 text-slate-950 font-bold hover:bg-emerald-400">⬇ Download Raw CSV (38 SKUs)</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-6 pt-8">
+    <!-- Executive Header -->
+    <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 mb-8">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+        <div>
+          <div class="flex items-center gap-2.5 mb-2">
+            <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded bg-slate-800 text-emerald-400">Dry Fruits &amp; Makhana</span>
+            <span class="text-xs text-slate-400 font-mono">Audited: 2026-10-30</span>
+          </div>
+          <h1 class="text-3xl md:text-4xl font-black text-white tracking-tight">Farmley — Hyperlocal Dark-Store Audit</h1>
+          <p class="text-slate-400 text-sm mt-1">
+            Live multi-platform inventory & MOP/MRP price variance scan across <strong>Bengaluru (560001)</strong>, <strong>Mumbai (400001)</strong>, and <strong>Delhi (110001)</strong>.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 shrink-0">
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">SKUs Audited</div>
+            <div class="text-2xl font-black text-white mt-1">38</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">OOS Leaks</div>
+            <div class="text-2xl font-black text-emerald-400 mt-1">0</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">Max Markdown</div>
+            <div class="text-2xl font-black text-amber-300 mt-1">86%</div>
+          </div>
+          <div class="border rounded-xl p-3.5 text-center bg-emerald-500/15 text-emerald-400 border-emerald-500/30">
+            <div class="text-[11px] uppercase font-bold opacity-80">Shelf Health</div>
+            <div class="text-2xl font-black mt-1">100%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="bg-emerald-950/30 border border-emerald-500/30 rounded-2xl p-5 mb-8 flex items-center justify-between flex-wrap gap-3">
+      <div>
+        <span class="px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 font-bold text-xs uppercase">✓ 100% In-Stock Snapshot</span>
+        <span class="text-sm text-slate-200 ml-2">All 38 audited dark-store listings across Bengaluru, Mumbai & Delhi were in stock during this scan. Max discount variance: <strong>86% below MRP</strong>.</span>
+      </div>
+    </div>
+
+    <!-- Filter Controls -->
+    <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+      <div class="flex items-center gap-2 text-xs">
+        <button onclick="filterRows('all')" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-semibold">All SKUs (38)</button>
+        <button onclick="filterRows('oos')" class="px-3 py-1.5 rounded-lg bg-rose-500/15 border border-rose-500/30 text-rose-300 hover:bg-rose-500/25 font-semibold">Out-of-Stock Only (0)</button>
+        <button onclick="filterRows('instock')" class="px-3 py-1.5 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 hover:bg-emerald-500/25 font-semibold">In-Stock (38)</button>
+      </div>
+      <div class="flex items-center gap-2">
+        <input id="skuSearch" type="text" oninput="searchSkus()" placeholder="Filter SKU title or platform..." class="bg-slate-900 border border-slate-800 rounded-lg px-3.5 py-1.5 text-xs text-white w-64" />
+      </div>
+    </div>
+
+    <!-- SKU Table -->
+    <div class="bg-slate-900/50 border border-slate-800 rounded-2xl overflow-x-auto">
+      <table class="w-full text-left text-xs">
+        <thead class="bg-slate-950/90 text-slate-400 uppercase border-b border-slate-800">
+          <tr>
+            <th class="px-4 py-3">SKU Title</th>
+            <th class="px-4 py-3">Platform</th>
+            <th class="px-4 py-3">City / Pin</th>
+            <th class="px-4 py-3">Pack Size</th>
+            <th class="px-4 py-3">Selling Price</th>
+            <th class="px-4 py-3">MRP</th>
+            <th class="px-4 py-3">Discount</th>
+            <th class="px-4 py-3">Stock Status</th>
+            <th class="px-4 py-3">ETA</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-800/60">
+          <tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="farmelo makhana 200 gram">
+        <td class="px-4 py-3 font-medium text-white max-w-md">FARMELO MAKHANA 200 GRAM</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹410</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">18% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="hey harvest premium roasted makhana - tangy tomato twist flavor | crunchy roasted fox nuts | pack of 3">
+        <td class="px-4 py-3 font-medium text-white max-w-md">HEY HARVEST Premium Roasted Makhana - Tangy Tomato Twist Flavor | Crunchy Roasted Fox Nuts | Pack of 3</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹836</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1356</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">38% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="hey harvest premium roasted makhana - tangy tomato twist flavor | crunchy roasted fox nuts | pack of 2">
+        <td class="px-4 py-3 font-medium text-white max-w-md">HEY HARVEST Premium Roasted Makhana - Tangy Tomato Twist Flavor | Crunchy Roasted Fox Nuts | Pack of 2</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹440</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹678</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">35% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="cravium tangy tomato roasted makhana | crispy &amp; crunchy foxnuts | ready to eat snack">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Cravium Tangy Tomato Roasted Makhana | Crispy &amp; Crunchy Foxnuts | Ready to Eat Snack</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1.99/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹149</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹250</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">40% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="mr. makhana pudina party makhanas 21 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Mr. Makhana Pudina Party Makhanas 21 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1.90/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹40</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹50</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="hey harvest premium roasted makhana - tangy tomato twist flavor | crunchy roasted fox nuts">
+        <td class="px-4 py-3 font-medium text-white max-w-md">HEY HARVEST Premium Roasted Makhana - Tangy Tomato Twist Flavor | Crunchy Roasted Fox Nuts</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹249</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹339</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">27% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="farmelo makhana 200 gram">
+        <td class="px-4 py-3 font-medium text-white max-w-md">FARMELO MAKHANA 200 GRAM</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹410</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">18% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="hey harvest premium roasted makhana - tangy tomato twist flavor | crunchy roasted fox nuts | pack of 3">
+        <td class="px-4 py-3 font-medium text-white max-w-md">HEY HARVEST Premium Roasted Makhana - Tangy Tomato Twist Flavor | Crunchy Roasted Fox Nuts | Pack of 3</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹836</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1356</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">38% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="hey harvest premium roasted makhana - tangy tomato twist flavor | crunchy roasted fox nuts | pack of 2">
+        <td class="px-4 py-3 font-medium text-white max-w-md">HEY HARVEST Premium Roasted Makhana - Tangy Tomato Twist Flavor | Crunchy Roasted Fox Nuts | Pack of 2</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹440</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹678</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">35% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="cravium tangy tomato roasted makhana | crispy &amp; crunchy foxnuts | ready to eat snack">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Cravium Tangy Tomato Roasted Makhana | Crispy &amp; Crunchy Foxnuts | Ready to Eat Snack</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1.99/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹149</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹250</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">40% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="mr. makhana pudina party makhanas 21 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Mr. Makhana Pudina Party Makhanas 21 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1.90/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹40</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹50</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="hey harvest premium roasted makhana - tangy tomato twist flavor | crunchy roasted fox nuts">
+        <td class="px-4 py-3 font-medium text-white max-w-md">HEY HARVEST Premium Roasted Makhana - Tangy Tomato Twist Flavor | Crunchy Roasted Fox Nuts</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹249</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹339</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">27% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="farmelo makhana 200 gram">
+        <td class="px-4 py-3 font-medium text-white max-w-md">FARMELO MAKHANA 200 GRAM</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹410</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">18% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="hey harvest premium roasted makhana - tangy tomato twist flavor | crunchy roasted fox nuts | pack of 3">
+        <td class="px-4 py-3 font-medium text-white max-w-md">HEY HARVEST Premium Roasted Makhana - Tangy Tomato Twist Flavor | Crunchy Roasted Fox Nuts | Pack of 3</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹836</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1356</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">38% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="hey harvest premium roasted makhana - tangy tomato twist flavor | crunchy roasted fox nuts | pack of 2">
+        <td class="px-4 py-3 font-medium text-white max-w-md">HEY HARVEST Premium Roasted Makhana - Tangy Tomato Twist Flavor | Crunchy Roasted Fox Nuts | Pack of 2</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹440</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹678</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">35% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="cravium tangy tomato roasted makhana | crispy &amp; crunchy foxnuts | ready to eat snack">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Cravium Tangy Tomato Roasted Makhana | Crispy &amp; Crunchy Foxnuts | Ready to Eat Snack</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1.99/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹149</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹250</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">40% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="mr. makhana pudina party makhanas 21 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Mr. Makhana Pudina Party Makhanas 21 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1.90/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹40</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹50</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="hey harvest premium roasted makhana - tangy tomato twist flavor | crunchy roasted fox nuts">
+        <td class="px-4 py-3 font-medium text-white max-w-md">HEY HARVEST Premium Roasted Makhana - Tangy Tomato Twist Flavor | Crunchy Roasted Fox Nuts</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹249</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹339</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">27% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="farmley prasadam makhana">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Farmley Prasadam Makhana</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹404</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹595</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">32% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="pop nest premium achari masala roasted makhana healthy crunchy fox nuts non fried makhana makhana">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pop Nest Premium Achari Masala Roasted Makhana Healthy Crunchy Fox Nuts Non Fried Makhana Makhana</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹144</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹999</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">86% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="farmley prasadam makhana">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Farmley Prasadam Makhana</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹239</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹299</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="farmley tangy tomato makhana roasted in olive oil">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Farmley Tangy tomato Makhana Roasted in Olive Oil</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹437</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹478</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">9% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="farmley tangy tomato makhana roasted in olive oil">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Farmley Tangy tomato Makhana Roasted in Olive Oil</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹222</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹239</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">7% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="farmley prasadam makhana">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Farmley Prasadam Makhana</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹2945</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹2975</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">1% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="farmley cream &amp; onion makhana roasted in olive oil healthy snacks">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Farmley Cream &amp; Onion Makhana Roasted In Olive Oil Healthy Snacks</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (20 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹43</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹50</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">14% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="let's try sour cream and onion makhana puffs">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Let's Try Sour Cream And Onion Makhana Puffs</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (57 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹48</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹80</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">40% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="farmley peri peri makhana roasted in olive oil healthy snacks">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Farmley Peri Peri Makhana Roasted In Olive Oil Healthy Snacks</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (20 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹43</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹50</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">14% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="heka bites roasted makhana himalayan pink salt">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Heka Bites Roasted Makhana Himalayan Pink Salt</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (60 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹103</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹113</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">9% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="farmley himalayan salted makhana roasted in olive oil healthy snacks">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Farmley Himalayan Salted Makhana Roasted In Olive Oil Healthy Snacks</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (77 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹193</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹239</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">19% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="let's try pudina flavoured makhana | 100% groundnut oil | no trans fat | no palm oil">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Let's Try Pudina Flavoured Makhana | 100% Groundnut Oil | No Trans Fat | No Palm Oil</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (57 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹115</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹160</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">28% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="dehaat hf pesticide free mithila makhana | premium">
+        <td class="px-4 py-3 font-medium text-white max-w-md">DeHaat HF Pesticide Free Mithila Makhana | Premium</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (200 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹309</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹590</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">48% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="popular essentials phool makhana (jumbo size)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Popular Essentials Phool Makhana (Jumbo Size)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (100 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹163</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹295</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">45% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="prasadam makhana, 250 g, fit for fasting | foxnuts, lotus puffs | rich in calcium, maintains weight, healthy snacks">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Prasadam Makhana, 250 g, Fit for Fasting | Foxnuts, Lotus Puffs | Rich in Calcium, Maintains Weight, Healthy Snacks</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">250 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹499</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹199.6</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Tue, 3 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="roasted &amp; flavoured makhana | himalayan salted (sendha namak) | healthy &amp; crunchy snack | cholesterol free | gluten free | rich in protein &amp; calcium | roasted in olive oil - 83g jar">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Roasted &amp; Flavoured Makhana | Himalayan Salted (Sendha Namak) | Healthy &amp; Crunchy Snack | Cholesterol Free | Gluten Free | Rich In Protein &amp; Calcium | Roasted In Olive Oil - 83g Jar</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">83g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹194</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹233.73</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">17% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="flavoured roasted makhana i 308 gram, (pack of 4, 77 g each) i healthy party, namkeen snacks, puffed makhana snacks peri peri, tangy tomato, cream &amp; onion &amp; himalayan salted (pack of 4, 77 g each)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Flavoured Roasted Makhana I 308 gram, (Pack of 4, 77 g each) I Healthy Party, Namkeen Snacks, Puffed Makhana Snacks Peri Peri, Tangy Tomato, Cream &amp; Onion &amp; Himalayan Salted (Pack of 4, 77 g each)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">77 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹790</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹916</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">14% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Today</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="roasted &amp; flavoured makhana - pouch | healthy snacks | namkeen snacks &amp; puffed snacks | roasted in olive oil (77g, lemon chilli)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Roasted &amp; Flavoured Makhana - Pouch | Healthy Snacks | Namkeen Snacks &amp; Puffed Snacks | Roasted in Olive Oil (77g, Lemon Chilli)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">77g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹160</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹207.79</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">23% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Wed, 4 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="natural high protein makhana, 200g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Natural High Protein Makhana, 200g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">200g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹356</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹178</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="roasted makhana, cream &amp; onion flavour | 77g each | healthy snack roasted in olive oil | guilt-free &amp; crunchy munchies | pack of 2">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Roasted Makhana, Cream &amp; Onion Flavour | 77g Each | Healthy Snack Roasted in Olive Oil | Guilt-Free &amp; Crunchy Munchies | Pack of 2</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">77g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹396</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹238.55</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- Sticky CTA Footer -->
+  <div class="fixed bottom-0 inset-x-0 bg-slate-950/95 border-t border-emerald-500/30 backdrop-blur px-6 py-3.5 z-30">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+      <div class="text-slate-200">
+        <span class="text-emerald-400 font-bold">⚡ Unscrape Radar:</span> Want real-time Slack/WhatsApp/Telegram alerts within 15 mins whenever <strong>Farmley</strong> SKUs go Out-of-Stock across 20 BLR/MUM/DEL dark-store pin codes?
+      </div>
+      <div class="flex items-center gap-2.5 shrink-0">
+        <a href="https://github.com/deveshkolte/unscrape" target="_blank" class="px-4 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold">Unlock Automated 20-Pin-Code Monitor →</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const RAW_CSV = "brand,city,pincode,platform,skuId,title,sellingPriceInr,mrpInr,discountPercent,unit,inStock,deliveryEta,url\nFarmley,Bengaluru,560001,bigbasket.com/jiomart,82235515,FARMELO MAKHANA 200 GRAM,410,499,18,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/farmelo-makhana-200-gram-mok4z1-82235515/82235515\nFarmley,Bengaluru,560001,bigbasket.com/jiomart,109581923,HEY HARVEST Premium Roasted Makhana - Tangy Tomato Twist Flavor | Crunchy Roasted Fox Nuts | Pack of 3,836,1356,38,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/hey-harvest-premium-roasted-makhana-tangy-tomato-twist-flavor-crunchy-roasted-fox-nuts-pack-of-3-mqbyne-109581923/109581923\nFarmley,Bengaluru,560001,bigbasket.com/jiomart,109581925,HEY HARVEST Premium Roasted Makhana - Tangy Tomato Twist Flavor | Crunchy Roasted Fox Nuts | Pack of 2,440,678,35,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/hey-harvest-premium-roasted-makhana-tangy-tomato-twist-flavor-crunchy-roasted-fox-nuts-pack-of-2-mqbynm-109581925/109581925\nFarmley,Bengaluru,560001,bigbasket.com/jiomart,158175875,Cravium Tangy Tomato Roasted Makhana | Crispy & Crunchy Foxnuts | Ready to Eat Snack,149,250,40,1.99/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/cravium-tangy-tomato-roasted-makhana-crispy-crunchy-foxnuts-ready-to-eat-snack-mue03l-158175875/158175875\nFarmley,Bengaluru,560001,bigbasket.com/jiomart,49794748,Mr. Makhana Pudina Party Makhanas 21 g,40,50,20,1.90/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/mr-makhana-pudina-party-makhanas-21-g-mj6trd-49794748/49794748\nFarmley,Bengaluru,560001,bigbasket.com/jiomart,109158941,HEY HARVEST Premium Roasted Makhana - Tangy Tomato Twist Flavor | Crunchy Roasted Fox Nuts,249,339,27,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/hey-harvest-premium-roasted-makhana-tangy-tomato-twist-flavor-crunchy-roasted-fox-nuts-mqak7q-109158941/109158941\nFarmley,Mumbai,400001,bigbasket.com/jiomart,82235515,FARMELO MAKHANA 200 GRAM,410,499,18,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/farmelo-makhana-200-gram-mok4z1-82235515/82235515\nFarmley,Mumbai,400001,bigbasket.com/jiomart,109581923,HEY HARVEST Premium Roasted Makhana - Tangy Tomato Twist Flavor | Crunchy Roasted Fox Nuts | Pack of 3,836,1356,38,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/hey-harvest-premium-roasted-makhana-tangy-tomato-twist-flavor-crunchy-roasted-fox-nuts-pack-of-3-mqbyne-109581923/109581923\nFarmley,Mumbai,400001,bigbasket.com/jiomart,109581925,HEY HARVEST Premium Roasted Makhana - Tangy Tomato Twist Flavor | Crunchy Roasted Fox Nuts | Pack of 2,440,678,35,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/hey-harvest-premium-roasted-makhana-tangy-tomato-twist-flavor-crunchy-roasted-fox-nuts-pack-of-2-mqbynm-109581925/109581925\nFarmley,Mumbai,400001,bigbasket.com/jiomart,158175875,Cravium Tangy Tomato Roasted Makhana | Crispy & Crunchy Foxnuts | Ready to Eat Snack,149,250,40,1.99/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/cravium-tangy-tomato-roasted-makhana-crispy-crunchy-foxnuts-ready-to-eat-snack-mue03l-158175875/158175875\nFarmley,Mumbai,400001,bigbasket.com/jiomart,49794748,Mr. Makhana Pudina Party Makhanas 21 g,40,50,20,1.90/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/mr-makhana-pudina-party-makhanas-21-g-mj6trd-49794748/49794748\nFarmley,Mumbai,400001,bigbasket.com/jiomart,109158941,HEY HARVEST Premium Roasted Makhana - Tangy Tomato Twist Flavor | Crunchy Roasted Fox Nuts,249,339,27,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/hey-harvest-premium-roasted-makhana-tangy-tomato-twist-flavor-crunchy-roasted-fox-nuts-mqak7q-109158941/109158941\nFarmley,Delhi,110001,bigbasket.com/jiomart,82235515,FARMELO MAKHANA 200 GRAM,410,499,18,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/farmelo-makhana-200-gram-mok4z1-82235515/82235515\nFarmley,Delhi,110001,bigbasket.com/jiomart,109581923,HEY HARVEST Premium Roasted Makhana - Tangy Tomato Twist Flavor | Crunchy Roasted Fox Nuts | Pack of 3,836,1356,38,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/hey-harvest-premium-roasted-makhana-tangy-tomato-twist-flavor-crunchy-roasted-fox-nuts-pack-of-3-mqbyne-109581923/109581923\nFarmley,Delhi,110001,bigbasket.com/jiomart,109581925,HEY HARVEST Premium Roasted Makhana - Tangy Tomato Twist Flavor | Crunchy Roasted Fox Nuts | Pack of 2,440,678,35,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/hey-harvest-premium-roasted-makhana-tangy-tomato-twist-flavor-crunchy-roasted-fox-nuts-pack-of-2-mqbynm-109581925/109581925\nFarmley,Delhi,110001,bigbasket.com/jiomart,158175875,Cravium Tangy Tomato Roasted Makhana | Crispy & Crunchy Foxnuts | Ready to Eat Snack,149,250,40,1.99/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/cravium-tangy-tomato-roasted-makhana-crispy-crunchy-foxnuts-ready-to-eat-snack-mue03l-158175875/158175875\nFarmley,Delhi,110001,bigbasket.com/jiomart,49794748,Mr. Makhana Pudina Party Makhanas 21 g,40,50,20,1.90/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/mr-makhana-pudina-party-makhanas-21-g-mj6trd-49794748/49794748\nFarmley,Delhi,110001,bigbasket.com/jiomart,109158941,HEY HARVEST Premium Roasted Makhana - Tangy Tomato Twist Flavor | Crunchy Roasted Fox Nuts,249,339,27,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/hey-harvest-premium-roasted-makhana-tangy-tomato-twist-flavor-crunchy-roasted-fox-nuts-mqak7q-109158941/109158941\nFarmley,Bengaluru,560001,flipkart.com,NDFG7ZQ6XQPKJGG8,Farmley Prasadam Makhana,404,595,32,1 unit,true,15 MINS,https://www.flipkart.com/farmley-prasadam-makhana/p/itmf1921e20be461?pid=NDFG7ZQ6XQPKJGG8&lid=LSTNDFG7ZQ6XQPKJGG86NG0NX&marketplace=FLIPKART&q=farmley+makhana&store=eat&srno=s_1_3&otracker=search&fm=organic&iid=7be8e3ec-d78c-4112-b174-2107fd82ddd9.NDFG7ZQ6XQPKJGG8.SEARCH&ppt=sp&ppn=sp&ssid=jw05d4f3qo0000001793387252425&qH=ee1acd4f8bf32188&ov_redirect=true&ov_redirect=true\nFarmley,Bengaluru,560001,flipkart.com,SNSHP69FBZESKXXP,Pop Nest Premium Achari Masala Roasted Makhana Healthy Crunchy Fox Nuts Non Fried Makhana Makhana,144,999,86,1 unit,true,15 MINS,https://www.flipkart.com/pop-nest-premium-achari-masala-roasted-makhana-healthy-crunchy-fox-nuts-non-fried/p/itme40beacddfb4b?pid=SNSHP69FBZESKXXP&lid=LSTSNSHP69FBZESKXXP7WONUF&marketplace=FLIPKART&q=farmley+makhana&store=eat&srno=s_1_2&otracker=search&fm=organic&iid=en_f3_FhYYuXUVpa8LYVa-nUfD0t6EwC8eF9g1q9pjcmtm0VvyDukz71fNACnej4CHqhGU9uDMYltAFRklOeFTlZVyO_K4IbFNFyJFfrfkpsN5Opizgm3WXOuon25Ky-GD5&ppt=sp&ppn=sp&ssid=jw05d4f3qo0000001793387252425&qH=ee1acd4f8bf32188&ov_redirect=true&ov_redirect=true\nFarmley,Bengaluru,560001,flipkart.com,EDSG635YG4FENFSC,Farmley Prasadam Makhana,239,299,20,1 unit,true,15 MINS,https://www.flipkart.com/farmley-prasadam-makhana/p/itmf1921e20be461?pid=EDSG635YG4FENFSC&lid=LSTEDSG635YG4FENFSCMVBY7D&marketplace=FLIPKART&q=farmley+makhana&store=eat&srno=s_1_4&otracker=search&fm=organic&iid=7be8e3ec-d78c-4112-b174-2107fd82ddd9.EDSG635YG4FENFSC.SEARCH&ppt=sp&ppn=sp&ssid=jw05d4f3qo0000001793387252425&qH=ee1acd4f8bf32188&ov_redirect=true&ov_redirect=true\nFarmley,Bengaluru,560001,flipkart.com,NDFFYMWZQPWHYUCV,Farmley Tangy tomato Makhana Roasted in Olive Oil,437,478,9,1 unit,true,15 MINS,https://www.flipkart.com/farmley-tangy-tomato-makhana-roasted-olive-oil/p/itm49c1cd8d55fc4?pid=NDFFYMWZQPWHYUCV&lid=LSTNDFFYMWZQPWHYUCVSAW0NW&marketplace=FLIPKART&q=farmley+makhana&store=eat&srno=s_1_5&otracker=search&fm=organic&iid=7be8e3ec-d78c-4112-b174-2107fd82ddd9.NDFFYMWZQPWHYUCV.SEARCH&ppt=sp&ppn=sp&ssid=jw05d4f3qo0000001793387252425&qH=ee1acd4f8bf32188&ov_redirect=true&ov_redirect=true\nFarmley,Bengaluru,560001,flipkart.com,EDSH3JCFFQMYFX6S,Farmley Tangy tomato Makhana Roasted in Olive Oil,222,239,7,1 unit,true,15 MINS,https://www.flipkart.com/farmley-tangy-tomato-makhana-roasted-olive-oil/p/itmb02bc84daf406?pid=EDSH3JCFFQMYFX6S&lid=LSTEDSH3JCFFQMYFX6SQGCYLA&marketplace=FLIPKART&q=farmley+makhana&store=eat&srno=s_1_6&otracker=search&fm=organic&iid=7be8e3ec-d78c-4112-b174-2107fd82ddd9.EDSH3JCFFQMYFX6S.SEARCH&ppt=sp&ppn=sp&ssid=jw05d4f3qo0000001793387252425&qH=ee1acd4f8bf32188&ov_redirect=true&ov_redirect=true\nFarmley,Bengaluru,560001,flipkart.com,EDSGNGH2GHJB9JYT,Farmley Prasadam Makhana,2945,2975,1,1 unit,true,15 MINS,https://www.flipkart.com/farmley-prasadam-makhana/p/itmb62abc3551e60?pid=EDSGNGH2GHJB9JYT&lid=LSTEDSGNGH2GHJB9JYTGDQDQX&marketplace=FLIPKART&q=farmley+makhana&store=eat&srno=s_1_7&otracker=search&fm=organic&iid=7be8e3ec-d78c-4112-b174-2107fd82ddd9.EDSGNGH2GHJB9JYT.SEARCH&ppt=sp&ppn=sp&ssid=jw05d4f3qo0000001793387252425&qH=ee1acd4f8bf32188&ov_redirect=true&ov_redirect=true\nFarmley,Bengaluru,560001,zeptonow.com,79f3cfe2-5d03-5732-bcb6-a67a0f4e5500,Farmley Cream & Onion Makhana Roasted In Olive Oil Healthy Snacks,43,50,14,1 pack (20 g),true,10 MINS,https://www.zepto.com/pn/farmley-cream-onion-makhana-roasted-in-olive-oil-healthy-snacks/pvid/b672f24c-c589-4198-8ede-fd6069d6e030\nFarmley,Bengaluru,560001,zeptonow.com,7206218e-fb7e-57d7-bfa0-345a4f19aa57,Let's Try Sour Cream And Onion Makhana Puffs,48,80,40,1 pack (57 g),true,10 MINS,https://www.zepto.com/pn/let-s-try-sour-cream-and-onion-makhana-puffs/pvid/309424b2-ad78-4820-8102-f93780c7cdf1\nFarmley,Bengaluru,560001,zeptonow.com,949fbb47-b499-5ecd-942c-aa1263af9b94,Farmley Peri Peri Makhana Roasted In Olive Oil Healthy Snacks,43,50,14,1 pack (20 g),true,10 MINS,https://www.zepto.com/pn/farmley-peri-peri-makhana-roasted-in-olive-oil-healthy-snacks/pvid/6ef0cad6-5a5b-4c09-b272-8f579c2789b2\nFarmley,Bengaluru,560001,zeptonow.com,5fa6cec6-02a1-5c14-bd68-e804eba3312a,Heka Bites Roasted Makhana Himalayan Pink Salt,103,113,9,1 pack (60 g),true,10 MINS,https://www.zepto.com/pn/heka-bites-roasted-makhana-himalayan-pink-salt/pvid/9f8f4663-87e0-4554-9a8e-6449b7241d72\nFarmley,Bengaluru,560001,zeptonow.com,65dabdce-8f14-5ea0-a8cf-004099685eba,Farmley Himalayan Salted Makhana Roasted In Olive Oil Healthy Snacks,193,239,19,1 pack (77 g),true,10 MINS,https://www.zepto.com/pn/farmley-himalayan-salted-makhana-roasted-in-olive-oil-healthy-snacks/pvid/9e39e969-a986-4081-a8a8-1af7d6527cd3\nFarmley,Bengaluru,560001,zeptonow.com,ab9c837e-c987-515a-b54d-e8b355bcce02,Let's Try Pudina Flavoured Makhana | 100% Groundnut Oil | No Trans Fat | No Palm Oil,115,160,28,1 pack (57 g),true,10 MINS,https://www.zepto.com/pn/let-s-try-pudina-flavoured-makhana-100-groundnut-oil-no-trans-fat-no-palm-oil/pvid/f0a0e480-85f4-4263-b60e-b795037fb753\nFarmley,Bengaluru,560001,zeptonow.com,c0e5d2f6-e6e5-5292-a038-d14c8634c0b1,DeHaat HF Pesticide Free Mithila Makhana | Premium,309,590,48,1 pack (200 g),true,10 MINS,https://www.zepto.com/pn/dehaat-hf-pesticide-free-mithila-makhana-premium/pvid/3587cf18-24b1-4a3e-8526-cf5c3ea4b409\nFarmley,Bengaluru,560001,zeptonow.com,82efee74-a895-590a-b447-4aaee438fa0f,Popular Essentials Phool Makhana (Jumbo Size),163,295,45,1 pack (100 g),true,10 MINS,https://www.zepto.com/pn/popular-essentials-phool-makhana-jumbo-size/pvid/7de67695-da77-49bd-ae16-5d54e3f6cf85\nFarmley,Bengaluru,560001,amazon.in,B09J578NDM,\"Prasadam Makhana, 250 g, Fit for Fasting | Foxnuts, Lotus Puffs | Rich in Calcium, Maintains Weight, Healthy Snacks\",499,199.6,0,250 g,true,\"Tue, 3 Nov\",https://www.amazon.in/dp/B09J578NDM\nFarmley,Bengaluru,560001,amazon.in,B0B2WZFTPQ,Roasted & Flavoured Makhana | Himalayan Salted (Sendha Namak) | Healthy & Crunchy Snack | Cholesterol Free | Gluten Free | Rich In Protein & Calcium | Roasted In Olive Oil - 83g Jar,194,233.73,17,83g,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0B2WZFTPQ\nFarmley,Bengaluru,560001,amazon.in,B0D4LW6BCV,\"Flavoured Roasted Makhana I 308 gram, (Pack of 4, 77 g each) I Healthy Party, Namkeen Snacks, Puffed Makhana Snacks Peri Peri, Tangy Tomato, Cream & Onion & Himalayan Salted (Pack of 4, 77 g each)\",790,916,14,77 g,true,Today,https://www.amazon.in/dp/B0D4LW6BCV\nFarmley,Bengaluru,560001,amazon.in,B0GVK4MNFL,\"Roasted & Flavoured Makhana - Pouch | Healthy Snacks | Namkeen Snacks & Puffed Snacks | Roasted in Olive Oil (77g, Lemon Chilli)\",160,207.79,23,77g,true,\"Wed, 4 Nov\",https://www.amazon.in/dp/B0GVK4MNFL\nFarmley,Bengaluru,560001,amazon.in,B0BVBX2DC7,\"Natural High Protein Makhana, 200g\",356,178,0,200g,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0BVBX2DC7\nFarmley,Bengaluru,560001,amazon.in,B0D4LLPSMC,\"Roasted Makhana, Cream & Onion Flavour | 77g Each | Healthy Snack Roasted in Olive Oil | Guilt-Free & Crunchy Munchies | Pack of 2\",396,238.55,0,77g,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0D4LLPSMC\n";
+
+    function filterRows(mode) {
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const stock = row.getAttribute('data-stock');
+        if (mode === 'all') row.style.display = '';
+        else if (mode === 'oos') row.style.display = stock === 'oos' ? '' : 'none';
+        else if (mode === 'instock') row.style.display = stock === 'instock' ? '' : 'none';
+      });
+    }
+
+    function searchSkus() {
+      const q = document.getElementById('skuSearch').value.toLowerCase();
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const title = row.getAttribute('data-title') || '';
+        const platform = (row.getAttribute('data-platform') || '').toLowerCase();
+        row.style.display = (title.includes(q) || platform.includes(q)) ? '' : 'none';
+      });
+    }
+
+    function downloadCsv() {
+      const blob = new Blob([RAW_CSV], { type: 'text/csv;charset=utf-8;' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'farmley-3city-audit.csv';
+      a.click();
+    }
+  </script>
+</body>
+</html>

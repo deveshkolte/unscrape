@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Foxtale — 3-City Quick-Commerce Dark-Store Audit Scorecard | Unscrape Radar</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background-color: #07080d; color: #f3f4f6; font-family: Inter, system-ui, -apple-system, sans-serif; }
+  </style>
+</head>
+<body class="min-h-screen pb-24">
+  <!-- Top Bar -->
+  <header class="border-b border-slate-800 bg-slate-950/90 backdrop-blur sticky top-0 z-20">
+    <div class="max-w-7xl mx-auto px-6 py-3.5 flex items-center justify-between flex-wrap gap-3">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="text-emerald-400 font-black text-lg tracking-tight hover:text-emerald-300">⚡ UNSCRAPE RADAR</a>
+        <span class="text-xs text-slate-500">/</span>
+        <span class="text-sm font-bold text-white">Foxtale Executive Scorecard</span>
+      </div>
+      <div class="flex items-center gap-2.5 text-xs">
+        <a href="index.html" class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700">← All 56 Brand Audits</a>
+        <button onclick="downloadCsv()" class="px-3.5 py-1.5 rounded-lg bg-emerald-500 text-slate-950 font-bold hover:bg-emerald-400">⬇ Download Raw CSV (43 SKUs)</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-6 pt-8">
+    <!-- Executive Header -->
+    <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 mb-8">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+        <div>
+          <div class="flex items-center gap-2.5 mb-2">
+            <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded bg-slate-800 text-emerald-400">D2C Skincare</span>
+            <span class="text-xs text-slate-400 font-mono">Audited: 2026-10-30</span>
+          </div>
+          <h1 class="text-3xl md:text-4xl font-black text-white tracking-tight">Foxtale — Hyperlocal Dark-Store Audit</h1>
+          <p class="text-slate-400 text-sm mt-1">
+            Live multi-platform inventory & MOP/MRP price variance scan across <strong>Bengaluru (560001)</strong>, <strong>Mumbai (400001)</strong>, and <strong>Delhi (110001)</strong>.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 shrink-0">
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">SKUs Audited</div>
+            <div class="text-2xl font-black text-white mt-1">43</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">OOS Leaks</div>
+            <div class="text-2xl font-black text-rose-400 mt-1">3</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">Max Markdown</div>
+            <div class="text-2xl font-black text-amber-300 mt-1">50%</div>
+          </div>
+          <div class="border rounded-xl p-3.5 text-center bg-amber-500/15 text-amber-300 border-amber-500/30">
+            <div class="text-[11px] uppercase font-bold opacity-80">Shelf Health</div>
+            <div class="text-2xl font-black mt-1">93%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="bg-rose-950/50 border border-rose-500/40 rounded-2xl p-6 mb-8">
+      <div class="flex items-center justify-between flex-wrap gap-3 mb-4">
+        <div class="flex items-center gap-3">
+          <span class="px-3 py-1 rounded-full bg-rose-500 text-slate-950 font-black text-xs uppercase tracking-wider">🚨 REVENUE LEAK DETECTED</span>
+          <h2 class="text-lg font-bold text-white">3 Out-of-Stock Dark-Store Listing(s) Caught Live</h2>
+        </div>
+        <span class="text-xs font-mono text-rose-300">Immediate Shelf Conversion Loss</span>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+        
+          <div class="bg-slate-950/90 border border-rose-500/30 rounded-xl p-3.5 flex items-center justify-between gap-3">
+            <div>
+              <div class="text-sm font-bold text-white">Foxtale Gentle Hydrating Cleanser/ Face Wash Combo</div>
+              <div class="text-xs text-slate-400 mt-1">
+                Platform: <span class="text-rose-300 font-mono">zeptonow.com</span> ·
+                City: <span class="text-slate-200">Bengaluru (560001)</span> ·
+                Pack: <span class="text-slate-300">100 ml X 2</span>
+              </div>
+            </div>
+            <div class="text-right shrink-0">
+              <div class="text-sm font-extrabold text-rose-400">OUT OF STOCK</div>
+              <div class="text-xs text-slate-400">₹504</div>
+            </div>
+          </div>
+          <div class="bg-slate-950/90 border border-rose-500/30 rounded-xl p-3.5 flex items-center justify-between gap-3">
+            <div>
+              <div class="text-sm font-bold text-white">Foxtale Dewy Morning Gift Set | Cleanser, Ceramide Moisturizer &amp; Glow Sunscreen Minis</div>
+              <div class="text-xs text-slate-400 mt-1">
+                Platform: <span class="text-rose-300 font-mono">zeptonow.com</span> ·
+                City: <span class="text-slate-200">Bengaluru (560001)</span> ·
+                Pack: <span class="text-slate-300">1 set  (3 pcs)</span>
+              </div>
+            </div>
+            <div class="text-right shrink-0">
+              <div class="text-sm font-extrabold text-rose-400">OUT OF STOCK</div>
+              <div class="text-xs text-slate-400">₹559</div>
+            </div>
+          </div>
+          <div class="bg-slate-950/90 border border-rose-500/30 rounded-xl p-3.5 flex items-center justify-between gap-3">
+            <div>
+              <div class="text-sm font-bold text-white">Foxtale Glow-On-The-Go Gift Set | Mini Cleanser, Serum, Moisturizer &amp; Sunscreen + Pouch</div>
+              <div class="text-xs text-slate-400 mt-1">
+                Platform: <span class="text-rose-300 font-mono">zeptonow.com</span> ·
+                City: <span class="text-slate-200">Bengaluru (560001)</span> ·
+                Pack: <span class="text-slate-300">1 set  (4 pcs)</span>
+              </div>
+            </div>
+            <div class="text-right shrink-0">
+              <div class="text-sm font-extrabold text-rose-400">OUT OF STOCK</div>
+              <div class="text-xs text-slate-400">₹674</div>
+            </div>
+          </div>
+      </div>
+    </div>
+
+    <!-- Filter Controls -->
+    <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+      <div class="flex items-center gap-2 text-xs">
+        <button onclick="filterRows('all')" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-semibold">All SKUs (43)</button>
+        <button onclick="filterRows('oos')" class="px-3 py-1.5 rounded-lg bg-rose-500/15 border border-rose-500/30 text-rose-300 hover:bg-rose-500/25 font-semibold">Out-of-Stock Only (3)</button>
+        <button onclick="filterRows('instock')" class="px-3 py-1.5 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 hover:bg-emerald-500/25 font-semibold">In-Stock (40)</button>
+      </div>
+      <div class="flex items-center gap-2">
+        <input id="skuSearch" type="text" oninput="searchSkus()" placeholder="Filter SKU title or platform..." class="bg-slate-900 border border-slate-800 rounded-lg px-3.5 py-1.5 text-xs text-white w-64" />
+      </div>
+    </div>
+
+    <!-- SKU Table -->
+    <div class="bg-slate-900/50 border border-slate-800 rounded-2xl overflow-x-auto">
+      <table class="w-full text-left text-xs">
+        <thead class="bg-slate-950/90 text-slate-400 uppercase border-b border-slate-800">
+          <tr>
+            <th class="px-4 py-3">SKU Title</th>
+            <th class="px-4 py-3">Platform</th>
+            <th class="px-4 py-3">City / Pin</th>
+            <th class="px-4 py-3">Pack Size</th>
+            <th class="px-4 py-3">Selling Price</th>
+            <th class="px-4 py-3">MRP</th>
+            <th class="px-4 py-3">Discount</th>
+            <th class="px-4 py-3">Stock Status</th>
+            <th class="px-4 py-3">ETA</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-800/60">
+          <tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="dr. rashel korean glass skin essence facewash 50 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dr. Rashel Korean Glass Skin Essence Facewash 50 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1.24/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹62</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹125</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="simple refreshing facial wash 125 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Simple Refreshing Facial Wash 125 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">2.09/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹261</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹349</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">25% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="mamaearth turmeric &amp; saffron ubtan face wash 150 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Mamaearth Turmeric &amp; Saffron Ubtan Face Wash 150 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1.49/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹224</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹449</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="kuraiy 100% real vitamin c  facial cleanser skin cleansing moisturizing anti acne blackhead remove skincare face wash">
+        <td class="px-4 py-3 font-medium text-white max-w-md">KURAIY 100% Real Vitamin C  Facial Cleanser Skin Cleansing Moisturizing Anti Acne Blackhead Remove Skincare Face Wash</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹199</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹399</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="dermatouch oily skin gentle face wash with salicylic acid &amp; acnebusters  daily cleanser for excess oil, acne &amp; clogged pores | ph balanced formula for combination to oily &amp; acne-prone skin | 50g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">DERMATOUCH Oily Skin Gentle Face Wash with Salicylic Acid &amp; AcneBusters  Daily Cleanser for Excess Oil, Acne &amp; Clogged Pores | pH Balanced Formula for Combination to Oily &amp; Acne-Prone Skin | 50g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1.80/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹90</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹170</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">47% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="dr. rashel korean glass skin essence facewash 50 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dr. Rashel Korean Glass Skin Essence Facewash 50 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1.24/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹62</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹125</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="simple refreshing facial wash 125 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Simple Refreshing Facial Wash 125 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">2.09/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹261</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹349</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">25% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="mamaearth turmeric &amp; saffron ubtan face wash 150 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Mamaearth Turmeric &amp; Saffron Ubtan Face Wash 150 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1.49/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹224</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹449</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="kuraiy 100% real vitamin c  facial cleanser skin cleansing moisturizing anti acne blackhead remove skincare face wash">
+        <td class="px-4 py-3 font-medium text-white max-w-md">KURAIY 100% Real Vitamin C  Facial Cleanser Skin Cleansing Moisturizing Anti Acne Blackhead Remove Skincare Face Wash</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹199</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹399</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="dermatouch oily skin gentle face wash with salicylic acid &amp; acnebusters  daily cleanser for excess oil, acne &amp; clogged pores | ph balanced formula for combination to oily &amp; acne-prone skin | 50g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">DERMATOUCH Oily Skin Gentle Face Wash with Salicylic Acid &amp; AcneBusters  Daily Cleanser for Excess Oil, Acne &amp; Clogged Pores | pH Balanced Formula for Combination to Oily &amp; Acne-Prone Skin | 50g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1.80/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹90</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹170</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">47% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="dr. rashel korean glass skin essence facewash 50 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dr. Rashel Korean Glass Skin Essence Facewash 50 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1.24/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹62</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹125</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="simple refreshing facial wash 125 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Simple Refreshing Facial Wash 125 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">2.09/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹261</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹349</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">25% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="mamaearth turmeric &amp; saffron ubtan face wash 150 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Mamaearth Turmeric &amp; Saffron Ubtan Face Wash 150 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1.49/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹224</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹449</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="kuraiy 100% real vitamin c  facial cleanser skin cleansing moisturizing anti acne blackhead remove skincare face wash">
+        <td class="px-4 py-3 font-medium text-white max-w-md">KURAIY 100% Real Vitamin C  Facial Cleanser Skin Cleansing Moisturizing Anti Acne Blackhead Remove Skincare Face Wash</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹199</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹399</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="dermatouch oily skin gentle face wash with salicylic acid &amp; acnebusters  daily cleanser for excess oil, acne &amp; clogged pores | ph balanced formula for combination to oily &amp; acne-prone skin | 50g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">DERMATOUCH Oily Skin Gentle Face Wash with Salicylic Acid &amp; AcneBusters  Daily Cleanser for Excess Oil, Acne &amp; Clogged Pores | pH Balanced Formula for Combination to Oily &amp; Acne-Prone Skin | 50g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1.80/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹90</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹170</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">47% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="foxtale gentle hydrating &amp; makeup remover with hyaluronic acid, deep hydration &amp; dryness face wash">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Foxtale Gentle Hydrating &amp; Makeup Remover with Hyaluronic Acid, Deep Hydration &amp; Dryness Face Wash</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹149</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹150</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">1% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="foxtale detan super glow for tan removal &amp; glowing skin, with papaya enzyme &amp; vitamin c face wash">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Foxtale Detan Super Glow For Tan Removal &amp; Glowing Skin, With Papaya Enzyme &amp; Vitamin C Face Wash</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹228</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹249</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">8% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="foxtale gentle hydrating &amp; makeup remover with hyaluronic acid, deep hydration &amp; dryness face wash">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Foxtale Gentle Hydrating &amp; Makeup Remover with Hyaluronic Acid, Deep Hydration &amp; Dryness Face Wash</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹900</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1185</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">24% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="foxtale detan super glow for tan removal &amp; glowing skin, with papaya enzyme &amp; vitamin c face wash">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Foxtale Detan Super Glow For Tan Removal &amp; Glowing Skin, With Papaya Enzyme &amp; Vitamin C Face Wash</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹315</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹329</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">4% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="foxtale refreshing  with niacinamide &amp; vitamin e, deeply cleans pores face wash">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Foxtale Refreshing  with Niacinamide &amp; Vitamin E, Deeply Cleans Pores Face Wash</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹219</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹249</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">12% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="foxtale refreshing facewash | niacinamide | vitamin e | chamomile extract">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Foxtale Refreshing Facewash | Niacinamide | Vitamin E | Chamomile Extract</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹403</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹498</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">19% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="foxtale gentle hydrating cleanser">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Foxtale Gentle Hydrating Cleanser</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">100 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹305</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹395</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">23% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="foxtale gentle hydrating cleanser">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Foxtale Gentle Hydrating Cleanser</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">30 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹143</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹150</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="cetaphil gentle skin cleanser">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Cetaphil Gentle Skin Cleanser</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">118 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹418</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹459</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">9% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="plix pineapple de-pigmentation face cleanser">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Plix Pineapple De-Pigmentation Face Cleanser</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">90 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹230</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹235</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">2% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="plix pineapple de-pigmentation face cleanser - pack of 2">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Plix Pineapple De-Pigmentation Face Cleanser - Pack of 2</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">2 x 90 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹454</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹470</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">3% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="hyphen oil control daily exfoliating cleanser (for oily skin)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Hyphen Oil Control Daily Exfoliating Cleanser (For Oily Skin)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">100 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹284</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹299</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="cetaphil bright healthy radiance creamy cleanser">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Cetaphil Bright Healthy Radiance Creamy Cleanser</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">100 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹728</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹799</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">9% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="l'oreal paris glycolic bright, daily foaming face cleanser">
+        <td class="px-4 py-3 font-medium text-white max-w-md">L'Oreal Paris Glycolic Bright, Daily Foaming Face Cleanser</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">50 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹205</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹229</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">10% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="foxtale gentle hydrating cleanser/ face wash">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Foxtale Gentle Hydrating Cleanser/ Face Wash</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (100 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹304</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹395</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">23% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="foxtale oil and acne control face wash">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Foxtale Oil and Acne Control Face Wash</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (100 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹214</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹249</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">14% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="oos" data-platform="zeptonow.com" data-title="foxtale gentle hydrating cleanser/ face wash combo">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Foxtale Gentle Hydrating Cleanser/ Face Wash Combo</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">100 ml X 2</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹504</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹698</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">28% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-rose-500/20 text-rose-400 border border-rose-500/30 font-mono text-[11px] font-bold">OUT OF STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="oos" data-platform="zeptonow.com" data-title="foxtale dewy morning gift set | cleanser, ceramide moisturizer &amp; glow sunscreen minis">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Foxtale Dewy Morning Gift Set | Cleanser, Ceramide Moisturizer &amp; Glow Sunscreen Minis</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 set  (3 pcs)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹559</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹799</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">30% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-rose-500/20 text-rose-400 border border-rose-500/30 font-mono text-[11px] font-bold">OUT OF STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="oos" data-platform="zeptonow.com" data-title="foxtale glow-on-the-go gift set | mini cleanser, serum, moisturizer &amp; sunscreen + pouch">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Foxtale Glow-On-The-Go Gift Set | Mini Cleanser, Serum, Moisturizer &amp; Sunscreen + Pouch</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 set  (4 pcs)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹674</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹899</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">25% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-rose-500/20 text-rose-400 border border-rose-500/30 font-mono text-[11px] font-bold">OUT OF STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="foxtale hydrating face wash with hyaluronic acid, vitamin b5 for women, men -makeup remover">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Foxtale Hydrating Face Wash With Hyaluronic Acid, Vitamin B5 For Women, Men -Makeup Remover</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (30 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹142</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹150</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="foxtale detan glow face wash with papaya enzyme &amp; vitamin c">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Foxtale Detan Glow Face Wash with Papaya Enzyme &amp; Vitamin C</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (100 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹214</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹249</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">14% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="cerave hydrating cleanser non-foaming face wash for dry skin with ceramides &amp; hyaluronic acid">
+        <td class="px-4 py-3 font-medium text-white max-w-md">CeraVe Hydrating Cleanser Non-Foaming Face Wash For Dry Skin With Ceramides &amp; Hyaluronic Acid</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (88 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹323</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹359</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">10% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="foaming cleanser for normal to oily skin (88ml) - dermatologist-developed facewash | non-comedogenic and fragrance-free cleansers for acne-prone skin">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Foaming Cleanser For Normal To Oily Skin (88ml) - Dermatologist-Developed Facewash | Non-Comedogenic And Fragrance-Free Cleansers For Acne-Prone Skin</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">88ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹447</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹507.95</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">12% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="foaming cleanser for normal to oily skin (473ml) - dermatologist-developed facewash | non-comedogenic and fragrance-free cleansers for acne-prone skin">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Foaming Cleanser For Normal To Oily Skin (473ml) - Dermatologist-Developed Facewash | Non-Comedogenic And Fragrance-Free Cleansers For Acne-Prone Skin</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">473ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1529</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹323.26</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="hydrating cleanser for normal to dry skin (473ml) - non-foaming face wash with hyaluronic acid and ceramides | non-comedogenic, non-irritating and fragrance-free cleanser">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Hydrating Cleanser For Normal To Dry Skin (473ml) - Non-Foaming Face Wash with Hyaluronic Acid And Ceramides | Non-Comedogenic, Non-Irritating And Fragrance-Free Cleanser</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">473ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹894</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹189.01</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="gentle skin hydrating face wash 118ml, paraben free, sulphate-free gentle skin hydrating cleanser with niacinamide, vitamin b5 for dry to normal, sensitive skin">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Gentle Skin Hydrating Face Wash 118ml, Paraben Free, Sulphate-Free Gentle Skin Hydrating Cleanser with Niacinamide, Vitamin B5 for Dry to Normal, Sensitive Skin</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">118ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹365</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹309.32</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="cleanser for dry &amp; sensitive skin type | daily gentle face cleanser for men &amp; women | fragrance free | dermatologist prescribed | 125ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Cleanser for Dry &amp; Sensitive Skin Type | Daily Gentle Face Cleanser for Men &amp; Women | Fragrance Free | Dermatologist Prescribed | 125ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">125ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹364</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹291.2</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="gentle hydrating face wash with hyaluronic acid, vitamin b5 | deep pore cleansing | dirt control | make-up remover | cleanser for men &amp; women | all skin types | 100 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Gentle Hydrating Face Wash with Hyaluronic Acid, Vitamin B5 | Deep Pore Cleansing | Dirt Control | Make-up Remover | Cleanser For Men &amp; Women | All Skin Types | 100 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">100 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹269</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹269</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- Sticky CTA Footer -->
+  <div class="fixed bottom-0 inset-x-0 bg-slate-950/95 border-t border-emerald-500/30 backdrop-blur px-6 py-3.5 z-30">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+      <div class="text-slate-200">
+        <span class="text-emerald-400 font-bold">⚡ Unscrape Radar:</span> Want real-time Slack/WhatsApp/Telegram alerts within 15 mins whenever <strong>Foxtale</strong> SKUs go Out-of-Stock across 20 BLR/MUM/DEL dark-store pin codes?
+      </div>
+      <div class="flex items-center gap-2.5 shrink-0">
+        <a href="https://github.com/deveshkolte/unscrape" target="_blank" class="px-4 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold">Unlock Automated 20-Pin-Code Monitor →</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const RAW_CSV = "brand,city,pincode,platform,skuId,title,sellingPriceInr,mrpInr,discountPercent,unit,inStock,deliveryEta,url\nFoxtale,Bengaluru,560001,bigbasket.com/jiomart,50832347,Dr. Rashel Korean Glass Skin Essence Facewash 50 ml,62,125,50,1.24/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/dr-rashel-korean-glass-skin-essence-facewash-50-ml-mj75nj-50832347/50832347\nFoxtale,Bengaluru,560001,bigbasket.com/jiomart,7544946,Simple Refreshing Facial Wash 125 ml,261,349,25,2.09/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/simple-kind-to-skin-refreshing-facial-wash-with-pro-vit-b5-vit-e-125-ml-mffnb6-7544946/7544946\nFoxtale,Bengaluru,560001,bigbasket.com/jiomart,7538826,Mamaearth Turmeric & Saffron Ubtan Face Wash 150 ml,224,449,50,1.49/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/mamaearth-turmeric-saffron-ubtan-face-wash-150-ml-mffn8c-7538826/7538826\nFoxtale,Bengaluru,560001,bigbasket.com/jiomart,49897568,KURAIY 100% Real Vitamin C  Facial Cleanser Skin Cleansing Moisturizing Anti Acne Blackhead Remove Skincare Face Wash,199,399,50,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/kuraiy-100-real-vitamin-c-facial-cleanser-skin-cleansing-moisturizing-anti-acne-blackhead-remove-skincare-face-wash-mj70s2-49897568/49897568\nFoxtale,Bengaluru,560001,bigbasket.com/jiomart,107859619,\"DERMATOUCH Oily Skin Gentle Face Wash with Salicylic Acid & AcneBusters  Daily Cleanser for Excess Oil, Acne & Clogged Pores | pH Balanced Formula for Combination to Oily & Acne-Prone Skin | 50g\",90,170,47,1.80/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/dermatouch-oily-skin-gentle-face-wash-with-salicylic-acid-acnebusters-daily-cleanser-for-excess-oil-acne-clogged-pores-ph-balanced-formula-for-combination-to-oily-acne-prone-skin-50g-mpz5q4-107859619/107859619\nFoxtale,Mumbai,400001,bigbasket.com/jiomart,50832347,Dr. Rashel Korean Glass Skin Essence Facewash 50 ml,62,125,50,1.24/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/dr-rashel-korean-glass-skin-essence-facewash-50-ml-mj75nj-50832347/50832347\nFoxtale,Mumbai,400001,bigbasket.com/jiomart,7544946,Simple Refreshing Facial Wash 125 ml,261,349,25,2.09/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/simple-kind-to-skin-refreshing-facial-wash-with-pro-vit-b5-vit-e-125-ml-mffnb6-7544946/7544946\nFoxtale,Mumbai,400001,bigbasket.com/jiomart,7538826,Mamaearth Turmeric & Saffron Ubtan Face Wash 150 ml,224,449,50,1.49/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/mamaearth-turmeric-saffron-ubtan-face-wash-150-ml-mffn8c-7538826/7538826\nFoxtale,Mumbai,400001,bigbasket.com/jiomart,49897568,KURAIY 100% Real Vitamin C  Facial Cleanser Skin Cleansing Moisturizing Anti Acne Blackhead Remove Skincare Face Wash,199,399,50,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/kuraiy-100-real-vitamin-c-facial-cleanser-skin-cleansing-moisturizing-anti-acne-blackhead-remove-skincare-face-wash-mj70s2-49897568/49897568\nFoxtale,Mumbai,400001,bigbasket.com/jiomart,107859619,\"DERMATOUCH Oily Skin Gentle Face Wash with Salicylic Acid & AcneBusters  Daily Cleanser for Excess Oil, Acne & Clogged Pores | pH Balanced Formula for Combination to Oily & Acne-Prone Skin | 50g\",90,170,47,1.80/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/dermatouch-oily-skin-gentle-face-wash-with-salicylic-acid-acnebusters-daily-cleanser-for-excess-oil-acne-clogged-pores-ph-balanced-formula-for-combination-to-oily-acne-prone-skin-50g-mpz5q4-107859619/107859619\nFoxtale,Delhi,110001,bigbasket.com/jiomart,50832347,Dr. Rashel Korean Glass Skin Essence Facewash 50 ml,62,125,50,1.24/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/dr-rashel-korean-glass-skin-essence-facewash-50-ml-mj75nj-50832347/50832347\nFoxtale,Delhi,110001,bigbasket.com/jiomart,7544946,Simple Refreshing Facial Wash 125 ml,261,349,25,2.09/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/simple-kind-to-skin-refreshing-facial-wash-with-pro-vit-b5-vit-e-125-ml-mffnb6-7544946/7544946\nFoxtale,Delhi,110001,bigbasket.com/jiomart,7538826,Mamaearth Turmeric & Saffron Ubtan Face Wash 150 ml,224,449,50,1.49/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/mamaearth-turmeric-saffron-ubtan-face-wash-150-ml-mffn8c-7538826/7538826\nFoxtale,Delhi,110001,bigbasket.com/jiomart,49897568,KURAIY 100% Real Vitamin C  Facial Cleanser Skin Cleansing Moisturizing Anti Acne Blackhead Remove Skincare Face Wash,199,399,50,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/kuraiy-100-real-vitamin-c-facial-cleanser-skin-cleansing-moisturizing-anti-acne-blackhead-remove-skincare-face-wash-mj70s2-49897568/49897568\nFoxtale,Delhi,110001,bigbasket.com/jiomart,107859619,\"DERMATOUCH Oily Skin Gentle Face Wash with Salicylic Acid & AcneBusters  Daily Cleanser for Excess Oil, Acne & Clogged Pores | pH Balanced Formula for Combination to Oily & Acne-Prone Skin | 50g\",90,170,47,1.80/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/dermatouch-oily-skin-gentle-face-wash-with-salicylic-acid-acnebusters-daily-cleanser-for-excess-oil-acne-clogged-pores-ph-balanced-formula-for-combination-to-oily-acne-prone-skin-50g-mpz5q4-107859619/107859619\nFoxtale,Bengaluru,560001,flipkart.com,CNRH3AKNRBWTBEKP,\"Foxtale Gentle Hydrating & Makeup Remover with Hyaluronic Acid, Deep Hydration & Dryness Face Wash\",149,150,1,1 unit,true,15 MINS,https://www.flipkart.com/foxtale-gentle-hydrating-makeup-remover-hyaluronic-acid-deep-hydration-dryness-face-wash/p/itm880d7707feabd?pid=CNRH3AKNRBWTBEKP&lid=LSTCNRH3AKNRBWTBEKPMPL7ZX&marketplace=FLIPKART&q=foxtale+cleanser&store=g9b%2Fema%2F5la&srno=s_1_1&otracker=search&fm=organic&iid=d1a163e4-e680-4979-9107-77bac701ba39.CNRH3AKNRBWTBEKP.SEARCH&ppt=None&ppn=None&ssid=bvgb0xhhr40000001793387330528&qH=1284d1ab257843a1&ov_redirect=true&ov_redirect=true\nFoxtale,Bengaluru,560001,flipkart.com,FCWHBNCNEFS6VKGV,\"Foxtale Detan Super Glow For Tan Removal & Glowing Skin, With Papaya Enzyme & Vitamin C Face Wash\",228,249,8,1 unit,true,15 MINS,https://www.flipkart.com/foxtale-detan-super-glow-tan-removal-glowing-skin-papaya-enzyme-vitamin-c-face-wash/p/itm6464cfc00f892?pid=FCWHBNCNEFS6VKGV&lid=LSTFCWHBNCNEFS6VKGVQ6SSLF&marketplace=FLIPKART&q=foxtale+cleanser&store=g9b%2Fema%2F5la&srno=s_1_2&otracker=search&fm=organic&iid=d1a163e4-e680-4979-9107-77bac701ba39.FCWHBNCNEFS6VKGV.SEARCH&ppt=None&ppn=None&ssid=bvgb0xhhr40000001793387330528&qH=1284d1ab257843a1&ov_redirect=true&ov_redirect=true\nFoxtale,Bengaluru,560001,flipkart.com,CBKGGPGHQ2BGYM7R,\"Foxtale Gentle Hydrating & Makeup Remover with Hyaluronic Acid, Deep Hydration & Dryness Face Wash\",900,1185,24,1 unit,true,15 MINS,https://www.flipkart.com/foxtale-gentle-hydrating-makeup-remover-hyaluronic-acid-deep-hydration-dryness-face-wash/p/itm1c83e17f2610e?pid=CBKGGPGHQ2BGYM7R&lid=LSTCBKGGPGHQ2BGYM7RKC3F4I&marketplace=FLIPKART&q=foxtale+cleanser&store=g9b%2Fema%2F5la&srno=s_1_3&otracker=search&fm=organic&iid=d1a163e4-e680-4979-9107-77bac701ba39.CBKGGPGHQ2BGYM7R.SEARCH&ppt=None&ppn=None&ssid=bvgb0xhhr40000001793387330528&qH=1284d1ab257843a1&ov_redirect=true&ov_redirect=true\nFoxtale,Bengaluru,560001,flipkart.com,FCWHCGZAMSJAXNPF,\"Foxtale Detan Super Glow For Tan Removal & Glowing Skin, With Papaya Enzyme & Vitamin C Face Wash\",315,329,4,1 unit,true,15 MINS,https://www.flipkart.com/foxtale-detan-super-glow-tan-removal-glowing-skin-papaya-enzyme-vitamin-c-face-wash/p/itm6464cfc00f892?pid=FCWHCGZAMSJAXNPF&lid=LSTFCWHCGZAMSJAXNPFBZYLOW&marketplace=FLIPKART&q=foxtale+cleanser&store=g9b%2Fema%2F5la&srno=s_1_4&otracker=search&fm=organic&iid=d1a163e4-e680-4979-9107-77bac701ba39.FCWHCGZAMSJAXNPF.SEARCH&ppt=None&ppn=None&ssid=bvgb0xhhr40000001793387330528&qH=1284d1ab257843a1&ov_redirect=true&ov_redirect=true\nFoxtale,Bengaluru,560001,flipkart.com,FCWGN3JQYY9QQ9A4,\"Foxtale Refreshing  with Niacinamide & Vitamin E, Deeply Cleans Pores Face Wash\",219,249,12,1 unit,true,15 MINS,https://www.flipkart.com/foxtale-refreshing-niacinamide-vitamin-e-deeply-cleans-pores-face-wash/p/itmb024fe563ecfb?pid=FCWGN3JQYY9QQ9A4&lid=LSTFCWGN3JQYY9QQ9A4QYXSL2&marketplace=FLIPKART&q=foxtale+cleanser&store=g9b%2Fema%2F5la&srno=s_1_5&otracker=search&fm=organic&iid=d1a163e4-e680-4979-9107-77bac701ba39.FCWGN3JQYY9QQ9A4.SEARCH&ppt=None&ppn=None&ssid=bvgb0xhhr40000001793387330528&qH=1284d1ab257843a1&ov_redirect=true&ov_redirect=true\nFoxtale,Bengaluru,560001,flipkart.com,CBKGNAZXNRPZTBHW,Foxtale Refreshing Facewash | Niacinamide | Vitamin E | Chamomile Extract,403,498,19,1 unit,true,15 MINS,https://www.flipkart.com/foxtale-refreshing-facewash-niacinamide-vitamin-e-chamomile-extract/p/itmf12decf903818?pid=CBKGNAZXNRPZTBHW&lid=LSTCBKGNAZXNRPZTBHWIQUYH4&marketplace=FLIPKART&q=foxtale+cleanser&store=g9b%2Fema%2F5la&srno=s_1_6&otracker=search&fm=organic&iid=d1a163e4-e680-4979-9107-77bac701ba39.CBKGNAZXNRPZTBHW.SEARCH&ppt=None&ppn=None&ssid=bvgb0xhhr40000001793387330528&qH=1284d1ab257843a1&ov_redirect=true&ov_redirect=true\nFoxtale,Bengaluru,560001,blinkit.com,503774,Foxtale Gentle Hydrating Cleanser,305,395,23,100 ml,true,10 MINS,https://blinkit.com/prn/foxtale-gentle-hydrating-cleanser/prid/503774\nFoxtale,Bengaluru,560001,blinkit.com,563852,Foxtale Gentle Hydrating Cleanser,143,150,5,30 ml,true,10 MINS,https://blinkit.com/prn/foxtale-gentle-hydrating-cleanser/prid/563852\nFoxtale,Bengaluru,560001,blinkit.com,496038,Cetaphil Gentle Skin Cleanser,418,459,9,118 ml,true,10 MINS,https://blinkit.com/prn/cetaphil-gentle-skin-cleanser/prid/496038\nFoxtale,Bengaluru,560001,blinkit.com,554738,Plix Pineapple De-Pigmentation Face Cleanser,230,235,2,90 ml,true,10 MINS,https://blinkit.com/prn/plix-pineapple-de-pigmentation-face-cleanser/prid/554738\nFoxtale,Bengaluru,560001,blinkit.com,637452,Plix Pineapple De-Pigmentation Face Cleanser - Pack of 2,454,470,3,2 x 90 ml,true,10 MINS,https://blinkit.com/prn/plix-pineapple-de-pigmentation-face-cleanser-pack-of-2/prid/637452\nFoxtale,Bengaluru,560001,blinkit.com,543801,Hyphen Oil Control Daily Exfoliating Cleanser (For Oily Skin),284,299,5,100 ml,true,10 MINS,https://blinkit.com/prn/hyphen-oil-control-daily-exfoliating-cleanser-for-oily-skin/prid/543801\nFoxtale,Bengaluru,560001,blinkit.com,544193,Cetaphil Bright Healthy Radiance Creamy Cleanser,728,799,9,100 g,true,10 MINS,https://blinkit.com/prn/cetaphil-bright-healthy-radiance-creamy-cleanser/prid/544193\nFoxtale,Bengaluru,560001,blinkit.com,505489,\"L'Oreal Paris Glycolic Bright, Daily Foaming Face Cleanser\",205,229,10,50 ml,true,10 MINS,https://blinkit.com/prn/l-oreal-paris-glycolic-bright-daily-foaming-face-cleanser/prid/505489\nFoxtale,Bengaluru,560001,zeptonow.com,a1ad5742-929f-5da1-a68d-57eb9d67c9ca,Foxtale Gentle Hydrating Cleanser/ Face Wash,304,395,23,1 pc (100 ml),true,10 MINS,https://www.zepto.com/pn/foxtale-gentle-hydrating-cleanser-face-wash/pvid/0563f841-07a0-47b3-ba6f-944eebe258fb\nFoxtale,Bengaluru,560001,zeptonow.com,a16b10e0-5ef2-5bd5-9759-cb4df910da1f,Foxtale Oil and Acne Control Face Wash,214,249,14,1 pack (100 ml),true,10 MINS,https://www.zepto.com/pn/foxtale-oil-and-acne-control-face-wash/pvid/a4c968dd-32aa-4806-8bd3-d3bed4d884e5\nFoxtale,Bengaluru,560001,zeptonow.com,50b91d0c-dbe2-5ab1-8c14-dac34a271bb2,Foxtale Gentle Hydrating Cleanser/ Face Wash Combo,504,698,28,100 ml X 2,false,10 MINS,https://www.zepto.com/pn/foxtale-gentle-hydrating-cleanser-face-wash-combo/pvid/2ae7af4f-b326-4b15-bb1f-b9e192c601a1\nFoxtale,Bengaluru,560001,zeptonow.com,542ef6b5-035b-57e1-b4ad-4910634a9ad1,\"Foxtale Dewy Morning Gift Set | Cleanser, Ceramide Moisturizer & Glow Sunscreen Minis\",559,799,30,1 set  (3 pcs),false,10 MINS,https://www.zepto.com/pn/foxtale-dewy-morning-gift-set-cleanser-ceramide-moisturizer-glow-sunscreen-minis/pvid/ac930a11-4651-4d51-88a1-33a0d397a981\nFoxtale,Bengaluru,560001,zeptonow.com,db5b2953-f5a1-5f4a-aac1-282e49b9392b,\"Foxtale Glow-On-The-Go Gift Set | Mini Cleanser, Serum, Moisturizer & Sunscreen + Pouch\",674,899,25,1 set  (4 pcs),false,10 MINS,https://www.zepto.com/pn/foxtale-glow-on-the-go-gift-set-mini-cleanser-serum-moisturizer-sunscreen-pouch/pvid/e64d86d5-d3bb-4537-884b-92735c716a02\nFoxtale,Bengaluru,560001,zeptonow.com,4bab8251-acab-5aec-8098-dc3dba14db26,\"Foxtale Hydrating Face Wash With Hyaluronic Acid, Vitamin B5 For Women, Men -Makeup Remover\",142,150,5,1 pc (30 ml),true,10 MINS,https://www.zepto.com/pn/foxtale-hydrating-face-wash-with-hyaluronic-acid-vitamin-b5-for-women-men-makeup-remover/pvid/9d297ac6-d314-4425-9ff1-af2ff362738f\nFoxtale,Bengaluru,560001,zeptonow.com,0cc1243f-0c4b-5dda-906c-44ae4e8307e8,Foxtale Detan Glow Face Wash with Papaya Enzyme & Vitamin C,214,249,14,1 pc (100 ml),true,10 MINS,https://www.zepto.com/pn/foxtale-detan-glow-face-wash-with-papaya-enzyme-vitamin-c/pvid/892af132-08b8-4e6a-a750-9083b872e4e2\nFoxtale,Bengaluru,560001,zeptonow.com,2e08b7f1-8932-5d9a-91ad-41d159527954,CeraVe Hydrating Cleanser Non-Foaming Face Wash For Dry Skin With Ceramides & Hyaluronic Acid,323,359,10,1 pc (88 ml),true,10 MINS,https://www.zepto.com/pn/cerave-hydrating-cleanser-non-foaming-face-wash-for-dry-skin-with-ceramides-hyaluronic-acid/pvid/066bcba2-a750-42c3-9ae3-1586887e55e9\nFoxtale,Bengaluru,560001,amazon.in,B07CJPX7KW,Foaming Cleanser For Normal To Oily Skin (88ml) - Dermatologist-Developed Facewash | Non-Comedogenic And Fragrance-Free Cleansers For Acne-Prone Skin,447,507.95,12,88ml,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B07CJPX7KW\nFoxtale,Bengaluru,560001,amazon.in,B07C5XD33D,Foaming Cleanser For Normal To Oily Skin (473ml) - Dermatologist-Developed Facewash | Non-Comedogenic And Fragrance-Free Cleansers For Acne-Prone Skin,1529,323.26,0,473ml,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B07C5XD33D\nFoxtale,Bengaluru,560001,amazon.in,B07C5XPXDC,\"Hydrating Cleanser For Normal To Dry Skin (473ml) - Non-Foaming Face Wash with Hyaluronic Acid And Ceramides | Non-Comedogenic, Non-Irritating And Fragrance-Free Cleanser\",894,189.01,0,473ml,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B07C5XPXDC\nFoxtale,Bengaluru,560001,amazon.in,B01CCGW4OE,\"Gentle Skin Hydrating Face Wash 118ml, Paraben Free, Sulphate-Free Gentle Skin Hydrating Cleanser with Niacinamide, Vitamin B5 for Dry to Normal, Sensitive Skin\",365,309.32,0,118ml,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B01CCGW4OE\nFoxtale,Bengaluru,560001,amazon.in,B07WC9HT58,Cleanser for Dry & Sensitive Skin Type | Daily Gentle Face Cleanser for Men & Women | Fragrance Free | Dermatologist Prescribed | 125ml,364,291.2,0,125ml,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B07WC9HT58\nFoxtale,Bengaluru,560001,amazon.in,B0B4JHXZ9H,\"Gentle Hydrating Face Wash with Hyaluronic Acid, Vitamin B5 | Deep Pore Cleansing | Dirt Control | Make-up Remover | Cleanser For Men & Women | All Skin Types | 100 ml\",269,269,0,100 ml,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0B4JHXZ9H\n";
+
+    function filterRows(mode) {
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const stock = row.getAttribute('data-stock');
+        if (mode === 'all') row.style.display = '';
+        else if (mode === 'oos') row.style.display = stock === 'oos' ? '' : 'none';
+        else if (mode === 'instock') row.style.display = stock === 'instock' ? '' : 'none';
+      });
+    }
+
+    function searchSkus() {
+      const q = document.getElementById('skuSearch').value.toLowerCase();
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const title = row.getAttribute('data-title') || '';
+        const platform = (row.getAttribute('data-platform') || '').toLowerCase();
+        row.style.display = (title.includes(q) || platform.includes(q)) ? '' : 'none';
+      });
+    }
+
+    function downloadCsv() {
+      const blob = new Blob([RAW_CSV], { type: 'text/csv;charset=utf-8;' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'foxtale-3city-audit.csv';
+      a.click();
+    }
+  </script>
+</body>
+</html>

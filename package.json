@@ -1,0 +1,20 @@
+{
+  "name": "unscrape-community",
+  "version": "4.0.0",
+  "description": "Unscrape Open-Core Community Edition — Stealth Browser Engine + 6 Free Extractors (50-Extractor Pro Vault Available)",
+  "type": "module",
+  "scripts": {
+    "start": "tsx src/index.ts",
+    "serve": "tsx src/index.ts serve"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0",
+    "playwright": "^1.48.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0"
+  }
+}

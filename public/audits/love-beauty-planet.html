@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Love Beauty &amp; Planet — 3-City Quick-Commerce Dark-Store Audit Scorecard | Unscrape Radar</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background-color: #07080d; color: #f3f4f6; font-family: Inter, system-ui, -apple-system, sans-serif; }
+  </style>
+</head>
+<body class="min-h-screen pb-24">
+  <!-- Top Bar -->
+  <header class="border-b border-slate-800 bg-slate-950/90 backdrop-blur sticky top-0 z-20">
+    <div class="max-w-7xl mx-auto px-6 py-3.5 flex items-center justify-between flex-wrap gap-3">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="text-emerald-400 font-black text-lg tracking-tight hover:text-emerald-300">⚡ UNSCRAPE RADAR</a>
+        <span class="text-xs text-slate-500">/</span>
+        <span class="text-sm font-bold text-white">Love Beauty &amp; Planet Executive Scorecard</span>
+      </div>
+      <div class="flex items-center gap-2.5 text-xs">
+        <a href="index.html" class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700">← All 56 Brand Audits</a>
+        <button onclick="downloadCsv()" class="px-3.5 py-1.5 rounded-lg bg-emerald-500 text-slate-950 font-bold hover:bg-emerald-400">⬇ Download Raw CSV (30 SKUs)</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-6 pt-8">
+    <!-- Executive Header -->
+    <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 mb-8">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+        <div>
+          <div class="flex items-center gap-2.5 mb-2">
+            <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded bg-slate-800 text-emerald-400">Clean Haircare</span>
+            <span class="text-xs text-slate-400 font-mono">Audited: 2026-10-30</span>
+          </div>
+          <h1 class="text-3xl md:text-4xl font-black text-white tracking-tight">Love Beauty &amp; Planet — Hyperlocal Dark-Store Audit</h1>
+          <p class="text-slate-400 text-sm mt-1">
+            Live multi-platform inventory & MOP/MRP price variance scan across <strong>Bengaluru (560001)</strong>, <strong>Mumbai (400001)</strong>, and <strong>Delhi (110001)</strong>.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 shrink-0">
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">SKUs Audited</div>
+            <div class="text-2xl font-black text-white mt-1">30</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">OOS Leaks</div>
+            <div class="text-2xl font-black text-emerald-400 mt-1">0</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">Max Markdown</div>
+            <div class="text-2xl font-black text-amber-300 mt-1">69%</div>
+          </div>
+          <div class="border rounded-xl p-3.5 text-center bg-emerald-500/15 text-emerald-400 border-emerald-500/30">
+            <div class="text-[11px] uppercase font-bold opacity-80">Shelf Health</div>
+            <div class="text-2xl font-black mt-1">100%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="bg-emerald-950/30 border border-emerald-500/30 rounded-2xl p-5 mb-8 flex items-center justify-between flex-wrap gap-3">
+      <div>
+        <span class="px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 font-bold text-xs uppercase">✓ 100% In-Stock Snapshot</span>
+        <span class="text-sm text-slate-200 ml-2">All 30 audited dark-store listings across Bengaluru, Mumbai & Delhi were in stock during this scan. Max discount variance: <strong>69% below MRP</strong>.</span>
+      </div>
+    </div>
+
+    <!-- Filter Controls -->
+    <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+      <div class="flex items-center gap-2 text-xs">
+        <button onclick="filterRows('all')" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-semibold">All SKUs (30)</button>
+        <button onclick="filterRows('oos')" class="px-3 py-1.5 rounded-lg bg-rose-500/15 border border-rose-500/30 text-rose-300 hover:bg-rose-500/25 font-semibold">Out-of-Stock Only (0)</button>
+        <button onclick="filterRows('instock')" class="px-3 py-1.5 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 hover:bg-emerald-500/25 font-semibold">In-Stock (30)</button>
+      </div>
+      <div class="flex items-center gap-2">
+        <input id="skuSearch" type="text" oninput="searchSkus()" placeholder="Filter SKU title or platform..." class="bg-slate-900 border border-slate-800 rounded-lg px-3.5 py-1.5 text-xs text-white w-64" />
+      </div>
+    </div>
+
+    <!-- SKU Table -->
+    <div class="bg-slate-900/50 border border-slate-800 rounded-2xl overflow-x-auto">
+      <table class="w-full text-left text-xs">
+        <thead class="bg-slate-950/90 text-slate-400 uppercase border-b border-slate-800">
+          <tr>
+            <th class="px-4 py-3">SKU Title</th>
+            <th class="px-4 py-3">Platform</th>
+            <th class="px-4 py-3">City / Pin</th>
+            <th class="px-4 py-3">Pack Size</th>
+            <th class="px-4 py-3">Selling Price</th>
+            <th class="px-4 py-3">MRP</th>
+            <th class="px-4 py-3">Discount</th>
+            <th class="px-4 py-3">Stock Status</th>
+            <th class="px-4 py-3">ETA</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-800/60">
+          <tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="love beauty and planet argan oil &amp; lavender shampoo 200 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Love Beauty And Planet Argan Oil &amp; Lavender Shampoo 200 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1.48/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹295</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹375</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">21% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="smart beauty daily care sulphate and paraben free nano plastia shampoo (pack of 1)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Smart Beauty Daily Care Sulphate and Paraben Free Nano Plastia Shampoo (Pack of 1)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">279.00/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹279</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹899</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">69% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bliss of earth powder shampoo for hair with amla, reetha, shikakai, bhringraj &amp; jatamansi | ayurvedic herbal cleanser for hair wash, growth &amp; care | sulfate-free, 100g shampoo powder">
+        <td class="px-4 py-3 font-medium text-white max-w-md">BLISS OF EARTH Powder Shampoo for Hair with Amla, Reetha, Shikakai, Bhringraj &amp; Jatamansi | Ayurvedic Herbal Cleanser for Hair Wash, Growth &amp; Care | Sulfate-Free, 100g Shampoo Powder</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹170</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹350</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">51% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="l'oreal paris hyaluron 72h moisture filling shampoo 200 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">L'Oreal Paris Hyaluron 72H Moisture Filling Shampoo 200 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">200 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹217</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹229</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="natural's care for beauty shampoo for dull and dry hair with conditioner 500ml pack of 1">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Natural's Care For Beauty Shampoo For Dull and Dry Hair With Conditioner 500ML Pack of 1</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹225</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹325</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">31% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="dove nutritive solutions daily shine shampoo 75 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dove Nutritive Solutions Daily Shine Shampoo 75 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">75 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹57</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹60</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="love beauty and planet argan oil &amp; lavender shampoo 200 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Love Beauty And Planet Argan Oil &amp; Lavender Shampoo 200 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1.48/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹295</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹375</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">21% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="smart beauty daily care sulphate and paraben free nano plastia shampoo (pack of 1)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Smart Beauty Daily Care Sulphate and Paraben Free Nano Plastia Shampoo (Pack of 1)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">279.00/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹279</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹899</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">69% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bliss of earth powder shampoo for hair with amla, reetha, shikakai, bhringraj &amp; jatamansi | ayurvedic herbal cleanser for hair wash, growth &amp; care | sulfate-free, 100g shampoo powder">
+        <td class="px-4 py-3 font-medium text-white max-w-md">BLISS OF EARTH Powder Shampoo for Hair with Amla, Reetha, Shikakai, Bhringraj &amp; Jatamansi | Ayurvedic Herbal Cleanser for Hair Wash, Growth &amp; Care | Sulfate-Free, 100g Shampoo Powder</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹170</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹350</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">51% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="l'oreal paris hyaluron 72h moisture filling shampoo 200 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">L'Oreal Paris Hyaluron 72H Moisture Filling Shampoo 200 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">200 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹217</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹229</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="natural's care for beauty shampoo for dull and dry hair with conditioner 500ml pack of 1">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Natural's Care For Beauty Shampoo For Dull and Dry Hair With Conditioner 500ML Pack of 1</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹225</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹325</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">31% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="dove nutritive solutions daily shine shampoo 75 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dove Nutritive Solutions Daily Shine Shampoo 75 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">75 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹57</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹60</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="love beauty and planet argan oil &amp; lavender shampoo 200 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Love Beauty And Planet Argan Oil &amp; Lavender Shampoo 200 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1.48/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹295</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹375</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">21% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="smart beauty daily care sulphate and paraben free nano plastia shampoo (pack of 1)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Smart Beauty Daily Care Sulphate and Paraben Free Nano Plastia Shampoo (Pack of 1)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">279.00/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹279</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹899</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">69% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bliss of earth powder shampoo for hair with amla, reetha, shikakai, bhringraj &amp; jatamansi | ayurvedic herbal cleanser for hair wash, growth &amp; care | sulfate-free, 100g shampoo powder">
+        <td class="px-4 py-3 font-medium text-white max-w-md">BLISS OF EARTH Powder Shampoo for Hair with Amla, Reetha, Shikakai, Bhringraj &amp; Jatamansi | Ayurvedic Herbal Cleanser for Hair Wash, Growth &amp; Care | Sulfate-Free, 100g Shampoo Powder</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹170</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹350</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">51% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="l'oreal paris hyaluron 72h moisture filling shampoo 200 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">L'Oreal Paris Hyaluron 72H Moisture Filling Shampoo 200 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">200 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹217</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹229</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="natural's care for beauty shampoo for dull and dry hair with conditioner 500ml pack of 1">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Natural's Care For Beauty Shampoo For Dull and Dry Hair With Conditioner 500ML Pack of 1</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹225</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹325</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">31% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="dove nutritive solutions daily shine shampoo 75 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dove Nutritive Solutions Daily Shine Shampoo 75 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">75 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹57</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹60</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="love beauty and planet argan oil and lavender sulfate free smooth and serene shampoo">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Love Beauty And Planet Argan Oil and Lavender Sulfate Free Smooth and Serene Shampoo</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹200</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹375</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">47% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="love beauty and planet onion, blackseed &amp; patchouli hairfall control sulfate free shampoo">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Love Beauty And Planet Onion, BlackSeed &amp; Patchouli Hairfall Control Sulfate Free Shampoo</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹222</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹380</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">42% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="love beauty and planet smoothening� shampoo, with natural argan oil &amp; lavender for frizzy, dry &amp; curly hair, no parabens, no silicones">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Love Beauty And Planet Smoothening� Shampoo, With Natural Argan Oil &amp; Lavender For Frizzy, Dry &amp; Curly Hair, No Parabens, No Silicones</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹648</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹658</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">2% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="love beauty and planet lavender and argan oil smoothie and serene shampoo and conditioner combo pack">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Love Beauty And Planet Lavender and argan oil smoothie and serene shampoo and conditioner combo pack</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹837</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1545</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">46% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="love beauty and planet smoothening� shampoo, with natural argan oil &amp; lavender shampoo and conditiner combo 400ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Love Beauty And Planet Smoothening� Shampoo, With Natural Argan Oil &amp; Lavender SHAMPOO AND CONDITINER COMBO 400ML</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">400ML</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹928</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1475</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">37% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="love beauty and planet argan oil and lavender paraben free smooth and serene conditioner">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Love Beauty And Planet Argan Oil and Lavender Paraben Free Smooth and Serene Conditioner</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹262</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹460</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">43% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="love beauty &amp; planet argan oil and lavender sulfate free smooth and serene shampoo|| no parabens|| no dyes|| 200ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Love Beauty &amp; Planet Argan Oil and Lavender Sulfate Free Smooth and Serene Shampoo|| No Parabens|| No Dyes|| 200ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">200ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹199</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹99.5</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="love beauty &amp; planet onion, black seed &amp; patchouli hairfall control natural shampoo|no sulfates,no paraben|200ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Love Beauty &amp; Planet Onion, Black Seed &amp; Patchouli Hairfall Control Natural Shampoo|No Sulfates,No Paraben|200ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">200ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹221</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹110.5</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Tue, 3 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="love beauty &amp; planet, avocado oil &amp; peptide waves, shampoo, for wavy hair (2a-2c), with avocado oil, provides frizz control, free from sulfates">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Love Beauty &amp; Planet, Avocado Oil &amp; Peptide Waves, Shampoo, for Wavy Hair (2A-2C), with Avocado Oil, Provides Frizz Control, Free from Sulfates</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹319</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹159.5</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Fri, 6 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="hyaluron pure purifying shampoo - oily/dry hair, 800ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Hyaluron Pure Purifying Shampoo - Oily/Dry Hair, 800ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">800ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹474</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹59.25</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="l'oréal paris total repair 5 shampoo, 800ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">L'Oréal Paris Total Repair 5 Shampoo, 800ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">800ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹435</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹54.38</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">2 - 9 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="love beauty &amp; planet argan oil and lavender sulfate free smooth and serene shampoo|| no parabens|| no dyes|| 400ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Love Beauty &amp; Planet Argan Oil and Lavender Sulfate Free Smooth and Serene Shampoo|| No Parabens|| No Dyes|| 400ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">400ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹380</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹95</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- Sticky CTA Footer -->
+  <div class="fixed bottom-0 inset-x-0 bg-slate-950/95 border-t border-emerald-500/30 backdrop-blur px-6 py-3.5 z-30">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+      <div class="text-slate-200">
+        <span class="text-emerald-400 font-bold">⚡ Unscrape Radar:</span> Want real-time Slack/WhatsApp/Telegram alerts within 15 mins whenever <strong>Love Beauty &amp; Planet</strong> SKUs go Out-of-Stock across 20 BLR/MUM/DEL dark-store pin codes?
+      </div>
+      <div class="flex items-center gap-2.5 shrink-0">
+        <a href="https://github.com/deveshkolte/unscrape" target="_blank" class="px-4 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold">Unlock Automated 20-Pin-Code Monitor →</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const RAW_CSV = "brand,city,pincode,platform,skuId,title,sellingPriceInr,mrpInr,discountPercent,unit,inStock,deliveryEta,url\nLove Beauty & Planet,Bengaluru,560001,bigbasket.com/jiomart,7551364,Love Beauty And Planet Argan Oil & Lavender Shampoo 200 ml,295,375,21,1.48/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/love-beauty-and-planet-argan-oil-lavender-shampoo-200-ml-mffnek-7551364/7551364\nLove Beauty & Planet,Bengaluru,560001,bigbasket.com/jiomart,170255876,Smart Beauty Daily Care Sulphate and Paraben Free Nano Plastia Shampoo (Pack of 1),279,899,69,279.00/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/smart-beauty-daily-care-sulphate-and-paraben-free-nano-plastia-shampoo-pack-of-1-mvumxb-170255876/170255876\nLove Beauty & Planet,Bengaluru,560001,bigbasket.com/jiomart,21243700,\"BLISS OF EARTH Powder Shampoo for Hair with Amla, Reetha, Shikakai, Bhringraj & Jatamansi | Ayurvedic Herbal Cleanser for Hair Wash, Growth & Care | Sulfate-Free, 100g Shampoo Powder\",170,350,51,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/bliss-of-earth-powder-shampoo-for-hair-with-amla-reetha-shikakai-bhringraj-jatamansi-ayurvedic-herbal-cleanser-for-hair-wash-growth-care-sulfate-free-100g-shampoo-powder-miamjv-21243700/21243700\nLove Beauty & Planet,Bengaluru,560001,bigbasket.com/jiomart,7517176,L'Oreal Paris Hyaluron 72H Moisture Filling Shampoo 200 ml,217,229,5,200 ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/loreal-paris-hyaluron-72h-moisture-filling-shampoo-180-ml-mffmye-7517176/7517176\nLove Beauty & Planet,Bengaluru,560001,bigbasket.com/jiomart,67695205,Natural's Care For Beauty Shampoo For Dull and Dry Hair With Conditioner 500ML Pack of 1,225,325,31,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/natural-s-care-for-beauty-shampoo-with-conditioner-500ml-pack-of-1-mjhdss-67695205/67695205\nLove Beauty & Planet,Bengaluru,560001,bigbasket.com/jiomart,7508866,Dove Nutritive Solutions Daily Shine Shampoo 75 ml,57,60,5,75 ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/dove-nutritive-solutions-daily-shine-nutritive-serum-shampoo-75-ml-mffmui-7508866/7508866\nLove Beauty & Planet,Mumbai,400001,bigbasket.com/jiomart,7551364,Love Beauty And Planet Argan Oil & Lavender Shampoo 200 ml,295,375,21,1.48/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/love-beauty-and-planet-argan-oil-lavender-shampoo-200-ml-mffnek-7551364/7551364\nLove Beauty & Planet,Mumbai,400001,bigbasket.com/jiomart,170255876,Smart Beauty Daily Care Sulphate and Paraben Free Nano Plastia Shampoo (Pack of 1),279,899,69,279.00/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/smart-beauty-daily-care-sulphate-and-paraben-free-nano-plastia-shampoo-pack-of-1-mvumxb-170255876/170255876\nLove Beauty & Planet,Mumbai,400001,bigbasket.com/jiomart,21243700,\"BLISS OF EARTH Powder Shampoo for Hair with Amla, Reetha, Shikakai, Bhringraj & Jatamansi | Ayurvedic Herbal Cleanser for Hair Wash, Growth & Care | Sulfate-Free, 100g Shampoo Powder\",170,350,51,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/bliss-of-earth-powder-shampoo-for-hair-with-amla-reetha-shikakai-bhringraj-jatamansi-ayurvedic-herbal-cleanser-for-hair-wash-growth-care-sulfate-free-100g-shampoo-powder-miamjv-21243700/21243700\nLove Beauty & Planet,Mumbai,400001,bigbasket.com/jiomart,7517176,L'Oreal Paris Hyaluron 72H Moisture Filling Shampoo 200 ml,217,229,5,200 ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/loreal-paris-hyaluron-72h-moisture-filling-shampoo-180-ml-mffmye-7517176/7517176\nLove Beauty & Planet,Mumbai,400001,bigbasket.com/jiomart,67695205,Natural's Care For Beauty Shampoo For Dull and Dry Hair With Conditioner 500ML Pack of 1,225,325,31,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/natural-s-care-for-beauty-shampoo-with-conditioner-500ml-pack-of-1-mjhdss-67695205/67695205\nLove Beauty & Planet,Mumbai,400001,bigbasket.com/jiomart,7508866,Dove Nutritive Solutions Daily Shine Shampoo 75 ml,57,60,5,75 ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/dove-nutritive-solutions-daily-shine-nutritive-serum-shampoo-75-ml-mffmui-7508866/7508866\nLove Beauty & Planet,Delhi,110001,bigbasket.com/jiomart,7551364,Love Beauty And Planet Argan Oil & Lavender Shampoo 200 ml,295,375,21,1.48/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/love-beauty-and-planet-argan-oil-lavender-shampoo-200-ml-mffnek-7551364/7551364\nLove Beauty & Planet,Delhi,110001,bigbasket.com/jiomart,170255876,Smart Beauty Daily Care Sulphate and Paraben Free Nano Plastia Shampoo (Pack of 1),279,899,69,279.00/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/smart-beauty-daily-care-sulphate-and-paraben-free-nano-plastia-shampoo-pack-of-1-mvumxb-170255876/170255876\nLove Beauty & Planet,Delhi,110001,bigbasket.com/jiomart,21243700,\"BLISS OF EARTH Powder Shampoo for Hair with Amla, Reetha, Shikakai, Bhringraj & Jatamansi | Ayurvedic Herbal Cleanser for Hair Wash, Growth & Care | Sulfate-Free, 100g Shampoo Powder\",170,350,51,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/bliss-of-earth-powder-shampoo-for-hair-with-amla-reetha-shikakai-bhringraj-jatamansi-ayurvedic-herbal-cleanser-for-hair-wash-growth-care-sulfate-free-100g-shampoo-powder-miamjv-21243700/21243700\nLove Beauty & Planet,Delhi,110001,bigbasket.com/jiomart,7517176,L'Oreal Paris Hyaluron 72H Moisture Filling Shampoo 200 ml,217,229,5,200 ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/loreal-paris-hyaluron-72h-moisture-filling-shampoo-180-ml-mffmye-7517176/7517176\nLove Beauty & Planet,Delhi,110001,bigbasket.com/jiomart,67695205,Natural's Care For Beauty Shampoo For Dull and Dry Hair With Conditioner 500ML Pack of 1,225,325,31,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/natural-s-care-for-beauty-shampoo-with-conditioner-500ml-pack-of-1-mjhdss-67695205/67695205\nLove Beauty & Planet,Delhi,110001,bigbasket.com/jiomart,7508866,Dove Nutritive Solutions Daily Shine Shampoo 75 ml,57,60,5,75 ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/dove-nutritive-solutions-daily-shine-nutritive-serum-shampoo-75-ml-mffmui-7508866/7508866\nLove Beauty & Planet,Bengaluru,560001,flipkart.com,SMPG9G3WNJZAKEQF,Love Beauty And Planet Argan Oil and Lavender Sulfate Free Smooth and Serene Shampoo,200,375,47,1 unit,true,15 MINS,https://www.flipkart.com/love-beauty-planet-argan-oil-lavender-sulfate-free-smooth-serene-shampoo/p/itmc51b8c145efa5?pid=SMPG9G3WNJZAKEQF&lid=LSTSMPG9G3WNJZAKEQF0SXBKW&marketplace=FLIPKART&q=love+beauty+and+planet+shampoo&store=g9b%2Flcf%2Fqqm%2Ft36&srno=s_1_1&otracker=search&fm=organic&iid=en_L5ky4_lFGUf5xQvUu6pyvLf3eVhSh203f0tHkvYuAu_1t_BmzTpHm-dtNjZRkGDrfmyNwgCgZFt6-S87hi_WpX6gp_2tGiVub0st_YTYCA72wlMr8SLWN4o507Xw2jP6&ppt=sp&ppn=sp&ssid=n4fxzdljsg0000001793387359118&qH=52bed9f45a13ceb4&ov_redirect=true&ov_redirect=true\nLove Beauty & Planet,Bengaluru,560001,flipkart.com,SMPG9G8ZMZYWXFC2,\"Love Beauty And Planet Onion, BlackSeed & Patchouli Hairfall Control Sulfate Free Shampoo\",222,380,42,1 unit,true,15 MINS,https://www.flipkart.com/love-beauty-planet-onion-blackseed-patchouli-hairfall-control-sulfate-free-shampoo/p/itm3b94abc8073b2?pid=SMPG9G8ZMZYWXFC2&lid=LSTSMPG9G8ZMZYWXFC2IPWVJR&marketplace=FLIPKART&q=love+beauty+and+planet+shampoo&store=g9b%2Flcf%2Fqqm%2Ft36&srno=s_1_2&otracker=search&fm=organic&iid=en_L5ky4_lFGUf5xQvUu6pyvLf3eVhSh203f0tHkvYuAu9DSF6wyf_W0b789h5UzAUBfQcAGQYWW6KvNe1iuO9s1EICksO1qDtbUusaOmvwcx32wlMr8SLWN4o507Xw2jP6&ppt=sp&ppn=sp&ssid=n4fxzdljsg0000001793387359118&qH=52bed9f45a13ceb4&ov_redirect=true&ov_redirect=true\nLove Beauty & Planet,Bengaluru,560001,flipkart.com,SMPFKXKUC9M8ZRGN,\"Love Beauty And Planet Smoothening� Shampoo, With Natural Argan Oil & Lavender For Frizzy, Dry & Curly Hair, No Parabens, No Silicones\",648,658,2,1 unit,true,15 MINS,https://www.flipkart.com/love-beauty-planet-smoothening-shampoo-natural-argan-oil-lavender-frizzy-dry-curly-hair-no-parabens-silicones/p/itm0220105038d74?pid=SMPFKXKUC9M8ZRGN&lid=LSTSMPFKXKUC9M8ZRGNMUCHFX&marketplace=FLIPKART&q=love+beauty+and+planet+shampoo&store=g9b%2Flcf%2Fqqm%2Ft36&srno=s_1_3&otracker=search&fm=organic&iid=47619e04-9b89-403d-a121-cfef226cef52.SMPFKXKUC9M8ZRGN.SEARCH&ppt=sp&ppn=sp&ssid=n4fxzdljsg0000001793387359118&qH=52bed9f45a13ceb4&ov_redirect=true&ov_redirect=true\nLove Beauty & Planet,Bengaluru,560001,flipkart.com,SMPHNGX9ZVUECUZD,Love Beauty And Planet Lavender and argan oil smoothie and serene shampoo and conditioner combo pack,837,1545,46,1 unit,true,15 MINS,https://www.flipkart.com/love-beauty-planet-lavender-argan-oil-smoothie-serene-shampoo-conditioner-combo-pack/p/itmbcb31286775bf?pid=SMPHNGX9ZVUECUZD&lid=LSTSMPHNGX9ZVUECUZDXZH03P&marketplace=FLIPKART&q=love+beauty+and+planet+shampoo&store=g9b%2Flcf%2Fqqm%2Ft36&spotlightTagId=default_TrendingId_g9b%2Flcf%2Fqqm%2Ft36&srno=s_1_4&otracker=search&fm=organic&iid=47619e04-9b89-403d-a121-cfef226cef52.SMPHNGX9ZVUECUZD.SEARCH&ppt=sp&ppn=sp&ssid=n4fxzdljsg0000001793387359118&qH=52bed9f45a13ceb4&ov_redirect=true&ov_redirect=true\nLove Beauty & Planet,Bengaluru,560001,flipkart.com,CBKHJX6Z4PBSV4V9,\"Love Beauty And Planet Smoothening� Shampoo, With Natural Argan Oil & Lavender SHAMPOO AND CONDITINER COMBO 400ML\",928,1475,37,400ML,true,15 MINS,https://www.flipkart.com/love-beauty-planet-smoothening-shampoo-natural-argan-oil-lavender-shampoo-conditiner-combo-400ml/p/itmb4246ccf0b4c0?pid=CBKHJX6Z4PBSV4V9&lid=LSTCBKHJX6Z4PBSV4V9QKMGGB&marketplace=FLIPKART&q=love+beauty+and+planet+shampoo&store=g9b%2Flcf%2Fqqm%2Ft36&srno=s_1_5&otracker=search&fm=organic&iid=47619e04-9b89-403d-a121-cfef226cef52.CBKHJX6Z4PBSV4V9.SEARCH&ppt=sp&ppn=sp&ssid=n4fxzdljsg0000001793387359118&qH=52bed9f45a13ceb4&ov_redirect=true&ov_redirect=true\nLove Beauty & Planet,Bengaluru,560001,flipkart.com,CNDG9G4GV6HKHYS7,Love Beauty And Planet Argan Oil and Lavender Paraben Free Smooth and Serene Conditioner,262,460,43,1 unit,true,15 MINS,https://www.flipkart.com/love-beauty-planet-argan-oil-lavender-paraben-free-smooth-serene-conditioner/p/itmc720e63512364?pid=CNDG9G4GV6HKHYS7&lid=LSTCNDG9G4GV6HKHYS7FHGUMG&marketplace=FLIPKART&q=love+beauty+and+planet+shampoo&store=g9b%2Flcf%2Fqqm%2Ft36&srno=s_1_6&otracker=search&fm=organic&iid=47619e04-9b89-403d-a121-cfef226cef52.CNDG9G4GV6HKHYS7.SEARCH&ppt=sp&ppn=sp&ssid=n4fxzdljsg0000001793387359118&qH=52bed9f45a13ceb4&ov_redirect=true&ov_redirect=true\nLove Beauty & Planet,Bengaluru,560001,amazon.in,B09NBKXLVN,Love Beauty & Planet Argan Oil and Lavender Sulfate Free Smooth and Serene Shampoo|| No Parabens|| No Dyes|| 200ml,199,99.5,0,200ml,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B09NBKXLVN\nLove Beauty & Planet,Bengaluru,560001,amazon.in,B09NBKPZKL,\"Love Beauty & Planet Onion, Black Seed & Patchouli Hairfall Control Natural Shampoo|No Sulfates,No Paraben|200ml\",221,110.5,0,200ml,true,\"Tue, 3 Nov\",https://www.amazon.in/dp/B09NBKPZKL\nLove Beauty & Planet,Bengaluru,560001,amazon.in,B0H7SJZYFT,\"Love Beauty & Planet, Avocado Oil & Peptide Waves, Shampoo, for Wavy Hair (2A-2C), with Avocado Oil, Provides Frizz Control, Free from Sulfates\",319,159.5,0,1 unit,true,\"Fri, 6 Nov\",https://www.amazon.in/dp/B0H7SJZYFT\nLove Beauty & Planet,Bengaluru,560001,amazon.in,B0DSLP1VCM,\"Hyaluron Pure Purifying Shampoo - Oily/Dry Hair, 800ml\",474,59.25,0,800ml,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0DSLP1VCM\nLove Beauty & Planet,Bengaluru,560001,amazon.in,B0F8R6FHYX,\"L'Oréal Paris Total Repair 5 Shampoo, 800ml\",435,54.38,0,800ml,true,2 - 9 Nov,https://www.amazon.in/dp/B0F8R6FHYX\nLove Beauty & Planet,Bengaluru,560001,amazon.in,B07YSY6S6F,Love Beauty & Planet Argan Oil and Lavender Sulfate Free Smooth and Serene Shampoo|| No Parabens|| No Dyes|| 400ml,380,95,0,400ml,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B07YSY6S6F\n";
+
+    function filterRows(mode) {
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const stock = row.getAttribute('data-stock');
+        if (mode === 'all') row.style.display = '';
+        else if (mode === 'oos') row.style.display = stock === 'oos' ? '' : 'none';
+        else if (mode === 'instock') row.style.display = stock === 'instock' ? '' : 'none';
+      });
+    }
+
+    function searchSkus() {
+      const q = document.getElementById('skuSearch').value.toLowerCase();
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const title = row.getAttribute('data-title') || '';
+        const platform = (row.getAttribute('data-platform') || '').toLowerCase();
+        row.style.display = (title.includes(q) || platform.includes(q)) ? '' : 'none';
+      });
+    }
+
+    function downloadCsv() {
+      const blob = new Blob([RAW_CSV], { type: 'text/csv;charset=utf-8;' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'love-beauty-planet-3city-audit.csv';
+      a.click();
+    }
+  </script>
+</body>
+</html>

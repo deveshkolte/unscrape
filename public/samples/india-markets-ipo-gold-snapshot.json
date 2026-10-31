@@ -1,0 +1,323 @@
+{
+  "generatedAt": "2026-10-30T18:14:48.204Z",
+  "summary": {
+    "nseConstituentsCount": 15,
+    "activeIposTracked": 10,
+    "goldRatesTracked": 6
+  },
+  "nseNifty50": [
+    {
+      "symbol": "NIFTY 50",
+      "companyName": "NIFTY 50",
+      "lastPrice": 23053.1,
+      "change": 116.35,
+      "pChange": 0.51,
+      "dayHigh": 23118.1,
+      "dayLow": 22905.1,
+      "source": "nseindia.com",
+      "timestamp": "30-Oct-2026 15:30"
+    },
+    {
+      "symbol": "NIFTY NEXT 50",
+      "companyName": "NIFTY NEXT 50",
+      "lastPrice": 67709.1,
+      "change": -412.5,
+      "pChange": -0.61,
+      "dayHigh": 67996.7,
+      "dayLow": 67463.4,
+      "source": "nseindia.com",
+      "timestamp": "30-Oct-2026 15:30"
+    },
+    {
+      "symbol": "NIFTY BANK",
+      "companyName": "NIFTY BANK",
+      "lastPrice": 54686.95,
+      "change": -222.7,
+      "pChange": -0.41,
+      "dayHigh": 55068.5,
+      "dayLow": 54580.75,
+      "source": "nseindia.com",
+      "timestamp": "30-Oct-2026 15:30"
+    },
+    {
+      "symbol": "NIFTY FIN SERVICE",
+      "companyName": "NIFTY FIN SERVICE",
+      "lastPrice": 24712.2,
+      "change": 7.65,
+      "pChange": 0.03,
+      "dayHigh": 24840.9,
+      "dayLow": 24606.4,
+      "source": "nseindia.com",
+      "timestamp": "30-Oct-2026 15:30"
+    },
+    {
+      "symbol": "NIFTY MID SELECT",
+      "companyName": "NIFTY MID SELECT",
+      "lastPrice": 13184.5,
+      "change": -196.55,
+      "pChange": -1.47,
+      "dayHigh": 13363.9,
+      "dayLow": 13171.45,
+      "source": "nseindia.com",
+      "timestamp": "30-Oct-2026 15:30"
+    },
+    {
+      "symbol": "NIFTY FPI 150",
+      "companyName": "NIFTY FPI 150",
+      "lastPrice": 1479.2,
+      "change": 2.35,
+      "pChange": 0.16,
+      "dayHigh": 1483.65,
+      "dayLow": 1471,
+      "source": "nseindia.com",
+      "timestamp": "30-Oct-2026 15:30"
+    },
+    {
+      "symbol": "NIFTY 100",
+      "companyName": "NIFTY 100",
+      "lastPrice": 23971.55,
+      "change": 72.4,
+      "pChange": 0.3,
+      "dayHigh": 24042.55,
+      "dayLow": 23830.15,
+      "source": "nseindia.com",
+      "timestamp": "30-Oct-2026 15:30"
+    },
+    {
+      "symbol": "NIFTY MIDCAP 100",
+      "companyName": "NIFTY MIDCAP 100",
+      "lastPrice": 57301.25,
+      "change": -540.4,
+      "pChange": -0.93,
+      "dayHigh": 57808.5,
+      "dayLow": 57193.95,
+      "source": "nseindia.com",
+      "timestamp": "30-Oct-2026 15:30"
+    },
+    {
+      "symbol": "NIFTY SMLCAP 100",
+      "companyName": "NIFTY SMLCAP 100",
+      "lastPrice": 18463.6,
+      "change": -347.75,
+      "pChange": -1.85,
+      "dayHigh": 18782.65,
+      "dayLow": 18441.35,
+      "source": "nseindia.com",
+      "timestamp": "30-Oct-2026 15:30"
+    },
+    {
+      "symbol": "NIFTY AUTO",
+      "companyName": "NIFTY AUTO",
+      "lastPrice": 25422.7,
+      "change": -222.9,
+      "pChange": -0.87,
+      "dayHigh": 25685.7,
+      "dayLow": 25422.7,
+      "source": "nseindia.com",
+      "timestamp": "30-Oct-2026 15:30"
+    },
+    {
+      "symbol": "NIFTY FMCG",
+      "companyName": "NIFTY FMCG",
+      "lastPrice": 43609.2,
+      "change": -273.75,
+      "pChange": -0.62,
+      "dayHigh": 43867.7,
+      "dayLow": 43418.3,
+      "source": "nseindia.com",
+      "timestamp": "30-Oct-2026 15:30"
+    },
+    {
+      "symbol": "NIFTY IT",
+      "companyName": "NIFTY IT",
+      "lastPrice": 32606.9,
+      "change": 740.5,
+      "pChange": 2.32,
+      "dayHigh": 32705.45,
+      "dayLow": 31977.55,
+      "source": "nseindia.com",
+      "timestamp": "30-Oct-2026 15:30"
+    },
+    {
+      "symbol": "NIFTY ALPHA 50",
+      "companyName": "NIFTY ALPHA 50",
+      "lastPrice": 52498.6,
+      "change": -705.85,
+      "pChange": -1.33,
+      "dayHigh": 52994.35,
+      "dayLow": 52336.25,
+      "source": "nseindia.com",
+      "timestamp": "30-Oct-2026 15:30"
+    },
+    {
+      "symbol": "NIFTY DIV OPPS 50",
+      "companyName": "NIFTY DIV OPPS 50",
+      "lastPrice": 5587.65,
+      "change": 12.5,
+      "pChange": 0.22,
+      "dayHigh": 5601.55,
+      "dayLow": 5551.6,
+      "source": "nseindia.com",
+      "timestamp": "30-Oct-2026 15:30"
+    },
+    {
+      "symbol": "NIFTY GROWSECT 15",
+      "companyName": "NIFTY GROWSECT 15",
+      "lastPrice": 11113,
+      "change": 86.45,
+      "pChange": 0.78,
+      "dayHigh": 11183.6,
+      "dayLow": 11048.65,
+      "source": "nseindia.com",
+      "timestamp": "30-Oct-2026 15:30"
+    }
+  ],
+  "ipoGreyMarketPremium": [
+    {
+      "symbol": "IPO:BOMBAY COATED AND SPECIA",
+      "companyName": "Bombay Coated and Special Steels Open",
+      "lastPrice": 82,
+      "change": 9,
+      "pChange": 10.98,
+      "source": "chittorgarh/ipowatch.in",
+      "timestamp": "29-2 Nov"
+    },
+    {
+      "symbol": "IPO:M.K.SONS FINE JEWELS",
+      "companyName": "M.K.Sons Fine Jewels Open",
+      "lastPrice": 162,
+      "change": 12,
+      "pChange": 7.41,
+      "source": "chittorgarh/ipowatch.in",
+      "timestamp": "28-30 Oct"
+    },
+    {
+      "symbol": "IPO:SFC ENVIRONMENTAL TECHNO",
+      "companyName": "SFC Environmental Technologies Closed",
+      "lastPrice": 330,
+      "change": 20,
+      "pChange": 6.06,
+      "source": "chittorgarh/ipowatch.in",
+      "timestamp": "27-29 Oct"
+    },
+    {
+      "symbol": "IPO:BLS POLYMERS",
+      "companyName": "BLS Polymers Closed",
+      "lastPrice": 150,
+      "change": 68,
+      "pChange": 45.33,
+      "source": "chittorgarh/ipowatch.in",
+      "timestamp": "27-29 Oct"
+    },
+    {
+      "symbol": "IPO:EAAA INDIA ALTERNATIVES",
+      "companyName": "EAAA India Alternatives Closed",
+      "lastPrice": 1665,
+      "change": 40,
+      "pChange": 2.4,
+      "source": "chittorgarh/ipowatch.in",
+      "timestamp": "26-28 Oct"
+    },
+    {
+      "symbol": "IPO:VEDANT POLY FABS",
+      "companyName": "Vedant Poly Fabs Upcoming",
+      "lastPrice": 94,
+      "change": 0,
+      "pChange": 0,
+      "source": "chittorgarh/ipowatch.in",
+      "timestamp": "2-4 Nov"
+    },
+    {
+      "symbol": "IPO:JOHNSONCAB ELECTRICALS",
+      "companyName": "Johnsoncab Electricals Open",
+      "lastPrice": 200,
+      "change": 13,
+      "pChange": 6.5,
+      "source": "chittorgarh/ipowatch.in",
+      "timestamp": "30-3 Nov"
+    },
+    {
+      "symbol": "IPO:HGS (INDIA)",
+      "companyName": "HGS (India) Open",
+      "lastPrice": 120,
+      "change": 0,
+      "pChange": 0,
+      "source": "chittorgarh/ipowatch.in",
+      "timestamp": "30-3 Nov"
+    },
+    {
+      "symbol": "IPO:MAXWELL ENGINEERING",
+      "companyName": "Maxwell Engineering Open",
+      "lastPrice": 158,
+      "change": 70,
+      "pChange": 44.3,
+      "source": "chittorgarh/ipowatch.in",
+      "timestamp": "30-3 Nov"
+    },
+    {
+      "symbol": "IPO:VECTRAS ENPROCON",
+      "companyName": "Vectras Enprocon Open",
+      "lastPrice": 105,
+      "change": 0,
+      "pChange": 0,
+      "source": "chittorgarh/ipowatch.in",
+      "timestamp": "30-3 Nov"
+    }
+  ],
+  "bengaluruGoldSpotRates": [
+    {
+      "symbol": "GOLD-24K-1G",
+      "companyName": "24K Gold (1g) — Bengaluru",
+      "lastPrice": 14226,
+      "change": -169,
+      "pChange": -1.17,
+      "source": "goodreturns.in",
+      "timestamp": "2026-10-30T18:14:46.711Z"
+    },
+    {
+      "symbol": "GOLD-22K-1G",
+      "companyName": "22K Gold (1g) — Bengaluru",
+      "lastPrice": 13040,
+      "change": -155,
+      "pChange": -1.17,
+      "source": "goodreturns.in",
+      "timestamp": "2026-10-30T18:14:46.711Z"
+    },
+    {
+      "symbol": "GOLD-18K-1G",
+      "companyName": "18K Gold (1g) — Bengaluru",
+      "lastPrice": 10669,
+      "change": -127,
+      "pChange": -1.18,
+      "source": "goodreturns.in",
+      "timestamp": "2026-10-30T18:14:46.711Z"
+    },
+    {
+      "symbol": "GOLD-24K-10G",
+      "companyName": "24K Gold (10g) — Bengaluru",
+      "lastPrice": 142260,
+      "change": -1690,
+      "pChange": -1.17,
+      "source": "goodreturns.in",
+      "timestamp": "2026-10-30T18:14:46.711Z"
+    },
+    {
+      "symbol": "GOLD-22K-10G",
+      "companyName": "22K Gold (10g) — Bengaluru",
+      "lastPrice": 130400,
+      "change": -1550,
+      "pChange": -1.17,
+      "source": "goodreturns.in",
+      "timestamp": "2026-10-30T18:14:46.711Z"
+    },
+    {
+      "symbol": "GOLD-18K-10G",
+      "companyName": "18K Gold (10g) — Bengaluru",
+      "lastPrice": 106690,
+      "change": -1270,
+      "pChange": -1.18,
+      "source": "goodreturns.in",
+      "timestamp": "2026-10-30T18:14:46.711Z"
+    }
+  ]
+}

@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Yoga Bar — 3-City Quick-Commerce Dark-Store Audit Scorecard | Unscrape Radar</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background-color: #07080d; color: #f3f4f6; font-family: Inter, system-ui, -apple-system, sans-serif; }
+  </style>
+</head>
+<body class="min-h-screen pb-24">
+  <!-- Top Bar -->
+  <header class="border-b border-slate-800 bg-slate-950/90 backdrop-blur sticky top-0 z-20">
+    <div class="max-w-7xl mx-auto px-6 py-3.5 flex items-center justify-between flex-wrap gap-3">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="text-emerald-400 font-black text-lg tracking-tight hover:text-emerald-300">⚡ UNSCRAPE RADAR</a>
+        <span class="text-xs text-slate-500">/</span>
+        <span class="text-sm font-bold text-white">Yoga Bar Executive Scorecard</span>
+      </div>
+      <div class="flex items-center gap-2.5 text-xs">
+        <a href="index.html" class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700">← All 56 Brand Audits</a>
+        <button onclick="downloadCsv()" class="px-3.5 py-1.5 rounded-lg bg-emerald-500 text-slate-950 font-bold hover:bg-emerald-400">⬇ Download Raw CSV (66 SKUs)</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-6 pt-8">
+    <!-- Executive Header -->
+    <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 mb-8">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+        <div>
+          <div class="flex items-center gap-2.5 mb-2">
+            <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded bg-slate-800 text-emerald-400">Healthy Snacks &amp; Muesli</span>
+            <span class="text-xs text-slate-400 font-mono">Audited: 2026-10-30</span>
+          </div>
+          <h1 class="text-3xl md:text-4xl font-black text-white tracking-tight">Yoga Bar — Hyperlocal Dark-Store Audit</h1>
+          <p class="text-slate-400 text-sm mt-1">
+            Live multi-platform inventory & MOP/MRP price variance scan across <strong>Bengaluru (560001)</strong>, <strong>Mumbai (400001)</strong>, and <strong>Delhi (110001)</strong>.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 shrink-0">
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">SKUs Audited</div>
+            <div class="text-2xl font-black text-white mt-1">66</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">OOS Leaks</div>
+            <div class="text-2xl font-black text-rose-400 mt-1">1</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">Max Markdown</div>
+            <div class="text-2xl font-black text-amber-300 mt-1">60%</div>
+          </div>
+          <div class="border rounded-xl p-3.5 text-center bg-emerald-500/15 text-emerald-400 border-emerald-500/30">
+            <div class="text-[11px] uppercase font-bold opacity-80">Shelf Health</div>
+            <div class="text-2xl font-black mt-1">98%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="bg-rose-950/50 border border-rose-500/40 rounded-2xl p-6 mb-8">
+      <div class="flex items-center justify-between flex-wrap gap-3 mb-4">
+        <div class="flex items-center gap-3">
+          <span class="px-3 py-1 rounded-full bg-rose-500 text-slate-950 font-black text-xs uppercase tracking-wider">🚨 REVENUE LEAK DETECTED</span>
+          <h2 class="text-lg font-bold text-white">1 Out-of-Stock Dark-Store Listing(s) Caught Live</h2>
+        </div>
+        <span class="text-xs font-mono text-rose-300">Immediate Shelf Conversion Loss</span>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+        
+          <div class="bg-slate-950/90 border border-rose-500/30 rounded-xl p-3.5 flex items-center justify-between gap-3">
+            <div>
+              <div class="text-sm font-bold text-white">Yoga Bar Chocolate Chunk Nut Multigrain Energy Bar</div>
+              <div class="text-xs text-slate-400 mt-1">
+                Platform: <span class="text-rose-300 font-mono">blinkit.com</span> ·
+                City: <span class="text-slate-200">Delhi (110001)</span> ·
+                Pack: <span class="text-slate-300">6 x 35 g</span>
+              </div>
+            </div>
+            <div class="text-right shrink-0">
+              <div class="text-sm font-extrabold text-rose-400">OUT OF STOCK</div>
+              <div class="text-xs text-slate-400">₹231</div>
+            </div>
+          </div>
+      </div>
+    </div>
+
+    <!-- Filter Controls -->
+    <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+      <div class="flex items-center gap-2 text-xs">
+        <button onclick="filterRows('all')" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-semibold">All SKUs (66)</button>
+        <button onclick="filterRows('oos')" class="px-3 py-1.5 rounded-lg bg-rose-500/15 border border-rose-500/30 text-rose-300 hover:bg-rose-500/25 font-semibold">Out-of-Stock Only (1)</button>
+        <button onclick="filterRows('instock')" class="px-3 py-1.5 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 hover:bg-emerald-500/25 font-semibold">In-Stock (65)</button>
+      </div>
+      <div class="flex items-center gap-2">
+        <input id="skuSearch" type="text" oninput="searchSkus()" placeholder="Filter SKU title or platform..." class="bg-slate-900 border border-slate-800 rounded-lg px-3.5 py-1.5 text-xs text-white w-64" />
+      </div>
+    </div>
+
+    <!-- SKU Table -->
+    <div class="bg-slate-900/50 border border-slate-800 rounded-2xl overflow-x-auto">
+      <table class="w-full text-left text-xs">
+        <thead class="bg-slate-950/90 text-slate-400 uppercase border-b border-slate-800">
+          <tr>
+            <th class="px-4 py-3">SKU Title</th>
+            <th class="px-4 py-3">Platform</th>
+            <th class="px-4 py-3">City / Pin</th>
+            <th class="px-4 py-3">Pack Size</th>
+            <th class="px-4 py-3">Selling Price</th>
+            <th class="px-4 py-3">MRP</th>
+            <th class="px-4 py-3">Discount</th>
+            <th class="px-4 py-3">Stock Status</th>
+            <th class="px-4 py-3">ETA</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-800/60">
+          <tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="horlicks yeast protein powder sachets (chocolate)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Horlicks Yeast Protein Powder Sachets (Chocolate)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">28 x 36 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹2150</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹2600</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">17% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">8 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="yoga bar protein oats - dark chocolate">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Yoga Bar Protein Oats - Dark Chocolate</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 kg</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹449</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹490</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">8% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">8 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="yoga bar protein oats - dark chocolate - pack of 2">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Yoga Bar Protein Oats - Dark Chocolate - Pack of 2</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">2 x 1 kg</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹889</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹980</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">9% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">8 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="yoga bar protein oats - dark chocolate - pack of 3">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Yoga Bar Protein Oats - Dark Chocolate - Pack of 3</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">3 x 1 kg</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1333</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1470</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">9% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">8 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="yoga bar 10 g dark chocolate &amp; cranberry protein bar">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Yoga Bar 10 g Dark Chocolate &amp; Cranberry Protein Bar</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">50 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹65</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹65</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">8 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="yoga bar 10 g dark chocolate &amp; cranberry protein bar">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Yoga Bar 10 g Dark Chocolate &amp; Cranberry Protein Bar</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">3 x 50 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹182</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹195</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">7% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">8 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="yoga bar breakfast protein bar dark chocolate, 4g protein, 17g whole grain, fibre rich, millets,oats">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Yoga Bar Breakfast Protein Bar Dark Chocolate, 4g Protein, 17g Whole Grain, Fibre Rich, Millets,Oats</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (50 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹44</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹65</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">32% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="yoga bar 26% high protein oats, dark chocolate, no added sugar, high fibre, added probiotics">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Yoga Bar 26% High Protein Oats, Dark Chocolate, No Added Sugar, High Fibre, Added Probiotics</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (1 kg)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹449</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹490</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">8% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="yoga bar chocolate chunk multigrain energy bar, with millets, chocolate, almonds, high dietary fibre">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Yoga Bar Chocolate Chunk Multigrain Energy Bar, With Millets, Chocolate, Almonds, High Dietary Fibre</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (35 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹48</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹55</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">13% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="yoga bar 26g high protein oats | dark chocolate | no added sugar">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Yoga Bar 26g High Protein Oats | Dark Chocolate | No Added Sugar</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (250 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹131</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹200</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">35% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="yoga bar breakfast protein bar apricot fig, 6g protein, fiber rich , omega - 3, millets, almonds">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Yoga Bar Breakfast Protein Bar Apricot Fig, 6g Protein, Fiber Rich , Omega - 3, Millets, Almonds</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (45 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹42</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹60</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">30% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="yoga bar 26g protein shake cold coffee |protein milkshake with no added sugar">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Yoga Bar 26g Protein Shake Cold Coffee |Protein Milkshake with No Added Sugar</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (250 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹120</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹131</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">8% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="yogabar chocolate multigrain energy bar 35 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Yogabar Chocolate Multigrain Energy Bar 35 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.77/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹27</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹55</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">51% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="yogabar nuts and seeds multigrain energy bar 35 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Yogabar Nuts and Seeds Multigrain Energy Bar 35 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.77/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹27</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹55</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">51% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="yogabar protein dark chocolate and cranberry bar 50 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Yogabar Protein Dark Chocolate and Cranberry Bar 50 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1.00/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹50</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹100</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="yogabar blueberry pie protein bar 45 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Yogabar Blueberry Pie Protein Bar 45 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.71/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹32</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹65</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">51% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="yogabar multi grain energy bar variety pack 230 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Yogabar Multi Grain Energy Bar Variety pack 230 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.65/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹149</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹299</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="yogabar energy bars chocolate chunk | multigrain energy bar | pack of 20 bars x 35g each | no preservatives">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Yogabar Energy Bars Chocolate Chunk | Multigrain Energy bar | Pack of 20 Bars x 35g Each | No Preservatives</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">199.50/N</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹399</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹998</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">60% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="protein bars | all-in-one | pack of 6 x 52 g each | no preservatives | no artificial sweeteners | no gluten or soy | all natural ingredients | six different flavours">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Protein Bars | All-in-One | Pack of 6 x 52 g each | No Preservatives | No Artificial Sweeteners | No Gluten or Soy | All Natural Ingredients | Six Different Flavours</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">52 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹660</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹211.54</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="assorted protein wafer bars (pack of 5)|10g protein, 3g fiber, no added sugar|yeast fermented |energy bars|crunchy wafer bar|100% vegetarian|no palm oil|200g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Assorted Protein Wafer Bars (Pack of 5)|10g Protein, 3g Fiber, No Added Sugar|Yeast Fermented |Energy Bars|Crunchy Wafer Bar|100% Vegetarian|No Palm Oil|200g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">10g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹249</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹49.8</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Tue, 3 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="dry fruit bites, 18g protein, 14g fibre, no refined sugar, lactose free, no palm oil, date nut and seeds, 160g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dry Fruit Bites, 18g Protein, 14g Fibre, No Refined Sugar, Lactose Free, No Palm Oil, Date Nut and Seeds, 160g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">18g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹177</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹110.63</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="the natural protein bar | high fiber &amp; rich in omega 3, 6, and 9 | healthy snack for gym, office &amp; travel | dairy free, soy free &amp; non ultra processed (pack of 6, mocha)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">The Natural Protein Bar | High Fiber &amp; Rich in Omega 3, 6, and 9 | Healthy Snack for Gym, Office &amp; Travel | Dairy Free, Soy Free &amp; Non Ultra Processed (Pack of 6, Mocha)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹660</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹234.04</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Wed, 4 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="nature's classic date &amp; nut mini energy bars 200g (10 bars x 20g), whole dates, almonds, cashews, pistachios &amp; cow ghee, 93 calories per bar, no added sugar, no preservatives">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Nature's Classic Date &amp; Nut Mini Energy Bars 200g (10 Bars x 20g), Whole Dates, Almonds, Cashews, Pistachios &amp; Cow Ghee, 93 Calories Per Bar, No Added Sugar, No Preservatives</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">200g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹389</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹194.5</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="26% high protein oats 1kg , dark chocolate - breakfast cereal with wholegrains, 26% protein &amp; no added sugar - oats high protein for gym - premium protein blend with whey protein powder - with goodness of chia, sunflower &amp; pumpkin seeds &amp; probiotics for absorption">
+        <td class="px-4 py-3 font-medium text-white max-w-md">26% High Protein Oats 1kg , Dark Chocolate - Breakfast Cereal with Wholegrains, 26% Protein &amp; No added sugar - Oats High Protein for Gym - Premium Protein Blend with Whey Protein Powder - with Goodness of Chia, Sunflower &amp; Pumpkin Seeds &amp; Probiotics for Absorption</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1kg</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹367</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹36.7</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="yogabar fermented 26g protein powderpdcaas 1absorption,no bloating,gut friendly yeast protein">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Yogabar Fermented 26g Protein PowderPDCAAS 1Absorption,No Bloating,Gut Friendly Yeast Protein</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">26g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹849</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1149</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">26% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Standard</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="yogabar fermented 31g protein powderpdcaas 1absorption,no bloating,gut friendly yeast protein">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Yogabar Fermented 31g Protein PowderPDCAAS 1Absorption,No Bloating,Gut Friendly Yeast Protein</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">31g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹829</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1299</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">36% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Standard</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="yogabar high protein oats dark chocolate 26g protein no trans fat no cholestrol pouch">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Yogabar High Protein Oats Dark Chocolate 26g Protein No Trans Fat No Cholestrol Pouch</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">26g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹367</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹490</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">25% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Standard</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="yogabar muesli 1kg jar |fruits nuts&amp;seeds|breakfast cereal with high protein|saver pack jar">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Yogabar Muesli 1kg Jar |Fruits Nuts&amp;Seeds|Breakfast Cereal with High Protein|Saver Pack Jar</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1kg</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹400</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹890</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">55% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Standard</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="yogabar protein minis 4g protein|24 bars|choco peanut butter|dark chocolate|gluten free protein bars">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Yogabar Protein Minis 4g Protein|24 Bars|Choco Peanut Butter|Dark Chocolate|Gluten free Protein Bars</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">4g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹280</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹480</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">42% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Standard</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="yogabar ultimate 28g protein powderisolate+yeastadded probiotics,digestive enzyme whey protein">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Yogabar Ultimate 28g Protein PowderIsolate+YeastAdded Probiotics,Digestive Enzyme Whey Protein</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">28g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1655</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹2099</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">21% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Standard</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="kellogg's muesli nuts &amp; seeds crunch muesli">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Kellogg's Muesli Nuts &amp; Seeds Crunch Muesli</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">950 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹483</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹740</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">35% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">13 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="yoga bar chocolate chunk nut multigrain energy bar">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Yoga Bar Chocolate Chunk Nut Multigrain Energy Bar</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">35 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹42</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹55</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">24% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">13 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="yoga bar chocolate chunk nut multigrain energy bar">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Yoga Bar Chocolate Chunk Nut Multigrain Energy Bar</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">3 x 35 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹125</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹165</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">24% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">13 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="yoga bar chocolate chunk nut multigrain energy bar">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Yoga Bar Chocolate Chunk Nut Multigrain Energy Bar</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">6 x 35 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹249</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹330</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">25% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">13 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="yoga bar protein oats - dark chocolate">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Yoga Bar Protein Oats - Dark Chocolate</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 kg</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹449</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹490</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">8% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">13 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="yoga bar protein oats - dark chocolate - pack of 2">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Yoga Bar Protein Oats - Dark Chocolate - Pack of 2</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">2 x 1 kg</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹889</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹980</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">9% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">13 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="yoga bar breakfast protein bar dark chocolate, 4g protein, 17g whole grain, fibre rich, millets,oats">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Yoga Bar Breakfast Protein Bar Dark Chocolate, 4g Protein, 17g Whole Grain, Fibre Rich, Millets,Oats</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (50 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹44</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹65</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">32% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="yoga bar 26% high protein oats, dark chocolate, no added sugar, high fibre, added probiotics">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Yoga Bar 26% High Protein Oats, Dark Chocolate, No Added Sugar, High Fibre, Added Probiotics</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (1 kg)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹449</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹490</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">8% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="yoga bar chocolate chunk multigrain energy bar, with millets, chocolate, almonds, high dietary fibre">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Yoga Bar Chocolate Chunk Multigrain Energy Bar, With Millets, Chocolate, Almonds, High Dietary Fibre</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (35 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹48</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹55</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">13% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="yoga bar 26g high protein oats | dark chocolate | no added sugar">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Yoga Bar 26g High Protein Oats | Dark Chocolate | No Added Sugar</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (250 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹131</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹200</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">35% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="yoga bar breakfast protein bar apricot fig, 6g protein, fiber rich , omega - 3, millets, almonds">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Yoga Bar Breakfast Protein Bar Apricot Fig, 6g Protein, Fiber Rich , Omega - 3, Millets, Almonds</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (45 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹42</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹60</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">30% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="yoga bar 26g protein shake cold coffee |protein milkshake with no added sugar">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Yoga Bar 26g Protein Shake Cold Coffee |Protein Milkshake with No Added Sugar</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (250 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹120</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹131</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">8% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="yogabar choco peanut butter protein minis 140 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Yogabar Choco Peanut Butter Protein Minis 140 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.62/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹87</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹175</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="yogabar nuts and seeds multigrain energy bar 35 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Yogabar Nuts and Seeds Multigrain Energy Bar 35 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.71/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹25</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹50</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="yogabar blueberry pie protein bar 45 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Yogabar Blueberry Pie Protein Bar 45 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.67/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹30</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹60</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="yogabar high protein oats dark chocolate 250 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Yogabar High Protein Oats Dark Chocolate 250 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.40/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹100</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹200</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="yogabar blueberry blast daily protein bar 50 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Yogabar Blueberry Blast Daily Protein Bar 50 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1.00/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹50</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹100</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="yogabar multi grain energy bar variety pack 230 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Yogabar Multi Grain Energy Bar Variety pack 230 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.65/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹149</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹299</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="kellogg's muesli nuts &amp; seeds crunch muesli">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Kellogg's Muesli Nuts &amp; Seeds Crunch Muesli</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">950 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹483</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹740</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">35% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="yoga bar chocolate chunk nut multigrain energy bar">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Yoga Bar Chocolate Chunk Nut Multigrain Energy Bar</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">35 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹39</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹50</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">22% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="oos" data-platform="blinkit.com" data-title="yoga bar chocolate chunk nut multigrain energy bar">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Yoga Bar Chocolate Chunk Nut Multigrain Energy Bar</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">6 x 35 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹231</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹300</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">23% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-rose-500/20 text-rose-400 border border-rose-500/30 font-mono text-[11px] font-bold">OUT OF STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="yoga bar chocolate chunk nut multigrain energy bar">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Yoga Bar Chocolate Chunk Nut Multigrain Energy Bar</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">3 x 35 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹116</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹150</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">23% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="yoga bar 10 g dark chocolate &amp; cranberry protein bar">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Yoga Bar 10 g Dark Chocolate &amp; Cranberry Protein Bar</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">50 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹65</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹65</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="yoga bar 10 g dark chocolate &amp; cranberry protein bar">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Yoga Bar 10 g Dark Chocolate &amp; Cranberry Protein Bar</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">3 x 50 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹182</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹195</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">7% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="yoga bar breakfast protein bar dark chocolate, 4g protein, 17g whole grain, fibre rich, millets,oats">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Yoga Bar Breakfast Protein Bar Dark Chocolate, 4g Protein, 17g Whole Grain, Fibre Rich, Millets,Oats</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (50 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹44</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹65</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">32% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="yoga bar 26% high protein oats, dark chocolate, no added sugar, high fibre, added probiotics">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Yoga Bar 26% High Protein Oats, Dark Chocolate, No Added Sugar, High Fibre, Added Probiotics</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (1 kg)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹449</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹490</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">8% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="yoga bar chocolate chunk multigrain energy bar, with millets, chocolate, almonds, high dietary fibre">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Yoga Bar Chocolate Chunk Multigrain Energy Bar, With Millets, Chocolate, Almonds, High Dietary Fibre</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (35 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹48</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹55</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">13% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="yoga bar 26g high protein oats | dark chocolate | no added sugar">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Yoga Bar 26g High Protein Oats | Dark Chocolate | No Added Sugar</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (250 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹131</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹200</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">35% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="yoga bar breakfast protein bar apricot fig, 6g protein, fiber rich , omega - 3, millets, almonds">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Yoga Bar Breakfast Protein Bar Apricot Fig, 6g Protein, Fiber Rich , Omega - 3, Millets, Almonds</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (45 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹42</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹60</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">30% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="yoga bar 26g protein shake cold coffee |protein milkshake with no added sugar">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Yoga Bar 26g Protein Shake Cold Coffee |Protein Milkshake with No Added Sugar</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (250 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹120</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹131</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">8% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="yogabar energy bars chocolate chunk | multigrain energy bar | pack of 20 bars x 35g each | no preservatives">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Yogabar Energy Bars Chocolate Chunk | Multigrain Energy bar | Pack of 20 Bars x 35g Each | No Preservatives</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">199.50/N</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹399</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹998</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">60% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="yogabar multigrain energy bars, 30 bars | healthy diet with fruits, nuts, oats and millets | gluten free and high protein crunchy granola bars | packed with chia and sunflower seeds">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Yogabar Multigrain Energy Bars, 30 Bars | Healthy Diet with Fruits, Nuts, Oats and Millets | Gluten Free and High Protein Crunchy Granola Bars | Packed with Chia and Sunflower Seeds</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">199.67/N</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹599</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1497</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">60% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="yogabar protein minis, 4g protein bar (24 bars, choco peanut butter) | dark chocolate bar with no trans fat | healthy snacks for kids &amp; adults | peanut filled chocolate box | rich in protein &amp; fiber">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Yogabar Protein Minis, 4g Protein Bar (24 Bars, Choco Peanut Butter) | Dark Chocolate Bar with no Trans Fat | Healthy Snacks for Kids &amp; Adults | Peanut filled Chocolate Box | Rich in Protein &amp; Fiber</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">70.00/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹280</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹480</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">42% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="yogabar breakfast bars variety pack of 2 | daily protein snack | high energy &amp; nutrition bars | 8g protein &amp; 7g fibre protein bars | pack of 12 x 50g energy bars | 100%vegan &amp; no preservatives">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Yogabar Breakfast Bars Variety Pack of 2 | Daily Protein Snack | High Energy &amp; Nutrition Bars | 8g Protein &amp; 7g Fibre Protein bars | Pack of 12 x 50g Energy Bars | 100%Vegan &amp; No Preservatives</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">149.50/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹299</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹598</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="yogabar multigrain energy bar 2 variety packs of 6 each (12 bars)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Yogabar Multigrain Energy Bar 2 Variety Packs of 6 Each (12 Bars)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">18.25/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹219</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹540</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">59% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="yogabar high protein oats 1kg, pack of 2, dark chocolate - breakfast cereal with wholegrains.">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Yogabar High Protein Oats 1kg, Pack of 2, Dark Chocolate - Breakfast Cereal with Wholegrains.</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">345.00/N</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹690</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹980</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">30% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- Sticky CTA Footer -->
+  <div class="fixed bottom-0 inset-x-0 bg-slate-950/95 border-t border-emerald-500/30 backdrop-blur px-6 py-3.5 z-30">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+      <div class="text-slate-200">
+        <span class="text-emerald-400 font-bold">⚡ Unscrape Radar:</span> Want real-time Slack/WhatsApp/Telegram alerts within 15 mins whenever <strong>Yoga Bar</strong> SKUs go Out-of-Stock across 20 BLR/MUM/DEL dark-store pin codes?
+      </div>
+      <div class="flex items-center gap-2.5 shrink-0">
+        <a href="https://github.com/deveshkolte/unscrape" target="_blank" class="px-4 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold">Unlock Automated 20-Pin-Code Monitor →</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const RAW_CSV = "brand,city,pincode,platform,skuId,title,sellingPriceInr,mrpInr,discountPercent,unit,inStock,deliveryEta,url\nYoga Bar,Bengaluru,560001,blinkit.com,1432273,Horlicks Yeast Protein Powder Sachets (Chocolate),2150,2600,17,28 x 36 g,true,8 MINS,https://blinkit.com/prn/horlicks-yeast-protein-powder-sachets-chocolate/prid/1432273\nYoga Bar,Bengaluru,560001,blinkit.com,720380,Yoga Bar Protein Oats - Dark Chocolate,449,490,8,1 kg,true,8 MINS,https://blinkit.com/prn/yoga-bar-protein-oats-dark-chocolate/prid/720380\nYoga Bar,Bengaluru,560001,blinkit.com,730438,Yoga Bar Protein Oats - Dark Chocolate - Pack of 2,889,980,9,2 x 1 kg,true,8 MINS,https://blinkit.com/prn/yoga-bar-protein-oats-dark-chocolate-pack-of-2/prid/730438\nYoga Bar,Bengaluru,560001,blinkit.com,1389590,Yoga Bar Protein Oats - Dark Chocolate - Pack of 3,1333,1470,9,3 x 1 kg,true,8 MINS,https://blinkit.com/prn/yoga-bar-protein-oats-dark-chocolate-pack-of-3/prid/1389590\nYoga Bar,Bengaluru,560001,blinkit.com,530742,Yoga Bar 10 g Dark Chocolate & Cranberry Protein Bar,65,65,0,50 g,true,8 MINS,https://blinkit.com/prn/yoga-bar-10-g-dark-chocolate-cranberry-protein-bar/prid/530742\nYoga Bar,Bengaluru,560001,blinkit.com,531826,Yoga Bar 10 g Dark Chocolate & Cranberry Protein Bar,182,195,7,3 x 50 g,true,8 MINS,https://blinkit.com/prn/yoga-bar-10-g-dark-chocolate-cranberry-protein-bar/prid/531826\nYoga Bar,Bengaluru,560001,zeptonow.com,fa70e00a-3aa3-5d53-b670-a523367471d4,\"Yoga Bar Breakfast Protein Bar Dark Chocolate, 4g Protein, 17g Whole Grain, Fibre Rich, Millets,Oats\",44,65,32,1 pack (50 g),true,10 MINS,https://www.zepto.com/pn/yoga-bar-breakfast-protein-bar-dark-chocolate-4g-protein-17g-whole-grain-fibre-rich-millets-oats/pvid/ef701555-881a-458d-ba50-885fee4f3984\nYoga Bar,Bengaluru,560001,zeptonow.com,2314e8dc-257a-5990-8738-e67d1dd205ab,\"Yoga Bar 26% High Protein Oats, Dark Chocolate, No Added Sugar, High Fibre, Added Probiotics\",449,490,8,1 pack (1 kg),true,10 MINS,https://www.zepto.com/pn/yoga-bar-26-high-protein-oats-dark-chocolate-no-added-sugar-high-fibre-added-probiotics/pvid/71c8badc-240d-4690-aef6-72af45f4be8f\nYoga Bar,Bengaluru,560001,zeptonow.com,bb1d0e43-8044-52bb-be9d-87764159cf61,\"Yoga Bar Chocolate Chunk Multigrain Energy Bar, With Millets, Chocolate, Almonds, High Dietary Fibre\",48,55,13,1 pc (35 g),true,10 MINS,https://www.zepto.com/pn/yoga-bar-chocolate-chunk-multigrain-energy-bar-with-millets-chocolate-almonds-high-dietary-fibre/pvid/9312fbbd-00f6-4429-81aa-dcd3e66e1c19\nYoga Bar,Bengaluru,560001,zeptonow.com,4618e356-36d4-5418-af96-85e04a2da553,Yoga Bar 26g High Protein Oats | Dark Chocolate | No Added Sugar,131,200,35,1 pack (250 g),true,10 MINS,https://www.zepto.com/pn/yoga-bar-26g-high-protein-oats-dark-chocolate-no-added-sugar/pvid/86f5f89c-3a27-42c1-9ed8-c6f6ad1fedf1\nYoga Bar,Bengaluru,560001,zeptonow.com,a5d19a35-b3bd-5503-8d67-c27053db23c7,\"Yoga Bar Breakfast Protein Bar Apricot Fig, 6g Protein, Fiber Rich , Omega - 3, Millets, Almonds\",42,60,30,1 pc (45 g),true,10 MINS,https://www.zepto.com/pn/yoga-bar-breakfast-protein-bar-apricot-fig-6g-protein-fiber-rich-omega-3-millets-almonds/pvid/db61cff9-1187-49af-9371-02d906c596c8\nYoga Bar,Bengaluru,560001,zeptonow.com,ed803078-c66c-546f-90e5-4fd354a4591f,Yoga Bar 26g Protein Shake Cold Coffee |Protein Milkshake with No Added Sugar,120,131,8,1 pc (250 ml),true,10 MINS,https://www.zepto.com/pn/yoga-bar-26g-protein-shake-cold-coffee-protein-milkshake-with-no-added-sugar/pvid/6171083f-2cd0-40b4-889b-709c13cbb22f\nYoga Bar,Bengaluru,560001,bigbasket.com/jiomart,7512693,Yogabar Chocolate Multigrain Energy Bar 35 g,27,55,51,0.77/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/yogabar-chocolate-multigrain-energy-bar-35-g-mffmwa-7512693/7512693\nYoga Bar,Bengaluru,560001,bigbasket.com/jiomart,7506288,Yogabar Nuts and Seeds Multigrain Energy Bar 35 g,27,55,51,0.77/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/yogabar-nuts-and-seeds-multigrain-energy-bar-35-g-mffmt8-7506288/7506288\nYoga Bar,Bengaluru,560001,bigbasket.com/jiomart,7524987,Yogabar Protein Dark Chocolate and Cranberry Bar 50 g,50,100,50,1.00/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/yogabar-protein-dark-chocolate-and-cranberry-bar-50-g-mffn1y-7524987/7524987\nYoga Bar,Bengaluru,560001,bigbasket.com/jiomart,7516154,Yogabar Blueberry Pie Protein Bar 45 g,32,65,51,0.71/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/yogabar-blueberry-pie-protein-bar-45-g-mffmxv-7516154/7516154\nYoga Bar,Bengaluru,560001,bigbasket.com/jiomart,7529537,Yogabar Multi Grain Energy Bar Variety pack 230 g,149,299,50,0.65/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/yogabar-multi-grain-energy-bar-variety-pack-230-g-mffn45-7529537/7529537\nYoga Bar,Bengaluru,560001,bigbasket.com/jiomart,109666454,Yogabar Energy Bars Chocolate Chunk | Multigrain Energy bar | Pack of 20 Bars x 35g Each | No Preservatives,399,998,60,199.50/N,true,15-30 MINS,https://www.jiomart.com/p/groceries/yogabar-energy-bars-chocolate-chunk-multigrain-energy-bar-pack-of-20-bars-x-35g-each-no-preservatives-mqghft-109666454/109666454\nYoga Bar,Bengaluru,560001,amazon.in,B08KXVL9N6,Protein Bars | All-in-One | Pack of 6 x 52 g each | No Preservatives | No Artificial Sweeteners | No Gluten or Soy | All Natural Ingredients | Six Different Flavours,660,211.54,0,52 g,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B08KXVL9N6\nYoga Bar,Bengaluru,560001,amazon.in,B0FZC9BZLS,\"Assorted Protein Wafer Bars (Pack of 5)|10g Protein, 3g Fiber, No Added Sugar|Yeast Fermented |Energy Bars|Crunchy Wafer Bar|100% Vegetarian|No Palm Oil|200g\",249,49.8,0,10g,true,\"Tue, 3 Nov\",https://www.amazon.in/dp/B0FZC9BZLS\nYoga Bar,Bengaluru,560001,amazon.in,B0H45R54L9,\"Dry Fruit Bites, 18g Protein, 14g Fibre, No Refined Sugar, Lactose Free, No Palm Oil, Date Nut and Seeds, 160g\",177,110.63,0,18g,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0H45R54L9\nYoga Bar,Bengaluru,560001,amazon.in,B0HD7MZSGP,\"The Natural Protein Bar | High Fiber & Rich in Omega 3, 6, and 9 | Healthy Snack for Gym, Office & Travel | Dairy Free, Soy Free & Non Ultra Processed (Pack of 6, Mocha)\",660,234.04,0,1 unit,true,\"Wed, 4 Nov\",https://www.amazon.in/dp/B0HD7MZSGP\nYoga Bar,Bengaluru,560001,amazon.in,B0FGY4VL62,\"Nature's Classic Date & Nut Mini Energy Bars 200g (10 Bars x 20g), Whole Dates, Almonds, Cashews, Pistachios & Cow Ghee, 93 Calories Per Bar, No Added Sugar, No Preservatives\",389,194.5,0,200g,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0FGY4VL62\nYoga Bar,Bengaluru,560001,amazon.in,B0FPLDFK2W,\"26% High Protein Oats 1kg , Dark Chocolate - Breakfast Cereal with Wholegrains, 26% Protein & No added sugar - Oats High Protein for Gym - Premium Protein Blend with Whey Protein Powder - with Goodness of Chia, Sunflower & Pumpkin Seeds & Probiotics for Absorption\",367,36.7,0,1kg,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0FPLDFK2W\nYoga Bar,Bengaluru,560001,flipkart.com,PSLHZHWQN6MCZBCW,\"Yogabar Fermented 26g Protein PowderPDCAAS 1Absorption,No Bloating,Gut Friendly Yeast Protein\",849,1149,26,26g,true,Standard,https://www.flipkart.com/yogabar-fermented-26g-protein-powderpdcaas-1absorption-no-bloating-gut-friendly-yeast/p/itm5b9950f31ea29?pid=PSLHZHWQN6MCZBCW\nYoga Bar,Bengaluru,560001,flipkart.com,PSLHZHWQDGMNGDS8,\"Yogabar Fermented 31g Protein PowderPDCAAS 1Absorption,No Bloating,Gut Friendly Yeast Protein\",829,1299,36,31g,true,Standard,https://www.flipkart.com/yogabar-fermented-31g-protein-powderpdcaas-1absorption-no-bloating-gut-friendly-yeast/p/itm461f1cc27f975?pid=PSLHZHWQDGMNGDS8\nYoga Bar,Bengaluru,560001,flipkart.com,CAFGXB2QJFWXFDVQ,Yogabar High Protein Oats Dark Chocolate 26g Protein No Trans Fat No Cholestrol Pouch,367,490,25,26g,true,Standard,https://www.flipkart.com/yogabar-high-protein-oats-dark-chocolate-26g-no-trans-fat-cholestrol-pouch/p/itm483dc549e2327?pid=CAFGXB2QJFWXFDVQ\nYoga Bar,Bengaluru,560001,flipkart.com,CAFGNG9ZTUPZWNHM,Yogabar Muesli 1kg Jar |Fruits Nuts&Seeds|Breakfast Cereal with High Protein|Saver Pack Jar,400,890,55,1kg,true,Standard,https://www.flipkart.com/yogabar-muesli-1kg-jar-fruits-nuts-seeds-breakfast-cereal-high-protein-saver-pack/p/itmaedf4fcfde12e?pid=CAFGNG9ZTUPZWNHM\nYoga Bar,Bengaluru,560001,flipkart.com,PSLHAF2JEHAAPSCG,Yogabar Protein Minis 4g Protein|24 Bars|Choco Peanut Butter|Dark Chocolate|Gluten free Protein Bars,280,480,42,4g,true,Standard,https://www.flipkart.com/yogabar-protein-minis-4g-protein-24-bars-choco-peanut-butter-dark-chocolate-gluten-free-bars/p/itmc164dc3686ac3?pid=PSLHAF2JEHAAPSCG\nYoga Bar,Bengaluru,560001,flipkart.com,PSLHZHWTGGTY2SG5,\"Yogabar Ultimate 28g Protein PowderIsolate+YeastAdded Probiotics,Digestive Enzyme Whey Protein\",1655,2099,21,28g,true,Standard,https://www.flipkart.com/yogabar-ultimate-28g-protein-powderisolate-yeastadded-probiotics-digestive-enzyme-whey/p/itmc34112f77877a?pid=PSLHZHWTGGTY2SG5\nYoga Bar,Mumbai,400001,blinkit.com,488340,Kellogg's Muesli Nuts & Seeds Crunch Muesli,483,740,35,950 g,true,13 MINS,https://blinkit.com/prn/kellogg-s-muesli-nuts-seeds-crunch-muesli/prid/488340\nYoga Bar,Mumbai,400001,blinkit.com,249288,Yoga Bar Chocolate Chunk Nut Multigrain Energy Bar,42,55,24,35 g,true,13 MINS,https://blinkit.com/prn/yoga-bar-chocolate-chunk-nut-multigrain-energy-bar/prid/249288\nYoga Bar,Mumbai,400001,blinkit.com,496644,Yoga Bar Chocolate Chunk Nut Multigrain Energy Bar,125,165,24,3 x 35 g,true,13 MINS,https://blinkit.com/prn/yoga-bar-chocolate-chunk-nut-multigrain-energy-bar/prid/496644\nYoga Bar,Mumbai,400001,blinkit.com,724864,Yoga Bar Chocolate Chunk Nut Multigrain Energy Bar,249,330,25,6 x 35 g,true,13 MINS,https://blinkit.com/prn/yoga-bar-chocolate-chunk-nut-multigrain-energy-bar/prid/724864\nYoga Bar,Mumbai,400001,blinkit.com,720380,Yoga Bar Protein Oats - Dark Chocolate,449,490,8,1 kg,true,13 MINS,https://blinkit.com/prn/yoga-bar-protein-oats-dark-chocolate/prid/720380\nYoga Bar,Mumbai,400001,blinkit.com,730438,Yoga Bar Protein Oats - Dark Chocolate - Pack of 2,889,980,9,2 x 1 kg,true,13 MINS,https://blinkit.com/prn/yoga-bar-protein-oats-dark-chocolate-pack-of-2/prid/730438\nYoga Bar,Mumbai,400001,zeptonow.com,fa70e00a-3aa3-5d53-b670-a523367471d4,\"Yoga Bar Breakfast Protein Bar Dark Chocolate, 4g Protein, 17g Whole Grain, Fibre Rich, Millets,Oats\",44,65,32,1 pack (50 g),true,10 MINS,https://www.zepto.com/pn/yoga-bar-breakfast-protein-bar-dark-chocolate-4g-protein-17g-whole-grain-fibre-rich-millets-oats/pvid/ef701555-881a-458d-ba50-885fee4f3984\nYoga Bar,Mumbai,400001,zeptonow.com,2314e8dc-257a-5990-8738-e67d1dd205ab,\"Yoga Bar 26% High Protein Oats, Dark Chocolate, No Added Sugar, High Fibre, Added Probiotics\",449,490,8,1 pack (1 kg),true,10 MINS,https://www.zepto.com/pn/yoga-bar-26-high-protein-oats-dark-chocolate-no-added-sugar-high-fibre-added-probiotics/pvid/71c8badc-240d-4690-aef6-72af45f4be8f\nYoga Bar,Mumbai,400001,zeptonow.com,bb1d0e43-8044-52bb-be9d-87764159cf61,\"Yoga Bar Chocolate Chunk Multigrain Energy Bar, With Millets, Chocolate, Almonds, High Dietary Fibre\",48,55,13,1 pc (35 g),true,10 MINS,https://www.zepto.com/pn/yoga-bar-chocolate-chunk-multigrain-energy-bar-with-millets-chocolate-almonds-high-dietary-fibre/pvid/9312fbbd-00f6-4429-81aa-dcd3e66e1c19\nYoga Bar,Mumbai,400001,zeptonow.com,4618e356-36d4-5418-af96-85e04a2da553,Yoga Bar 26g High Protein Oats | Dark Chocolate | No Added Sugar,131,200,35,1 pack (250 g),true,10 MINS,https://www.zepto.com/pn/yoga-bar-26g-high-protein-oats-dark-chocolate-no-added-sugar/pvid/86f5f89c-3a27-42c1-9ed8-c6f6ad1fedf1\nYoga Bar,Mumbai,400001,zeptonow.com,a5d19a35-b3bd-5503-8d67-c27053db23c7,\"Yoga Bar Breakfast Protein Bar Apricot Fig, 6g Protein, Fiber Rich , Omega - 3, Millets, Almonds\",42,60,30,1 pc (45 g),true,10 MINS,https://www.zepto.com/pn/yoga-bar-breakfast-protein-bar-apricot-fig-6g-protein-fiber-rich-omega-3-millets-almonds/pvid/db61cff9-1187-49af-9371-02d906c596c8\nYoga Bar,Mumbai,400001,zeptonow.com,ed803078-c66c-546f-90e5-4fd354a4591f,Yoga Bar 26g Protein Shake Cold Coffee |Protein Milkshake with No Added Sugar,120,131,8,1 pc (250 ml),true,10 MINS,https://www.zepto.com/pn/yoga-bar-26g-protein-shake-cold-coffee-protein-milkshake-with-no-added-sugar/pvid/6171083f-2cd0-40b4-889b-709c13cbb22f\nYoga Bar,Mumbai,400001,bigbasket.com/jiomart,7531105,Yogabar Choco Peanut Butter Protein Minis 140 g,87,175,50,0.62/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/yogabar-choco-peanut-butter-protein-minis-140-g-mffn4v-7531105/7531105\nYoga Bar,Mumbai,400001,bigbasket.com/jiomart,7506288,Yogabar Nuts and Seeds Multigrain Energy Bar 35 g,25,50,50,0.71/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/yogabar-nuts-and-seeds-multigrain-energy-bar-35-g-mffmt8-7506288/7506288\nYoga Bar,Mumbai,400001,bigbasket.com/jiomart,7516154,Yogabar Blueberry Pie Protein Bar 45 g,30,60,50,0.67/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/yogabar-blueberry-pie-protein-bar-45-g-mffmxv-7516154/7516154\nYoga Bar,Mumbai,400001,bigbasket.com/jiomart,74429576,Yogabar High Protein Oats Dark Chocolate 250 g,100,200,50,0.40/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/yogabar-highproteinoatsdark-chocolate-250g-mmdafp-74429576/74429576\nYoga Bar,Mumbai,400001,bigbasket.com/jiomart,7530296,Yogabar Blueberry Blast Daily Protein Bar 50 g,50,100,50,1.00/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/yogabar-blueberry-blast-daily-protein-bar-50-g-mffn4i-7530296/7530296\nYoga Bar,Mumbai,400001,bigbasket.com/jiomart,7529537,Yogabar Multi Grain Energy Bar Variety pack 230 g,149,299,50,0.65/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/yogabar-multi-grain-energy-bar-variety-pack-230-g-mffn45-7529537/7529537\nYoga Bar,Delhi,110001,blinkit.com,488340,Kellogg's Muesli Nuts & Seeds Crunch Muesli,483,740,35,950 g,true,10 MINS,https://blinkit.com/prn/kellogg-s-muesli-nuts-seeds-crunch-muesli/prid/488340\nYoga Bar,Delhi,110001,blinkit.com,249288,Yoga Bar Chocolate Chunk Nut Multigrain Energy Bar,39,50,22,35 g,true,10 MINS,https://blinkit.com/prn/yoga-bar-chocolate-chunk-nut-multigrain-energy-bar/prid/249288\nYoga Bar,Delhi,110001,blinkit.com,724864,Yoga Bar Chocolate Chunk Nut Multigrain Energy Bar,231,300,23,6 x 35 g,false,10 MINS,https://blinkit.com/prn/yoga-bar-chocolate-chunk-nut-multigrain-energy-bar/prid/724864\nYoga Bar,Delhi,110001,blinkit.com,496644,Yoga Bar Chocolate Chunk Nut Multigrain Energy Bar,116,150,23,3 x 35 g,true,10 MINS,https://blinkit.com/prn/yoga-bar-chocolate-chunk-nut-multigrain-energy-bar/prid/496644\nYoga Bar,Delhi,110001,blinkit.com,530742,Yoga Bar 10 g Dark Chocolate & Cranberry Protein Bar,65,65,0,50 g,true,10 MINS,https://blinkit.com/prn/yoga-bar-10-g-dark-chocolate-cranberry-protein-bar/prid/530742\nYoga Bar,Delhi,110001,blinkit.com,531826,Yoga Bar 10 g Dark Chocolate & Cranberry Protein Bar,182,195,7,3 x 50 g,true,10 MINS,https://blinkit.com/prn/yoga-bar-10-g-dark-chocolate-cranberry-protein-bar/prid/531826\nYoga Bar,Delhi,110001,zeptonow.com,fa70e00a-3aa3-5d53-b670-a523367471d4,\"Yoga Bar Breakfast Protein Bar Dark Chocolate, 4g Protein, 17g Whole Grain, Fibre Rich, Millets,Oats\",44,65,32,1 pack (50 g),true,10 MINS,https://www.zepto.com/pn/yoga-bar-breakfast-protein-bar-dark-chocolate-4g-protein-17g-whole-grain-fibre-rich-millets-oats/pvid/ef701555-881a-458d-ba50-885fee4f3984\nYoga Bar,Delhi,110001,zeptonow.com,2314e8dc-257a-5990-8738-e67d1dd205ab,\"Yoga Bar 26% High Protein Oats, Dark Chocolate, No Added Sugar, High Fibre, Added Probiotics\",449,490,8,1 pack (1 kg),true,10 MINS,https://www.zepto.com/pn/yoga-bar-26-high-protein-oats-dark-chocolate-no-added-sugar-high-fibre-added-probiotics/pvid/71c8badc-240d-4690-aef6-72af45f4be8f\nYoga Bar,Delhi,110001,zeptonow.com,bb1d0e43-8044-52bb-be9d-87764159cf61,\"Yoga Bar Chocolate Chunk Multigrain Energy Bar, With Millets, Chocolate, Almonds, High Dietary Fibre\",48,55,13,1 pc (35 g),true,10 MINS,https://www.zepto.com/pn/yoga-bar-chocolate-chunk-multigrain-energy-bar-with-millets-chocolate-almonds-high-dietary-fibre/pvid/9312fbbd-00f6-4429-81aa-dcd3e66e1c19\nYoga Bar,Delhi,110001,zeptonow.com,4618e356-36d4-5418-af96-85e04a2da553,Yoga Bar 26g High Protein Oats | Dark Chocolate | No Added Sugar,131,200,35,1 pack (250 g),true,10 MINS,https://www.zepto.com/pn/yoga-bar-26g-high-protein-oats-dark-chocolate-no-added-sugar/pvid/86f5f89c-3a27-42c1-9ed8-c6f6ad1fedf1\nYoga Bar,Delhi,110001,zeptonow.com,a5d19a35-b3bd-5503-8d67-c27053db23c7,\"Yoga Bar Breakfast Protein Bar Apricot Fig, 6g Protein, Fiber Rich , Omega - 3, Millets, Almonds\",42,60,30,1 pc (45 g),true,10 MINS,https://www.zepto.com/pn/yoga-bar-breakfast-protein-bar-apricot-fig-6g-protein-fiber-rich-omega-3-millets-almonds/pvid/db61cff9-1187-49af-9371-02d906c596c8\nYoga Bar,Delhi,110001,zeptonow.com,ed803078-c66c-546f-90e5-4fd354a4591f,Yoga Bar 26g Protein Shake Cold Coffee |Protein Milkshake with No Added Sugar,120,131,8,1 pc (250 ml),true,10 MINS,https://www.zepto.com/pn/yoga-bar-26g-protein-shake-cold-coffee-protein-milkshake-with-no-added-sugar/pvid/6171083f-2cd0-40b4-889b-709c13cbb22f\nYoga Bar,Delhi,110001,bigbasket.com/jiomart,109666454,Yogabar Energy Bars Chocolate Chunk | Multigrain Energy bar | Pack of 20 Bars x 35g Each | No Preservatives,399,998,60,199.50/N,true,15-30 MINS,https://www.jiomart.com/p/groceries/yogabar-energy-bars-chocolate-chunk-multigrain-energy-bar-pack-of-20-bars-x-35g-each-no-preservatives-mqghft-109666454/109666454\nYoga Bar,Delhi,110001,bigbasket.com/jiomart,18120710,\"Yogabar Multigrain Energy Bars, 30 Bars | Healthy Diet with Fruits, Nuts, Oats and Millets | Gluten Free and High Protein Crunchy Granola Bars | Packed with Chia and Sunflower Seeds\",599,1497,60,199.67/N,true,15-30 MINS,https://www.jiomart.com/p/groceries/yogabar-energy-bar-variety-pack-of-10-x-3-mi7dm2-18120710/18120710\nYoga Bar,Delhi,110001,bigbasket.com/jiomart,18157923,\"Yogabar Protein Minis, 4g Protein Bar (24 Bars, Choco Peanut Butter) | Dark Chocolate Bar with no Trans Fat | Healthy Snacks for Kids & Adults | Peanut filled Chocolate Box | Rich in Protein & Fiber\",280,480,42,70.00/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/yogabar-protein-minis-choco-peanut-butter-pack-of-24-mi7eaj-18157923/18157923\nYoga Bar,Delhi,110001,bigbasket.com/jiomart,74694027,Yogabar Breakfast Bars Variety Pack of 2 | Daily Protein Snack | High Energy & Nutrition Bars | 8g Protein & 7g Fibre Protein bars | Pack of 12 x 50g Energy Bars | 100%Vegan & No Preservatives,299,598,50,149.50/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/yogabar-variety-pack-breakfast-bars-pack-of-2-mmkkxk-74694027/74694027\nYoga Bar,Delhi,110001,bigbasket.com/jiomart,18190722,Yogabar Multigrain Energy Bar 2 Variety Packs of 6 Each (12 Bars),219,540,59,18.25/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/yogabar-energy-bar-variety-pack-of-6-x-3-mi7ex0-18190722/18190722\nYoga Bar,Delhi,110001,bigbasket.com/jiomart,35983091,\"Yogabar High Protein Oats 1kg, Pack of 2, Dark Chocolate - Breakfast Cereal with Wholegrains.\",690,980,30,345.00/N,true,15-30 MINS,https://www.jiomart.com/p/groceries/yogabar-high-protein-oats-dark-chocolate-1kg-pack-of-2-miznmb-35983091/35983091\n";
+
+    function filterRows(mode) {
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const stock = row.getAttribute('data-stock');
+        if (mode === 'all') row.style.display = '';
+        else if (mode === 'oos') row.style.display = stock === 'oos' ? '' : 'none';
+        else if (mode === 'instock') row.style.display = stock === 'instock' ? '' : 'none';
+      });
+    }
+
+    function searchSkus() {
+      const q = document.getElementById('skuSearch').value.toLowerCase();
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const title = row.getAttribute('data-title') || '';
+        const platform = (row.getAttribute('data-platform') || '').toLowerCase();
+        row.style.display = (title.includes(q) || platform.includes(q)) ? '' : 'none';
+      });
+    }
+
+    function downloadCsv() {
+      const blob = new Blob([RAW_CSV], { type: 'text/csv;charset=utf-8;' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'yoga-bar-3city-audit.csv';
+      a.click();
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Epigamia — 3-City Quick-Commerce Dark-Store Audit Scorecard | Unscrape Radar</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background-color: #07080d; color: #f3f4f6; font-family: Inter, system-ui, -apple-system, sans-serif; }
+  </style>
+</head>
+<body class="min-h-screen pb-24">
+  <!-- Top Bar -->
+  <header class="border-b border-slate-800 bg-slate-950/90 backdrop-blur sticky top-0 z-20">
+    <div class="max-w-7xl mx-auto px-6 py-3.5 flex items-center justify-between flex-wrap gap-3">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="text-emerald-400 font-black text-lg tracking-tight hover:text-emerald-300">⚡ UNSCRAPE RADAR</a>
+        <span class="text-xs text-slate-500">/</span>
+        <span class="text-sm font-bold text-white">Epigamia Executive Scorecard</span>
+      </div>
+      <div class="flex items-center gap-2.5 text-xs">
+        <a href="index.html" class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700">← All 56 Brand Audits</a>
+        <button onclick="downloadCsv()" class="px-3.5 py-1.5 rounded-lg bg-emerald-500 text-slate-950 font-bold hover:bg-emerald-400">⬇ Download Raw CSV (57 SKUs)</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-6 pt-8">
+    <!-- Executive Header -->
+    <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 mb-8">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+        <div>
+          <div class="flex items-center gap-2.5 mb-2">
+            <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded bg-slate-800 text-emerald-400">Greek Yogurt &amp; Dairy</span>
+            <span class="text-xs text-slate-400 font-mono">Audited: 2026-10-30</span>
+          </div>
+          <h1 class="text-3xl md:text-4xl font-black text-white tracking-tight">Epigamia — Hyperlocal Dark-Store Audit</h1>
+          <p class="text-slate-400 text-sm mt-1">
+            Live multi-platform inventory & MOP/MRP price variance scan across <strong>Bengaluru (560001)</strong>, <strong>Mumbai (400001)</strong>, and <strong>Delhi (110001)</strong>.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 shrink-0">
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">SKUs Audited</div>
+            <div class="text-2xl font-black text-white mt-1">57</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">OOS Leaks</div>
+            <div class="text-2xl font-black text-emerald-400 mt-1">0</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">Max Markdown</div>
+            <div class="text-2xl font-black text-amber-300 mt-1">82%</div>
+          </div>
+          <div class="border rounded-xl p-3.5 text-center bg-emerald-500/15 text-emerald-400 border-emerald-500/30">
+            <div class="text-[11px] uppercase font-bold opacity-80">Shelf Health</div>
+            <div class="text-2xl font-black mt-1">100%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="bg-emerald-950/30 border border-emerald-500/30 rounded-2xl p-5 mb-8 flex items-center justify-between flex-wrap gap-3">
+      <div>
+        <span class="px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 font-bold text-xs uppercase">✓ 100% In-Stock Snapshot</span>
+        <span class="text-sm text-slate-200 ml-2">All 57 audited dark-store listings across Bengaluru, Mumbai & Delhi were in stock during this scan. Max discount variance: <strong>82% below MRP</strong>.</span>
+      </div>
+    </div>
+
+    <!-- Filter Controls -->
+    <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+      <div class="flex items-center gap-2 text-xs">
+        <button onclick="filterRows('all')" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-semibold">All SKUs (57)</button>
+        <button onclick="filterRows('oos')" class="px-3 py-1.5 rounded-lg bg-rose-500/15 border border-rose-500/30 text-rose-300 hover:bg-rose-500/25 font-semibold">Out-of-Stock Only (0)</button>
+        <button onclick="filterRows('instock')" class="px-3 py-1.5 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 hover:bg-emerald-500/25 font-semibold">In-Stock (57)</button>
+      </div>
+      <div class="flex items-center gap-2">
+        <input id="skuSearch" type="text" oninput="searchSkus()" placeholder="Filter SKU title or platform..." class="bg-slate-900 border border-slate-800 rounded-lg px-3.5 py-1.5 text-xs text-white w-64" />
+      </div>
+    </div>
+
+    <!-- SKU Table -->
+    <div class="bg-slate-900/50 border border-slate-800 rounded-2xl overflow-x-auto">
+      <table class="w-full text-left text-xs">
+        <thead class="bg-slate-950/90 text-slate-400 uppercase border-b border-slate-800">
+          <tr>
+            <th class="px-4 py-3">SKU Title</th>
+            <th class="px-4 py-3">Platform</th>
+            <th class="px-4 py-3">City / Pin</th>
+            <th class="px-4 py-3">Pack Size</th>
+            <th class="px-4 py-3">Selling Price</th>
+            <th class="px-4 py-3">MRP</th>
+            <th class="px-4 py-3">Discount</th>
+            <th class="px-4 py-3">Stock Status</th>
+            <th class="px-4 py-3">ETA</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-800/60">
+          <tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="milky mist skyr high protein plain yogurt">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Milky Mist Skyr High Protein Plain Yogurt</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">100 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹70</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹75</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">7% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">8 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="epigamia alphonso mango flavoured greek yogurt">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Epigamia Alphonso Mango Flavoured Greek Yogurt</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">85 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹60</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹60</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">8 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="milky mist skyr high protein yogurt">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Milky Mist SKYR High Protein Yogurt</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">700 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹330</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹380</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">13% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">8 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="epigamia blueberry flavoured yogurt">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Epigamia Blueberry Flavoured Yogurt</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">85 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹60</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹60</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">8 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="epigamia blueberry flavoured yogurt - pack of 3">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Epigamia Blueberry Flavoured Yogurt - Pack of 3</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">3 x 85 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹178</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹180</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">1% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">8 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="epigamia blueberry flavoured yogurt - pack of 6">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Epigamia Blueberry Flavoured Yogurt - Pack of 6</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">6 x 85 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹351</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹360</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">3% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">8 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="epigamia greek yogurt- natural">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Epigamia Greek Yogurt- Natural</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (85 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹45</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹60</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">25% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="epigamia turbo cookies and cream protein milkshake">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Epigamia Turbo Cookies And Cream Protein Milkshake</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (250 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹99</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹141</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">30% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="epigamia greek yogurt blueberry">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Epigamia Greek Yogurt Blueberry</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (85 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹60</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹60</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="epigamia turbo vanilla and caramel protein milkshake">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Epigamia Turbo Vanilla And Caramel Protein Milkshake</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (250 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹99</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹141</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">30% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="epigamia greek yogurt- alphonso mango">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Epigamia Greek Yogurt- Alphonso Mango</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (85 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹60</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹60</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="epigamia turbo coffee protein milkshake">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Epigamia Turbo Coffee Protein Milkshake</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (250 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹99</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹141</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">30% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="yogabar choco almond cranberry protein muesli 350 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Yogabar Choco Almond Cranberry Protein Muesli 350 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.56/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹197</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹395</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="milky mist high protein low fat paneer 200 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Milky Mist High Protein Low Fat Paneer 200 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.56/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹112</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹165</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">32% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="yogabar protein muesli + fruits + nuts + seeds 350 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Yogabar Protein Muesli + Fruits + Nuts + Seeds 350 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.56/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹197</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹395</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="true elements berry bliss protein bar 40 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">True Elements Berry Bliss Protein Bar 40 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.63/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹25</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹60</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">58% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="yogabar millet muesli 450 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Yogabar Millet Muesli 450 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.32/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹142</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹285</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="milky mist sweet condensed milk 200 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Milky Mist Sweet Condensed Milk 200 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.32/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹63</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹75</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">16% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="khakhra combo (plain, jeera, masala &amp; methi) 4 packs x 200g each | whole wheat | no palm oil | no maida | authentic gujarati healthy snack">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Khakhra Combo (Plain, Jeera, Masala &amp; Methi) 4 Packs x 200g Each | Whole Wheat | No Palm Oil | No Maida | Authentic Gujarati Healthy Snack</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">200g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹299</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹37.38</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Tue, 3 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="25% high protein super oats chocolate 1kg – rolled oats, natural peanut butter, cocoa powder, nuts &amp; seeds – 25g protein, source of dietary fibre &amp; healthy fats, no added sugar &amp; salt">
+        <td class="px-4 py-3 font-medium text-white max-w-md">25% High Protein Super Oats Chocolate 1kg – Rolled Oats, Natural Peanut Butter, Cocoa Powder, Nuts &amp; Seeds – 25g Protein, Source of Dietary Fibre &amp; Healthy Fats, No Added Sugar &amp; Salt</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1kg</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹484</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹484</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="falahari mix roasted namkeen snack 200g|oil-free farari chiwda|no onion, no garlic farali namkeen|healthy vrat upwas fast namkeen|no cholesterol no transfat healthy snack for fasting">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Falahari Mix Roasted Namkeen Snack 200G|Oil-Free Farari Chiwda|No Onion, No Garlic Farali Namkeen|Healthy Vrat Upwas Fast Namkeen|No Cholesterol No Transfat Healthy Snack For Fasting</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">200G</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹133</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹66.5</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="milky mist skyr high protein plain yogurt">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Milky Mist Skyr High Protein Plain Yogurt</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">100 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹65</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹75</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">13% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">11 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="epigamia natural greek yogurt (85 g)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Epigamia Natural Greek Yogurt (85 g)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">85 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹60</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹60</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">11 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="epigamia natural greek yogurt (85 g) - pack of 3">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Epigamia Natural Greek Yogurt (85 g) - Pack of 3</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">3 x 85 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹178</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹180</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">1% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">11 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="epigamia natural greek yogurt (85 g) - pack of 6">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Epigamia Natural Greek Yogurt (85 g) - Pack of 6</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">6 x 85 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹351</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹360</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">3% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">11 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="amul stirred strawberry flavoured yogurt">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Amul Stirred Strawberry Flavoured Yogurt</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">100 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹30</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹30</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">11 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="epigamia blueberry flavoured yogurt">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Epigamia Blueberry Flavoured Yogurt</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">85 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹60</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹60</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">11 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="epigamia greek yogurt- natural">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Epigamia Greek Yogurt- Natural</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (85 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹45</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹60</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">25% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="epigamia turbo cookies and cream protein milkshake">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Epigamia Turbo Cookies And Cream Protein Milkshake</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (250 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹99</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹141</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">30% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="epigamia greek yogurt blueberry">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Epigamia Greek Yogurt Blueberry</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (85 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹60</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹60</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="epigamia turbo vanilla and caramel protein milkshake">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Epigamia Turbo Vanilla And Caramel Protein Milkshake</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (250 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹99</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹141</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">30% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="epigamia greek yogurt- alphonso mango">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Epigamia Greek Yogurt- Alphonso Mango</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (85 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹60</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹60</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="epigamia turbo coffee protein milkshake">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Epigamia Turbo Coffee Protein Milkshake</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (250 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹99</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹141</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">30% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="epigamia everyday mango yogurt 100 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Epigamia Everyday Mango Yogurt 100 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.17/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹17</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹35</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">51% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="epigamia everyday strawberry yogurt 100 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Epigamia Everyday Strawberry Yogurt 100 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.17/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹17</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹35</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">51% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="epigamia everyday lychee yogurt 100 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Epigamia Everyday Lychee Yogurt 100 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.17/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹17</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹35</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">51% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="epigamia natural greek yogurt 85 g (cup)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Epigamia Natural Greek Yogurt 85 g (Cup)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">85 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹51</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹60</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="epigamia alphonso mango greek yogurt smoothie 180 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Epigamia Alphonso Mango Greek Yogurt Smoothie 180 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.38/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹69</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹80</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">14% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="heritage total curd 1 kg">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Heritage Total Curd 1 kg</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 kg</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹69</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹82</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">16% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="milky mist skyr high protein plain yogurt">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Milky Mist Skyr High Protein Plain Yogurt</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">100 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹65</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹75</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">13% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="epigamia natural greek yogurt (85 g) - pack of 3">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Epigamia Natural Greek Yogurt (85 g) - Pack of 3</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">3 x 85 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹178</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹180</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">1% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="epigamia natural greek yogurt (85 g)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Epigamia Natural Greek Yogurt (85 g)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">85 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹60</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹60</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="epigamia natural greek yogurt (85 g) - pack of 6">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Epigamia Natural Greek Yogurt (85 g) - Pack of 6</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">6 x 85 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹351</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹360</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">3% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="milky mist skyr high protein yogurt">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Milky Mist SKYR High Protein Yogurt</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">700 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹330</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹380</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">13% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="epigamia blueberry flavoured yogurt">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Epigamia Blueberry Flavoured Yogurt</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">85 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹60</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹60</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="epigamia greek yogurt- natural">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Epigamia Greek Yogurt- Natural</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (85 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹45</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹60</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">25% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="epigamia turbo cookies and cream protein milkshake">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Epigamia Turbo Cookies And Cream Protein Milkshake</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (250 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹99</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹141</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">30% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="epigamia greek yogurt blueberry">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Epigamia Greek Yogurt Blueberry</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (85 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹60</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹60</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="epigamia turbo vanilla and caramel protein milkshake">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Epigamia Turbo Vanilla And Caramel Protein Milkshake</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (250 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹99</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹141</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">30% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="epigamia greek yogurt- alphonso mango">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Epigamia Greek Yogurt- Alphonso Mango</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (85 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹60</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹60</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="epigamia turbo coffee protein milkshake">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Epigamia Turbo Coffee Protein Milkshake</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (250 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹99</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹141</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">30% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="grihshiv yogurt &amp; curd maker 1100ml | fine mesh strainer with lid | greek yogurt, labneh, cheese &amp; thick curd separator | bpa-free kitchen tool">
+        <td class="px-4 py-3 font-medium text-white max-w-md">GRIHSHIV Yogurt &amp; Curd Maker 1100ml | Fine Mesh Strainer with Lid | Greek Yogurt, Labneh, Cheese &amp; Thick Curd Separator | BPA-Free Kitchen Tool</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹178</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹999</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">82% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="willywhyte ruby ray toothpaste enriched with goodness of nature 400gm(2x200gm)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Willywhyte Ruby Ray Toothpaste Enriched With Goodness of Nature 400Gm(2X200Gm)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹190</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹280</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">32% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="pahadi harvest kitchen king mix masala powder/premium blend of pure himalayan spices/authentic taste &amp; aroma / 100% natural - 400 gms">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pahadi Harvest Kitchen King Mix Masala Powder/Premium Blend of Pure Himalayan Spices/Authentic Taste &amp; Aroma / 100% Natural - 400 gms</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹435</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹520</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">16% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="sarth treasure greek yogurt &amp; curd maker 1100ml fine mesh strainer with lid | multifunctional home yogurt, curd &amp; cheese maker with whey separator | easy homemade yogurt &amp; cheese">
+        <td class="px-4 py-3 font-medium text-white max-w-md">SARTH TREASURE Greek Yogurt &amp; Curd Maker 1100ml Fine Mesh Strainer with Lid | Multifunctional Home Yogurt, Curd &amp; Cheese Maker with Whey Separator | Easy Homemade Yogurt &amp; Cheese</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹569</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1299</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">56% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="odd m even hung curd maker, greek yogurt maker, yogurt strainer, curd strainer, plastic curd maker, paneer strainer, home made yogurt tool, kitchen tools for dairy, thick curd container">
+        <td class="px-4 py-3 font-medium text-white max-w-md">ODD M EVEN hung curd maker, greek yogurt maker, yogurt strainer, curd strainer, plastic curd maker, paneer strainer, home made yogurt tool, kitchen tools for dairy, thick curd container</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹489</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹999</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">51% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="odd m even greek yogurt maker yogurt filter with extra fine mesh stainless steel strainer, reusable greek yogurt strainer kitchen food gadgets tools">
+        <td class="px-4 py-3 font-medium text-white max-w-md">ODD M EVEN Greek Yogurt Maker Yogurt Filter with Extra Fine Mesh Stainless Steel Strainer, Reusable Greek Yogurt Strainer Kitchen Food Gadgets Tools</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹494</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹999</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">51% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- Sticky CTA Footer -->
+  <div class="fixed bottom-0 inset-x-0 bg-slate-950/95 border-t border-emerald-500/30 backdrop-blur px-6 py-3.5 z-30">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+      <div class="text-slate-200">
+        <span class="text-emerald-400 font-bold">⚡ Unscrape Radar:</span> Want real-time Slack/WhatsApp/Telegram alerts within 15 mins whenever <strong>Epigamia</strong> SKUs go Out-of-Stock across 20 BLR/MUM/DEL dark-store pin codes?
+      </div>
+      <div class="flex items-center gap-2.5 shrink-0">
+        <a href="https://github.com/deveshkolte/unscrape" target="_blank" class="px-4 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold">Unlock Automated 20-Pin-Code Monitor →</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const RAW_CSV = "brand,city,pincode,platform,skuId,title,sellingPriceInr,mrpInr,discountPercent,unit,inStock,deliveryEta,url\nEpigamia,Bengaluru,560001,blinkit.com,524384,Milky Mist Skyr High Protein Plain Yogurt,70,75,7,100 g,true,8 MINS,https://blinkit.com/prn/milky-mist-skyr-high-protein-plain-yogurt/prid/524384\nEpigamia,Bengaluru,560001,blinkit.com,132232,Epigamia Alphonso Mango Flavoured Greek Yogurt,60,60,0,85 g,true,8 MINS,https://blinkit.com/prn/epigamia-alphonso-mango-flavoured-greek-yogurt/prid/132232\nEpigamia,Bengaluru,560001,blinkit.com,766581,Milky Mist SKYR High Protein Yogurt,330,380,13,700 g,true,8 MINS,https://blinkit.com/prn/milky-mist-skyr-high-protein-yogurt/prid/766581\nEpigamia,Bengaluru,560001,blinkit.com,294982,Epigamia Blueberry Flavoured Yogurt,60,60,0,85 g,true,8 MINS,https://blinkit.com/prn/epigamia-blueberry-flavoured-yogurt/prid/294982\nEpigamia,Bengaluru,560001,blinkit.com,487771,Epigamia Blueberry Flavoured Yogurt - Pack of 3,178,180,1,3 x 85 g,true,8 MINS,https://blinkit.com/prn/epigamia-blueberry-flavoured-yogurt-pack-of-3/prid/487771\nEpigamia,Bengaluru,560001,blinkit.com,496625,Epigamia Blueberry Flavoured Yogurt - Pack of 6,351,360,3,6 x 85 g,true,8 MINS,https://blinkit.com/prn/epigamia-blueberry-flavoured-yogurt-pack-of-6/prid/496625\nEpigamia,Bengaluru,560001,zeptonow.com,6b67d4ce-72f9-553f-b30d-29a871016bf4,Epigamia Greek Yogurt- Natural,45,60,25,1 pc (85 g),true,10 MINS,https://www.zepto.com/pn/epigamia-greek-yogurt-natural/pvid/d511102d-e29c-4c7d-86c7-671c9e78ae2b\nEpigamia,Bengaluru,560001,zeptonow.com,44bcf58f-2039-58be-b796-24c11460afc1,Epigamia Turbo Cookies And Cream Protein Milkshake,99,141,30,1 pc (250 ml),true,10 MINS,https://www.zepto.com/pn/epigamia-turbo-cookies-and-cream-protein-milkshake/pvid/b1ca615f-5384-4135-981d-343c46308dcd\nEpigamia,Bengaluru,560001,zeptonow.com,e413234f-261f-59b1-b61c-ed576000b8f7,Epigamia Greek Yogurt Blueberry,60,60,0,1 pc (85 g),true,10 MINS,https://www.zepto.com/pn/epigamia-greek-yogurt-blueberry/pvid/8cb40c84-7ae8-4eab-b4dc-920aff7dd9e8\nEpigamia,Bengaluru,560001,zeptonow.com,016d49af-1d2c-5da6-abfe-7d19f5b623f0,Epigamia Turbo Vanilla And Caramel Protein Milkshake,99,141,30,1 pc (250 ml),true,10 MINS,https://www.zepto.com/pn/epigamia-turbo-vanilla-and-caramel-protein-milkshake/pvid/e3d82530-d213-4a84-b68d-a81f8764afa2\nEpigamia,Bengaluru,560001,zeptonow.com,b51456db-e61b-58fc-9250-ec7f120ed1d6,Epigamia Greek Yogurt- Alphonso Mango,60,60,0,1 pc (85 g),true,10 MINS,https://www.zepto.com/pn/epigamia-greek-yogurt-alphonso-mango/pvid/03ea892c-6de0-423a-a2a2-e531f220fb86\nEpigamia,Bengaluru,560001,zeptonow.com,23d85ab7-8bdb-5cd1-bf60-250fe3e73020,Epigamia Turbo Coffee Protein Milkshake,99,141,30,1 pc (250 ml),true,10 MINS,https://www.zepto.com/pn/epigamia-turbo-coffee-protein-milkshake/pvid/403f785a-8d9a-48de-8dcc-0a2c987409c2\nEpigamia,Bengaluru,560001,bigbasket.com/jiomart,7528021,Yogabar Choco Almond Cranberry Protein Muesli 350 g,197,395,50,0.56/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/yogabar-protein-muesli-350-g-mffn3h-7528021/7528021\nEpigamia,Bengaluru,560001,bigbasket.com/jiomart,7542403,Milky Mist High Protein Low Fat Paneer 200 g,112,165,32,0.56/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/milky-mist-high-protein-low-fat-paneer-200-g-mffna1-7542403/7542403\nEpigamia,Bengaluru,560001,bigbasket.com/jiomart,7551872,Yogabar Protein Muesli + Fruits + Nuts + Seeds 350 g,197,395,50,0.56/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/yogabar-protein-muesli-fruits-nuts-seeds-350-g-mffnew-7551872/7551872\nEpigamia,Bengaluru,560001,bigbasket.com/jiomart,72266623,True Elements Berry Bliss Protein Bar 40 g,25,60,58,0.63/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/true-elements-berry-bliss-protein-bar-40-g-mklasv-72266623/72266623\nEpigamia,Bengaluru,560001,bigbasket.com/jiomart,7550805,Yogabar Millet Muesli 450 g,142,285,50,0.32/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/yogabar-millet-muesli-500-g-mffnec-7550805/7550805\nEpigamia,Bengaluru,560001,bigbasket.com/jiomart,7547038,Milky Mist Sweet Condensed Milk 200 g,63,75,16,0.32/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/milky-mist-sweet-condensed-milk-200-g-mffncb-7547038/7547038\nEpigamia,Bengaluru,560001,amazon.in,B08QZ8GZW7,\"Khakhra Combo (Plain, Jeera, Masala & Methi) 4 Packs x 200g Each | Whole Wheat | No Palm Oil | No Maida | Authentic Gujarati Healthy Snack\",299,37.38,0,200g,true,\"Tue, 3 Nov\",https://www.amazon.in/dp/B08QZ8GZW7\nEpigamia,Bengaluru,560001,amazon.in,B0BL3MTSSB,\"25% High Protein Super Oats Chocolate 1kg – Rolled Oats, Natural Peanut Butter, Cocoa Powder, Nuts & Seeds – 25g Protein, Source of Dietary Fibre & Healthy Fats, No Added Sugar & Salt\",484,484,0,1kg,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0BL3MTSSB\nEpigamia,Bengaluru,560001,amazon.in,B0CZTLNL2G,\"Falahari Mix Roasted Namkeen Snack 200G|Oil-Free Farari Chiwda|No Onion, No Garlic Farali Namkeen|Healthy Vrat Upwas Fast Namkeen|No Cholesterol No Transfat Healthy Snack For Fasting\",133,66.5,0,200G,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0CZTLNL2G\nEpigamia,Mumbai,400001,blinkit.com,524384,Milky Mist Skyr High Protein Plain Yogurt,65,75,13,100 g,true,11 MINS,https://blinkit.com/prn/milky-mist-skyr-high-protein-plain-yogurt/prid/524384\nEpigamia,Mumbai,400001,blinkit.com,98706,Epigamia Natural Greek Yogurt (85 g),60,60,0,85 g,true,11 MINS,https://blinkit.com/prn/epigamia-natural-greek-yogurt-85-g/prid/98706\nEpigamia,Mumbai,400001,blinkit.com,487769,Epigamia Natural Greek Yogurt (85 g) - Pack of 3,178,180,1,3 x 85 g,true,11 MINS,https://blinkit.com/prn/epigamia-natural-greek-yogurt-85-g-pack-of-3/prid/487769\nEpigamia,Mumbai,400001,blinkit.com,496623,Epigamia Natural Greek Yogurt (85 g) - Pack of 6,351,360,3,6 x 85 g,true,11 MINS,https://blinkit.com/prn/epigamia-natural-greek-yogurt-85-g-pack-of-6/prid/496623\nEpigamia,Mumbai,400001,blinkit.com,481074,Amul Stirred Strawberry Flavoured Yogurt,30,30,0,100 g,true,11 MINS,https://blinkit.com/prn/amul-stirred-strawberry-flavoured-yogurt/prid/481074\nEpigamia,Mumbai,400001,blinkit.com,294982,Epigamia Blueberry Flavoured Yogurt,60,60,0,85 g,true,11 MINS,https://blinkit.com/prn/epigamia-blueberry-flavoured-yogurt/prid/294982\nEpigamia,Mumbai,400001,zeptonow.com,6b67d4ce-72f9-553f-b30d-29a871016bf4,Epigamia Greek Yogurt- Natural,45,60,25,1 pc (85 g),true,10 MINS,https://www.zepto.com/pn/epigamia-greek-yogurt-natural/pvid/d511102d-e29c-4c7d-86c7-671c9e78ae2b\nEpigamia,Mumbai,400001,zeptonow.com,44bcf58f-2039-58be-b796-24c11460afc1,Epigamia Turbo Cookies And Cream Protein Milkshake,99,141,30,1 pc (250 ml),true,10 MINS,https://www.zepto.com/pn/epigamia-turbo-cookies-and-cream-protein-milkshake/pvid/b1ca615f-5384-4135-981d-343c46308dcd\nEpigamia,Mumbai,400001,zeptonow.com,e413234f-261f-59b1-b61c-ed576000b8f7,Epigamia Greek Yogurt Blueberry,60,60,0,1 pc (85 g),true,10 MINS,https://www.zepto.com/pn/epigamia-greek-yogurt-blueberry/pvid/8cb40c84-7ae8-4eab-b4dc-920aff7dd9e8\nEpigamia,Mumbai,400001,zeptonow.com,016d49af-1d2c-5da6-abfe-7d19f5b623f0,Epigamia Turbo Vanilla And Caramel Protein Milkshake,99,141,30,1 pc (250 ml),true,10 MINS,https://www.zepto.com/pn/epigamia-turbo-vanilla-and-caramel-protein-milkshake/pvid/e3d82530-d213-4a84-b68d-a81f8764afa2\nEpigamia,Mumbai,400001,zeptonow.com,b51456db-e61b-58fc-9250-ec7f120ed1d6,Epigamia Greek Yogurt- Alphonso Mango,60,60,0,1 pc (85 g),true,10 MINS,https://www.zepto.com/pn/epigamia-greek-yogurt-alphonso-mango/pvid/03ea892c-6de0-423a-a2a2-e531f220fb86\nEpigamia,Mumbai,400001,zeptonow.com,23d85ab7-8bdb-5cd1-bf60-250fe3e73020,Epigamia Turbo Coffee Protein Milkshake,99,141,30,1 pc (250 ml),true,10 MINS,https://www.zepto.com/pn/epigamia-turbo-coffee-protein-milkshake/pvid/403f785a-8d9a-48de-8dcc-0a2c987409c2\nEpigamia,Mumbai,400001,bigbasket.com/jiomart,7552273,Epigamia Everyday Mango Yogurt 100 g,17,35,51,0.17/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/epigamia-everyday-mango-yogurt-100-g-mffnf5-7552273/7552273\nEpigamia,Mumbai,400001,bigbasket.com/jiomart,7552038,Epigamia Everyday Strawberry Yogurt 100 g,17,35,51,0.17/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/epigamia-everyday-strawberry-yogurt-100-g-mffnf0-7552038/7552038\nEpigamia,Mumbai,400001,bigbasket.com/jiomart,7544441,Epigamia Everyday Lychee Yogurt 100 g,17,35,51,0.17/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/epigamia-everyday-lychee-yogurt-100-g-mffnay-7544441/7544441\nEpigamia,Mumbai,400001,bigbasket.com/jiomart,7512195,Epigamia Natural Greek Yogurt 85 g (Cup),51,60,15,85 g,true,15-30 MINS,https://www.jiomart.com/p/groceries/epigamia-natural-greek-yogurt-85-g-cup-mffmw1-7512195/7512195\nEpigamia,Mumbai,400001,bigbasket.com/jiomart,7526529,Epigamia Alphonso Mango Greek Yogurt Smoothie 180 ml,69,80,14,0.38/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/epigamia-alphonso-mango-greek-yogurt-smoothie-180-ml-mffn2r-7526529/7526529\nEpigamia,Mumbai,400001,bigbasket.com/jiomart,7529596,Heritage Total Curd 1 kg,69,82,16,1 kg,true,15-30 MINS,https://www.jiomart.com/p/groceries/heritage-total-curd-1-kg-mffn46-7529596/7529596\nEpigamia,Delhi,110001,blinkit.com,524384,Milky Mist Skyr High Protein Plain Yogurt,65,75,13,100 g,true,10 MINS,https://blinkit.com/prn/milky-mist-skyr-high-protein-plain-yogurt/prid/524384\nEpigamia,Delhi,110001,blinkit.com,487769,Epigamia Natural Greek Yogurt (85 g) - Pack of 3,178,180,1,3 x 85 g,true,10 MINS,https://blinkit.com/prn/epigamia-natural-greek-yogurt-85-g-pack-of-3/prid/487769\nEpigamia,Delhi,110001,blinkit.com,98706,Epigamia Natural Greek Yogurt (85 g),60,60,0,85 g,true,10 MINS,https://blinkit.com/prn/epigamia-natural-greek-yogurt-85-g/prid/98706\nEpigamia,Delhi,110001,blinkit.com,496623,Epigamia Natural Greek Yogurt (85 g) - Pack of 6,351,360,3,6 x 85 g,true,10 MINS,https://blinkit.com/prn/epigamia-natural-greek-yogurt-85-g-pack-of-6/prid/496623\nEpigamia,Delhi,110001,blinkit.com,766581,Milky Mist SKYR High Protein Yogurt,330,380,13,700 g,true,10 MINS,https://blinkit.com/prn/milky-mist-skyr-high-protein-yogurt/prid/766581\nEpigamia,Delhi,110001,blinkit.com,294982,Epigamia Blueberry Flavoured Yogurt,60,60,0,85 g,true,10 MINS,https://blinkit.com/prn/epigamia-blueberry-flavoured-yogurt/prid/294982\nEpigamia,Delhi,110001,zeptonow.com,6b67d4ce-72f9-553f-b30d-29a871016bf4,Epigamia Greek Yogurt- Natural,45,60,25,1 pc (85 g),true,10 MINS,https://www.zepto.com/pn/epigamia-greek-yogurt-natural/pvid/d511102d-e29c-4c7d-86c7-671c9e78ae2b\nEpigamia,Delhi,110001,zeptonow.com,44bcf58f-2039-58be-b796-24c11460afc1,Epigamia Turbo Cookies And Cream Protein Milkshake,99,141,30,1 pc (250 ml),true,10 MINS,https://www.zepto.com/pn/epigamia-turbo-cookies-and-cream-protein-milkshake/pvid/b1ca615f-5384-4135-981d-343c46308dcd\nEpigamia,Delhi,110001,zeptonow.com,e413234f-261f-59b1-b61c-ed576000b8f7,Epigamia Greek Yogurt Blueberry,60,60,0,1 pc (85 g),true,10 MINS,https://www.zepto.com/pn/epigamia-greek-yogurt-blueberry/pvid/8cb40c84-7ae8-4eab-b4dc-920aff7dd9e8\nEpigamia,Delhi,110001,zeptonow.com,016d49af-1d2c-5da6-abfe-7d19f5b623f0,Epigamia Turbo Vanilla And Caramel Protein Milkshake,99,141,30,1 pc (250 ml),true,10 MINS,https://www.zepto.com/pn/epigamia-turbo-vanilla-and-caramel-protein-milkshake/pvid/e3d82530-d213-4a84-b68d-a81f8764afa2\nEpigamia,Delhi,110001,zeptonow.com,b51456db-e61b-58fc-9250-ec7f120ed1d6,Epigamia Greek Yogurt- Alphonso Mango,60,60,0,1 pc (85 g),true,10 MINS,https://www.zepto.com/pn/epigamia-greek-yogurt-alphonso-mango/pvid/03ea892c-6de0-423a-a2a2-e531f220fb86\nEpigamia,Delhi,110001,zeptonow.com,23d85ab7-8bdb-5cd1-bf60-250fe3e73020,Epigamia Turbo Coffee Protein Milkshake,99,141,30,1 pc (250 ml),true,10 MINS,https://www.zepto.com/pn/epigamia-turbo-coffee-protein-milkshake/pvid/403f785a-8d9a-48de-8dcc-0a2c987409c2\nEpigamia,Delhi,110001,bigbasket.com/jiomart,143449969,\"GRIHSHIV Yogurt & Curd Maker 1100ml | Fine Mesh Strainer with Lid | Greek Yogurt, Labneh, Cheese & Thick Curd Separator | BPA-Free Kitchen Tool\",178,999,82,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/grihshiv-yogurt-curd-maker-1100ml-fine-mesh-strainer-with-lid-greek-yogurt-labneh-cheese-thick-curd-separator-bpa-free-kitchen-tool-mt40km-143449969/143449969\nEpigamia,Delhi,110001,bigbasket.com/jiomart,19514494,Willywhyte Ruby Ray Toothpaste Enriched With Goodness of Nature 400Gm(2X200Gm),190,280,32,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/willywhyte-ruby-ray-toothpaste-enriched-with-goodness-of-nature-400gm2x200gm-mi90v0-19514494/19514494\nEpigamia,Delhi,110001,bigbasket.com/jiomart,50780570,Pahadi Harvest Kitchen King Mix Masala Powder/Premium Blend of Pure Himalayan Spices/Authentic Taste & Aroma / 100% Natural - 400 gms,435,520,16,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/pahadi-harvest-kitchen-king-mix-masala-powder-premium-blend-of-pure-himalayan-spices-authentic-taste-aroma-100-natural-400-gms-mj75bi-50780570/50780570\nEpigamia,Delhi,110001,bigbasket.com/jiomart,54505365,\"SARTH TREASURE Greek Yogurt & Curd Maker 1100ml Fine Mesh Strainer with Lid | Multifunctional Home Yogurt, Curd & Cheese Maker with Whey Separator | Easy Homemade Yogurt & Cheese\",569,1299,56,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/sarth-treasure-greek-yogurt-curd-maker-1100ml-fine-mesh-strainer-with-lid-multifunctional-home-yogurt-curd-cheese-maker-with-whey-separator-easy-homemade-yogurt-cheese-mj7lad-54505365/54505365\nEpigamia,Delhi,110001,bigbasket.com/jiomart,54438937,\"ODD M EVEN hung curd maker, greek yogurt maker, yogurt strainer, curd strainer, plastic curd maker, paneer strainer, home made yogurt tool, kitchen tools for dairy, thick curd container\",489,999,51,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/odd-m-even-hung-curd-maker-greek-yogurt-maker-yogurt-strainer-curd-strainer-plastic-curd-maker-paneer-strainer-home-made-yogurt-tool-kitchen-tools-for-dairy-thick-curd-container-mj7l26-54438937/54438937\nEpigamia,Delhi,110001,bigbasket.com/jiomart,54463763,\"ODD M EVEN Greek Yogurt Maker Yogurt Filter with Extra Fine Mesh Stainless Steel Strainer, Reusable Greek Yogurt Strainer Kitchen Food Gadgets Tools\",494,999,51,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/odd-m-even-greek-yogurt-maker-yogurt-filter-with-extra-fine-mesh-stainless-steel-strainer-reusable-greek-yogurt-strainer-kitchen-food-gadgets-tools-mj7l5s-54463763/54463763\n";
+
+    function filterRows(mode) {
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const stock = row.getAttribute('data-stock');
+        if (mode === 'all') row.style.display = '';
+        else if (mode === 'oos') row.style.display = stock === 'oos' ? '' : 'none';
+        else if (mode === 'instock') row.style.display = stock === 'instock' ? '' : 'none';
+      });
+    }
+
+    function searchSkus() {
+      const q = document.getElementById('skuSearch').value.toLowerCase();
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const title = row.getAttribute('data-title') || '';
+        const platform = (row.getAttribute('data-platform') || '').toLowerCase();
+        row.style.display = (title.includes(q) || platform.includes(q)) ? '' : 'none';
+      });
+    }
+
+    function downloadCsv() {
+      const blob = new Blob([RAW_CSV], { type: 'text/csv;charset=utf-8;' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'epigamia-3city-audit.csv';
+      a.click();
+    }
+  </script>
+</body>
+</html>

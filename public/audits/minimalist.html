@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Minimalist — 3-City Quick-Commerce Dark-Store Audit Scorecard | Unscrape Radar</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background-color: #07080d; color: #f3f4f6; font-family: Inter, system-ui, -apple-system, sans-serif; }
+  </style>
+</head>
+<body class="min-h-screen pb-24">
+  <!-- Top Bar -->
+  <header class="border-b border-slate-800 bg-slate-950/90 backdrop-blur sticky top-0 z-20">
+    <div class="max-w-7xl mx-auto px-6 py-3.5 flex items-center justify-between flex-wrap gap-3">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="text-emerald-400 font-black text-lg tracking-tight hover:text-emerald-300">⚡ UNSCRAPE RADAR</a>
+        <span class="text-xs text-slate-500">/</span>
+        <span class="text-sm font-bold text-white">Minimalist Executive Scorecard</span>
+      </div>
+      <div class="flex items-center gap-2.5 text-xs">
+        <a href="index.html" class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700">← All 56 Brand Audits</a>
+        <button onclick="downloadCsv()" class="px-3.5 py-1.5 rounded-lg bg-emerald-500 text-slate-950 font-bold hover:bg-emerald-400">⬇ Download Raw CSV (66 SKUs)</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-6 pt-8">
+    <!-- Executive Header -->
+    <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 mb-8">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+        <div>
+          <div class="flex items-center gap-2.5 mb-2">
+            <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded bg-slate-800 text-emerald-400">Active Skincare</span>
+            <span class="text-xs text-slate-400 font-mono">Audited: 2026-10-30</span>
+          </div>
+          <h1 class="text-3xl md:text-4xl font-black text-white tracking-tight">Minimalist — Hyperlocal Dark-Store Audit</h1>
+          <p class="text-slate-400 text-sm mt-1">
+            Live multi-platform inventory & MOP/MRP price variance scan across <strong>Bengaluru (560001)</strong>, <strong>Mumbai (400001)</strong>, and <strong>Delhi (110001)</strong>.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 shrink-0">
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">SKUs Audited</div>
+            <div class="text-2xl font-black text-white mt-1">66</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">OOS Leaks</div>
+            <div class="text-2xl font-black text-emerald-400 mt-1">0</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">Max Markdown</div>
+            <div class="text-2xl font-black text-amber-300 mt-1">55%</div>
+          </div>
+          <div class="border rounded-xl p-3.5 text-center bg-emerald-500/15 text-emerald-400 border-emerald-500/30">
+            <div class="text-[11px] uppercase font-bold opacity-80">Shelf Health</div>
+            <div class="text-2xl font-black mt-1">100%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="bg-emerald-950/30 border border-emerald-500/30 rounded-2xl p-5 mb-8 flex items-center justify-between flex-wrap gap-3">
+      <div>
+        <span class="px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 font-bold text-xs uppercase">✓ 100% In-Stock Snapshot</span>
+        <span class="text-sm text-slate-200 ml-2">All 66 audited dark-store listings across Bengaluru, Mumbai & Delhi were in stock during this scan. Max discount variance: <strong>55% below MRP</strong>.</span>
+      </div>
+    </div>
+
+    <!-- Filter Controls -->
+    <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+      <div class="flex items-center gap-2 text-xs">
+        <button onclick="filterRows('all')" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-semibold">All SKUs (66)</button>
+        <button onclick="filterRows('oos')" class="px-3 py-1.5 rounded-lg bg-rose-500/15 border border-rose-500/30 text-rose-300 hover:bg-rose-500/25 font-semibold">Out-of-Stock Only (0)</button>
+        <button onclick="filterRows('instock')" class="px-3 py-1.5 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 hover:bg-emerald-500/25 font-semibold">In-Stock (66)</button>
+      </div>
+      <div class="flex items-center gap-2">
+        <input id="skuSearch" type="text" oninput="searchSkus()" placeholder="Filter SKU title or platform..." class="bg-slate-900 border border-slate-800 rounded-lg px-3.5 py-1.5 text-xs text-white w-64" />
+      </div>
+    </div>
+
+    <!-- SKU Table -->
+    <div class="bg-slate-900/50 border border-slate-800 rounded-2xl overflow-x-auto">
+      <table class="w-full text-left text-xs">
+        <thead class="bg-slate-950/90 text-slate-400 uppercase border-b border-slate-800">
+          <tr>
+            <th class="px-4 py-3">SKU Title</th>
+            <th class="px-4 py-3">Platform</th>
+            <th class="px-4 py-3">City / Pin</th>
+            <th class="px-4 py-3">Pack Size</th>
+            <th class="px-4 py-3">Selling Price</th>
+            <th class="px-4 py-3">MRP</th>
+            <th class="px-4 py-3">Discount</th>
+            <th class="px-4 py-3">Stock Status</th>
+            <th class="px-4 py-3">ETA</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-800/60">
+          <tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="eucerin anti pigmentation dual face serum">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Eucerin Anti Pigmentation Dual Face Serum</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">30 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹3591</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹3780</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">8 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="minimalist 10% vitamin c brightening &amp; illumination face serum">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Minimalist 10% Vitamin C Brightening &amp; Illumination Face Serum</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">10 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹285</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹299</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">8 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="minimalist 10% vitamin c brightening &amp; illumination face serum">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Minimalist 10% Vitamin C Brightening &amp; Illumination Face Serum</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">20 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹472</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹575</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">18% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">8 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="minimalist 10% vitamin c brightening &amp; illumination face serum">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Minimalist 10% Vitamin C Brightening &amp; Illumination Face Serum</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">2 x 20 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹933</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1150</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">19% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">8 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="minimalist 10% niacinamide face serum">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Minimalist 10% Niacinamide Face Serum</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">10 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹237</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹249</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">8 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="minimalist 10% niacinamide face serum">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Minimalist 10% Niacinamide Face Serum</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">20 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹425</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">8 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="minimalist anti-acne 2% salicylic acid face serum for all skin types">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Minimalist Anti-Acne 2% Salicylic Acid Face Serum for All Skin Types</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (10 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹237</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹249</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="minimalist 10% vitamin c brightening &amp; hydrating face serum">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Minimalist 10% Vitamin C Brightening &amp; Hydrating Face Serum</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (10 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹284</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹299</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="minimalist oil control &amp; anti-acne 10% niacinamide face serum">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Minimalist Oil Control &amp; Anti-Acne 10% Niacinamide Face Serum</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (10 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹237</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹249</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="minimalist 10% vitamin c brightening &amp; hydrating face serum">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Minimalist 10% Vitamin C Brightening &amp; Hydrating Face Serum</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (30 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹664</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹699</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="minimalist anti-acne 2% salicylic acid face serum for all skin types">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Minimalist Anti-Acne 2% Salicylic Acid Face Serum for All Skin Types</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (30 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹522</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹549</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="minimalist oil control &amp; anti-acne 10% niacinamide face serum">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Minimalist Oil Control &amp; Anti-Acne 10% Niacinamide Face Serum</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (30 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹569</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹599</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="derma - via 10% niacinamide serum 30ml for face, oil control &amp; pore minimizing serum, skin brightening anti acne serum for clear smooth even tone skin">
+        <td class="px-4 py-3 font-medium text-white max-w-md">DERMA - VIA 10% Niacinamide Serum 30ml for Face, Oil Control &amp; Pore Minimizing Serum, Skin Brightening Anti Acne Serum for Clear Smooth Even Tone Skin</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">30 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1499</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1499</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="erbali niacinamide facial serum for pore minimizing and daily skin care">
+        <td class="px-4 py-3 font-medium text-white max-w-md">ERBALI Niacinamide Facial Serum for Pore Minimizing and Daily Skin Care</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">7.50/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹225</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">55% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="mvylissea clean formula face serum | pdrn base | soft lightweight feel">
+        <td class="px-4 py-3 font-medium text-white max-w-md">MVYLISSEA Clean Formula Face Serum | PDRN Base | Soft Lightweight Feel</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1199</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="blameless oil control &amp; brightening face serum|with niacinamide, multani mitti, hyaluronic acid &amp; daisy etract|minimizes pores &amp; enhances glow|50ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Blameless Oil Control &amp; Brightening Face Serum|With Niacinamide, Multani Mitti, Hyaluronic Acid &amp; Daisy Etract|Minimizes Pores &amp; Enhances Glow|50ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">50 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹599</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1199</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="underated niacinamide 5% betaine 3% serum - 30g | reduces excess oil">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Underated Niacinamide 5% Betaine 3% Serum - 30g | Reduces Excess Oil</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹239</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹349</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">32% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="erbali face serum with niacinamide for oil control &amp; pore minimizing care">
+        <td class="px-4 py-3 font-medium text-white max-w-md">ERBALI Face Serum with Niacinamide for Oil Control &amp; Pore Minimizing Care</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">7.63/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹229</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">54% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="niacinamide 10% + vitamin c 10% face serum combo | acne marks, dark spots, oil control &amp; skin brightening | pore minimizing &amp; glow boosting skincare | oily, combination &amp; acne prone skin">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Niacinamide 10% + Vitamin C 10% Face Serum Combo | Acne Marks, Dark Spots, Oil Control &amp; Skin Brightening | Pore Minimizing &amp; Glow Boosting Skincare | Oily, Combination &amp; Acne Prone Skin</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹468</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹548</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Tomorrow 12 pm - 4 pm</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="niacinamide 10% + vitamin c 10% face serum bundle | acne marks, dark spots, oil control &amp; brightening | for oily &amp; acne prone skin | 30ml + 30ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Niacinamide 10% + Vitamin C 10% Face Serum Bundle | Acne Marks, Dark Spots, Oil Control &amp; Brightening | For Oily &amp; Acne Prone Skin | 30ml + 30ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">30ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹990.9</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1298</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">24% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Tomorrow 12 pm - 4 pm</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="hydration &amp; brightening skincare bundle | hyaluronic acid serum + brightening face serum | for glowing, plump &amp; even-toned skin | lightweight daily routine">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Hydration &amp; Brightening Skincare Bundle | Hyaluronic Acid Serum + Brightening Face Serum | For Glowing, Plump &amp; Even-Toned Skin | Lightweight Daily Routine</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹468</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹548</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Tomorrow 12 pm - 4 pm</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="essential bundle: 10% niacinamide serum with zinc (30ml) for oil control &amp; acne + 10% vitamin c serum (30ml) for dark spots &amp; glow + spf 50 pa++++ sunscreen (50g)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Essential Bundle: 10% Niacinamide Serum with Zinc (30ml) for Oil Control &amp; Acne + 10% Vitamin C Serum (30ml) for Dark Spots &amp; Glow + SPF 50 PA++++ Sunscreen (50g)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">30ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1022</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1697</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">40% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Tomorrow 12 pm - 4 pm</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="0.3% retinol serum 10ml + 10% advanced vitamin c serum 10ml | anti-aging, brightening &amp; dark spot treatment skincare duo">
+        <td class="px-4 py-3 font-medium text-white max-w-md">0.3% Retinol Serum 10ml + 10% Advanced Vitamin C Serum 10ml | Anti-Aging, Brightening &amp; Dark Spot Treatment Skincare Duo</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">10ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹445.5</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹548</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">19% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Tomorrow 12 pm - 4 pm</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="10% niacinamide serum with zinc – reduces acne marks, controls oil &amp; minimizes pores | vitamin b3 for blemish-free, clear skin | for oily &amp; acne-prone skin (30 ml)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">10% Niacinamide Serum with Zinc – Reduces Acne Marks, Controls Oil &amp; Minimizes Pores | Vitamin B3 for Blemish-Free, Clear Skin | For Oily &amp; Acne-Prone Skin (30 ml)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">30 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹475</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹15.83</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Fri, 6 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="minimalist 10% niacinamide + zinc face serum for men &amp; women | skincare for oily, acne-prone skin, open pores &amp; blemishes">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Minimalist 10% Niacinamide + Zinc Face Serum for Men &amp; Women | Skincare for Oily, Acne-Prone Skin, Open Pores &amp; Blemishes</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹236</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹249</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Standard</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="minimalist 5% niacinamide face serum for men &amp; women | clear glowing skin">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Minimalist 5% Niacinamide Face Serum for Men &amp; Women | Clear Glowing Skin</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹236</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹249</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Standard</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="minimalist 10% niacinamide face serum for acne marks, blemishes &amp; acne prone skin">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Minimalist 10% Niacinamide Face Serum for Acne Marks, Blemishes &amp; Acne Prone Skin</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹569</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹599</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Standard</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="minimalist 2% salicylic acid face serum for men &amp; women | acne, blackheads &amp; open pores skincare">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Minimalist 2% Salicylic Acid Face Serum for Men &amp; Women | Acne, Blackheads &amp; Open Pores Skincare</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹521</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹549</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Standard</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="minimalist 10% vitamin c face serum for men &amp; women | skin brightening, glow &amp; uv damage repair | stable vitamin c skincare">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Minimalist 10% Vitamin C Face Serum for Men &amp; Women | Skin Brightening, Glow &amp; UV Damage Repair | Stable Vitamin C Skincare</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹664</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹699</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Standard</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="minimalist retinol serum 0.3% for anti aging with q10 to reduce fine lines &amp; wrinkles">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Minimalist Retinol Serum 0.3% For Anti Aging with Q10 to Reduce Fine Lines &amp; Wrinkles</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹236</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹249</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Standard</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="minimalist 10% niacinamide face serum">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Minimalist 10% Niacinamide Face Serum</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">10 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹237</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹249</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">8 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="minimalist 10% niacinamide face serum">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Minimalist 10% Niacinamide Face Serum</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">20 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹425</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">8 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="minimalist 10% niacinamide face serum">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Minimalist 10% Niacinamide Face Serum</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">2 x 20 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹841</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹998</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">16% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">8 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="minimalist 10% vitamin c brightening &amp; illumination face serum">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Minimalist 10% Vitamin C Brightening &amp; Illumination Face Serum</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">20 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹472</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹575</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">18% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">8 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="minimalist 10% vitamin c brightening &amp; illumination face serum">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Minimalist 10% Vitamin C Brightening &amp; Illumination Face Serum</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">10 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹285</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹299</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">8 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="minimalist 2% salicylic acid face serum">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Minimalist 2% Salicylic Acid Face Serum</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">10 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹237</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹249</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">8 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="minimalist anti-acne 2% salicylic acid face serum for all skin types">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Minimalist Anti-Acne 2% Salicylic Acid Face Serum for All Skin Types</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (10 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹237</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹249</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="minimalist 10% vitamin c brightening &amp; hydrating face serum">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Minimalist 10% Vitamin C Brightening &amp; Hydrating Face Serum</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (10 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹284</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹299</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="minimalist oil control &amp; anti-acne 10% niacinamide face serum">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Minimalist Oil Control &amp; Anti-Acne 10% Niacinamide Face Serum</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (10 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹237</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹249</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="minimalist 10% vitamin c brightening &amp; hydrating face serum">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Minimalist 10% Vitamin C Brightening &amp; Hydrating Face Serum</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (30 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹664</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹699</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="minimalist anti-acne 2% salicylic acid face serum for all skin types">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Minimalist Anti-Acne 2% Salicylic Acid Face Serum for All Skin Types</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (30 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹522</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹549</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="minimalist oil control &amp; anti-acne 10% niacinamide face serum">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Minimalist Oil Control &amp; Anti-Acne 10% Niacinamide Face Serum</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (30 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹569</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹599</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="minimalist 10% niacinamide face serum 30 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Minimalist 10% Niacinamide Face Serum 30 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">18.57/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹557</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹599</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">7% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="minimalist 02% salicylic acid face serum 30 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Minimalist 02% Salicylic Acid Face Serum 30 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">15.53/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹466</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹549</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="minimalist vitamin c 10% face serum 30 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Minimalist Vitamin C 10% Face Serum 30 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">19.80/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹594</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹699</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="minimalist hair repair maleic bond complex 5 % serum 50 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Minimalist Hair Repair Maleic Bond Complex 5 % Serum 50 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">9.48/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹474</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="lakme due drama vitamin e face serum 15 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Lakme Due Drama Vitamin E Face Serum 15 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">14.47/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹217</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹229</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="minimalist hair growth active serum 30 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Minimalist Hair Growth Active Serum 30 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">22.63/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹679</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹799</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="minimalist 10% vitamin c brightening &amp; illumination face serum">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Minimalist 10% Vitamin C Brightening &amp; Illumination Face Serum</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">10 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹285</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹299</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="minimalist 10% vitamin c brightening &amp; illumination face serum">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Minimalist 10% Vitamin C Brightening &amp; Illumination Face Serum</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">20 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹472</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹575</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">18% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="minimalist 10% vitamin c brightening &amp; illumination face serum">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Minimalist 10% Vitamin C Brightening &amp; Illumination Face Serum</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">2 x 20 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹933</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1150</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">19% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="minimalist 10% niacinamide face serum">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Minimalist 10% Niacinamide Face Serum</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">10 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹237</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹249</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="minimalist 10% niacinamide face serum">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Minimalist 10% Niacinamide Face Serum</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">20 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹425</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="minimalist 2% salicylic acid face serum">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Minimalist 2% Salicylic Acid Face Serum</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">10 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹237</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹249</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="minimalist anti-acne 2% salicylic acid face serum for all skin types">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Minimalist Anti-Acne 2% Salicylic Acid Face Serum for All Skin Types</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (10 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹237</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹249</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="minimalist 10% vitamin c brightening &amp; hydrating face serum">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Minimalist 10% Vitamin C Brightening &amp; Hydrating Face Serum</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (10 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹284</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹299</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="minimalist oil control &amp; anti-acne 10% niacinamide face serum">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Minimalist Oil Control &amp; Anti-Acne 10% Niacinamide Face Serum</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (10 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹237</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹249</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="minimalist 10% vitamin c brightening &amp; hydrating face serum">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Minimalist 10% Vitamin C Brightening &amp; Hydrating Face Serum</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (30 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹664</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹699</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="minimalist anti-acne 2% salicylic acid face serum for all skin types">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Minimalist Anti-Acne 2% Salicylic Acid Face Serum for All Skin Types</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (30 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹522</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹549</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="minimalist oil control &amp; anti-acne 10% niacinamide face serum">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Minimalist Oil Control &amp; Anti-Acne 10% Niacinamide Face Serum</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (30 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹569</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹599</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="derma - via 10% niacinamide serum 30ml for face, oil control &amp; pore minimizing serum, skin brightening anti acne serum for clear smooth even tone skin">
+        <td class="px-4 py-3 font-medium text-white max-w-md">DERMA - VIA 10% Niacinamide Serum 30ml for Face, Oil Control &amp; Pore Minimizing Serum, Skin Brightening Anti Acne Serum for Clear Smooth Even Tone Skin</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">30 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1499</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1499</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="erbali niacinamide facial serum for pore minimizing and daily skin care">
+        <td class="px-4 py-3 font-medium text-white max-w-md">ERBALI Niacinamide Facial Serum for Pore Minimizing and Daily Skin Care</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">7.50/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹225</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">55% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="mvylissea clean formula face serum | pdrn base | soft lightweight feel">
+        <td class="px-4 py-3 font-medium text-white max-w-md">MVYLISSEA Clean Formula Face Serum | PDRN Base | Soft Lightweight Feel</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1199</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="blameless oil control &amp; brightening face serum|with niacinamide, multani mitti, hyaluronic acid &amp; daisy etract|minimizes pores &amp; enhances glow|50ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Blameless Oil Control &amp; Brightening Face Serum|With Niacinamide, Multani Mitti, Hyaluronic Acid &amp; Daisy Etract|Minimizes Pores &amp; Enhances Glow|50ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">50 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹599</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1199</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="underated niacinamide 5% betaine 3% serum - 30g | reduces excess oil">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Underated Niacinamide 5% Betaine 3% Serum - 30g | Reduces Excess Oil</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹239</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹349</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">32% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="erbali face serum with niacinamide for oil control &amp; pore minimizing care">
+        <td class="px-4 py-3 font-medium text-white max-w-md">ERBALI Face Serum with Niacinamide for Oil Control &amp; Pore Minimizing Care</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">7.63/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹229</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">54% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- Sticky CTA Footer -->
+  <div class="fixed bottom-0 inset-x-0 bg-slate-950/95 border-t border-emerald-500/30 backdrop-blur px-6 py-3.5 z-30">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+      <div class="text-slate-200">
+        <span class="text-emerald-400 font-bold">⚡ Unscrape Radar:</span> Want real-time Slack/WhatsApp/Telegram alerts within 15 mins whenever <strong>Minimalist</strong> SKUs go Out-of-Stock across 20 BLR/MUM/DEL dark-store pin codes?
+      </div>
+      <div class="flex items-center gap-2.5 shrink-0">
+        <a href="https://github.com/deveshkolte/unscrape" target="_blank" class="px-4 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold">Unlock Automated 20-Pin-Code Monitor →</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const RAW_CSV = "brand,city,pincode,platform,skuId,title,sellingPriceInr,mrpInr,discountPercent,unit,inStock,deliveryEta,url\nMinimalist,Bengaluru,560001,blinkit.com,1387515,Eucerin Anti Pigmentation Dual Face Serum,3591,3780,5,30 ml,true,8 MINS,https://blinkit.com/prn/eucerin-anti-pigmentation-dual-face-serum/prid/1387515\nMinimalist,Bengaluru,560001,blinkit.com,543365,Minimalist 10% Vitamin C Brightening & Illumination Face Serum,285,299,5,10 ml,true,8 MINS,https://blinkit.com/prn/minimalist-10-vitamin-c-brightening-illumination-face-serum/prid/543365\nMinimalist,Bengaluru,560001,blinkit.com,1421176,Minimalist 10% Vitamin C Brightening & Illumination Face Serum,472,575,18,20 ml,true,8 MINS,https://blinkit.com/prn/minimalist-10-vitamin-c-brightening-illumination-face-serum/prid/1421176\nMinimalist,Bengaluru,560001,blinkit.com,1441169,Minimalist 10% Vitamin C Brightening & Illumination Face Serum,933,1150,19,2 x 20 ml,true,8 MINS,https://blinkit.com/prn/minimalist-10-vitamin-c-brightening-illumination-face-serum/prid/1441169\nMinimalist,Bengaluru,560001,blinkit.com,543368,Minimalist 10% Niacinamide Face Serum,237,249,5,10 ml,true,8 MINS,https://blinkit.com/prn/minimalist-10-niacinamide-face-serum/prid/543368\nMinimalist,Bengaluru,560001,blinkit.com,1421180,Minimalist 10% Niacinamide Face Serum,425,499,15,20 ml,true,8 MINS,https://blinkit.com/prn/minimalist-10-niacinamide-face-serum/prid/1421180\nMinimalist,Bengaluru,560001,zeptonow.com,7f9b20bd-166f-546f-a659-44d21e87d31d,Minimalist Anti-Acne 2% Salicylic Acid Face Serum for All Skin Types,237,249,5,1 pc (10 ml),true,10 MINS,https://www.zepto.com/pn/minimalist-anti-acne-2-salicylic-acid-face-serum-for-all-skin-types/pvid/75dc7ea8-0e55-425b-b0e1-0469a8fbbaf1\nMinimalist,Bengaluru,560001,zeptonow.com,4e3c04f7-6a0d-5a33-84c7-599a95a6ebf2,Minimalist 10% Vitamin C Brightening & Hydrating Face Serum,284,299,5,1 pc (10 ml),true,10 MINS,https://www.zepto.com/pn/minimalist-10-vitamin-c-brightening-hydrating-face-serum/pvid/e282b868-4ba0-49e6-8064-32812cf3e5cd\nMinimalist,Bengaluru,560001,zeptonow.com,41420d2a-b834-56b5-abc8-2be9d0d91331,Minimalist Oil Control & Anti-Acne 10% Niacinamide Face Serum,237,249,5,1 pc (10 ml),true,10 MINS,https://www.zepto.com/pn/minimalist-oil-control-anti-acne-10-niacinamide-face-serum/pvid/4908bf3d-d0ee-4920-a114-08736d888605\nMinimalist,Bengaluru,560001,zeptonow.com,09adb4c3-4ec0-5aec-a8e4-18f618646aff,Minimalist 10% Vitamin C Brightening & Hydrating Face Serum,664,699,5,1 pc (30 ml),true,10 MINS,https://www.zepto.com/pn/minimalist-10-vitamin-c-brightening-hydrating-face-serum/pvid/21ef3832-42f7-44f1-bf2a-c2fac5f5700a\nMinimalist,Bengaluru,560001,zeptonow.com,ab0a90fd-cc49-5489-934c-232b9e053804,Minimalist Anti-Acne 2% Salicylic Acid Face Serum for All Skin Types,522,549,5,1 pc (30 ml),true,10 MINS,https://www.zepto.com/pn/minimalist-anti-acne-2-salicylic-acid-face-serum-for-all-skin-types/pvid/92e4510f-1df0-4c27-9060-885cc6e7987d\nMinimalist,Bengaluru,560001,zeptonow.com,0a31adb2-bd6a-52e9-bce0-bf3416553979,Minimalist Oil Control & Anti-Acne 10% Niacinamide Face Serum,569,599,5,1 pc (30 ml),true,10 MINS,https://www.zepto.com/pn/minimalist-oil-control-anti-acne-10-niacinamide-face-serum/pvid/6a70a6b8-8119-4519-9927-85da416c4af3\nMinimalist,Bengaluru,560001,bigbasket.com/jiomart,77905173,\"DERMA - VIA 10% Niacinamide Serum 30ml for Face, Oil Control & Pore Minimizing Serum, Skin Brightening Anti Acne Serum for Clear Smooth Even Tone Skin\",1499,1499,0,30 ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/derma-via-10-niacinamide-serum-30ml-for-face-oil-control-pore-minimizing-serum-skin-brightening-anti-acne-serum-for-clear-smooth-even-tone-skin-mnkbra-77905173/77905173\nMinimalist,Bengaluru,560001,bigbasket.com/jiomart,165208806,ERBALI Niacinamide Facial Serum for Pore Minimizing and Daily Skin Care,225,499,55,7.50/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/erbali-niacinamide-facial-serum-for-pore-minimizing-and-daily-skin-care-mv0nnm-165208806/165208806\nMinimalist,Bengaluru,560001,bigbasket.com/jiomart,50817524,MVYLISSEA Clean Formula Face Serum | PDRN Base | Soft Lightweight Feel,1199,1499,20,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/mvylissea-clean-formula-face-serum-pdrn-base-soft-lightweight-feel-mj75hm-50817524/50817524\nMinimalist,Bengaluru,560001,bigbasket.com/jiomart,50217509,\"Blameless Oil Control & Brightening Face Serum|With Niacinamide, Multani Mitti, Hyaluronic Acid & Daisy Etract|Minimizes Pores & Enhances Glow|50ml\",599,1199,50,50 ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/blameless-oil-control-brightening-face-serum-with-niacinamide-multani-mitti-hyaluronic-acid-daisy-etract-minimizes-pores-enhances-glow-50ml-mj72d4-50217509/50217509\nMinimalist,Bengaluru,560001,bigbasket.com/jiomart,50554413,Underated Niacinamide 5% Betaine 3% Serum - 30g | Reduces Excess Oil,239,349,32,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/underated-niacinamide-5-betaine-3-serum-30ml-reduces-excess-oil-mj73yy-50554413/50554413\nMinimalist,Bengaluru,560001,bigbasket.com/jiomart,165208162,ERBALI Face Serum with Niacinamide for Oil Control & Pore Minimizing Care,229,499,54,7.63/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/erbali-face-serum-with-niacinamide-for-oil-control-pore-minimizing-care-mv0nmr-165208162/165208162\nMinimalist,Bengaluru,560001,amazon.in,B0GRGLXWT2,\"Niacinamide 10% + Vitamin C 10% Face Serum Combo | Acne Marks, Dark Spots, Oil Control & Skin Brightening | Pore Minimizing & Glow Boosting Skincare | Oily, Combination & Acne Prone Skin\",468,548,15,1 unit,true,Tomorrow 12 pm - 4 pm,https://www.amazon.in/dp/B0GRGLXWT2\nMinimalist,Bengaluru,560001,amazon.in,B0FLJNVZN2,\"Niacinamide 10% + Vitamin C 10% Face Serum Bundle | Acne Marks, Dark Spots, Oil Control & Brightening | For Oily & Acne Prone Skin | 30ml + 30ml\",990.9,1298,24,30ml,true,Tomorrow 12 pm - 4 pm,https://www.amazon.in/dp/B0FLJNVZN2\nMinimalist,Bengaluru,560001,amazon.in,B0GWN2JFFM,\"Hydration & Brightening Skincare Bundle | Hyaluronic Acid Serum + Brightening Face Serum | For Glowing, Plump & Even-Toned Skin | Lightweight Daily Routine\",468,548,15,1 unit,true,Tomorrow 12 pm - 4 pm,https://www.amazon.in/dp/B0GWN2JFFM\nMinimalist,Bengaluru,560001,amazon.in,B0GMX5QG4F,Essential Bundle: 10% Niacinamide Serum with Zinc (30ml) for Oil Control & Acne + 10% Vitamin C Serum (30ml) for Dark Spots & Glow + SPF 50 PA++++ Sunscreen (50g),1022,1697,40,30ml,true,Tomorrow 12 pm - 4 pm,https://www.amazon.in/dp/B0GMX5QG4F\nMinimalist,Bengaluru,560001,amazon.in,B0GV7PDM2W,\"0.3% Retinol Serum 10ml + 10% Advanced Vitamin C Serum 10ml | Anti-Aging, Brightening & Dark Spot Treatment Skincare Duo\",445.5,548,19,10ml,true,Tomorrow 12 pm - 4 pm,https://www.amazon.in/dp/B0GV7PDM2W\nMinimalist,Bengaluru,560001,amazon.in,B08F9MF314,\"10% Niacinamide Serum with Zinc – Reduces Acne Marks, Controls Oil & Minimizes Pores | Vitamin B3 for Blemish-Free, Clear Skin | For Oily & Acne-Prone Skin (30 ml)\",475,15.83,0,30 ml,true,\"Fri, 6 Nov\",https://www.amazon.in/dp/B08F9MF314\nMinimalist,Bengaluru,560001,flipkart.com,FRNGY9CFDKTH65UZ,\"Minimalist 10% Niacinamide + Zinc Face Serum for Men & Women | Skincare for Oily, Acne-Prone Skin, Open Pores & Blemishes\",236,249,5,1 unit,true,Standard,https://www.flipkart.com/minimalist-10-niacinamide-zinc-face-serum-men-women-skincare-oily-acne-prone-skin-open-pores-blemishes/p/itm515e5c554cca5?pid=FRNGY9CFDKTH65UZ\nMinimalist,Bengaluru,560001,flipkart.com,KMTHDMPTZMNVJYZX,Minimalist 5% Niacinamide Face Serum for Men & Women | Clear Glowing Skin,236,249,5,1 unit,true,Standard,https://www.flipkart.com/minimalist-5-niacinamide-face-serum-men-women-clear-glowing-skin/p/itmeba442c851508?pid=KMTHDMPTZMNVJYZX\nMinimalist,Bengaluru,560001,flipkart.com,FRNFWSHFY7K9HG4S,\"Minimalist 10% Niacinamide Face Serum for Acne Marks, Blemishes & Acne Prone Skin\",569,599,5,1 unit,true,Standard,https://www.flipkart.com/minimalist-10-niacinamide-face-serum-acne-marks-blemishes-prone-skin/p/itm50b8203a314d8?pid=FRNFWSHFY7K9HG4S\nMinimalist,Bengaluru,560001,flipkart.com,FCKFWSRHGZXUPV3V,\"Minimalist 2% Salicylic Acid Face Serum for Men & Women | Acne, Blackheads & Open Pores Skincare\",521,549,5,1 unit,true,Standard,https://www.flipkart.com/minimalist-2-salicylic-acid-face-serum-men-women-acne-blackheads-open-pores-skincare/p/itm8cc1b0549e6c7?pid=FCKFWSRHGZXUPV3V\nMinimalist,Bengaluru,560001,flipkart.com,FRNGF547M2RCYKXZ,\"Minimalist 10% Vitamin C Face Serum for Men & Women | Skin Brightening, Glow & UV Damage Repair | Stable Vitamin C Skincare\",664,699,5,1 unit,true,Standard,https://www.flipkart.com/minimalist-10-vitamin-c-face-serum-men-women-skin-brightening-glow-uv-damage-repair-stable-skincare/p/itm4f2ac9fe499cd?pid=FRNGF547M2RCYKXZ\nMinimalist,Bengaluru,560001,flipkart.com,ATAGY9DYZMENWXGG,Minimalist Retinol Serum 0.3% For Anti Aging with Q10 to Reduce Fine Lines & Wrinkles,236,249,5,1 unit,true,Standard,https://www.flipkart.com/minimalist-retinol-serum-0-3-anti-aging-q10-reduce-fine-lines-wrinkles/p/itm515e5c554cca5?pid=ATAGY9DYZMENWXGG\nMinimalist,Mumbai,400001,blinkit.com,543368,Minimalist 10% Niacinamide Face Serum,237,249,5,10 ml,true,8 MINS,https://blinkit.com/prn/minimalist-10-niacinamide-face-serum/prid/543368\nMinimalist,Mumbai,400001,blinkit.com,1421180,Minimalist 10% Niacinamide Face Serum,425,499,15,20 ml,true,8 MINS,https://blinkit.com/prn/minimalist-10-niacinamide-face-serum/prid/1421180\nMinimalist,Mumbai,400001,blinkit.com,1441171,Minimalist 10% Niacinamide Face Serum,841,998,16,2 x 20 ml,true,8 MINS,https://blinkit.com/prn/minimalist-10-niacinamide-face-serum/prid/1441171\nMinimalist,Mumbai,400001,blinkit.com,1421176,Minimalist 10% Vitamin C Brightening & Illumination Face Serum,472,575,18,20 ml,true,8 MINS,https://blinkit.com/prn/minimalist-10-vitamin-c-brightening-illumination-face-serum/prid/1421176\nMinimalist,Mumbai,400001,blinkit.com,543365,Minimalist 10% Vitamin C Brightening & Illumination Face Serum,285,299,5,10 ml,true,8 MINS,https://blinkit.com/prn/minimalist-10-vitamin-c-brightening-illumination-face-serum/prid/543365\nMinimalist,Mumbai,400001,blinkit.com,543358,Minimalist 2% Salicylic Acid Face Serum,237,249,5,10 ml,true,8 MINS,https://blinkit.com/prn/minimalist-2-salicylic-acid-face-serum/prid/543358\nMinimalist,Mumbai,400001,zeptonow.com,7f9b20bd-166f-546f-a659-44d21e87d31d,Minimalist Anti-Acne 2% Salicylic Acid Face Serum for All Skin Types,237,249,5,1 pc (10 ml),true,10 MINS,https://www.zepto.com/pn/minimalist-anti-acne-2-salicylic-acid-face-serum-for-all-skin-types/pvid/75dc7ea8-0e55-425b-b0e1-0469a8fbbaf1\nMinimalist,Mumbai,400001,zeptonow.com,4e3c04f7-6a0d-5a33-84c7-599a95a6ebf2,Minimalist 10% Vitamin C Brightening & Hydrating Face Serum,284,299,5,1 pc (10 ml),true,10 MINS,https://www.zepto.com/pn/minimalist-10-vitamin-c-brightening-hydrating-face-serum/pvid/e282b868-4ba0-49e6-8064-32812cf3e5cd\nMinimalist,Mumbai,400001,zeptonow.com,41420d2a-b834-56b5-abc8-2be9d0d91331,Minimalist Oil Control & Anti-Acne 10% Niacinamide Face Serum,237,249,5,1 pc (10 ml),true,10 MINS,https://www.zepto.com/pn/minimalist-oil-control-anti-acne-10-niacinamide-face-serum/pvid/4908bf3d-d0ee-4920-a114-08736d888605\nMinimalist,Mumbai,400001,zeptonow.com,09adb4c3-4ec0-5aec-a8e4-18f618646aff,Minimalist 10% Vitamin C Brightening & Hydrating Face Serum,664,699,5,1 pc (30 ml),true,10 MINS,https://www.zepto.com/pn/minimalist-10-vitamin-c-brightening-hydrating-face-serum/pvid/21ef3832-42f7-44f1-bf2a-c2fac5f5700a\nMinimalist,Mumbai,400001,zeptonow.com,ab0a90fd-cc49-5489-934c-232b9e053804,Minimalist Anti-Acne 2% Salicylic Acid Face Serum for All Skin Types,522,549,5,1 pc (30 ml),true,10 MINS,https://www.zepto.com/pn/minimalist-anti-acne-2-salicylic-acid-face-serum-for-all-skin-types/pvid/92e4510f-1df0-4c27-9060-885cc6e7987d\nMinimalist,Mumbai,400001,zeptonow.com,0a31adb2-bd6a-52e9-bce0-bf3416553979,Minimalist Oil Control & Anti-Acne 10% Niacinamide Face Serum,569,599,5,1 pc (30 ml),true,10 MINS,https://www.zepto.com/pn/minimalist-oil-control-anti-acne-10-niacinamide-face-serum/pvid/6a70a6b8-8119-4519-9927-85da416c4af3\nMinimalist,Mumbai,400001,bigbasket.com/jiomart,7501405,Minimalist 10% Niacinamide Face Serum 30 ml,557,599,7,18.57/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/minimalist-10-niacinamide-face-serum-30-ml-mffmqx-7501405/7501405\nMinimalist,Mumbai,400001,bigbasket.com/jiomart,7544540,Minimalist 02% Salicylic Acid Face Serum 30 ml,466,549,15,15.53/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/minimalist-02-salicylic-acid-face-serum-30-ml-mffnaz-7544540/7544540\nMinimalist,Mumbai,400001,bigbasket.com/jiomart,7523190,Minimalist Vitamin C 10% Face Serum 30 ml,594,699,15,19.80/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/minimalist-vitamin-c-10-face-serum-30-ml-mffn14-7523190/7523190\nMinimalist,Mumbai,400001,bigbasket.com/jiomart,7663496,Minimalist Hair Repair Maleic Bond Complex 5 % Serum 50 ml,474,499,5,9.48/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/minimalist-hair-repair-maleic-bond-complex-5-serum-50-ml-mg7xue-7663496/7663496\nMinimalist,Mumbai,400001,bigbasket.com/jiomart,61894483,Lakme Due Drama Vitamin E Face Serum 15 ml,217,229,5,14.47/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/lakme-due-drama-vitamin-e-face-serum-15-ml-mj9ra7-61894483/61894483\nMinimalist,Mumbai,400001,bigbasket.com/jiomart,7529308,Minimalist Hair Growth Active Serum 30 ml,679,799,15,22.63/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/minimalist-hair-growth-active-serum-30-ml-mffn42-7529308/7529308\nMinimalist,Delhi,110001,blinkit.com,543365,Minimalist 10% Vitamin C Brightening & Illumination Face Serum,285,299,5,10 ml,true,10 MINS,https://blinkit.com/prn/minimalist-10-vitamin-c-brightening-illumination-face-serum/prid/543365\nMinimalist,Delhi,110001,blinkit.com,1421176,Minimalist 10% Vitamin C Brightening & Illumination Face Serum,472,575,18,20 ml,true,10 MINS,https://blinkit.com/prn/minimalist-10-vitamin-c-brightening-illumination-face-serum/prid/1421176\nMinimalist,Delhi,110001,blinkit.com,1441169,Minimalist 10% Vitamin C Brightening & Illumination Face Serum,933,1150,19,2 x 20 ml,true,10 MINS,https://blinkit.com/prn/minimalist-10-vitamin-c-brightening-illumination-face-serum/prid/1441169\nMinimalist,Delhi,110001,blinkit.com,543368,Minimalist 10% Niacinamide Face Serum,237,249,5,10 ml,true,10 MINS,https://blinkit.com/prn/minimalist-10-niacinamide-face-serum/prid/543368\nMinimalist,Delhi,110001,blinkit.com,1421180,Minimalist 10% Niacinamide Face Serum,425,499,15,20 ml,true,10 MINS,https://blinkit.com/prn/minimalist-10-niacinamide-face-serum/prid/1421180\nMinimalist,Delhi,110001,blinkit.com,543358,Minimalist 2% Salicylic Acid Face Serum,237,249,5,10 ml,true,10 MINS,https://blinkit.com/prn/minimalist-2-salicylic-acid-face-serum/prid/543358\nMinimalist,Delhi,110001,zeptonow.com,7f9b20bd-166f-546f-a659-44d21e87d31d,Minimalist Anti-Acne 2% Salicylic Acid Face Serum for All Skin Types,237,249,5,1 pc (10 ml),true,10 MINS,https://www.zepto.com/pn/minimalist-anti-acne-2-salicylic-acid-face-serum-for-all-skin-types/pvid/75dc7ea8-0e55-425b-b0e1-0469a8fbbaf1\nMinimalist,Delhi,110001,zeptonow.com,4e3c04f7-6a0d-5a33-84c7-599a95a6ebf2,Minimalist 10% Vitamin C Brightening & Hydrating Face Serum,284,299,5,1 pc (10 ml),true,10 MINS,https://www.zepto.com/pn/minimalist-10-vitamin-c-brightening-hydrating-face-serum/pvid/e282b868-4ba0-49e6-8064-32812cf3e5cd\nMinimalist,Delhi,110001,zeptonow.com,41420d2a-b834-56b5-abc8-2be9d0d91331,Minimalist Oil Control & Anti-Acne 10% Niacinamide Face Serum,237,249,5,1 pc (10 ml),true,10 MINS,https://www.zepto.com/pn/minimalist-oil-control-anti-acne-10-niacinamide-face-serum/pvid/4908bf3d-d0ee-4920-a114-08736d888605\nMinimalist,Delhi,110001,zeptonow.com,09adb4c3-4ec0-5aec-a8e4-18f618646aff,Minimalist 10% Vitamin C Brightening & Hydrating Face Serum,664,699,5,1 pc (30 ml),true,10 MINS,https://www.zepto.com/pn/minimalist-10-vitamin-c-brightening-hydrating-face-serum/pvid/21ef3832-42f7-44f1-bf2a-c2fac5f5700a\nMinimalist,Delhi,110001,zeptonow.com,ab0a90fd-cc49-5489-934c-232b9e053804,Minimalist Anti-Acne 2% Salicylic Acid Face Serum for All Skin Types,522,549,5,1 pc (30 ml),true,10 MINS,https://www.zepto.com/pn/minimalist-anti-acne-2-salicylic-acid-face-serum-for-all-skin-types/pvid/92e4510f-1df0-4c27-9060-885cc6e7987d\nMinimalist,Delhi,110001,zeptonow.com,0a31adb2-bd6a-52e9-bce0-bf3416553979,Minimalist Oil Control & Anti-Acne 10% Niacinamide Face Serum,569,599,5,1 pc (30 ml),true,10 MINS,https://www.zepto.com/pn/minimalist-oil-control-anti-acne-10-niacinamide-face-serum/pvid/6a70a6b8-8119-4519-9927-85da416c4af3\nMinimalist,Delhi,110001,bigbasket.com/jiomart,77905173,\"DERMA - VIA 10% Niacinamide Serum 30ml for Face, Oil Control & Pore Minimizing Serum, Skin Brightening Anti Acne Serum for Clear Smooth Even Tone Skin\",1499,1499,0,30 ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/derma-via-10-niacinamide-serum-30ml-for-face-oil-control-pore-minimizing-serum-skin-brightening-anti-acne-serum-for-clear-smooth-even-tone-skin-mnkbra-77905173/77905173\nMinimalist,Delhi,110001,bigbasket.com/jiomart,165208806,ERBALI Niacinamide Facial Serum for Pore Minimizing and Daily Skin Care,225,499,55,7.50/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/erbali-niacinamide-facial-serum-for-pore-minimizing-and-daily-skin-care-mv0nnm-165208806/165208806\nMinimalist,Delhi,110001,bigbasket.com/jiomart,50817524,MVYLISSEA Clean Formula Face Serum | PDRN Base | Soft Lightweight Feel,1199,1499,20,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/mvylissea-clean-formula-face-serum-pdrn-base-soft-lightweight-feel-mj75hm-50817524/50817524\nMinimalist,Delhi,110001,bigbasket.com/jiomart,50217509,\"Blameless Oil Control & Brightening Face Serum|With Niacinamide, Multani Mitti, Hyaluronic Acid & Daisy Etract|Minimizes Pores & Enhances Glow|50ml\",599,1199,50,50 ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/blameless-oil-control-brightening-face-serum-with-niacinamide-multani-mitti-hyaluronic-acid-daisy-etract-minimizes-pores-enhances-glow-50ml-mj72d4-50217509/50217509\nMinimalist,Delhi,110001,bigbasket.com/jiomart,50554413,Underated Niacinamide 5% Betaine 3% Serum - 30g | Reduces Excess Oil,239,349,32,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/underated-niacinamide-5-betaine-3-serum-30ml-reduces-excess-oil-mj73yy-50554413/50554413\nMinimalist,Delhi,110001,bigbasket.com/jiomart,165208162,ERBALI Face Serum with Niacinamide for Oil Control & Pore Minimizing Care,229,499,54,7.63/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/erbali-face-serum-with-niacinamide-for-oil-control-pore-minimizing-care-mv0nmr-165208162/165208162\n";
+
+    function filterRows(mode) {
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const stock = row.getAttribute('data-stock');
+        if (mode === 'all') row.style.display = '';
+        else if (mode === 'oos') row.style.display = stock === 'oos' ? '' : 'none';
+        else if (mode === 'instock') row.style.display = stock === 'instock' ? '' : 'none';
+      });
+    }
+
+    function searchSkus() {
+      const q = document.getElementById('skuSearch').value.toLowerCase();
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const title = row.getAttribute('data-title') || '';
+        const platform = (row.getAttribute('data-platform') || '').toLowerCase();
+        row.style.display = (title.includes(q) || platform.includes(q)) ? '' : 'none';
+      });
+    }
+
+    function downloadCsv() {
+      const blob = new Blob([RAW_CSV], { type: 'text/csv;charset=utf-8;' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'minimalist-3city-audit.csv';
+      a.click();
+    }
+  </script>
+</body>
+</html>

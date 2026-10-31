@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>True Elements — 3-City Quick-Commerce Dark-Store Audit Scorecard | Unscrape Radar</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background-color: #07080d; color: #f3f4f6; font-family: Inter, system-ui, -apple-system, sans-serif; }
+  </style>
+</head>
+<body class="min-h-screen pb-24">
+  <!-- Top Bar -->
+  <header class="border-b border-slate-800 bg-slate-950/90 backdrop-blur sticky top-0 z-20">
+    <div class="max-w-7xl mx-auto px-6 py-3.5 flex items-center justify-between flex-wrap gap-3">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="text-emerald-400 font-black text-lg tracking-tight hover:text-emerald-300">⚡ UNSCRAPE RADAR</a>
+        <span class="text-xs text-slate-500">/</span>
+        <span class="text-sm font-bold text-white">True Elements Executive Scorecard</span>
+      </div>
+      <div class="flex items-center gap-2.5 text-xs">
+        <a href="index.html" class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700">← All 56 Brand Audits</a>
+        <button onclick="downloadCsv()" class="px-3.5 py-1.5 rounded-lg bg-emerald-500 text-slate-950 font-bold hover:bg-emerald-400">⬇ Download Raw CSV (38 SKUs)</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-6 pt-8">
+    <!-- Executive Header -->
+    <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 mb-8">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+        <div>
+          <div class="flex items-center gap-2.5 mb-2">
+            <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded bg-slate-800 text-emerald-400">Oats, Muesli &amp; Seeds</span>
+            <span class="text-xs text-slate-400 font-mono">Audited: 2026-10-30</span>
+          </div>
+          <h1 class="text-3xl md:text-4xl font-black text-white tracking-tight">True Elements — Hyperlocal Dark-Store Audit</h1>
+          <p class="text-slate-400 text-sm mt-1">
+            Live multi-platform inventory & MOP/MRP price variance scan across <strong>Bengaluru (560001)</strong>, <strong>Mumbai (400001)</strong>, and <strong>Delhi (110001)</strong>.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 shrink-0">
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">SKUs Audited</div>
+            <div class="text-2xl font-black text-white mt-1">38</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">OOS Leaks</div>
+            <div class="text-2xl font-black text-emerald-400 mt-1">0</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">Max Markdown</div>
+            <div class="text-2xl font-black text-amber-300 mt-1">70%</div>
+          </div>
+          <div class="border rounded-xl p-3.5 text-center bg-emerald-500/15 text-emerald-400 border-emerald-500/30">
+            <div class="text-[11px] uppercase font-bold opacity-80">Shelf Health</div>
+            <div class="text-2xl font-black mt-1">100%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="bg-emerald-950/30 border border-emerald-500/30 rounded-2xl p-5 mb-8 flex items-center justify-between flex-wrap gap-3">
+      <div>
+        <span class="px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 font-bold text-xs uppercase">✓ 100% In-Stock Snapshot</span>
+        <span class="text-sm text-slate-200 ml-2">All 38 audited dark-store listings across Bengaluru, Mumbai & Delhi were in stock during this scan. Max discount variance: <strong>70% below MRP</strong>.</span>
+      </div>
+    </div>
+
+    <!-- Filter Controls -->
+    <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+      <div class="flex items-center gap-2 text-xs">
+        <button onclick="filterRows('all')" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-semibold">All SKUs (38)</button>
+        <button onclick="filterRows('oos')" class="px-3 py-1.5 rounded-lg bg-rose-500/15 border border-rose-500/30 text-rose-300 hover:bg-rose-500/25 font-semibold">Out-of-Stock Only (0)</button>
+        <button onclick="filterRows('instock')" class="px-3 py-1.5 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 hover:bg-emerald-500/25 font-semibold">In-Stock (38)</button>
+      </div>
+      <div class="flex items-center gap-2">
+        <input id="skuSearch" type="text" oninput="searchSkus()" placeholder="Filter SKU title or platform..." class="bg-slate-900 border border-slate-800 rounded-lg px-3.5 py-1.5 text-xs text-white w-64" />
+      </div>
+    </div>
+
+    <!-- SKU Table -->
+    <div class="bg-slate-900/50 border border-slate-800 rounded-2xl overflow-x-auto">
+      <table class="w-full text-left text-xs">
+        <thead class="bg-slate-950/90 text-slate-400 uppercase border-b border-slate-800">
+          <tr>
+            <th class="px-4 py-3">SKU Title</th>
+            <th class="px-4 py-3">Platform</th>
+            <th class="px-4 py-3">City / Pin</th>
+            <th class="px-4 py-3">Pack Size</th>
+            <th class="px-4 py-3">Selling Price</th>
+            <th class="px-4 py-3">MRP</th>
+            <th class="px-4 py-3">Discount</th>
+            <th class="px-4 py-3">Stock Status</th>
+            <th class="px-4 py-3">ETA</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-800/60">
+          <tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="true elements fruit and nuts muesli 1kg - real fruits &amp; almonds | wholegrain | breakfast cereal">
+        <td class="px-4 py-3 font-medium text-white max-w-md">True Elements Fruit and Nuts Muesli 1kg - Real Fruits &amp; Almonds | Wholegrain | Breakfast Cereal</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹422</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹649</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">35% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="true elements nuts &amp; berries muesli 1kg - 15% millets, 12% seeds, almonds &amp; cranberries">
+        <td class="px-4 py-3 font-medium text-white max-w-md">True Elements Nuts &amp; Berries Muesli 1kg - 15% Millets, 12% Seeds, Almonds &amp; Cranberries</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹481</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹615</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">22% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="true elements fruit and nut muesli 400gm">
+        <td class="px-4 py-3 font-medium text-white max-w-md">True Elements Fruit And Nut Muesli 400gm</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹247</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹329</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">25% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="true elements crunchy nuts &amp; berries muesli, with almonds and cranberries 700gm">
+        <td class="px-4 py-3 font-medium text-white max-w-md">True Elements Crunchy Nuts &amp; Berries Muesli, with Almonds and Cranberries 700gm</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.56/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹395</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹440</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">10% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="true elements muesli fruity delight (700gm*pack of 2) - combo - 1400gm">
+        <td class="px-4 py-3 font-medium text-white max-w-md">True Elements Muesli Fruity Delight (700gm*Pack of 2) - Combo - 1400gm</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹592</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹925</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">36% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="true elements the og overnight oats (ono) 62gm*pack of 3-combo-186gm">
+        <td class="px-4 py-3 font-medium text-white max-w-md">True Elements The OG Overnight Oats (ONO) 62gm*Pack Of 3-Combo-186gm</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹144</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹240</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">40% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="true elements fruit and nuts muesli 1kg - real fruits &amp; almonds | wholegrain | breakfast cereal">
+        <td class="px-4 py-3 font-medium text-white max-w-md">True Elements Fruit and Nuts Muesli 1kg - Real Fruits &amp; Almonds | Wholegrain | Breakfast Cereal</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹422</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹649</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">35% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="true elements nuts &amp; berries muesli 1kg - 15% millets, 12% seeds, almonds &amp; cranberries">
+        <td class="px-4 py-3 font-medium text-white max-w-md">True Elements Nuts &amp; Berries Muesli 1kg - 15% Millets, 12% Seeds, Almonds &amp; Cranberries</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹481</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹615</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">22% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="true elements fruit and nut muesli 400gm">
+        <td class="px-4 py-3 font-medium text-white max-w-md">True Elements Fruit And Nut Muesli 400gm</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹247</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹329</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">25% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="true elements crunchy nuts &amp; berries muesli, with almonds and cranberries 700gm">
+        <td class="px-4 py-3 font-medium text-white max-w-md">True Elements Crunchy Nuts &amp; Berries Muesli, with Almonds and Cranberries 700gm</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.56/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹395</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹440</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">10% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="true elements muesli fruity delight (700gm*pack of 2) - combo - 1400gm">
+        <td class="px-4 py-3 font-medium text-white max-w-md">True Elements Muesli Fruity Delight (700gm*Pack of 2) - Combo - 1400gm</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹592</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹925</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">36% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="true elements the og overnight oats (ono) 62gm*pack of 3-combo-186gm">
+        <td class="px-4 py-3 font-medium text-white max-w-md">True Elements The OG Overnight Oats (ONO) 62gm*Pack Of 3-Combo-186gm</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹144</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹240</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">40% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="true elements fruit and nuts muesli 1kg - real fruits &amp; almonds | wholegrain | breakfast cereal">
+        <td class="px-4 py-3 font-medium text-white max-w-md">True Elements Fruit and Nuts Muesli 1kg - Real Fruits &amp; Almonds | Wholegrain | Breakfast Cereal</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹422</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹649</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">35% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="true elements nuts &amp; berries muesli 1kg - 15% millets, 12% seeds, almonds &amp; cranberries">
+        <td class="px-4 py-3 font-medium text-white max-w-md">True Elements Nuts &amp; Berries Muesli 1kg - 15% Millets, 12% Seeds, Almonds &amp; Cranberries</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹481</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹615</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">22% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="true elements fruit and nut muesli 400gm">
+        <td class="px-4 py-3 font-medium text-white max-w-md">True Elements Fruit And Nut Muesli 400gm</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹247</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹329</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">25% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="true elements crunchy nuts &amp; berries muesli, with almonds and cranberries 700gm">
+        <td class="px-4 py-3 font-medium text-white max-w-md">True Elements Crunchy Nuts &amp; Berries Muesli, with Almonds and Cranberries 700gm</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.56/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹395</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹440</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">10% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="true elements muesli fruity delight (700gm*pack of 2) - combo - 1400gm">
+        <td class="px-4 py-3 font-medium text-white max-w-md">True Elements Muesli Fruity Delight (700gm*Pack of 2) - Combo - 1400gm</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹592</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹925</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">36% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="true elements the og overnight oats (ono) 62gm*pack of 3-combo-186gm">
+        <td class="px-4 py-3 font-medium text-white max-w-md">True Elements The OG Overnight Oats (ONO) 62gm*Pack Of 3-Combo-186gm</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹144</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹240</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">40% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="true elements 28g high protein muesli dark chocolate 1kg pouch">
+        <td class="px-4 py-3 font-medium text-white max-w-md">True Elements 28g High Protein Muesli Dark Chocolate 1kg Pouch</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">28g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹419</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹699</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">40% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="true elements by true elements crunchy fruity delight muesli, ready to eat breakfast cereal, high in fibre plastic bottle">
+        <td class="px-4 py-3 font-medium text-white max-w-md">True Elements by True Elements Crunchy Fruity Delight Muesli, Ready To Eat Breakfast cereal, High in Fibre Plastic Bottle</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹353</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹840</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">58% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="true elements fruit and nut muesli, zero added sugar, ready to eat breakfast, high protein pouch">
+        <td class="px-4 py-3 font-medium text-white max-w-md">True Elements Fruit and Nut Muesli, Zero Added Sugar, Ready to Eat Breakfast, High Protein Pouch</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹336</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹840</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">60% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="true elements dark chocolate muesli - wholegrain breakfast cereal, ready to eat healthy snack pouch">
+        <td class="px-4 py-3 font-medium text-white max-w-md">True Elements Dark Chocolate Muesli - Wholegrain Breakfast Cereal, Ready to Eat Healthy Snack Pouch</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹494</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹615</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="true elements crunchy nuts &amp; berries muesli - wholegrain breakfast cereal, protein | fibre pouch">
+        <td class="px-4 py-3 font-medium text-white max-w-md">True Elements Crunchy Nuts &amp; Berries Muesli - Wholegrain Breakfast Cereal, Protein | Fibre Pouch</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹356</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹440</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">19% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="true elements dark chocolate muesli with 57% multrigrain, fruit, nut &amp; seeds, breakfast cereal pouch">
+        <td class="px-4 py-3 font-medium text-white max-w-md">True Elements Dark Chocolate Muesli with 57% Multrigrain, Fruit, Nut &amp; Seeds, Breakfast Cereal Pouch</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹451</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹645</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">30% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="true elements rolled oats | wholegrain high fibre high protein oats | keeps you fuller longer">
+        <td class="px-4 py-3 font-medium text-white max-w-md">True Elements Rolled Oats | Wholegrain High Fibre High protein Oats | Keeps You Fuller Longer</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (500 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹135</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹200</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">33% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="yoga bar muesli fruits, nuts &amp; seeds, protein rich, millets, strawberry &amp; raisins">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Yoga Bar Muesli Fruits, Nuts &amp; Seeds, Protein Rich, Millets, Strawberry &amp; Raisins</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (1 kg)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹445</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹890</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="true elements no added sugar muesli jar wholegrain breakfast cereal sugar free muesli">
+        <td class="px-4 py-3 font-medium text-white max-w-md">True Elements No Added Sugar Muesli Jar Wholegrain Breakfast Cereal Sugar Free Muesli</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (1 kg)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹519</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹649</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="yoga bar muesli dark chocolate + cranberry, omega - 3, nuts &amp; seeds, fibre rich">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Yoga Bar Muesli Dark Chocolate + Cranberry, Omega - 3, Nuts &amp; Seeds, Fibre Rich</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (700 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹348</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹399</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">13% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="true elements muesli dark chocolate">
+        <td class="px-4 py-3 font-medium text-white max-w-md">True Elements Muesli Dark Chocolate</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (1 kg)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹433</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹649</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">33% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="yoga bar muesli no added sugar multigrain seeds nuts and dry fruits high fibre probiotics">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Yoga Bar Muesli No Added Sugar Multigrain Seeds Nuts and Dry Fruits High Fibre Probiotics</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (700 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹347</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹399</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">13% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="yoga bar breakfast cereal &amp; muesli | 91% whole-grains+ dried fruits + fruit and nut + seeds">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Yoga Bar Breakfast Cereal &amp; Muesli | 91% Whole-Grains+ Dried Fruits + Fruit and Nut + Seeds</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (400 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹199</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹390</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">49% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="true elements muesli fruity delight fruit and nut muesli">
+        <td class="px-4 py-3 font-medium text-white max-w-md">True Elements Muesli Fruity Delight Fruit and Nut Muesli</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (700 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹283</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹495</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">43% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="kellogg’s 25g high protein muesli dark choco crunch 400g | gut-friendly prebiotics | no palm oil">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Kellogg’s 25g High Protein Muesli Dark Choco Crunch 400g | Gut-friendly Prebiotics | No Palm Oil</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">25g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹285</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹712.5</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">60% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Wed, 4 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="muesli sugar free - pumpkin, flax &amp; chia seeds, dry fruit &amp; nuts - rolled oats + millet flakes | no added sugar snack | gluten free healthy breakfast 700g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Muesli Sugar free - Pumpkin, Flax &amp; Chia seeds, Dry fruit &amp; Nuts - Rolled Oats + Millet flakes | No added Sugar snack | Gluten free Healthy Breakfast 700g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">700g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹479</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹684.29</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">30% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Tue, 3 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="25g high protein dark chocolate &amp; cranberry muesli 1kg, no refined sugar, high fibre, breakfast cereal">
+        <td class="px-4 py-3 font-medium text-white max-w-md">25g High Protein Dark Chocolate &amp; Cranberry Muesli 1kg, No Refined Sugar, High Fibre, Breakfast Cereal</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">25g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹497</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹497</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="muesli fruit, nut &amp; seeds 900g jar, 87% multi grains, no maida, natural source of vitamin &amp; iron, high in protein &amp; fiber, low fat &amp; cholesterol, healthy breakfast cereal">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Muesli Fruit, Nut &amp; Seeds 900g Jar, 87% Multi Grains, No Maida, Natural Source Of Vitamin &amp; Iron, High In Protein &amp; Fiber, Low Fat &amp; Cholesterol, Healthy Breakfast Cereal</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">900g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹299</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹332.22</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">10% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Tue, 3 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="dr. sivaraman's arogya dia muesli | no added sugar | millet &amp; nuts - 300 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dr. Sivaraman's Arogya Dia Muesli | No Added Sugar | Millet &amp; Nuts - 300 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">300 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹350</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1166.67</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">70% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Thu, 5 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="no added sugar muesli 1kg | high fibre">
+        <td class="px-4 py-3 font-medium text-white max-w-md">No Added Sugar Muesli 1kg | High Fibre</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1kg</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹449</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹449</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Tue, 3 Nov</td>
+      </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- Sticky CTA Footer -->
+  <div class="fixed bottom-0 inset-x-0 bg-slate-950/95 border-t border-emerald-500/30 backdrop-blur px-6 py-3.5 z-30">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+      <div class="text-slate-200">
+        <span class="text-emerald-400 font-bold">⚡ Unscrape Radar:</span> Want real-time Slack/WhatsApp/Telegram alerts within 15 mins whenever <strong>True Elements</strong> SKUs go Out-of-Stock across 20 BLR/MUM/DEL dark-store pin codes?
+      </div>
+      <div class="flex items-center gap-2.5 shrink-0">
+        <a href="https://github.com/deveshkolte/unscrape" target="_blank" class="px-4 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold">Unlock Automated 20-Pin-Code Monitor →</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const RAW_CSV = "brand,city,pincode,platform,skuId,title,sellingPriceInr,mrpInr,discountPercent,unit,inStock,deliveryEta,url\nTrue Elements,Bengaluru,560001,bigbasket.com/jiomart,19309145,True Elements Fruit and Nuts Muesli 1kg - Real Fruits & Almonds | Wholegrain | Breakfast Cereal,422,649,35,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/true-elements-fruit-and-nuts-muesli-1kg-real-fruits-almonds-wholegrain-breakfast-cereal-mi8tjy-19309145/19309145\nTrue Elements,Bengaluru,560001,bigbasket.com/jiomart,19311448,\"True Elements Nuts & Berries Muesli 1kg - 15% Millets, 12% Seeds, Almonds & Cranberries\",481,615,22,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/true-elements-nuts-berries-muesli-1kg-15-millets-12-seeds-almonds-cranberries-mi8tlz-19311448/19311448\nTrue Elements,Bengaluru,560001,bigbasket.com/jiomart,19407157,True Elements Fruit And Nut Muesli 400gm,247,329,25,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/true-elements-fruit-and-nut-muesli-400gm-mi8wzj-19407157/19407157\nTrue Elements,Bengaluru,560001,bigbasket.com/jiomart,24249242,\"True Elements Crunchy Nuts & Berries Muesli, with Almonds and Cranberries 700gm\",395,440,10,0.56/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/true-elements-crunchy-nuts-berries-muesli-with-almonds-and-cranberries-700gm-mifn4r-24249242/24249242\nTrue Elements,Bengaluru,560001,bigbasket.com/jiomart,62680851,True Elements Muesli Fruity Delight (700gm*Pack of 2) - Combo - 1400gm,592,925,36,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/true-elements-muesli-fruity-delight-700gm-pack-of-2-combo-1400gm-mja677-62680851/62680851\nTrue Elements,Bengaluru,560001,bigbasket.com/jiomart,73013669,True Elements The OG Overnight Oats (ONO) 62gm*Pack Of 3-Combo-186gm,144,240,40,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/true-elements-the-og-overnight-oats-ono-62gm-pack-of-3-combo-186gm-mlgbhd-73013669/73013669\nTrue Elements,Mumbai,400001,bigbasket.com/jiomart,19309145,True Elements Fruit and Nuts Muesli 1kg - Real Fruits & Almonds | Wholegrain | Breakfast Cereal,422,649,35,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/true-elements-fruit-and-nuts-muesli-1kg-real-fruits-almonds-wholegrain-breakfast-cereal-mi8tjy-19309145/19309145\nTrue Elements,Mumbai,400001,bigbasket.com/jiomart,19311448,\"True Elements Nuts & Berries Muesli 1kg - 15% Millets, 12% Seeds, Almonds & Cranberries\",481,615,22,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/true-elements-nuts-berries-muesli-1kg-15-millets-12-seeds-almonds-cranberries-mi8tlz-19311448/19311448\nTrue Elements,Mumbai,400001,bigbasket.com/jiomart,19407157,True Elements Fruit And Nut Muesli 400gm,247,329,25,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/true-elements-fruit-and-nut-muesli-400gm-mi8wzj-19407157/19407157\nTrue Elements,Mumbai,400001,bigbasket.com/jiomart,24249242,\"True Elements Crunchy Nuts & Berries Muesli, with Almonds and Cranberries 700gm\",395,440,10,0.56/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/true-elements-crunchy-nuts-berries-muesli-with-almonds-and-cranberries-700gm-mifn4r-24249242/24249242\nTrue Elements,Mumbai,400001,bigbasket.com/jiomart,62680851,True Elements Muesli Fruity Delight (700gm*Pack of 2) - Combo - 1400gm,592,925,36,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/true-elements-muesli-fruity-delight-700gm-pack-of-2-combo-1400gm-mja677-62680851/62680851\nTrue Elements,Mumbai,400001,bigbasket.com/jiomart,73013669,True Elements The OG Overnight Oats (ONO) 62gm*Pack Of 3-Combo-186gm,144,240,40,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/true-elements-the-og-overnight-oats-ono-62gm-pack-of-3-combo-186gm-mlgbhd-73013669/73013669\nTrue Elements,Delhi,110001,bigbasket.com/jiomart,19309145,True Elements Fruit and Nuts Muesli 1kg - Real Fruits & Almonds | Wholegrain | Breakfast Cereal,422,649,35,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/true-elements-fruit-and-nuts-muesli-1kg-real-fruits-almonds-wholegrain-breakfast-cereal-mi8tjy-19309145/19309145\nTrue Elements,Delhi,110001,bigbasket.com/jiomart,19311448,\"True Elements Nuts & Berries Muesli 1kg - 15% Millets, 12% Seeds, Almonds & Cranberries\",481,615,22,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/true-elements-nuts-berries-muesli-1kg-15-millets-12-seeds-almonds-cranberries-mi8tlz-19311448/19311448\nTrue Elements,Delhi,110001,bigbasket.com/jiomart,19407157,True Elements Fruit And Nut Muesli 400gm,247,329,25,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/true-elements-fruit-and-nut-muesli-400gm-mi8wzj-19407157/19407157\nTrue Elements,Delhi,110001,bigbasket.com/jiomart,24249242,\"True Elements Crunchy Nuts & Berries Muesli, with Almonds and Cranberries 700gm\",395,440,10,0.56/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/true-elements-crunchy-nuts-berries-muesli-with-almonds-and-cranberries-700gm-mifn4r-24249242/24249242\nTrue Elements,Delhi,110001,bigbasket.com/jiomart,62680851,True Elements Muesli Fruity Delight (700gm*Pack of 2) - Combo - 1400gm,592,925,36,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/true-elements-muesli-fruity-delight-700gm-pack-of-2-combo-1400gm-mja677-62680851/62680851\nTrue Elements,Delhi,110001,bigbasket.com/jiomart,73013669,True Elements The OG Overnight Oats (ONO) 62gm*Pack Of 3-Combo-186gm,144,240,40,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/true-elements-the-og-overnight-oats-ono-62gm-pack-of-3-combo-186gm-mlgbhd-73013669/73013669\nTrue Elements,Bengaluru,560001,flipkart.com,CAFHNK8BWK2BXQHH,True Elements 28g High Protein Muesli Dark Chocolate 1kg Pouch,419,699,40,28g,true,15 MINS,https://www.flipkart.com/true-elements-28g-high-protein-muesli-dark-chocolate-1kg-pouch/p/itmee88fcd6e5ac6?pid=CAFHNK8BWK2BXQHH&lid=LSTCAFHNK8BWK2BXQHHS5OY3A&marketplace=FLIPKART&q=true+elements+muesli&store=eat%2Fcpy&srno=s_1_1&otracker=search&fm=organic&iid=8fbd364d-5210-4609-925a-256bd569c534.CAFHNK8BWK2BXQHH.SEARCH&ppt=None&ppn=None&ssid=5zn55kgg000000001793387260214&qH=431eb2e1ae1a3328&ov_redirect=true&ov_redirect=true\nTrue Elements,Bengaluru,560001,flipkart.com,CAFHYY4X43HGCSZZ,\"True Elements by True Elements Crunchy Fruity Delight Muesli, Ready To Eat Breakfast cereal, High in Fibre Plastic Bottle\",353,840,58,1 unit,true,15 MINS,https://www.flipkart.com/true-elements-crunchy-fruity-delight-muesli-ready-eat-breakfast-cereal-high-fibre-plastic-bottle/p/itm1d7b6ca7027fd?pid=CAFHYY4X43HGCSZZ&lid=LSTCAFHYY4X43HGCSZZQUFYWA&marketplace=FLIPKART&q=true+elements+muesli&store=eat%2Fcpy&srno=s_1_2&otracker=search&fm=organic&iid=8fbd364d-5210-4609-925a-256bd569c534.CAFHYY4X43HGCSZZ.SEARCH&ppt=None&ppn=None&ssid=5zn55kgg000000001793387260214&qH=431eb2e1ae1a3328&ov_redirect=true&ov_redirect=true\nTrue Elements,Bengaluru,560001,flipkart.com,CAFHYY54QJN4DG3T,\"True Elements Fruit and Nut Muesli, Zero Added Sugar, Ready to Eat Breakfast, High Protein Pouch\",336,840,60,1 unit,true,15 MINS,https://www.flipkart.com/true-elements-fruit-nut-muesli-zero-added-sugar-ready-eat-breakfast-high-protein-pouch/p/itmca7fa38b100d9?pid=CAFHYY54QJN4DG3T&lid=LSTCAFHYY54QJN4DG3TGSGVAO&marketplace=FLIPKART&q=true+elements+muesli&store=eat%2Fcpy&srno=s_1_3&otracker=search&fm=organic&iid=8fbd364d-5210-4609-925a-256bd569c534.CAFHYY54QJN4DG3T.SEARCH&ppt=None&ppn=None&ssid=5zn55kgg000000001793387260214&qH=431eb2e1ae1a3328&ov_redirect=true&ov_redirect=true\nTrue Elements,Bengaluru,560001,flipkart.com,CAFG8NCKGAKRSYWY,\"True Elements Dark Chocolate Muesli - Wholegrain Breakfast Cereal, Ready to Eat Healthy Snack Pouch\",494,615,20,1 unit,true,15 MINS,https://www.flipkart.com/true-elements-dark-chocolate-muesli-wholegrain-breakfast-cereal-ready-eat-healthy-snack-pouch/p/itm83ff785acf203?pid=CAFG8NCKGAKRSYWY&lid=LSTCAFG8NCKGAKRSYWYVLXALL&marketplace=FLIPKART&q=true+elements+muesli&store=eat%2Fcpy&srno=s_1_4&otracker=search&fm=organic&iid=8fbd364d-5210-4609-925a-256bd569c534.CAFG8NCKGAKRSYWY.SEARCH&ppt=None&ppn=None&ssid=5zn55kgg000000001793387260214&qH=431eb2e1ae1a3328&ov_redirect=true&ov_redirect=true\nTrue Elements,Bengaluru,560001,flipkart.com,CAFG7RSQVR4MZTZ9,\"True Elements Crunchy Nuts & Berries Muesli - Wholegrain Breakfast Cereal, Protein | Fibre Pouch\",356,440,19,1 unit,true,15 MINS,https://www.flipkart.com/true-elements-crunchy-nuts-berries-muesli-wholegrain-breakfast-cereal-protein-fibre-pouch/p/itm315daf4b326c9?pid=CAFG7RSQVR4MZTZ9&lid=LSTCAFG7RSQVR4MZTZ9R9DZ2G&marketplace=FLIPKART&q=true+elements+muesli&store=eat%2Fcpy&srno=s_1_5&otracker=search&fm=organic&iid=8fbd364d-5210-4609-925a-256bd569c534.CAFG7RSQVR4MZTZ9.SEARCH&ppt=None&ppn=None&ssid=5zn55kgg000000001793387260214&qH=431eb2e1ae1a3328&ov_redirect=true&ov_redirect=true\nTrue Elements,Bengaluru,560001,flipkart.com,CAFGRMCECGGG9PQG,\"True Elements Dark Chocolate Muesli with 57% Multrigrain, Fruit, Nut & Seeds, Breakfast Cereal Pouch\",451,645,30,1 unit,true,15 MINS,https://www.flipkart.com/true-elements-dark-chocolate-muesli-57-multrigrain-fruit-nut-seeds-breakfast-cereal-pouch/p/itm592b9f5ec053d?pid=CAFGRMCECGGG9PQG&lid=LSTCAFGRMCECGGG9PQGWYEGUZ&marketplace=FLIPKART&q=true+elements+muesli&store=eat%2Fcpy&srno=s_1_6&otracker=search&fm=organic&iid=8fbd364d-5210-4609-925a-256bd569c534.CAFGRMCECGGG9PQG.SEARCH&ppt=None&ppn=None&ssid=5zn55kgg000000001793387260214&qH=431eb2e1ae1a3328&ov_redirect=true&ov_redirect=true\nTrue Elements,Bengaluru,560001,zeptonow.com,334ff553-180a-50eb-81d7-a8b1f5d80b4b,True Elements Rolled Oats | Wholegrain High Fibre High protein Oats | Keeps You Fuller Longer,135,200,33,1 pack (500 g),true,10 MINS,https://www.zepto.com/pn/true-elements-rolled-oats-wholegrain-high-fibre-high-protein-oats-keeps-you-fuller-longer/pvid/fcdb0d07-7b46-47d2-9d7d-47138d137f44\nTrue Elements,Bengaluru,560001,zeptonow.com,654042cd-61ef-597b-b0a9-2247b1471bac,\"Yoga Bar Muesli Fruits, Nuts & Seeds, Protein Rich, Millets, Strawberry & Raisins\",445,890,50,1 pack (1 kg),true,10 MINS,https://www.zepto.com/pn/yoga-bar-muesli-fruits-nuts-seeds-protein-rich-millets-strawberry-raisins/pvid/bbd265a5-dba3-43d3-bb72-54e10d8cbb91\nTrue Elements,Bengaluru,560001,zeptonow.com,cb5ef2f6-3c05-5e20-bc3c-fbca739dbc2b,True Elements No Added Sugar Muesli Jar Wholegrain Breakfast Cereal Sugar Free Muesli,519,649,20,1 pack (1 kg),true,10 MINS,https://www.zepto.com/pn/true-elements-no-added-sugar-muesli-jar-wholegrain-breakfast-cereal-sugar-free-muesli/pvid/a740bce3-2611-4cba-83db-72accde9a956\nTrue Elements,Bengaluru,560001,zeptonow.com,0d620740-cfac-54be-b1a0-813ab1f66b57,\"Yoga Bar Muesli Dark Chocolate + Cranberry, Omega - 3, Nuts & Seeds, Fibre Rich\",348,399,13,1 pack (700 g),true,10 MINS,https://www.zepto.com/pn/yoga-bar-muesli-dark-chocolate-cranberry-omega-3-nuts-seeds-fibre-rich/pvid/d73eeecb-22c2-4d86-923b-4a42f16f8427\nTrue Elements,Bengaluru,560001,zeptonow.com,6226183d-5689-5fbb-85b6-95c483cf70fe,True Elements Muesli Dark Chocolate,433,649,33,1 pack (1 kg),true,10 MINS,https://www.zepto.com/pn/true-elements-muesli-dark-chocolate/pvid/577bb7a1-1f20-42ce-9d65-88a08cb89224\nTrue Elements,Bengaluru,560001,zeptonow.com,25611774-14a7-5a17-bd7d-a88dbbeb78ff,Yoga Bar Muesli No Added Sugar Multigrain Seeds Nuts and Dry Fruits High Fibre Probiotics,347,399,13,1 pack (700 g),true,10 MINS,https://www.zepto.com/pn/yoga-bar-muesli-no-added-sugar-multigrain-seeds-nuts-and-dry-fruits-high-fibre-probiotics/pvid/e323a9c5-49b2-4f2c-8380-eafa6a4ac2c2\nTrue Elements,Bengaluru,560001,zeptonow.com,8e2f9171-554f-57ca-864c-2762d48f1cc8,Yoga Bar Breakfast Cereal & Muesli | 91% Whole-Grains+ Dried Fruits + Fruit and Nut + Seeds,199,390,49,1 pack (400 g),true,10 MINS,https://www.zepto.com/pn/yoga-bar-breakfast-cereal-muesli-91-whole-grains-dried-fruits-fruit-and-nut-seeds/pvid/10b91e0c-6e91-4916-8870-260ca486c2be\nTrue Elements,Bengaluru,560001,zeptonow.com,8a6359f9-1d05-5841-b488-1ab431f3553e,True Elements Muesli Fruity Delight Fruit and Nut Muesli,283,495,43,1 pack (700 g),true,10 MINS,https://www.zepto.com/pn/true-elements-muesli-fruity-delight-fruit-and-nut-muesli/pvid/a12ed986-0b26-45ed-8a50-ad3585f5b44a\nTrue Elements,Bengaluru,560001,amazon.in,B0HGR4X4V2,Kellogg’s 25g High Protein Muesli Dark Choco Crunch 400g | Gut-friendly Prebiotics | No Palm Oil,285,712.5,60,25g,true,\"Wed, 4 Nov\",https://www.amazon.in/dp/B0HGR4X4V2\nTrue Elements,Bengaluru,560001,amazon.in,B0CWPF36PT,\"Muesli Sugar free - Pumpkin, Flax & Chia seeds, Dry fruit & Nuts - Rolled Oats + Millet flakes | No added Sugar snack | Gluten free Healthy Breakfast 700g\",479,684.29,30,700g,true,\"Tue, 3 Nov\",https://www.amazon.in/dp/B0CWPF36PT\nTrue Elements,Bengaluru,560001,amazon.in,B0D86WGZQ3,\"25g High Protein Dark Chocolate & Cranberry Muesli 1kg, No Refined Sugar, High Fibre, Breakfast Cereal\",497,497,0,25g,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0D86WGZQ3\nTrue Elements,Bengaluru,560001,amazon.in,B0DP4XY158,\"Muesli Fruit, Nut & Seeds 900g Jar, 87% Multi Grains, No Maida, Natural Source Of Vitamin & Iron, High In Protein & Fiber, Low Fat & Cholesterol, Healthy Breakfast Cereal\",299,332.22,10,900g,true,\"Tue, 3 Nov\",https://www.amazon.in/dp/B0DP4XY158\nTrue Elements,Bengaluru,560001,amazon.in,B0H8786N4B,Dr. Sivaraman's Arogya Dia Muesli | No Added Sugar | Millet & Nuts - 300 g,350,1166.67,70,300 g,true,\"Thu, 5 Nov\",https://www.amazon.in/dp/B0H8786N4B\nTrue Elements,Bengaluru,560001,amazon.in,B07G184SJ2,No Added Sugar Muesli 1kg | High Fibre,449,449,0,1kg,true,\"Tue, 3 Nov\",https://www.amazon.in/dp/B07G184SJ2\n";
+
+    function filterRows(mode) {
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const stock = row.getAttribute('data-stock');
+        if (mode === 'all') row.style.display = '';
+        else if (mode === 'oos') row.style.display = stock === 'oos' ? '' : 'none';
+        else if (mode === 'instock') row.style.display = stock === 'instock' ? '' : 'none';
+      });
+    }
+
+    function searchSkus() {
+      const q = document.getElementById('skuSearch').value.toLowerCase();
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const title = row.getAttribute('data-title') || '';
+        const platform = (row.getAttribute('data-platform') || '').toLowerCase();
+        row.style.display = (title.includes(q) || platform.includes(q)) ? '' : 'none';
+      });
+    }
+
+    function downloadCsv() {
+      const blob = new Blob([RAW_CSV], { type: 'text/csv;charset=utf-8;' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'true-elements-3city-audit.csv';
+      a.click();
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>What's Up Wellness — 3-City Quick-Commerce Dark-Store Audit Scorecard | Unscrape Radar</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background-color: #07080d; color: #f3f4f6; font-family: Inter, system-ui, -apple-system, sans-serif; }
+  </style>
+</head>
+<body class="min-h-screen pb-24">
+  <!-- Top Bar -->
+  <header class="border-b border-slate-800 bg-slate-950/90 backdrop-blur sticky top-0 z-20">
+    <div class="max-w-7xl mx-auto px-6 py-3.5 flex items-center justify-between flex-wrap gap-3">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="text-emerald-400 font-black text-lg tracking-tight hover:text-emerald-300">⚡ UNSCRAPE RADAR</a>
+        <span class="text-xs text-slate-500">/</span>
+        <span class="text-sm font-bold text-white">What's Up Wellness Executive Scorecard</span>
+      </div>
+      <div class="flex items-center gap-2.5 text-xs">
+        <a href="index.html" class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700">← All 56 Brand Audits</a>
+        <button onclick="downloadCsv()" class="px-3.5 py-1.5 rounded-lg bg-emerald-500 text-slate-950 font-bold hover:bg-emerald-400">⬇ Download Raw CSV (38 SKUs)</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-6 pt-8">
+    <!-- Executive Header -->
+    <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 mb-8">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+        <div>
+          <div class="flex items-center gap-2.5 mb-2">
+            <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded bg-slate-800 text-emerald-400">Sleep &amp; Beauty Gummies</span>
+            <span class="text-xs text-slate-400 font-mono">Audited: 2026-10-30</span>
+          </div>
+          <h1 class="text-3xl md:text-4xl font-black text-white tracking-tight">What's Up Wellness — Hyperlocal Dark-Store Audit</h1>
+          <p class="text-slate-400 text-sm mt-1">
+            Live multi-platform inventory & MOP/MRP price variance scan across <strong>Bengaluru (560001)</strong>, <strong>Mumbai (400001)</strong>, and <strong>Delhi (110001)</strong>.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 shrink-0">
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">SKUs Audited</div>
+            <div class="text-2xl font-black text-white mt-1">38</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">OOS Leaks</div>
+            <div class="text-2xl font-black text-rose-400 mt-1">1</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">Max Markdown</div>
+            <div class="text-2xl font-black text-amber-300 mt-1">55%</div>
+          </div>
+          <div class="border rounded-xl p-3.5 text-center bg-amber-500/15 text-amber-300 border-amber-500/30">
+            <div class="text-[11px] uppercase font-bold opacity-80">Shelf Health</div>
+            <div class="text-2xl font-black mt-1">97%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="bg-rose-950/50 border border-rose-500/40 rounded-2xl p-6 mb-8">
+      <div class="flex items-center justify-between flex-wrap gap-3 mb-4">
+        <div class="flex items-center gap-3">
+          <span class="px-3 py-1 rounded-full bg-rose-500 text-slate-950 font-black text-xs uppercase tracking-wider">🚨 REVENUE LEAK DETECTED</span>
+          <h2 class="text-lg font-bold text-white">1 Out-of-Stock Dark-Store Listing(s) Caught Live</h2>
+        </div>
+        <span class="text-xs font-mono text-rose-300">Immediate Shelf Conversion Loss</span>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+        
+          <div class="bg-slate-950/90 border border-rose-500/30 rounded-xl p-3.5 flex items-center justify-between gap-3">
+            <div>
+              <div class="text-sm font-bold text-white">What's Up Wellness Sleep Supplement Sleep-Supplement</div>
+              <div class="text-xs text-slate-400 mt-1">
+                Platform: <span class="text-rose-300 font-mono">blinkit.com</span> ·
+                City: <span class="text-slate-200">Bengaluru (560001)</span> ·
+                Pack: <span class="text-slate-300">2 x 7 pcs</span>
+              </div>
+            </div>
+            <div class="text-right shrink-0">
+              <div class="text-sm font-extrabold text-rose-400">OUT OF STOCK</div>
+              <div class="text-xs text-slate-400">₹349</div>
+            </div>
+          </div>
+      </div>
+    </div>
+
+    <!-- Filter Controls -->
+    <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+      <div class="flex items-center gap-2 text-xs">
+        <button onclick="filterRows('all')" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-semibold">All SKUs (38)</button>
+        <button onclick="filterRows('oos')" class="px-3 py-1.5 rounded-lg bg-rose-500/15 border border-rose-500/30 text-rose-300 hover:bg-rose-500/25 font-semibold">Out-of-Stock Only (1)</button>
+        <button onclick="filterRows('instock')" class="px-3 py-1.5 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 hover:bg-emerald-500/25 font-semibold">In-Stock (37)</button>
+      </div>
+      <div class="flex items-center gap-2">
+        <input id="skuSearch" type="text" oninput="searchSkus()" placeholder="Filter SKU title or platform..." class="bg-slate-900 border border-slate-800 rounded-lg px-3.5 py-1.5 text-xs text-white w-64" />
+      </div>
+    </div>
+
+    <!-- SKU Table -->
+    <div class="bg-slate-900/50 border border-slate-800 rounded-2xl overflow-x-auto">
+      <table class="w-full text-left text-xs">
+        <thead class="bg-slate-950/90 text-slate-400 uppercase border-b border-slate-800">
+          <tr>
+            <th class="px-4 py-3">SKU Title</th>
+            <th class="px-4 py-3">Platform</th>
+            <th class="px-4 py-3">City / Pin</th>
+            <th class="px-4 py-3">Pack Size</th>
+            <th class="px-4 py-3">Selling Price</th>
+            <th class="px-4 py-3">MRP</th>
+            <th class="px-4 py-3">Discount</th>
+            <th class="px-4 py-3">Stock Status</th>
+            <th class="px-4 py-3">ETA</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-800/60">
+          <tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="smartrum shape up acv gummies with vitamin b9 &amp; b12 supports digestion boosts metabolism 30 gummies for adults">
+        <td class="px-4 py-3 font-medium text-white max-w-md">SMARTRUM Shape Up ACV Gummies with Vitamin B9 &amp; B12 Supports Digestion Boosts Metabolism 30 Gummies for Adults</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">888.00/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹888</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1699</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">48% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="neat everyday multivitamin gummies | orange flavour | no added sugar | vegan gummies | no artificial colour &amp; preservatives | daily health supplement | pack of 15">
+        <td class="px-4 py-3 font-medium text-white max-w-md">NEAT EVERYDAY Multivitamin Gummies | Orange Flavour | No Added Sugar | Vegan Gummies | No Artificial Colour &amp; Preservatives | Daily Health Supplement | Pack of 15</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">18.40/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹276</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹300</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">8% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bub &amp; belle bub &amp; belle bub's mind &amp; might gummies memory focus support strawberry flavor nutraceutical gummies with ashwagandha brahmi sankhpushpi dha curcumin 200gm | pack of 3">
+        <td class="px-4 py-3 font-medium text-white max-w-md">BUB &amp; BELLE Bub &amp; Belle Bub's Mind &amp; Might Gummies Memory Focus Support Strawberry Flavor Nutraceutical Gummies with Ashwagandha Brahmi Sankhpushpi DHA Curcumin 200GM | Pack of 3</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">333.00/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹999</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1497</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">33% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="releaf health supplement gummies 30 count + mind calm 500mg capsules 60 count | daily wellness, stress relief &amp; nutritional support combo pack">
+        <td class="px-4 py-3 font-medium text-white max-w-md">RELEAF Health Supplement Gummies 30 Count + Mind Calm 500mg Capsules 60 Count | Daily Wellness, Stress Relief &amp; Nutritional Support Combo Pack</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1566</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1566</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="jefferson healthcare  nutrison-f brain-booster nutrition gummies for kids | mixed berries flavor | delicious chewable gummies | daily nutritional support for growing children | easy to consume | 30 gummies pack | kid-friendly taste &amp; texture">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Jefferson healthcare  Nutrison-F Brain-Booster Nutrition Gummies for Kids | Mixed Berries Flavor | Delicious Chewable Gummies | Daily Nutritional Support for Growing Children | Easy to Consume | 30 Gummies Pack | Kid-Friendly Taste &amp; Texture</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">435.00/Sets</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹435</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹700</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">38% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="the body reserve quick sleep melatonin gummies | natural sleep support with chamomile &amp; valerian | 5 mg melatonin | 30 count">
+        <td class="px-4 py-3 font-medium text-white max-w-md">The Body Reserve Quick Sleep Melatonin Gummies | Natural Sleep Support with Chamomile &amp; Valerian | 5 mg Melatonin | 30 Count</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">13.37/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹401</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹891</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">55% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="smartrum shape up acv gummies with vitamin b9 &amp; b12 supports digestion boosts metabolism 30 gummies for adults">
+        <td class="px-4 py-3 font-medium text-white max-w-md">SMARTRUM Shape Up ACV Gummies with Vitamin B9 &amp; B12 Supports Digestion Boosts Metabolism 30 Gummies for Adults</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">888.00/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹888</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1699</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">48% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="neat everyday multivitamin gummies | orange flavour | no added sugar | vegan gummies | no artificial colour &amp; preservatives | daily health supplement | pack of 15">
+        <td class="px-4 py-3 font-medium text-white max-w-md">NEAT EVERYDAY Multivitamin Gummies | Orange Flavour | No Added Sugar | Vegan Gummies | No Artificial Colour &amp; Preservatives | Daily Health Supplement | Pack of 15</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">18.40/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹276</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹300</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">8% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bub &amp; belle bub &amp; belle bub's mind &amp; might gummies memory focus support strawberry flavor nutraceutical gummies with ashwagandha brahmi sankhpushpi dha curcumin 200gm | pack of 3">
+        <td class="px-4 py-3 font-medium text-white max-w-md">BUB &amp; BELLE Bub &amp; Belle Bub's Mind &amp; Might Gummies Memory Focus Support Strawberry Flavor Nutraceutical Gummies with Ashwagandha Brahmi Sankhpushpi DHA Curcumin 200GM | Pack of 3</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">333.00/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹999</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1497</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">33% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="releaf health supplement gummies 30 count + mind calm 500mg capsules 60 count | daily wellness, stress relief &amp; nutritional support combo pack">
+        <td class="px-4 py-3 font-medium text-white max-w-md">RELEAF Health Supplement Gummies 30 Count + Mind Calm 500mg Capsules 60 Count | Daily Wellness, Stress Relief &amp; Nutritional Support Combo Pack</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1566</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1566</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="jefferson healthcare  nutrison-f brain-booster nutrition gummies for kids | mixed berries flavor | delicious chewable gummies | daily nutritional support for growing children | easy to consume | 30 gummies pack | kid-friendly taste &amp; texture">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Jefferson healthcare  Nutrison-F Brain-Booster Nutrition Gummies for Kids | Mixed Berries Flavor | Delicious Chewable Gummies | Daily Nutritional Support for Growing Children | Easy to Consume | 30 Gummies Pack | Kid-Friendly Taste &amp; Texture</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">435.00/Sets</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹435</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹700</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">38% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="the body reserve quick sleep melatonin gummies | natural sleep support with chamomile &amp; valerian | 5 mg melatonin | 30 count">
+        <td class="px-4 py-3 font-medium text-white max-w-md">The Body Reserve Quick Sleep Melatonin Gummies | Natural Sleep Support with Chamomile &amp; Valerian | 5 mg Melatonin | 30 Count</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">13.37/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹401</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹891</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">55% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="smartrum shape up acv gummies with vitamin b9 &amp; b12 supports digestion boosts metabolism 30 gummies for adults">
+        <td class="px-4 py-3 font-medium text-white max-w-md">SMARTRUM Shape Up ACV Gummies with Vitamin B9 &amp; B12 Supports Digestion Boosts Metabolism 30 Gummies for Adults</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">888.00/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹888</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1699</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">48% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="neat everyday multivitamin gummies | orange flavour | no added sugar | vegan gummies | no artificial colour &amp; preservatives | daily health supplement | pack of 15">
+        <td class="px-4 py-3 font-medium text-white max-w-md">NEAT EVERYDAY Multivitamin Gummies | Orange Flavour | No Added Sugar | Vegan Gummies | No Artificial Colour &amp; Preservatives | Daily Health Supplement | Pack of 15</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">18.40/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹276</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹300</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">8% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bub &amp; belle bub &amp; belle bub's mind &amp; might gummies memory focus support strawberry flavor nutraceutical gummies with ashwagandha brahmi sankhpushpi dha curcumin 200gm | pack of 3">
+        <td class="px-4 py-3 font-medium text-white max-w-md">BUB &amp; BELLE Bub &amp; Belle Bub's Mind &amp; Might Gummies Memory Focus Support Strawberry Flavor Nutraceutical Gummies with Ashwagandha Brahmi Sankhpushpi DHA Curcumin 200GM | Pack of 3</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">333.00/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹999</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1497</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">33% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="releaf health supplement gummies 30 count + mind calm 500mg capsules 60 count | daily wellness, stress relief &amp; nutritional support combo pack">
+        <td class="px-4 py-3 font-medium text-white max-w-md">RELEAF Health Supplement Gummies 30 Count + Mind Calm 500mg Capsules 60 Count | Daily Wellness, Stress Relief &amp; Nutritional Support Combo Pack</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1566</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1566</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="jefferson healthcare  nutrison-f brain-booster nutrition gummies for kids | mixed berries flavor | delicious chewable gummies | daily nutritional support for growing children | easy to consume | 30 gummies pack | kid-friendly taste &amp; texture">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Jefferson healthcare  Nutrison-F Brain-Booster Nutrition Gummies for Kids | Mixed Berries Flavor | Delicious Chewable Gummies | Daily Nutritional Support for Growing Children | Easy to Consume | 30 Gummies Pack | Kid-Friendly Taste &amp; Texture</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">435.00/Sets</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹435</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹700</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">38% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="the body reserve quick sleep melatonin gummies | natural sleep support with chamomile &amp; valerian | 5 mg melatonin | 30 count">
+        <td class="px-4 py-3 font-medium text-white max-w-md">The Body Reserve Quick Sleep Melatonin Gummies | Natural Sleep Support with Chamomile &amp; Valerian | 5 mg Melatonin | 30 Count</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">13.37/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹401</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹891</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">55% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="what's up wellness melatonin gummies for sleep &amp; muscle recovery | for both men &amp; women |">
+        <td class="px-4 py-3 font-medium text-white max-w-md">What's Up Wellness Melatonin Gummies for Sleep &amp; Muscle Recovery | For Both Men &amp; Women |</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹622</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹799</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">22% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="what's up wellness gluta-glow gummies | brighten skin, reduce dark spots | for men &amp; women |">
+        <td class="px-4 py-3 font-medium text-white max-w-md">What's Up Wellness Gluta-Glow Gummies | Brighten Skin, Reduce Dark Spots | For Men &amp; Women |</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1000</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1599</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">37% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="what's up wellness natural biotin gummies 60 day pack no added sugar">
+        <td class="px-4 py-3 font-medium text-white max-w-md">What's Up Wellness Natural Biotin Gummies 60 Day Pack No Added Sugar</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1150</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1598</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">28% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="what's up wellness natural biotin gummies | reduce hair fall, dark spots | no added sugar |">
+        <td class="px-4 py-3 font-medium text-white max-w-md">What's Up Wellness Natural Biotin Gummies | Reduce Hair Fall, Dark Spots | No Added Sugar |</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹623</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹799</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">22% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="what's up wellness shilajit resin gummies with 24k gold dust | improve stamina &amp; immunity pack of 3">
+        <td class="px-4 py-3 font-medium text-white max-w-md">What's Up Wellness Shilajit Resin Gummies with 24K Gold Dust | Improve Stamina &amp; Immunity Pack of 3</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1799</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹2397</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">25% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="what's up wellness natural biotin gummies for healthy hair, skin &amp; nails no added sugar (pack of 3)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">What's Up Wellness Natural Biotin Gummies for Healthy Hair, Skin &amp; Nails No Added Sugar (Pack of 3)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1749</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹2397</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">27% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="what's up wellness stress relief supplement gummies">
+        <td class="px-4 py-3 font-medium text-white max-w-md">What's Up Wellness Stress Relief Supplement Gummies</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">30 pcs</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹622</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹799</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">22% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="what's up wellness shilajit gummies - gold dust">
+        <td class="px-4 py-3 font-medium text-white max-w-md">What's Up Wellness Shilajit Gummies - Gold Dust</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">30 pcs</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹600</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹799</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">25% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="what's up wellness melatonin sleep-supplement">
+        <td class="px-4 py-3 font-medium text-white max-w-md">What's Up Wellness Melatonin Sleep-Supplement</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">7 pcs</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹177</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹199</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">11% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="oos" data-platform="blinkit.com" data-title="what's up wellness sleep supplement sleep-supplement">
+        <td class="px-4 py-3 font-medium text-white max-w-md">What's Up Wellness Sleep Supplement Sleep-Supplement</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">2 x 7 pcs</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹349</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹398</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">12% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-rose-500/20 text-rose-400 border border-rose-500/30 font-mono text-[11px] font-bold">OUT OF STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="what's up wellness melatonin sleep supplement">
+        <td class="px-4 py-3 font-medium text-white max-w-md">What's Up Wellness Melatonin Sleep Supplement</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">30 pcs</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹622</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹799</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">22% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="what's up wellness magbliss magnesium supplement">
+        <td class="px-4 py-3 font-medium text-white max-w-md">What's Up Wellness Magbliss Magnesium Supplement</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">60 pcs</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹500</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹599</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">17% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="what's up wellness assorted daily electrolyte sachets">
+        <td class="px-4 py-3 font-medium text-white max-w-md">What's Up Wellness Assorted Daily Electrolyte Sachets</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">15 x 4.2 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹399</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹449</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">11% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="what's up wellness assorted daily electrolyte sachets">
+        <td class="px-4 py-3 font-medium text-white max-w-md">What's Up Wellness Assorted Daily Electrolyte Sachets</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">30 x 4.2 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹790</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹898</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">12% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="gut health supplements gummies | prebiotics &amp; probiotics supplement | constipation, bloating, gas &amp; acidity relief | gut cleanse detox | clinically proven strain | 30 days (pack of 1)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Gut Health Supplements Gummies | Prebiotics &amp; Probiotics Supplement | Constipation, Bloating, Gas &amp; Acidity Relief | Gut Cleanse Detox | Clinically Proven Strain | 30 Days (Pack Of 1)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹889</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹29.63</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="melatonin 5 mg sleep gummies| tart cherry and chamomile extracts for muscle recovery &amp; nerve relaxation| 30 melatonin gummies">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Melatonin 5 Mg Sleep Gummies| Tart Cherry And Chamomile Extracts For Muscle Recovery &amp; Nerve Relaxation| 30 Melatonin Gummies</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹622</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹20.73</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="beauty hair gummies for hair growth, glowing skin &amp; nails | no added sugar | zinc, folic acid, multivitamins | for men &amp; women | natural biotin supplement – 60 days">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Beauty Hair Gummies for Hair Growth, Glowing Skin &amp; Nails | No Added Sugar | Zinc, Folic Acid, Multivitamins | For Men &amp; Women | Natural Biotin Supplement – 60 Days</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1149</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹19.15</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="shilajit/shilajeet gummies | 200 mg resin with 24 carat gold dust | improves strength, stamina and overall immunity| no added sugar| shilajit for men &amp; women">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Shilajit/Shilajeet Gummies | 200 Mg Resin With 24 Carat Gold Dust | Improves Strength, Stamina And Overall Immunity| No Added Sugar| Shilajit for Men &amp; Women</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹655</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹21.83</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="lung &amp; liver detox supplement capsules with n-acetyl cysteine and milk thistle, for fatty liver, 90 capsules">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Lung &amp; Liver Detox Supplement Capsules with N-Acetyl Cysteine and Milk Thistle, For Fatty Liver, 90 Capsules</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1649</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹18.32</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Tue, 3 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="what’s up wellness daily + night burner combo | glp1 for weight loss, boosts metabolism and curbs cravings | 24-hour weight management | burn fat day &amp; night">
+        <td class="px-4 py-3 font-medium text-white max-w-md">What’s Up Wellness Daily + Night Burner Combo | GLP1 for Weight Loss, Boosts Metabolism and Curbs Cravings | 24-Hour Weight Management | Burn Fat Day &amp; Night</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹999</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹16.65</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- Sticky CTA Footer -->
+  <div class="fixed bottom-0 inset-x-0 bg-slate-950/95 border-t border-emerald-500/30 backdrop-blur px-6 py-3.5 z-30">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+      <div class="text-slate-200">
+        <span class="text-emerald-400 font-bold">⚡ Unscrape Radar:</span> Want real-time Slack/WhatsApp/Telegram alerts within 15 mins whenever <strong>What's Up Wellness</strong> SKUs go Out-of-Stock across 20 BLR/MUM/DEL dark-store pin codes?
+      </div>
+      <div class="flex items-center gap-2.5 shrink-0">
+        <a href="https://github.com/deveshkolte/unscrape" target="_blank" class="px-4 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold">Unlock Automated 20-Pin-Code Monitor →</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const RAW_CSV = "brand,city,pincode,platform,skuId,title,sellingPriceInr,mrpInr,discountPercent,unit,inStock,deliveryEta,url\nWhat's Up Wellness,Bengaluru,560001,bigbasket.com/jiomart,137081061,SMARTRUM Shape Up ACV Gummies with Vitamin B9 & B12 Supports Digestion Boosts Metabolism 30 Gummies for Adults,888,1699,48,888.00/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/smartrum-shape-up-acv-gummies-with-vitamin-b9-b12-supports-digestion-boosts-metabolism-30-gummies-for-adults-ms5zgh-137081061/137081061\nWhat's Up Wellness,Bengaluru,560001,bigbasket.com/jiomart,133738290,NEAT EVERYDAY Multivitamin Gummies | Orange Flavour | No Added Sugar | Vegan Gummies | No Artificial Colour & Preservatives | Daily Health Supplement | Pack of 15,276,300,8,18.40/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/neat-everyday-multivitamin-gummies-orange-flavour-no-added-sugar-vegan-gummies-no-artificial-colour-preservatives-daily-health-supplement-pack-of-15-mrc0ca-133738290/133738290\nWhat's Up Wellness,Bengaluru,560001,bigbasket.com/jiomart,108857830,BUB & BELLE Bub & Belle Bub's Mind & Might Gummies Memory Focus Support Strawberry Flavor Nutraceutical Gummies with Ashwagandha Brahmi Sankhpushpi DHA Curcumin 200GM | Pack of 3,999,1497,33,333.00/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/bub-belle-bub-belle-bub-s-mind-might-gummies-memory-focus-support-strawberry-flavor-nutraceutical-gummies-with-ashwagandha-brahmi-sankhpushpi-dha-curcumin-200gm-pack-of-3-mq68ox-108857830/108857830\nWhat's Up Wellness,Bengaluru,560001,bigbasket.com/jiomart,108850268,\"RELEAF Health Supplement Gummies 30 Count + Mind Calm 500mg Capsules 60 Count | Daily Wellness, Stress Relief & Nutritional Support Combo Pack\",1566,1566,0,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/releaf-health-supplement-gummies-30-count-mind-calm-500mg-capsules-60-count-daily-wellness-stress-relief-nutritional-support-combo-pack-mq64et-108850268/108850268\nWhat's Up Wellness,Bengaluru,560001,bigbasket.com/jiomart,107644442,Jefferson healthcare  Nutrison-F Brain-Booster Nutrition Gummies for Kids | Mixed Berries Flavor | Delicious Chewable Gummies | Daily Nutritional Support for Growing Children | Easy to Consume | 30 Gummies Pack | Kid-Friendly Taste & Texture,435,700,38,435.00/Sets,true,15-30 MINS,https://www.jiomart.com/p/groceries/jefferson-healthcare-nutrison-f-brain-booster-nutrition-gummies-for-kids-mixed-berries-flavor-delicious-chewable-gummies-daily-nutritional-support-for-growing-children-easy-to-consume-30-gummies-pack-kid-friendly-taste-texture-mpxyvz-107644442/107644442\nWhat's Up Wellness,Bengaluru,560001,bigbasket.com/jiomart,50223228,The Body Reserve Quick Sleep Melatonin Gummies | Natural Sleep Support with Chamomile & Valerian | 5 mg Melatonin | 30 Count,401,891,55,13.37/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/the-body-reserve-quick-sleep-melatonin-gummies-natural-sleep-support-with-chamomile-valerian-5-mg-melatonin-30-count-mj72dq-50223228/50223228\nWhat's Up Wellness,Mumbai,400001,bigbasket.com/jiomart,137081061,SMARTRUM Shape Up ACV Gummies with Vitamin B9 & B12 Supports Digestion Boosts Metabolism 30 Gummies for Adults,888,1699,48,888.00/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/smartrum-shape-up-acv-gummies-with-vitamin-b9-b12-supports-digestion-boosts-metabolism-30-gummies-for-adults-ms5zgh-137081061/137081061\nWhat's Up Wellness,Mumbai,400001,bigbasket.com/jiomart,133738290,NEAT EVERYDAY Multivitamin Gummies | Orange Flavour | No Added Sugar | Vegan Gummies | No Artificial Colour & Preservatives | Daily Health Supplement | Pack of 15,276,300,8,18.40/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/neat-everyday-multivitamin-gummies-orange-flavour-no-added-sugar-vegan-gummies-no-artificial-colour-preservatives-daily-health-supplement-pack-of-15-mrc0ca-133738290/133738290\nWhat's Up Wellness,Mumbai,400001,bigbasket.com/jiomart,108857830,BUB & BELLE Bub & Belle Bub's Mind & Might Gummies Memory Focus Support Strawberry Flavor Nutraceutical Gummies with Ashwagandha Brahmi Sankhpushpi DHA Curcumin 200GM | Pack of 3,999,1497,33,333.00/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/bub-belle-bub-belle-bub-s-mind-might-gummies-memory-focus-support-strawberry-flavor-nutraceutical-gummies-with-ashwagandha-brahmi-sankhpushpi-dha-curcumin-200gm-pack-of-3-mq68ox-108857830/108857830\nWhat's Up Wellness,Mumbai,400001,bigbasket.com/jiomart,108850268,\"RELEAF Health Supplement Gummies 30 Count + Mind Calm 500mg Capsules 60 Count | Daily Wellness, Stress Relief & Nutritional Support Combo Pack\",1566,1566,0,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/releaf-health-supplement-gummies-30-count-mind-calm-500mg-capsules-60-count-daily-wellness-stress-relief-nutritional-support-combo-pack-mq64et-108850268/108850268\nWhat's Up Wellness,Mumbai,400001,bigbasket.com/jiomart,107644442,Jefferson healthcare  Nutrison-F Brain-Booster Nutrition Gummies for Kids | Mixed Berries Flavor | Delicious Chewable Gummies | Daily Nutritional Support for Growing Children | Easy to Consume | 30 Gummies Pack | Kid-Friendly Taste & Texture,435,700,38,435.00/Sets,true,15-30 MINS,https://www.jiomart.com/p/groceries/jefferson-healthcare-nutrison-f-brain-booster-nutrition-gummies-for-kids-mixed-berries-flavor-delicious-chewable-gummies-daily-nutritional-support-for-growing-children-easy-to-consume-30-gummies-pack-kid-friendly-taste-texture-mpxyvz-107644442/107644442\nWhat's Up Wellness,Mumbai,400001,bigbasket.com/jiomart,50223228,The Body Reserve Quick Sleep Melatonin Gummies | Natural Sleep Support with Chamomile & Valerian | 5 mg Melatonin | 30 Count,401,891,55,13.37/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/the-body-reserve-quick-sleep-melatonin-gummies-natural-sleep-support-with-chamomile-valerian-5-mg-melatonin-30-count-mj72dq-50223228/50223228\nWhat's Up Wellness,Delhi,110001,bigbasket.com/jiomart,137081061,SMARTRUM Shape Up ACV Gummies with Vitamin B9 & B12 Supports Digestion Boosts Metabolism 30 Gummies for Adults,888,1699,48,888.00/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/smartrum-shape-up-acv-gummies-with-vitamin-b9-b12-supports-digestion-boosts-metabolism-30-gummies-for-adults-ms5zgh-137081061/137081061\nWhat's Up Wellness,Delhi,110001,bigbasket.com/jiomart,133738290,NEAT EVERYDAY Multivitamin Gummies | Orange Flavour | No Added Sugar | Vegan Gummies | No Artificial Colour & Preservatives | Daily Health Supplement | Pack of 15,276,300,8,18.40/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/neat-everyday-multivitamin-gummies-orange-flavour-no-added-sugar-vegan-gummies-no-artificial-colour-preservatives-daily-health-supplement-pack-of-15-mrc0ca-133738290/133738290\nWhat's Up Wellness,Delhi,110001,bigbasket.com/jiomart,108857830,BUB & BELLE Bub & Belle Bub's Mind & Might Gummies Memory Focus Support Strawberry Flavor Nutraceutical Gummies with Ashwagandha Brahmi Sankhpushpi DHA Curcumin 200GM | Pack of 3,999,1497,33,333.00/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/bub-belle-bub-belle-bub-s-mind-might-gummies-memory-focus-support-strawberry-flavor-nutraceutical-gummies-with-ashwagandha-brahmi-sankhpushpi-dha-curcumin-200gm-pack-of-3-mq68ox-108857830/108857830\nWhat's Up Wellness,Delhi,110001,bigbasket.com/jiomart,108850268,\"RELEAF Health Supplement Gummies 30 Count + Mind Calm 500mg Capsules 60 Count | Daily Wellness, Stress Relief & Nutritional Support Combo Pack\",1566,1566,0,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/releaf-health-supplement-gummies-30-count-mind-calm-500mg-capsules-60-count-daily-wellness-stress-relief-nutritional-support-combo-pack-mq64et-108850268/108850268\nWhat's Up Wellness,Delhi,110001,bigbasket.com/jiomart,107644442,Jefferson healthcare  Nutrison-F Brain-Booster Nutrition Gummies for Kids | Mixed Berries Flavor | Delicious Chewable Gummies | Daily Nutritional Support for Growing Children | Easy to Consume | 30 Gummies Pack | Kid-Friendly Taste & Texture,435,700,38,435.00/Sets,true,15-30 MINS,https://www.jiomart.com/p/groceries/jefferson-healthcare-nutrison-f-brain-booster-nutrition-gummies-for-kids-mixed-berries-flavor-delicious-chewable-gummies-daily-nutritional-support-for-growing-children-easy-to-consume-30-gummies-pack-kid-friendly-taste-texture-mpxyvz-107644442/107644442\nWhat's Up Wellness,Delhi,110001,bigbasket.com/jiomart,50223228,The Body Reserve Quick Sleep Melatonin Gummies | Natural Sleep Support with Chamomile & Valerian | 5 mg Melatonin | 30 Count,401,891,55,13.37/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/the-body-reserve-quick-sleep-melatonin-gummies-natural-sleep-support-with-chamomile-valerian-5-mg-melatonin-30-count-mj72dq-50223228/50223228\nWhat's Up Wellness,Bengaluru,560001,flipkart.com,VSLGHKSBCKBZ3NDH,What's Up Wellness Melatonin Gummies for Sleep & Muscle Recovery | For Both Men & Women |,622,799,22,1 unit,true,15 MINS,https://www.flipkart.com/what-s-up-wellness-melatonin-gummies-sleep-muscle-recovery-both-men-women/p/itma0ad1d65e918b?pid=VSLGHKSBCKBZ3NDH&lid=LSTVSLGHKSBCKBZ3NDH0Q4IR8&marketplace=FLIPKART&q=whats+up+wellness+gummies&store=hlc%2Fetg%2Fqtw&srno=s_1_1&otracker=search&fm=organic&iid=en_SpxfGHUZn8Zw1hR_e1KN1Nco1k50vDEZbIj3bhj8zRV4I38UUT_6W0fEZXrDjZXNsbAgQLum7mPvYFcXpnMDPiwsdCVUvegutJw13ay-CFDhIT5wH0LDPzPFQhPZxhB9&ppt=None&ppn=None&ssid=em522fd3a80000001793387305020&qH=945e9527ddceee11&ov_redirect=true&ov_redirect=true\nWhat's Up Wellness,Bengaluru,560001,flipkart.com,VSLGYGZHWXHEE8GH,\"What's Up Wellness Gluta-Glow Gummies | Brighten Skin, Reduce Dark Spots | For Men & Women |\",1000,1599,37,1 unit,true,15 MINS,https://www.flipkart.com/what-s-up-wellness-gluta-glow-gummies-brighten-skin-reduce-dark-spots-men-women/p/itmc1e5a4eb554be?pid=VSLGYGZHWXHEE8GH&lid=LSTVSLGYGZHWXHEE8GHCNL0CH&marketplace=FLIPKART&q=whats+up+wellness+gummies&store=hlc%2Fetg%2Fqtw&srno=s_1_2&otracker=search&fm=organic&iid=en_SpxfGHUZn8Zw1hR_e1KN1Nco1k50vDEZbIj3bhj8zRUb-A3kPZ-XLaXWSlO4Zc-c9wp4DEvm4k9CRyIoV7Jx5Uz0oa5nyxIx0BPwrM0V6RPhIT5wH0LDPzPFQhPZxhB9&ppt=None&ppn=None&ssid=em522fd3a80000001793387305020&qH=945e9527ddceee11&ov_redirect=true&ov_redirect=true\nWhat's Up Wellness,Bengaluru,560001,flipkart.com,VSLGZY3MAZPCUWYM,What's Up Wellness Natural Biotin Gummies 60 Day Pack No Added Sugar,1150,1598,28,1 unit,true,15 MINS,https://www.flipkart.com/what-s-up-wellness-natural-biotin-gummies-60-day-pack-no-added-sugar/p/itm44c95390119cd?pid=VSLGZY3MAZPCUWYM&lid=LSTVSLGZY3MAZPCUWYM8RRVGX&marketplace=FLIPKART&q=whats+up+wellness+gummies&store=hlc%2Fetg%2Fqtw&spotlightTagId=default_TrendingId_hlc%2Fetg%2Fqtw&srno=s_1_3&otracker=search&fm=organic&iid=486ed9b5-c97b-45d4-a0e7-bd4180a65b7c.VSLGZY3MAZPCUWYM.SEARCH&ppt=None&ppn=None&ssid=em522fd3a80000001793387305020&qH=945e9527ddceee11&ov_redirect=true&ov_redirect=true\nWhat's Up Wellness,Bengaluru,560001,flipkart.com,VSLGZY3NFQXB3TPJ,\"What's Up Wellness Natural Biotin Gummies | Reduce Hair Fall, Dark Spots | No Added Sugar |\",623,799,22,1 unit,true,15 MINS,https://www.flipkart.com/what-s-up-wellness-natural-biotin-gummies-reduce-hair-fall-dark-spots-no-added-sugar/p/itm69c9a58605937?pid=VSLGZY3NFQXB3TPJ&lid=LSTVSLGZY3NFQXB3TPJWYER21&marketplace=FLIPKART&q=whats+up+wellness+gummies&store=hlc%2Fetg%2Fqtw&srno=s_1_4&otracker=search&fm=organic&iid=486ed9b5-c97b-45d4-a0e7-bd4180a65b7c.VSLGZY3NFQXB3TPJ.SEARCH&ppt=None&ppn=None&ssid=em522fd3a80000001793387305020&qH=945e9527ddceee11&ov_redirect=true&ov_redirect=true\nWhat's Up Wellness,Bengaluru,560001,flipkart.com,AYDH4C5984ZUEYWX,What's Up Wellness Shilajit Resin Gummies with 24K Gold Dust | Improve Stamina & Immunity Pack of 3,1799,2397,25,1 unit,true,15 MINS,https://www.flipkart.com/what-s-up-wellness-shilajit-resin-gummies-24k-gold-dust-improve-stamina-immunity-pack-3/p/itmff1f389996b60?pid=AYDH4C5984ZUEYWX&lid=LSTAYDH4C5984ZUEYWX43ECUK&marketplace=FLIPKART&q=whats+up+wellness+gummies&store=hlc%2Fetg%2Fqtw&srno=s_1_5&otracker=search&fm=organic&iid=486ed9b5-c97b-45d4-a0e7-bd4180a65b7c.AYDH4C5984ZUEYWX.SEARCH&ppt=None&ppn=None&ssid=em522fd3a80000001793387305020&qH=945e9527ddceee11&ov_redirect=true&ov_redirect=true\nWhat's Up Wellness,Bengaluru,560001,flipkart.com,VSLHY9GCTSNNGHFQ,\"What's Up Wellness Natural Biotin Gummies for Healthy Hair, Skin & Nails No Added Sugar (Pack of 3)\",1749,2397,27,1 unit,true,15 MINS,https://www.flipkart.com/what-s-up-wellness-natural-biotin-gummies-healthy-hair-skin-nails-no-added-sugar-pack-3/p/itm0c3c8a4042eec?pid=VSLHY9GCTSNNGHFQ&lid=LSTVSLHY9GCTSNNGHFQMUAC8P&marketplace=FLIPKART&q=whats+up+wellness+gummies&store=hlc%2Fetg%2Fqtw&srno=s_1_6&otracker=search&fm=organic&iid=en_SpxfGHUZn8Zw1hR_e1KN1Nco1k50vDEZbIj3bhj8zRWxP4Jo-WtoHDTHx1OXnapRc_4jhuOY26pk3E0_KGyLe-elao2celEjUuav4JW0PPncGJ6tkz2IihxxRLoV8KwO&ppt=None&ppn=None&ssid=em522fd3a80000001793387305020&qH=945e9527ddceee11&ov_redirect=true&ov_redirect=true\nWhat's Up Wellness,Bengaluru,560001,blinkit.com,538970,What's Up Wellness Stress Relief Supplement Gummies,622,799,22,30 pcs,true,10 MINS,https://blinkit.com/prn/what-s-up-wellness-stress-relief-supplement-gummies/prid/538970\nWhat's Up Wellness,Bengaluru,560001,blinkit.com,570594,What's Up Wellness Shilajit Gummies - Gold Dust,600,799,25,30 pcs,true,10 MINS,https://blinkit.com/prn/what-s-up-wellness-shilajit-gummies-gold-dust/prid/570594\nWhat's Up Wellness,Bengaluru,560001,blinkit.com,654808,What's Up Wellness Melatonin Sleep-Supplement,177,199,11,7 pcs,true,10 MINS,https://blinkit.com/prn/what-s-up-wellness-melatonin-sleep-supplement/prid/654808\nWhat's Up Wellness,Bengaluru,560001,blinkit.com,701236,What's Up Wellness Sleep Supplement Sleep-Supplement,349,398,12,2 x 7 pcs,false,10 MINS,https://blinkit.com/prn/what-s-up-wellness-sleep-supplement-sleep-supplement/prid/701236\nWhat's Up Wellness,Bengaluru,560001,blinkit.com,506415,What's Up Wellness Melatonin Sleep Supplement,622,799,22,30 pcs,true,10 MINS,https://blinkit.com/prn/what-s-up-wellness-melatonin-sleep-supplement/prid/506415\nWhat's Up Wellness,Bengaluru,560001,blinkit.com,697323,What's Up Wellness Magbliss Magnesium Supplement,500,599,17,60 pcs,true,10 MINS,https://blinkit.com/prn/what-s-up-wellness-magbliss-magnesium-supplement/prid/697323\nWhat's Up Wellness,Bengaluru,560001,blinkit.com,785136,What's Up Wellness Assorted Daily Electrolyte Sachets,399,449,11,15 x 4.2 g,true,10 MINS,https://blinkit.com/prn/what-s-up-wellness-assorted-daily-electrolyte-sachets/prid/785136\nWhat's Up Wellness,Bengaluru,560001,blinkit.com,806117,What's Up Wellness Assorted Daily Electrolyte Sachets,790,898,12,30 x 4.2 g,true,10 MINS,https://blinkit.com/prn/what-s-up-wellness-assorted-daily-electrolyte-sachets/prid/806117\nWhat's Up Wellness,Bengaluru,560001,amazon.in,B0CWGXPTBH,\"Gut Health Supplements Gummies | Prebiotics & Probiotics Supplement | Constipation, Bloating, Gas & Acidity Relief | Gut Cleanse Detox | Clinically Proven Strain | 30 Days (Pack Of 1)\",889,29.63,0,1 unit,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0CWGXPTBH\nWhat's Up Wellness,Bengaluru,560001,amazon.in,B0BJ7BPMTR,Melatonin 5 Mg Sleep Gummies| Tart Cherry And Chamomile Extracts For Muscle Recovery & Nerve Relaxation| 30 Melatonin Gummies,622,20.73,0,1 unit,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0BJ7BPMTR\nWhat's Up Wellness,Bengaluru,560001,amazon.in,B0CWY3KGFW,\"Beauty Hair Gummies for Hair Growth, Glowing Skin & Nails | No Added Sugar | Zinc, Folic Acid, Multivitamins | For Men & Women | Natural Biotin Supplement – 60 Days\",1149,19.15,0,1 unit,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0CWY3KGFW\nWhat's Up Wellness,Bengaluru,560001,amazon.in,B0DDTFJZHZ,\"Shilajit/Shilajeet Gummies | 200 Mg Resin With 24 Carat Gold Dust | Improves Strength, Stamina And Overall Immunity| No Added Sugar| Shilajit for Men & Women\",655,21.83,0,1 unit,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0DDTFJZHZ\nWhat's Up Wellness,Bengaluru,560001,amazon.in,B0DZXS728R,\"Lung & Liver Detox Supplement Capsules with N-Acetyl Cysteine and Milk Thistle, For Fatty Liver, 90 Capsules\",1649,18.32,0,1 unit,true,\"Tue, 3 Nov\",https://www.amazon.in/dp/B0DZXS728R\nWhat's Up Wellness,Bengaluru,560001,amazon.in,B0GCFT292G,\"What’s Up Wellness Daily + Night Burner Combo | GLP1 for Weight Loss, Boosts Metabolism and Curbs Cravings | 24-Hour Weight Management | Burn Fat Day & Night\",999,16.65,0,1 unit,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0GCFT292G\n";
+
+    function filterRows(mode) {
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const stock = row.getAttribute('data-stock');
+        if (mode === 'all') row.style.display = '';
+        else if (mode === 'oos') row.style.display = stock === 'oos' ? '' : 'none';
+        else if (mode === 'instock') row.style.display = stock === 'instock' ? '' : 'none';
+      });
+    }
+
+    function searchSkus() {
+      const q = document.getElementById('skuSearch').value.toLowerCase();
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const title = row.getAttribute('data-title') || '';
+        const platform = (row.getAttribute('data-platform') || '').toLowerCase();
+        row.style.display = (title.includes(q) || platform.includes(q)) ? '' : 'none';
+      });
+    }
+
+    function downloadCsv() {
+      const blob = new Blob([RAW_CSV], { type: 'text/csv;charset=utf-8;' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'what-s-up-wellness-3city-audit.csv';
+      a.click();
+    }
+  </script>
+</body>
+</html>

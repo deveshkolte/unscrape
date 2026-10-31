@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sleepy Owl — 3-City Quick-Commerce Dark-Store Audit Scorecard | Unscrape Radar</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background-color: #07080d; color: #f3f4f6; font-family: Inter, system-ui, -apple-system, sans-serif; }
+  </style>
+</head>
+<body class="min-h-screen pb-24">
+  <!-- Top Bar -->
+  <header class="border-b border-slate-800 bg-slate-950/90 backdrop-blur sticky top-0 z-20">
+    <div class="max-w-7xl mx-auto px-6 py-3.5 flex items-center justify-between flex-wrap gap-3">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="text-emerald-400 font-black text-lg tracking-tight hover:text-emerald-300">⚡ UNSCRAPE RADAR</a>
+        <span class="text-xs text-slate-500">/</span>
+        <span class="text-sm font-bold text-white">Sleepy Owl Executive Scorecard</span>
+      </div>
+      <div class="flex items-center gap-2.5 text-xs">
+        <a href="index.html" class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700">← All 56 Brand Audits</a>
+        <button onclick="downloadCsv()" class="px-3.5 py-1.5 rounded-lg bg-emerald-500 text-slate-950 font-bold hover:bg-emerald-400">⬇ Download Raw CSV (66 SKUs)</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-6 pt-8">
+    <!-- Executive Header -->
+    <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 mb-8">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+        <div>
+          <div class="flex items-center gap-2.5 mb-2">
+            <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded bg-slate-800 text-emerald-400">D2C Coffee</span>
+            <span class="text-xs text-slate-400 font-mono">Audited: 2026-10-30</span>
+          </div>
+          <h1 class="text-3xl md:text-4xl font-black text-white tracking-tight">Sleepy Owl — Hyperlocal Dark-Store Audit</h1>
+          <p class="text-slate-400 text-sm mt-1">
+            Live multi-platform inventory & MOP/MRP price variance scan across <strong>Bengaluru (560001)</strong>, <strong>Mumbai (400001)</strong>, and <strong>Delhi (110001)</strong>.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 shrink-0">
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">SKUs Audited</div>
+            <div class="text-2xl font-black text-white mt-1">66</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">OOS Leaks</div>
+            <div class="text-2xl font-black text-rose-400 mt-1">2</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">Max Markdown</div>
+            <div class="text-2xl font-black text-amber-300 mt-1">58%</div>
+          </div>
+          <div class="border rounded-xl p-3.5 text-center bg-amber-500/15 text-amber-300 border-amber-500/30">
+            <div class="text-[11px] uppercase font-bold opacity-80">Shelf Health</div>
+            <div class="text-2xl font-black mt-1">97%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="bg-rose-950/50 border border-rose-500/40 rounded-2xl p-6 mb-8">
+      <div class="flex items-center justify-between flex-wrap gap-3 mb-4">
+        <div class="flex items-center gap-3">
+          <span class="px-3 py-1 rounded-full bg-rose-500 text-slate-950 font-black text-xs uppercase tracking-wider">🚨 REVENUE LEAK DETECTED</span>
+          <h2 class="text-lg font-bold text-white">2 Out-of-Stock Dark-Store Listing(s) Caught Live</h2>
+        </div>
+        <span class="text-xs font-mono text-rose-300">Immediate Shelf Conversion Loss</span>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+        
+          <div class="bg-slate-950/90 border border-rose-500/30 rounded-xl p-3.5 flex items-center justify-between gap-3">
+            <div>
+              <div class="text-sm font-bold text-white">Sleepy Owl Hazelnut Freeze Dried Instant Coffee Jar | 50g 100% Arabica Instant Coffee Instant Coffee</div>
+              <div class="text-xs text-slate-400 mt-1">
+                Platform: <span class="text-rose-300 font-mono">flipkart.com</span> ·
+                City: <span class="text-slate-200">Bengaluru (560001)</span> ·
+                Pack: <span class="text-slate-300">50g</span>
+              </div>
+            </div>
+            <div class="text-right shrink-0">
+              <div class="text-sm font-extrabold text-rose-400">OUT OF STOCK</div>
+              <div class="text-xs text-slate-400">₹18</div>
+            </div>
+          </div>
+          <div class="bg-slate-950/90 border border-rose-500/30 rounded-xl p-3.5 flex items-center justify-between gap-3">
+            <div>
+              <div class="text-sm font-bold text-white">Sleepy Owl Original Instant Coffee Sachets | 100% Arabica Coffee | 60g - Pack of 30 x 2g Instant Coffee</div>
+              <div class="text-xs text-slate-400 mt-1">
+                Platform: <span class="text-rose-300 font-mono">flipkart.com</span> ·
+                City: <span class="text-slate-200">Bengaluru (560001)</span> ·
+                Pack: <span class="text-slate-300">60g</span>
+              </div>
+            </div>
+            <div class="text-right shrink-0">
+              <div class="text-sm font-extrabold text-rose-400">OUT OF STOCK</div>
+              <div class="text-xs text-slate-400">₹250</div>
+            </div>
+          </div>
+      </div>
+    </div>
+
+    <!-- Filter Controls -->
+    <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+      <div class="flex items-center gap-2 text-xs">
+        <button onclick="filterRows('all')" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-semibold">All SKUs (66)</button>
+        <button onclick="filterRows('oos')" class="px-3 py-1.5 rounded-lg bg-rose-500/15 border border-rose-500/30 text-rose-300 hover:bg-rose-500/25 font-semibold">Out-of-Stock Only (2)</button>
+        <button onclick="filterRows('instock')" class="px-3 py-1.5 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 hover:bg-emerald-500/25 font-semibold">In-Stock (64)</button>
+      </div>
+      <div class="flex items-center gap-2">
+        <input id="skuSearch" type="text" oninput="searchSkus()" placeholder="Filter SKU title or platform..." class="bg-slate-900 border border-slate-800 rounded-lg px-3.5 py-1.5 text-xs text-white w-64" />
+      </div>
+    </div>
+
+    <!-- SKU Table -->
+    <div class="bg-slate-900/50 border border-slate-800 rounded-2xl overflow-x-auto">
+      <table class="w-full text-left text-xs">
+        <thead class="bg-slate-950/90 text-slate-400 uppercase border-b border-slate-800">
+          <tr>
+            <th class="px-4 py-3">SKU Title</th>
+            <th class="px-4 py-3">Platform</th>
+            <th class="px-4 py-3">City / Pin</th>
+            <th class="px-4 py-3">Pack Size</th>
+            <th class="px-4 py-3">Selling Price</th>
+            <th class="px-4 py-3">MRP</th>
+            <th class="px-4 py-3">Discount</th>
+            <th class="px-4 py-3">Stock Status</th>
+            <th class="px-4 py-3">ETA</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-800/60">
+          <tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="sleepy owl decaf 100% arabica instant coffee">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Sleepy Owl Decaf 100% Arabica Instant Coffee</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">10 pcs</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹149</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹200</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">26% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">9 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="sleepy owl assorted instant coffee">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Sleepy Owl Assorted Instant Coffee</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">10 pcs</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹99</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹140</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">29% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">9 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="sleepy owl hazelnut cold coffee can">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Sleepy Owl Hazelnut Cold Coffee Can</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">230 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹99</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹115</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">14% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">9 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="sleepy owl black cold brew coffee">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Sleepy Owl Black Cold Brew Coffee</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">230 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹129</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹170</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">24% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">9 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="sleepy owl french vanilla 100% arabica instant flavoured coffee">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Sleepy Owl French Vanilla 100% Arabica Instant Flavoured Coffee</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">100 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹631</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹699</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">10% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">9 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="sleepy owl vanilla iced matcha">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Sleepy Owl Vanilla Iced Matcha</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">220 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹140</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹160</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">13% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">9 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="sleepy owl french vanilla arabica instant coffee sachets">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Sleepy Owl French Vanilla Arabica Instant Coffee Sachets</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (3 x 1.5 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹27</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹30</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">10% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="sleepy owl assorted premium instant coffee sachets">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Sleepy Owl Assorted Premium Instant Coffee Sachets</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (10 x 2 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹99</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹140</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">29% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="sleepy owl hazelnut arabica instant coffee sachets">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Sleepy Owl Hazelnut Arabica Instant Coffee Sachets</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (3 x 1.5 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹28</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹30</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">7% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="sleepy owl french vanilla pure arabica instant coffee sachets">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Sleepy Owl French Vanilla Pure Arabica Instant Coffee Sachets</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (10 x 2 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹99</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹150</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">34% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="sleepy owl hazelnut cold coffee can | ready to drink coffee beverage">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Sleepy Owl Hazelnut Cold Coffee Can | Ready to Drink Coffee Beverage</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (230 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹99</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹115</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">14% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="sleepy owl hazelnut pure arabica instant coffee sachets">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Sleepy Owl Hazelnut Pure Arabica Instant Coffee Sachets</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (10 x 2 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹135</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹150</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">10% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="rish owls design printed cream ceramic coffee mug, 350 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Rish Owls Design Printed Cream Ceramic Coffee Mug, 350 Ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹249</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="nescafe gold instant coffee powder 100 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Nescafe Gold Instant Coffee Powder 100 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">7.19/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹719</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹799</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">10% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="nescafe classic instant coffee powder 24 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Nescafe Classic Instant Coffee Powder 24 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">24 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹117</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹124</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">6% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="nescafe gold blend rich aroma instant coffee 50 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Nescafe Gold Blend Rich Aroma Instant Coffee 50 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">8.36/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹418</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹440</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="kafehills classic instant coffee 50 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Kafehills Classic Instant Coffee 50 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">2.60/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹130</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹260</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="rage coffee silk blend assorted sachets | pack of 30 | (10 sachets each flavours)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Rage Coffee Silk Blend Assorted Sachets | Pack of 30 | (10 Sachets Each Flavours)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">4.30/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹129</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹199</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">35% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="french vanilla premium instant coffee powder | 100% arabica freeze dried coffee - 50g | make cafe style hot or cold coffee, black coffee, cappuccino, latte at home | makes 25 cups">
+        <td class="px-4 py-3 font-medium text-white max-w-md">French Vanilla Premium Instant Coffee Powder | 100% Arabica Freeze Dried Coffee - 50g | Make Cafe Style Hot or Cold Coffee, Black Coffee, Cappuccino, Latte at Home | Makes 25 Cups</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">50g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹319</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹638</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="pack of 96 assorted flavour instant coffee powder sachets, 192g freeze dried coffee powder 24 sachet each-original, french vanilla, filter kaapi and hazelnut flavoured coffee powder">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pack Of 96 Assorted Flavour Instant Coffee Powder Sachets, 192G Freeze Dried Coffee Powder 24 Sachet Each-Original, French Vanilla, Filter Kaapi And Hazelnut Flavoured Coffee Powder</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">192G</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹949</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹494.27</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="french vanilla premium instant coffee | 100% arabica | microground technology | ready in seconds | makes 50 cups | 100g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">French Vanilla Premium Instant Coffee | 100% Arabica | Microground Technology | Ready in Seconds | Makes 50 Cups | 100g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">100g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹629</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹629</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="dark roast coffee, 100% pure instant coffee powder 100g, makes 50 cups, freeze-dried for freshness, strong &amp; intense coffee, rich café taste, have it hot or cold, ready in seconds">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dark Roast Coffee, 100% Pure Instant Coffee Powder 100g, Makes 50 Cups, Freeze-Dried for Freshness, Strong &amp; Intense Coffee, Rich Café Taste, Have It Hot or Cold, Ready in Seconds</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">100g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹619</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹619</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="100g intense java xpresso coffee | strong blend instant coffee | makes 50 cups | dark roasted to perfection | intense, bold and strong flavour | have it with milk or without">
+        <td class="px-4 py-3 font-medium text-white max-w-md">100g Intense Java Xpresso Coffee | Strong Blend Instant Coffee | Makes 50 Cups | Dark Roasted To Perfection | Intense, Bold And Strong Flavour | Have It With Milk Or Without</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">100g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹319</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹319</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="hazelnut premium instant coffee | 100% arabica | makes 50 cups | microground technology | ready in seconds | 100g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Hazelnut Premium Instant Coffee | 100% Arabica | Makes 50 Cups | Microground Technology | Ready in Seconds | 100g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">100g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹629</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹629</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="rage silk combo- classic, belgian chocolate, creamy hazelnut, vanilla instant coffee">
+        <td class="px-4 py-3 font-medium text-white max-w-md">RAGE Silk Combo- Classic, Belgian Chocolate, Creamy Hazelnut, Vanilla Instant Coffee</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹740</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">51% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Standard</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="granules and beans instant coffee premix | value pack of 50 serving sachets of instant coffee latte premix | 14 gms of each sachets instant coffee">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Granules and Beans Instant Coffee Premix | Value Pack of 50 Serving Sachets of Instant Coffee Latte Premix | 14 gms of Each sachets Instant Coffee</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹482</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹712</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">32% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Standard</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="sleepy owl original freeze dried instant coffee jar | 50g 100% arabica instant coffee instant coffee">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Sleepy Owl Original Freeze Dried Instant Coffee Jar | 50g 100% Arabica Instant Coffee Instant Coffee</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">50g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹413</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹425</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">3% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Standard</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="oos" data-platform="flipkart.com" data-title="sleepy owl hazelnut freeze dried instant coffee jar | 50g 100% arabica instant coffee instant coffee">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Sleepy Owl Hazelnut Freeze Dried Instant Coffee Jar | 50g 100% Arabica Instant Coffee Instant Coffee</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">50g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹18</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">-</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-rose-500/20 text-rose-400 border border-rose-500/30 font-mono text-[11px] font-bold">OUT OF STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Standard</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="oos" data-platform="flipkart.com" data-title="sleepy owl original instant coffee sachets | 100% arabica coffee | 60g - pack of 30 x 2g instant coffee">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Sleepy Owl Original Instant Coffee Sachets | 100% Arabica Coffee | 60g - Pack of 30 x 2g Instant Coffee</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">60g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹250</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">-</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-rose-500/20 text-rose-400 border border-rose-500/30 font-mono text-[11px] font-bold">OUT OF STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Standard</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="cafe coffee day arabica 100% arabica filter coffee roast &amp; ground coffee">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Cafe Coffee Day Arabica 100% Arabica Filter Coffee Roast &amp; Ground Coffee</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹242</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹300</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">19% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Standard</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="sleepy owl decaf 100% arabica instant coffee">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Sleepy Owl Decaf 100% Arabica Instant Coffee</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">10 pcs</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹149</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹200</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">26% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">13 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="sleepy owl assorted instant coffee">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Sleepy Owl Assorted Instant Coffee</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">10 pcs</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹99</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹140</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">29% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">13 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="sleepy owl xpresso intense java instant coffee">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Sleepy Owl Xpresso Intense Java Instant Coffee</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">30 pcs</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹99</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹150</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">34% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">13 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="sleepy owl hazelnut cold coffee can">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Sleepy Owl Hazelnut Cold Coffee Can</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">230 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹99</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹115</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">14% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">13 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="sleepy owl belgian mocha cold coffee">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Sleepy Owl Belgian Mocha Cold Coffee</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">230 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹99</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹115</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">14% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">13 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="sleepy owl vietnamese cold coffee">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Sleepy Owl Vietnamese Cold Coffee</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">230 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹129</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹150</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">14% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">13 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="sleepy owl french vanilla arabica instant coffee sachets">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Sleepy Owl French Vanilla Arabica Instant Coffee Sachets</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (3 x 1.5 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹27</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹30</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">10% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="sleepy owl assorted premium instant coffee sachets">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Sleepy Owl Assorted Premium Instant Coffee Sachets</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (10 x 2 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹99</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹140</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">29% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="sleepy owl hazelnut arabica instant coffee sachets">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Sleepy Owl Hazelnut Arabica Instant Coffee Sachets</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (3 x 1.5 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹28</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹30</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">7% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="sleepy owl french vanilla pure arabica instant coffee sachets">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Sleepy Owl French Vanilla Pure Arabica Instant Coffee Sachets</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (10 x 2 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹99</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹150</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">34% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="sleepy owl hazelnut cold coffee can | ready to drink coffee beverage">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Sleepy Owl Hazelnut Cold Coffee Can | Ready to Drink Coffee Beverage</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (230 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹99</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹115</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">14% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="sleepy owl hazelnut pure arabica instant coffee sachets">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Sleepy Owl Hazelnut Pure Arabica Instant Coffee Sachets</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (10 x 2 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹135</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹150</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">10% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="rish owls design printed cream ceramic coffee mug, 350 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Rish Owls Design Printed Cream Ceramic Coffee Mug, 350 Ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹249</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="nescafe gold instant coffee powder 100 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Nescafe Gold Instant Coffee Powder 100 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">7.06/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹706</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹799</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">12% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bru gold edition rich flavour coffee 100 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bru Gold Edition Rich Flavour Coffee 100 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">4.50/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹450</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹540</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">17% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="nescafe classic instant coffee powder 24 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Nescafe Classic Instant Coffee Powder 24 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">24 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹117</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹124</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">6% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="nescafe gold blend rich aroma instant coffee 50 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Nescafe Gold Blend Rich Aroma Instant Coffee 50 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">8.36/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹418</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹440</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="kafehills classic instant coffee 50 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Kafehills Classic Instant Coffee 50 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1.80/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹90</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹180</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="sleepy owl decaf 100% arabica instant coffee">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Sleepy Owl Decaf 100% Arabica Instant Coffee</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">10 pcs</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹149</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹200</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">26% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="sleepy owl assorted instant coffee">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Sleepy Owl Assorted Instant Coffee</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">10 pcs</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹99</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹140</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">29% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="sleepy owl xpresso intense java instant coffee">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Sleepy Owl Xpresso Intense Java Instant Coffee</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">30 pcs</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹99</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹150</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">34% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="sleepy owl original arabica instant coffee">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Sleepy Owl Original Arabica Instant Coffee</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">10 pcs</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹119</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹150</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">21% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="sleepy owl french vanilla 100% arabica instant flavoured coffee">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Sleepy Owl French Vanilla 100% Arabica Instant Flavoured Coffee</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">100 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹631</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹699</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">10% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="sleepy owl hazelnut cold coffee can">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Sleepy Owl Hazelnut Cold Coffee Can</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">230 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹99</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹115</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">14% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="sleepy owl french vanilla arabica instant coffee sachets">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Sleepy Owl French Vanilla Arabica Instant Coffee Sachets</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (3 x 1.5 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹27</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹30</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">10% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="sleepy owl assorted premium instant coffee sachets">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Sleepy Owl Assorted Premium Instant Coffee Sachets</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (10 x 2 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹99</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹140</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">29% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="sleepy owl hazelnut arabica instant coffee sachets">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Sleepy Owl Hazelnut Arabica Instant Coffee Sachets</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (3 x 1.5 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹28</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹30</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">7% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="sleepy owl french vanilla pure arabica instant coffee sachets">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Sleepy Owl French Vanilla Pure Arabica Instant Coffee Sachets</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (10 x 2 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹99</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹150</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">34% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="sleepy owl hazelnut cold coffee can | ready to drink coffee beverage">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Sleepy Owl Hazelnut Cold Coffee Can | Ready to Drink Coffee Beverage</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (230 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹99</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹115</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">14% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="sleepy owl hazelnut pure arabica instant coffee sachets">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Sleepy Owl Hazelnut Pure Arabica Instant Coffee Sachets</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (10 x 2 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹135</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹150</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">10% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="rage coffee silk blend assorted sachets | pack of 30 | (10 sachets each flavours)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Rage Coffee Silk Blend Assorted Sachets | Pack of 30 | (10 Sachets Each Flavours)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">4.30/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹129</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹199</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">35% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="rish owls design printed cream ceramic coffee mug, 350 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Rish Owls Design Printed Cream Ceramic Coffee Mug, 350 Ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹249</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bevzilla 60 instant coffee powder sachets (4 flavours) 120 grams | hazelnut, classic, vanilla &amp; butterscotch | 15 pouches each flavour | arabica coffee| perfect for espresso, latte, cappuccino | hot &amp; cold brews">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bevzilla 60 Instant Coffee Powder Sachets (4 Flavours) 120 Grams | Hazelnut, Classic, Vanilla &amp; Butterscotch | 15 Pouches Each Flavour | Arabica Coffee| Perfect for Espresso, Latte, Cappuccino | Hot &amp; Cold Brews</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹228</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹399</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">43% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="cafe'obaa coffee combo pack | spark 25 + classic 25 | instant coffee blend">
+        <td class="px-4 py-3 font-medium text-white max-w-md">CAFE'OBAA Coffee Combo Pack | Spark 25 + Classic 25 | Instant Coffee Blend</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹209</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">58% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="first flavour premium instant coffee powder | pure coffee | strong aroma &amp; rich taste | instant coffee for hot &amp; cold coffee | great morning start 100 gram (pack of 1)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">First Flavour Premium Instant Coffee Powder | Pure Coffee | Strong Aroma &amp; Rich Taste | Instant Coffee for Hot &amp; Cold Coffee | Great Morning Start 100 gram (Pack Of 1)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">2.20/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹220</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹250</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">12% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="colombian brew assorted, high caffeine espresso, vanilla, hazelnut, caramel, cinnamon, double chocolate mocha, blueberry chocolate mocha, mint chocolate mocha instant coffee powder, no sugar  50g each">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Colombian Brew Assorted, High Caffeine Espresso, Vanilla, Hazelnut, Caramel, Cinnamon, Double Chocolate Mocha, Blueberry Chocolate Mocha, Mint Chocolate Mocha Instant Coffee Powder, No Sugar  50g Each</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">25.94/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1297</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹2025</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">36% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- Sticky CTA Footer -->
+  <div class="fixed bottom-0 inset-x-0 bg-slate-950/95 border-t border-emerald-500/30 backdrop-blur px-6 py-3.5 z-30">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+      <div class="text-slate-200">
+        <span class="text-emerald-400 font-bold">⚡ Unscrape Radar:</span> Want real-time Slack/WhatsApp/Telegram alerts within 15 mins whenever <strong>Sleepy Owl</strong> SKUs go Out-of-Stock across 20 BLR/MUM/DEL dark-store pin codes?
+      </div>
+      <div class="flex items-center gap-2.5 shrink-0">
+        <a href="https://github.com/deveshkolte/unscrape" target="_blank" class="px-4 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold">Unlock Automated 20-Pin-Code Monitor →</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const RAW_CSV = "brand,city,pincode,platform,skuId,title,sellingPriceInr,mrpInr,discountPercent,unit,inStock,deliveryEta,url\nSleepy Owl,Bengaluru,560001,blinkit.com,656037,Sleepy Owl Decaf 100% Arabica Instant Coffee,149,200,26,10 pcs,true,9 MINS,https://blinkit.com/prn/sleepy-owl-decaf-100-arabica-instant-coffee/prid/656037\nSleepy Owl,Bengaluru,560001,blinkit.com,532967,Sleepy Owl Assorted Instant Coffee,99,140,29,10 pcs,true,9 MINS,https://blinkit.com/prn/sleepy-owl-assorted-instant-coffee/prid/532967\nSleepy Owl,Bengaluru,560001,blinkit.com,482838,Sleepy Owl Hazelnut Cold Coffee Can,99,115,14,230 ml,true,9 MINS,https://blinkit.com/prn/sleepy-owl-hazelnut-cold-coffee-can/prid/482838\nSleepy Owl,Bengaluru,560001,blinkit.com,560408,Sleepy Owl Black Cold Brew Coffee,129,170,24,230 ml,true,9 MINS,https://blinkit.com/prn/sleepy-owl-black-cold-brew-coffee/prid/560408\nSleepy Owl,Bengaluru,560001,blinkit.com,479522,Sleepy Owl French Vanilla 100% Arabica Instant Flavoured Coffee,631,699,10,100 g,true,9 MINS,https://blinkit.com/prn/sleepy-owl-french-vanilla-100-arabica-instant-flavoured-coffee/prid/479522\nSleepy Owl,Bengaluru,560001,blinkit.com,741313,Sleepy Owl Vanilla Iced Matcha,140,160,13,220 ml,true,9 MINS,https://blinkit.com/prn/sleepy-owl-vanilla-iced-matcha/prid/741313\nSleepy Owl,Bengaluru,560001,zeptonow.com,85d615cf-107a-5639-a860-24e628e02f1a,Sleepy Owl French Vanilla Arabica Instant Coffee Sachets,27,30,10,1 pack (3 x 1.5 g),true,10 MINS,https://www.zepto.com/pn/sleepy-owl-french-vanilla-arabica-instant-coffee-sachets/pvid/9b28d0c3-f9e0-41a1-9def-b4289747308a\nSleepy Owl,Bengaluru,560001,zeptonow.com,269d8481-afcf-57a3-8d3a-82bf91a1c99b,Sleepy Owl Assorted Premium Instant Coffee Sachets,99,140,29,1 pack (10 x 2 g),true,10 MINS,https://www.zepto.com/pn/sleepy-owl-assorted-premium-instant-coffee-sachets/pvid/6a7a5e55-a718-405f-8435-536276c19f92\nSleepy Owl,Bengaluru,560001,zeptonow.com,cb849898-3f9b-5144-b0b9-e10328d44f92,Sleepy Owl Hazelnut Arabica Instant Coffee Sachets,28,30,7,1 pack (3 x 1.5 g),true,10 MINS,https://www.zepto.com/pn/sleepy-owl-hazelnut-arabica-instant-coffee-sachets/pvid/7bb44569-73f6-4cc2-b4b9-d9284a8bd6d0\nSleepy Owl,Bengaluru,560001,zeptonow.com,1601be1e-c205-5b79-87ea-e853ee9abe43,Sleepy Owl French Vanilla Pure Arabica Instant Coffee Sachets,99,150,34,1 pack (10 x 2 g),true,10 MINS,https://www.zepto.com/pn/sleepy-owl-french-vanilla-pure-arabica-instant-coffee-sachets/pvid/8889dc4c-b05c-445c-9a8a-ac395762df3a\nSleepy Owl,Bengaluru,560001,zeptonow.com,ba1049dc-2456-57be-ab8f-3dfa17d7e285,Sleepy Owl Hazelnut Cold Coffee Can | Ready to Drink Coffee Beverage,99,115,14,1 pc (230 ml),true,10 MINS,https://www.zepto.com/pn/sleepy-owl-hazelnut-cold-coffee-can-ready-to-drink-coffee-beverage/pvid/0309e694-62a2-407c-883d-6ce7f1bdec1d\nSleepy Owl,Bengaluru,560001,zeptonow.com,935f6d74-481c-55bb-bb90-9424c1f101c6,Sleepy Owl Hazelnut Pure Arabica Instant Coffee Sachets,135,150,10,1 pack (10 x 2 g),true,10 MINS,https://www.zepto.com/pn/sleepy-owl-hazelnut-pure-arabica-instant-coffee-sachets/pvid/f3573189-1f13-4d66-8560-17eca6d55398\nSleepy Owl,Bengaluru,560001,bigbasket.com/jiomart,53883213,\"Rish Owls Design Printed Cream Ceramic Coffee Mug, 350 Ml\",249,499,50,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/rish-owls-design-printed-cream-ceramic-coffee-mug-350-ml-mj7jny-53883213/53883213\nSleepy Owl,Bengaluru,560001,bigbasket.com/jiomart,7563423,Nescafe Gold Instant Coffee Powder 100 g,719,799,10,7.19/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/nescafe-gold-instant-coffee-powder-100-g-mfphuv-7563423/7563423\nSleepy Owl,Bengaluru,560001,bigbasket.com/jiomart,7514129,Nescafe Classic Instant Coffee Powder 24 g,117,124,6,24 g,true,15-30 MINS,https://www.jiomart.com/p/groceries/nescafe-classic-instant-coffee-24-g-mffmwy-7514129/7514129\nSleepy Owl,Bengaluru,560001,bigbasket.com/jiomart,7533756,Nescafe Gold Blend Rich Aroma Instant Coffee 50 g,418,440,5,8.36/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/nescafe-gold-blend-rich-aroma-instant-coffee-50-g-mffn62-7533756/7533756\nSleepy Owl,Bengaluru,560001,bigbasket.com/jiomart,7540499,Kafehills Classic Instant Coffee 50 g,130,260,50,2.60/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/kafehills-classic-instant-coffee-50-g-mffn95-7540499/7540499\nSleepy Owl,Bengaluru,560001,bigbasket.com/jiomart,49868538,Rage Coffee Silk Blend Assorted Sachets | Pack of 30 | (10 Sachets Each Flavours),129,199,35,4.30/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/rage-coffee-silk-blend-assorted-sachets-pack-of-30-10-sachets-each-flavours-mj70ez-49868538/49868538\nSleepy Owl,Bengaluru,560001,amazon.in,B0B94RT7YZ,\"French Vanilla Premium Instant Coffee Powder | 100% Arabica Freeze Dried Coffee - 50g | Make Cafe Style Hot or Cold Coffee, Black Coffee, Cappuccino, Latte at Home | Makes 25 Cups\",319,638,50,50g,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0B94RT7YZ\nSleepy Owl,Bengaluru,560001,amazon.in,B0CKBZHTSS,\"Pack Of 96 Assorted Flavour Instant Coffee Powder Sachets, 192G Freeze Dried Coffee Powder 24 Sachet Each-Original, French Vanilla, Filter Kaapi And Hazelnut Flavoured Coffee Powder\",949,494.27,0,192G,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0CKBZHTSS\nSleepy Owl,Bengaluru,560001,amazon.in,B09NFM3QWS,French Vanilla Premium Instant Coffee | 100% Arabica | Microground Technology | Ready in Seconds | Makes 50 Cups | 100g,629,629,0,100g,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B09NFM3QWS\nSleepy Owl,Bengaluru,560001,amazon.in,B0FYQ6HT1Q,\"Dark Roast Coffee, 100% Pure Instant Coffee Powder 100g, Makes 50 Cups, Freeze-Dried for Freshness, Strong & Intense Coffee, Rich Café Taste, Have It Hot or Cold, Ready in Seconds\",619,619,0,100g,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0FYQ6HT1Q\nSleepy Owl,Bengaluru,560001,amazon.in,B0CHYY14WF,\"100g Intense Java Xpresso Coffee | Strong Blend Instant Coffee | Makes 50 Cups | Dark Roasted To Perfection | Intense, Bold And Strong Flavour | Have It With Milk Or Without\",319,319,0,100g,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0CHYY14WF\nSleepy Owl,Bengaluru,560001,amazon.in,B09NFM4Y2S,Hazelnut Premium Instant Coffee | 100% Arabica | Makes 50 Cups | Microground Technology | Ready in Seconds | 100g,629,629,0,100g,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B09NFM4Y2S\nSleepy Owl,Bengaluru,560001,flipkart.com,CFEGTNNAZHTU9QBM,\"RAGE Silk Combo- Classic, Belgian Chocolate, Creamy Hazelnut, Vanilla Instant Coffee\",740,1499,51,1 unit,true,Standard,https://www.flipkart.com/rage-silk-combo-classic-belgian-chocolate-creamy-hazelnut-vanilla-instant-coffee/p/itm6a000b2c62aa3?pid=CFEGTNNAZHTU9QBM\nSleepy Owl,Bengaluru,560001,flipkart.com,CFEG4ZPN8HPFAGHG,Granules and Beans Instant Coffee Premix | Value Pack of 50 Serving Sachets of Instant Coffee Latte Premix | 14 gms of Each sachets Instant Coffee,482,712,32,1 unit,true,Standard,https://www.flipkart.com/granules-beans-instant-coffee-premix-value-pack-50-serving-sachets-latte-14-gms-each/p/itm60a32e35e05cd?pid=CFEG4ZPN8HPFAGHG\nSleepy Owl,Bengaluru,560001,flipkart.com,CFEHHKWEV6Q67BCY,Sleepy Owl Original Freeze Dried Instant Coffee Jar | 50g 100% Arabica Instant Coffee Instant Coffee,413,425,3,50g,true,Standard,https://www.flipkart.com/sleepy-owl-original-freeze-dried-instant-coffee-jar-50g-100-arabica/p/itma2303eb8fbc17?pid=CFEHHKWEV6Q67BCY\nSleepy Owl,Bengaluru,560001,flipkart.com,CFEHHKYYPU7FE7GS,Sleepy Owl Hazelnut Freeze Dried Instant Coffee Jar | 50g 100% Arabica Instant Coffee Instant Coffee,18,,0,50g,false,Standard,https://www.flipkart.com/sleepy-owl-hazelnut-freeze-dried-instant-coffee-jar-50g-100-arabica/p/itm76bcaf6fa4190?pid=CFEHHKYYPU7FE7GS\nSleepy Owl,Bengaluru,560001,flipkart.com,CFEGQ3YXZU2HDCW9,Sleepy Owl Original Instant Coffee Sachets | 100% Arabica Coffee | 60g - Pack of 30 x 2g Instant Coffee,250,,0,60g,false,Standard,https://www.flipkart.com/sleepy-owl-original-instant-coffee-sachets-100-arabica-60g-pack-30-x-2g/p/itm4b579af72bf7a?pid=CFEGQ3YXZU2HDCW9\nSleepy Owl,Bengaluru,560001,flipkart.com,CFEHM54YWZM2UXVX,Cafe Coffee Day Arabica 100% Arabica Filter Coffee Roast & Ground Coffee,242,300,19,1 unit,true,Standard,https://www.flipkart.com/cafe-coffee-day-arabica-100-filter-roast-ground/p/itm2b92383d9e36c?pid=CFEHM54YWZM2UXVX\nSleepy Owl,Mumbai,400001,blinkit.com,656037,Sleepy Owl Decaf 100% Arabica Instant Coffee,149,200,26,10 pcs,true,13 MINS,https://blinkit.com/prn/sleepy-owl-decaf-100-arabica-instant-coffee/prid/656037\nSleepy Owl,Mumbai,400001,blinkit.com,532967,Sleepy Owl Assorted Instant Coffee,99,140,29,10 pcs,true,13 MINS,https://blinkit.com/prn/sleepy-owl-assorted-instant-coffee/prid/532967\nSleepy Owl,Mumbai,400001,blinkit.com,1383132,Sleepy Owl Xpresso Intense Java Instant Coffee,99,150,34,30 pcs,true,13 MINS,https://blinkit.com/prn/sleepy-owl-xpresso-intense-java-instant-coffee/prid/1383132\nSleepy Owl,Mumbai,400001,blinkit.com,482838,Sleepy Owl Hazelnut Cold Coffee Can,99,115,14,230 ml,true,13 MINS,https://blinkit.com/prn/sleepy-owl-hazelnut-cold-coffee-can/prid/482838\nSleepy Owl,Mumbai,400001,blinkit.com,652414,Sleepy Owl Belgian Mocha Cold Coffee,99,115,14,230 ml,true,13 MINS,https://blinkit.com/prn/sleepy-owl-belgian-mocha-cold-coffee/prid/652414\nSleepy Owl,Mumbai,400001,blinkit.com,560411,Sleepy Owl Vietnamese Cold Coffee,129,150,14,230 ml,true,13 MINS,https://blinkit.com/prn/sleepy-owl-vietnamese-cold-coffee/prid/560411\nSleepy Owl,Mumbai,400001,zeptonow.com,85d615cf-107a-5639-a860-24e628e02f1a,Sleepy Owl French Vanilla Arabica Instant Coffee Sachets,27,30,10,1 pack (3 x 1.5 g),true,10 MINS,https://www.zepto.com/pn/sleepy-owl-french-vanilla-arabica-instant-coffee-sachets/pvid/9b28d0c3-f9e0-41a1-9def-b4289747308a\nSleepy Owl,Mumbai,400001,zeptonow.com,269d8481-afcf-57a3-8d3a-82bf91a1c99b,Sleepy Owl Assorted Premium Instant Coffee Sachets,99,140,29,1 pack (10 x 2 g),true,10 MINS,https://www.zepto.com/pn/sleepy-owl-assorted-premium-instant-coffee-sachets/pvid/6a7a5e55-a718-405f-8435-536276c19f92\nSleepy Owl,Mumbai,400001,zeptonow.com,cb849898-3f9b-5144-b0b9-e10328d44f92,Sleepy Owl Hazelnut Arabica Instant Coffee Sachets,28,30,7,1 pack (3 x 1.5 g),true,10 MINS,https://www.zepto.com/pn/sleepy-owl-hazelnut-arabica-instant-coffee-sachets/pvid/7bb44569-73f6-4cc2-b4b9-d9284a8bd6d0\nSleepy Owl,Mumbai,400001,zeptonow.com,1601be1e-c205-5b79-87ea-e853ee9abe43,Sleepy Owl French Vanilla Pure Arabica Instant Coffee Sachets,99,150,34,1 pack (10 x 2 g),true,10 MINS,https://www.zepto.com/pn/sleepy-owl-french-vanilla-pure-arabica-instant-coffee-sachets/pvid/8889dc4c-b05c-445c-9a8a-ac395762df3a\nSleepy Owl,Mumbai,400001,zeptonow.com,ba1049dc-2456-57be-ab8f-3dfa17d7e285,Sleepy Owl Hazelnut Cold Coffee Can | Ready to Drink Coffee Beverage,99,115,14,1 pc (230 ml),true,10 MINS,https://www.zepto.com/pn/sleepy-owl-hazelnut-cold-coffee-can-ready-to-drink-coffee-beverage/pvid/0309e694-62a2-407c-883d-6ce7f1bdec1d\nSleepy Owl,Mumbai,400001,zeptonow.com,935f6d74-481c-55bb-bb90-9424c1f101c6,Sleepy Owl Hazelnut Pure Arabica Instant Coffee Sachets,135,150,10,1 pack (10 x 2 g),true,10 MINS,https://www.zepto.com/pn/sleepy-owl-hazelnut-pure-arabica-instant-coffee-sachets/pvid/f3573189-1f13-4d66-8560-17eca6d55398\nSleepy Owl,Mumbai,400001,bigbasket.com/jiomart,53883213,\"Rish Owls Design Printed Cream Ceramic Coffee Mug, 350 Ml\",249,499,50,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/rish-owls-design-printed-cream-ceramic-coffee-mug-350-ml-mj7jny-53883213/53883213\nSleepy Owl,Mumbai,400001,bigbasket.com/jiomart,7563423,Nescafe Gold Instant Coffee Powder 100 g,706,799,12,7.06/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/nescafe-gold-instant-coffee-powder-100-g-mfphuv-7563423/7563423\nSleepy Owl,Mumbai,400001,bigbasket.com/jiomart,7534327,Bru Gold Edition Rich Flavour Coffee 100 g,450,540,17,4.50/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/bru-gold-coffee-100-g-mffn6b-7534327/7534327\nSleepy Owl,Mumbai,400001,bigbasket.com/jiomart,7514129,Nescafe Classic Instant Coffee Powder 24 g,117,124,6,24 g,true,15-30 MINS,https://www.jiomart.com/p/groceries/nescafe-classic-instant-coffee-24-g-mffmwy-7514129/7514129\nSleepy Owl,Mumbai,400001,bigbasket.com/jiomart,7533756,Nescafe Gold Blend Rich Aroma Instant Coffee 50 g,418,440,5,8.36/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/nescafe-gold-blend-rich-aroma-instant-coffee-50-g-mffn62-7533756/7533756\nSleepy Owl,Mumbai,400001,bigbasket.com/jiomart,7540499,Kafehills Classic Instant Coffee 50 g,90,180,50,1.80/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/kafehills-classic-instant-coffee-50-g-mffn95-7540499/7540499\nSleepy Owl,Delhi,110001,blinkit.com,656037,Sleepy Owl Decaf 100% Arabica Instant Coffee,149,200,26,10 pcs,true,10 MINS,https://blinkit.com/prn/sleepy-owl-decaf-100-arabica-instant-coffee/prid/656037\nSleepy Owl,Delhi,110001,blinkit.com,532967,Sleepy Owl Assorted Instant Coffee,99,140,29,10 pcs,true,10 MINS,https://blinkit.com/prn/sleepy-owl-assorted-instant-coffee/prid/532967\nSleepy Owl,Delhi,110001,blinkit.com,1383132,Sleepy Owl Xpresso Intense Java Instant Coffee,99,150,34,30 pcs,true,10 MINS,https://blinkit.com/prn/sleepy-owl-xpresso-intense-java-instant-coffee/prid/1383132\nSleepy Owl,Delhi,110001,blinkit.com,697420,Sleepy Owl Original Arabica Instant Coffee,119,150,21,10 pcs,true,10 MINS,https://blinkit.com/prn/sleepy-owl-original-arabica-instant-coffee/prid/697420\nSleepy Owl,Delhi,110001,blinkit.com,479522,Sleepy Owl French Vanilla 100% Arabica Instant Flavoured Coffee,631,699,10,100 g,true,10 MINS,https://blinkit.com/prn/sleepy-owl-french-vanilla-100-arabica-instant-flavoured-coffee/prid/479522\nSleepy Owl,Delhi,110001,blinkit.com,482838,Sleepy Owl Hazelnut Cold Coffee Can,99,115,14,230 ml,true,10 MINS,https://blinkit.com/prn/sleepy-owl-hazelnut-cold-coffee-can/prid/482838\nSleepy Owl,Delhi,110001,zeptonow.com,85d615cf-107a-5639-a860-24e628e02f1a,Sleepy Owl French Vanilla Arabica Instant Coffee Sachets,27,30,10,1 pack (3 x 1.5 g),true,10 MINS,https://www.zepto.com/pn/sleepy-owl-french-vanilla-arabica-instant-coffee-sachets/pvid/9b28d0c3-f9e0-41a1-9def-b4289747308a\nSleepy Owl,Delhi,110001,zeptonow.com,269d8481-afcf-57a3-8d3a-82bf91a1c99b,Sleepy Owl Assorted Premium Instant Coffee Sachets,99,140,29,1 pack (10 x 2 g),true,10 MINS,https://www.zepto.com/pn/sleepy-owl-assorted-premium-instant-coffee-sachets/pvid/6a7a5e55-a718-405f-8435-536276c19f92\nSleepy Owl,Delhi,110001,zeptonow.com,cb849898-3f9b-5144-b0b9-e10328d44f92,Sleepy Owl Hazelnut Arabica Instant Coffee Sachets,28,30,7,1 pack (3 x 1.5 g),true,10 MINS,https://www.zepto.com/pn/sleepy-owl-hazelnut-arabica-instant-coffee-sachets/pvid/7bb44569-73f6-4cc2-b4b9-d9284a8bd6d0\nSleepy Owl,Delhi,110001,zeptonow.com,1601be1e-c205-5b79-87ea-e853ee9abe43,Sleepy Owl French Vanilla Pure Arabica Instant Coffee Sachets,99,150,34,1 pack (10 x 2 g),true,10 MINS,https://www.zepto.com/pn/sleepy-owl-french-vanilla-pure-arabica-instant-coffee-sachets/pvid/8889dc4c-b05c-445c-9a8a-ac395762df3a\nSleepy Owl,Delhi,110001,zeptonow.com,ba1049dc-2456-57be-ab8f-3dfa17d7e285,Sleepy Owl Hazelnut Cold Coffee Can | Ready to Drink Coffee Beverage,99,115,14,1 pc (230 ml),true,10 MINS,https://www.zepto.com/pn/sleepy-owl-hazelnut-cold-coffee-can-ready-to-drink-coffee-beverage/pvid/0309e694-62a2-407c-883d-6ce7f1bdec1d\nSleepy Owl,Delhi,110001,zeptonow.com,935f6d74-481c-55bb-bb90-9424c1f101c6,Sleepy Owl Hazelnut Pure Arabica Instant Coffee Sachets,135,150,10,1 pack (10 x 2 g),true,10 MINS,https://www.zepto.com/pn/sleepy-owl-hazelnut-pure-arabica-instant-coffee-sachets/pvid/f3573189-1f13-4d66-8560-17eca6d55398\nSleepy Owl,Delhi,110001,bigbasket.com/jiomart,49868538,Rage Coffee Silk Blend Assorted Sachets | Pack of 30 | (10 Sachets Each Flavours),129,199,35,4.30/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/rage-coffee-silk-blend-assorted-sachets-pack-of-30-10-sachets-each-flavours-mj70ez-49868538/49868538\nSleepy Owl,Delhi,110001,bigbasket.com/jiomart,53883213,\"Rish Owls Design Printed Cream Ceramic Coffee Mug, 350 Ml\",249,499,50,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/rish-owls-design-printed-cream-ceramic-coffee-mug-350-ml-mj7jny-53883213/53883213\nSleepy Owl,Delhi,110001,bigbasket.com/jiomart,19279060,\"Bevzilla 60 Instant Coffee Powder Sachets (4 Flavours) 120 Grams | Hazelnut, Classic, Vanilla & Butterscotch | 15 Pouches Each Flavour | Arabica Coffee| Perfect for Espresso, Latte, Cappuccino | Hot & Cold Brews\",228,399,43,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/bevzilla-60-sachets-assorted-flavoured-instant-coffee-powder-box-120gm-15-sachets-each-flavour-mi8ni7-19279060/19279060\nSleepy Owl,Delhi,110001,bigbasket.com/jiomart,76150317,CAFE'OBAA Coffee Combo Pack | Spark 25 + Classic 25 | Instant Coffee Blend,209,499,58,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/cafe-obaa-coffee-combo-pack-spark-25-classic-25-instant-coffee-blend-mnhdxb-76150317/76150317\nSleepy Owl,Delhi,110001,bigbasket.com/jiomart,133431696,First Flavour Premium Instant Coffee Powder | Pure Coffee | Strong Aroma & Rich Taste | Instant Coffee for Hot & Cold Coffee | Great Morning Start 100 gram (Pack Of 1),220,250,12,2.20/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/first-flavour-premium-instant-coffee-powder-pure-coffee-strong-aroma-rich-taste-instant-coffee-for-hot-cold-coffee-great-morning-start-100-gram-pack-of-1-mr5295-133431696/133431696\nSleepy Owl,Delhi,110001,bigbasket.com/jiomart,50022969,\"Colombian Brew Assorted, High Caffeine Espresso, Vanilla, Hazelnut, Caramel, Cinnamon, Double Chocolate Mocha, Blueberry Chocolate Mocha, Mint Chocolate Mocha Instant Coffee Powder, No Sugar  50g Each\",1297,2025,36,25.94/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/colombian-brew-assorted-high-caffeine-espresso-mj71fv-50022969/50022969\n";
+
+    function filterRows(mode) {
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const stock = row.getAttribute('data-stock');
+        if (mode === 'all') row.style.display = '';
+        else if (mode === 'oos') row.style.display = stock === 'oos' ? '' : 'none';
+        else if (mode === 'instock') row.style.display = stock === 'instock' ? '' : 'none';
+      });
+    }
+
+    function searchSkus() {
+      const q = document.getElementById('skuSearch').value.toLowerCase();
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const title = row.getAttribute('data-title') || '';
+        const platform = (row.getAttribute('data-platform') || '').toLowerCase();
+        row.style.display = (title.includes(q) || platform.includes(q)) ? '' : 'none';
+      });
+    }
+
+    function downloadCsv() {
+      const blob = new Blob([RAW_CSV], { type: 'text/csv;charset=utf-8;' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'sleepy-owl-3city-audit.csv';
+      a.click();
+    }
+  </script>
+</body>
+</html>

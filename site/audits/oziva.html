@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OZiva — 3-City Quick-Commerce Dark-Store Audit Scorecard | Unscrape Radar</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background-color: #07080d; color: #f3f4f6; font-family: Inter, system-ui, -apple-system, sans-serif; }
+  </style>
+</head>
+<body class="min-h-screen pb-24">
+  <!-- Top Bar -->
+  <header class="border-b border-slate-800 bg-slate-950/90 backdrop-blur sticky top-0 z-20">
+    <div class="max-w-7xl mx-auto px-6 py-3.5 flex items-center justify-between flex-wrap gap-3">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="text-emerald-400 font-black text-lg tracking-tight hover:text-emerald-300">⚡ UNSCRAPE RADAR</a>
+        <span class="text-xs text-slate-500">/</span>
+        <span class="text-sm font-bold text-white">OZiva Executive Scorecard</span>
+      </div>
+      <div class="flex items-center gap-2.5 text-xs">
+        <a href="index.html" class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700">← All 56 Brand Audits</a>
+        <button onclick="downloadCsv()" class="px-3.5 py-1.5 rounded-lg bg-emerald-500 text-slate-950 font-bold hover:bg-emerald-400">⬇ Download Raw CSV (38 SKUs)</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-6 pt-8">
+    <!-- Executive Header -->
+    <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 mb-8">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+        <div>
+          <div class="flex items-center gap-2.5 mb-2">
+            <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded bg-slate-800 text-emerald-400">Plant Protein &amp; Wellness</span>
+            <span class="text-xs text-slate-400 font-mono">Audited: 2026-10-30</span>
+          </div>
+          <h1 class="text-3xl md:text-4xl font-black text-white tracking-tight">OZiva — Hyperlocal Dark-Store Audit</h1>
+          <p class="text-slate-400 text-sm mt-1">
+            Live multi-platform inventory & MOP/MRP price variance scan across <strong>Bengaluru (560001)</strong>, <strong>Mumbai (400001)</strong>, and <strong>Delhi (110001)</strong>.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 shrink-0">
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">SKUs Audited</div>
+            <div class="text-2xl font-black text-white mt-1">38</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">OOS Leaks</div>
+            <div class="text-2xl font-black text-emerald-400 mt-1">0</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">Max Markdown</div>
+            <div class="text-2xl font-black text-amber-300 mt-1">47%</div>
+          </div>
+          <div class="border rounded-xl p-3.5 text-center bg-emerald-500/15 text-emerald-400 border-emerald-500/30">
+            <div class="text-[11px] uppercase font-bold opacity-80">Shelf Health</div>
+            <div class="text-2xl font-black mt-1">100%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="bg-emerald-950/30 border border-emerald-500/30 rounded-2xl p-5 mb-8 flex items-center justify-between flex-wrap gap-3">
+      <div>
+        <span class="px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 font-bold text-xs uppercase">✓ 100% In-Stock Snapshot</span>
+        <span class="text-sm text-slate-200 ml-2">All 38 audited dark-store listings across Bengaluru, Mumbai & Delhi were in stock during this scan. Max discount variance: <strong>47% below MRP</strong>.</span>
+      </div>
+    </div>
+
+    <!-- Filter Controls -->
+    <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+      <div class="flex items-center gap-2 text-xs">
+        <button onclick="filterRows('all')" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-semibold">All SKUs (38)</button>
+        <button onclick="filterRows('oos')" class="px-3 py-1.5 rounded-lg bg-rose-500/15 border border-rose-500/30 text-rose-300 hover:bg-rose-500/25 font-semibold">Out-of-Stock Only (0)</button>
+        <button onclick="filterRows('instock')" class="px-3 py-1.5 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 hover:bg-emerald-500/25 font-semibold">In-Stock (38)</button>
+      </div>
+      <div class="flex items-center gap-2">
+        <input id="skuSearch" type="text" oninput="searchSkus()" placeholder="Filter SKU title or platform..." class="bg-slate-900 border border-slate-800 rounded-lg px-3.5 py-1.5 text-xs text-white w-64" />
+      </div>
+    </div>
+
+    <!-- SKU Table -->
+    <div class="bg-slate-900/50 border border-slate-800 rounded-2xl overflow-x-auto">
+      <table class="w-full text-left text-xs">
+        <thead class="bg-slate-950/90 text-slate-400 uppercase border-b border-slate-800">
+          <tr>
+            <th class="px-4 py-3">SKU Title</th>
+            <th class="px-4 py-3">Platform</th>
+            <th class="px-4 py-3">City / Pin</th>
+            <th class="px-4 py-3">Pack Size</th>
+            <th class="px-4 py-3">Selling Price</th>
+            <th class="px-4 py-3">MRP</th>
+            <th class="px-4 py-3">Discount</th>
+            <th class="px-4 py-3">Stock Status</th>
+            <th class="px-4 py-3">ETA</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-800/60">
+          <tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="nutrition planet gold whey (with added digezyme) vanilla ice cream - 4lb, 60 servings">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Nutrition Planet Gold Whey (With Added DigeZyme) Vanilla Ice Cream - 4lb, 60 Servings</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">2.20/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹3999</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹7300</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">45% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="nutrazen simplypure fermented yeast protein powder | matcha chocolate 288g | 24.3g complete protein | muscle recovery &amp; lean muscle support | vegan protein powder for gym, workout &amp; fitness | easy to digest with probiotics &amp; digestive enzymes">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Nutrazen SimplyPure Fermented Yeast Protein Powder | Matcha Chocolate 288g | 24.3g Complete Protein | Muscle Recovery &amp; Lean Muscle Support | Vegan Protein Powder for Gym, Workout &amp; Fitness | Easy to Digest with Probiotics &amp; Digestive Enzymes</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">3.30/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹951</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1189</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="myfitfuel mff micellar casein protein powder | slow release protein chocolate silk powder 500 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">MyFitFuel MFF Micellar Casein Protein Powder | Slow Release Protein Chocolate Silk Powder 500 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1224</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1539</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="nutrition planet plant protein with 100% natural ingredients for pre/post workout recovery ( chocolate - 1000g, 30 servings)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Nutrition Planet Plant Protein With 100% Natural Ingredients for Pre/Post Workout Recovery ( Chocolate - 1000g, 30 Servings)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1.60/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1599</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹3000</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">47% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="myfitfuel advance 100% plant protein (4 plant proteins, 16 vitamins &amp; minerals, easy to digest), 1 kg, rich chocolate delight">
+        <td class="px-4 py-3 font-medium text-white max-w-md">MyFitFuel Advance 100% Plant Protein (4 Plant Proteins, 16 Vitamins &amp; Minerals, Easy to Digest), 1 Kg, Rich Chocolate Delight</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1699.00/kg</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1699</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹2429</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">30% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="nutrazen fermented yeast protein powder 1kg, chocolate flavour, pdcaas 1.0, 24g protein per serving, single source complete protein, vegan, lactose free ,no bloat,, easy to digest, no added sugar">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Nutrazen Fermented Yeast Protein Powder 1kg, Chocolate Flavour, PDCAAS 1.0, 24g Protein per Serving, Single Source Complete Protein, Vegan, Lactose free ,No Bloat,, Easy to Digest, No Added Sugar</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">2399.00/kg</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹2399</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹2999</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="nutrition planet gold whey (with added digezyme) vanilla ice cream - 4lb, 60 servings">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Nutrition Planet Gold Whey (With Added DigeZyme) Vanilla Ice Cream - 4lb, 60 Servings</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">2.20/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹3999</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹7300</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">45% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="nutrazen simplypure fermented yeast protein powder | matcha chocolate 288g | 24.3g complete protein | muscle recovery &amp; lean muscle support | vegan protein powder for gym, workout &amp; fitness | easy to digest with probiotics &amp; digestive enzymes">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Nutrazen SimplyPure Fermented Yeast Protein Powder | Matcha Chocolate 288g | 24.3g Complete Protein | Muscle Recovery &amp; Lean Muscle Support | Vegan Protein Powder for Gym, Workout &amp; Fitness | Easy to Digest with Probiotics &amp; Digestive Enzymes</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">3.30/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹951</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1189</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="myfitfuel mff micellar casein protein powder | slow release protein chocolate silk powder 500 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">MyFitFuel MFF Micellar Casein Protein Powder | Slow Release Protein Chocolate Silk Powder 500 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1224</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1539</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="nutrition planet plant protein with 100% natural ingredients for pre/post workout recovery ( chocolate - 1000g, 30 servings)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Nutrition Planet Plant Protein With 100% Natural Ingredients for Pre/Post Workout Recovery ( Chocolate - 1000g, 30 Servings)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1.60/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1599</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹3000</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">47% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="myfitfuel advance 100% plant protein (4 plant proteins, 16 vitamins &amp; minerals, easy to digest), 1 kg, rich chocolate delight">
+        <td class="px-4 py-3 font-medium text-white max-w-md">MyFitFuel Advance 100% Plant Protein (4 Plant Proteins, 16 Vitamins &amp; Minerals, Easy to Digest), 1 Kg, Rich Chocolate Delight</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1699.00/kg</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1699</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹2429</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">30% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="nutrazen fermented yeast protein powder 1kg, chocolate flavour, pdcaas 1.0, 24g protein per serving, single source complete protein, vegan, lactose free ,no bloat,, easy to digest, no added sugar">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Nutrazen Fermented Yeast Protein Powder 1kg, Chocolate Flavour, PDCAAS 1.0, 24g Protein per Serving, Single Source Complete Protein, Vegan, Lactose free ,No Bloat,, Easy to Digest, No Added Sugar</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">2399.00/kg</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹2399</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹2999</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="nutrition planet gold whey (with added digezyme) vanilla ice cream - 4lb, 60 servings">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Nutrition Planet Gold Whey (With Added DigeZyme) Vanilla Ice Cream - 4lb, 60 Servings</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">2.20/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹3999</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹7300</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">45% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="nutrazen simplypure fermented yeast protein powder | matcha chocolate 288g | 24.3g complete protein | muscle recovery &amp; lean muscle support | vegan protein powder for gym, workout &amp; fitness | easy to digest with probiotics &amp; digestive enzymes">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Nutrazen SimplyPure Fermented Yeast Protein Powder | Matcha Chocolate 288g | 24.3g Complete Protein | Muscle Recovery &amp; Lean Muscle Support | Vegan Protein Powder for Gym, Workout &amp; Fitness | Easy to Digest with Probiotics &amp; Digestive Enzymes</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">3.30/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹951</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1189</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="myfitfuel mff micellar casein protein powder | slow release protein chocolate silk powder 500 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">MyFitFuel MFF Micellar Casein Protein Powder | Slow Release Protein Chocolate Silk Powder 500 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1224</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1539</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="nutrition planet plant protein with 100% natural ingredients for pre/post workout recovery ( chocolate - 1000g, 30 servings)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Nutrition Planet Plant Protein With 100% Natural Ingredients for Pre/Post Workout Recovery ( Chocolate - 1000g, 30 Servings)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1.60/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1599</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹3000</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">47% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="myfitfuel advance 100% plant protein (4 plant proteins, 16 vitamins &amp; minerals, easy to digest), 1 kg, rich chocolate delight">
+        <td class="px-4 py-3 font-medium text-white max-w-md">MyFitFuel Advance 100% Plant Protein (4 Plant Proteins, 16 Vitamins &amp; Minerals, Easy to Digest), 1 Kg, Rich Chocolate Delight</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1699.00/kg</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1699</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹2429</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">30% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="nutrazen fermented yeast protein powder 1kg, chocolate flavour, pdcaas 1.0, 24g protein per serving, single source complete protein, vegan, lactose free ,no bloat,, easy to digest, no added sugar">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Nutrazen Fermented Yeast Protein Powder 1kg, Chocolate Flavour, PDCAAS 1.0, 24g Protein per Serving, Single Source Complete Protein, Vegan, Lactose free ,No Bloat,, Easy to Digest, No Added Sugar</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">2399.00/kg</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹2399</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹2999</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="oziva bioactive plant protein (25g vegan protein) for endurance &amp; muscle recovery plant-based protein">
+        <td class="px-4 py-3 font-medium text-white max-w-md">OZiva Bioactive Plant Protein (25g Vegan Protein) for Endurance &amp; Muscle Recovery Plant-Based Protein</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">25g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1199</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1459</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">18% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="oziva bioactive plant protein (25g vegan protein) for endurance &amp; muscle recovery plant-based protein">
+        <td class="px-4 py-3 font-medium text-white max-w-md">OZiva Bioactive Plant Protein (25g Vegan Protein) for Endurance &amp; Muscle Recovery Plant-Based Protein</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">25g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹2319</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹2649</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">12% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="oziva protein &amp; herbs for men|muscle building|recovery &amp; stamina|no sugar| gluten free whey protein">
+        <td class="px-4 py-3 font-medium text-white max-w-md">OZiva Protein &amp; Herbs for Men|Muscle Building|Recovery &amp; Stamina|No Sugar| Gluten Free Whey Protein</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1559</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹2286</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">32% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="oziva bioactive plant protein (25g vegan protein) for endurance &amp; muscle recovery plant-based protein">
+        <td class="px-4 py-3 font-medium text-white max-w-md">OZiva Bioactive Plant Protein (25g Vegan Protein) for Endurance &amp; Muscle Recovery Plant-Based Protein</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">25g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1799</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹2649</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">32% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="oziva bioactive plant protein (25g vegan protein) for endurance &amp; muscle recovery plant-based protein">
+        <td class="px-4 py-3 font-medium text-white max-w-md">OZiva Bioactive Plant Protein (25g Vegan Protein) for Endurance &amp; Muscle Recovery Plant-Based Protein</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">25g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1229</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1459</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">16% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="oziva daily protein activ for women with clean, multivitamins &amp;probiotics whey protein">
+        <td class="px-4 py-3 font-medium text-white max-w-md">OZiva Daily Protein Activ For Women with Clean, Multivitamins &amp;Probiotics Whey Protein</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹749</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹799</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">6% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="cosmix no-nonsense plant protein (indonesian cacao)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Cosmix No-Nonsense Plant Protein (Indonesian Cacao)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">500 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1034</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1379</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">25% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="oziva pro digest plant protein (chocolate, vanilla, strawberry &amp; mango)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">OZiva Pro Digest Plant Protein (Chocolate, Vanilla, Strawberry &amp; Mango)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">5 x 36 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹650</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹699</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">7% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="oziva bioactive plant protein (chocolate)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">OZiva Bioactive Plant Protein (Chocolate)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">500 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1199</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1459</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">18% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="oziva clean whey protein concentrate (coffee)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">OZiva Clean Whey Protein Concentrate (Coffee)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">907 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹2890</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹3899</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">26% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="oziva hair growth biotin vitamin supplement">
+        <td class="px-4 py-3 font-medium text-white max-w-md">OZiva Hair Growth Biotin Vitamin Supplement</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">60 pcs</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹628</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹859</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">27% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="avvatar performance whey protein (assorted)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Avvatar Performance Whey Protein (Assorted)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">5 x 35 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹825</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">45% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="optimum nutrition (on) gold standard 100% whey protein - 152 g (double rich choco)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Optimum Nutrition (ON) Gold Standard 100% Whey Protein - 152 g (Double Rich Choco)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">152 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹999</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1349</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">26% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="the whole truth whey protein (light cocoa)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">The Whole Truth Whey Protein (Light Cocoa)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 kg</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹4665</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹5399</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">14% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="protein &amp; herbs for women, no added sugar, green tea, chocolate, 800g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Protein &amp; Herbs for Women, No Added Sugar, Green Tea, Chocolate, 800g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">800g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹2609</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹260.9</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="plant protein powder, pea isolate, vegan, unflavoured, 500g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Plant Protein Powder, Pea Isolate, Vegan, Unflavoured, 500g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">500g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹999</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹199.8</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="bioactive plant protein powder, 5.5g bcaa, pea isolate, mango, 1kg">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bioactive Plant Protein Powder, 5.5g BCAA, Pea Isolate, Mango, 1kg</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">5.5g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1899</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹189.9</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="protein &amp; herbs for women, no added sugar, vanilla almond, 800g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Protein &amp; Herbs for Women, No Added Sugar, Vanilla Almond, 800g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">800g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹2609</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹326.13</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="protein &amp; herbs for men (chocolate) i muscle building, stamina &amp; recovery | clean protein, shatavari, green tea i no added sugar, 2lbs">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Protein &amp; Herbs for Men (Chocolate) I Muscle Building, Stamina &amp; Recovery | Clean Protein, Shatavari, Green Tea I No Added Sugar, 2lbs</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹2899</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹289.9</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="plant protein + pro-digest | 25g protein | chocolate flavour |1 kg">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Plant Protein + Pro-Digest | 25g Protein | Chocolate Flavour |1 kg</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">25g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1799</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹179.9</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- Sticky CTA Footer -->
+  <div class="fixed bottom-0 inset-x-0 bg-slate-950/95 border-t border-emerald-500/30 backdrop-blur px-6 py-3.5 z-30">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+      <div class="text-slate-200">
+        <span class="text-emerald-400 font-bold">⚡ Unscrape Radar:</span> Want real-time Slack/WhatsApp/Telegram alerts within 15 mins whenever <strong>OZiva</strong> SKUs go Out-of-Stock across 20 BLR/MUM/DEL dark-store pin codes?
+      </div>
+      <div class="flex items-center gap-2.5 shrink-0">
+        <a href="https://github.com/deveshkolte/unscrape" target="_blank" class="px-4 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold">Unlock Automated 20-Pin-Code Monitor →</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const RAW_CSV = "brand,city,pincode,platform,skuId,title,sellingPriceInr,mrpInr,discountPercent,unit,inStock,deliveryEta,url\nOZiva,Bengaluru,560001,bigbasket.com/jiomart,50690819,\"Nutrition Planet Gold Whey (With Added DigeZyme) Vanilla Ice Cream - 4lb, 60 Servings\",3999,7300,45,2.20/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/nutrition-planet-gold-whey-with-added-digezyme-vanilla-ice-cream-4lb-60-servings-mj74s7-50690819/50690819\nOZiva,Bengaluru,560001,bigbasket.com/jiomart,108578745,\"Nutrazen SimplyPure Fermented Yeast Protein Powder | Matcha Chocolate 288g | 24.3g Complete Protein | Muscle Recovery & Lean Muscle Support | Vegan Protein Powder for Gym, Workout & Fitness | Easy to Digest with Probiotics & Digestive Enzymes\",951,1189,20,3.30/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/nutrazen-simplypure-fermented-yeast-protein-powder-matcha-chocolate-288g-24-3g-complete-protein-muscle-recovery-lean-muscle-support-vegan-protein-powder-for-gym-workout-fitness-easy-to-digest-with-probiotics-digestive-enzymes-mq0wy5-108578745/108578745\nOZiva,Bengaluru,560001,bigbasket.com/jiomart,50457279,MyFitFuel MFF Micellar Casein Protein Powder | Slow Release Protein Chocolate Silk Powder 500 g,1224,1539,20,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/myfitfuel-mff-micellar-casein-protein-powder-slow-release-protein-chocolate-silk-powder-500-g-mj73g7-50457279/50457279\nOZiva,Bengaluru,560001,bigbasket.com/jiomart,21696588,\"Nutrition Planet Plant Protein With 100% Natural Ingredients for Pre/Post Workout Recovery ( Chocolate - 1000g, 30 Servings)\",1599,3000,47,1.60/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/nutrition-planet-plant-protein-with-100-natural-ingredients-1000g-miazf4-21696588/21696588\nOZiva,Bengaluru,560001,bigbasket.com/jiomart,50192661,\"MyFitFuel Advance 100% Plant Protein (4 Plant Proteins, 16 Vitamins & Minerals, Easy to Digest), 1 Kg, Rich Chocolate Delight\",1699,2429,30,1699.00/kg,true,15-30 MINS,https://www.jiomart.com/p/groceries/myfitfuel-advance-100-plant-protein-4-plant-proteins-16-vitamins-minerals-easy-to-digest-1-kg-rich-chocolate-delight-mj7296-50192661/50192661\nOZiva,Bengaluru,560001,bigbasket.com/jiomart,108556555,\"Nutrazen Fermented Yeast Protein Powder 1kg, Chocolate Flavour, PDCAAS 1.0, 24g Protein per Serving, Single Source Complete Protein, Vegan, Lactose free ,No Bloat,, Easy to Digest, No Added Sugar\",2399,2999,20,2399.00/kg,true,15-30 MINS,https://www.jiomart.com/p/groceries/nutrazen-simplypure-fermented-yeast-protein-powder-1kg-chocolate-24-5g-protein-per-serving-pdcaas-1-0-complete-protein-vegan-lactose-free-dairy-free-gut-friendly-with-probiotics-digestive-enzymes-no-sugar-no-soy-mq0vvu-108556555/108556555\nOZiva,Mumbai,400001,bigbasket.com/jiomart,50690819,\"Nutrition Planet Gold Whey (With Added DigeZyme) Vanilla Ice Cream - 4lb, 60 Servings\",3999,7300,45,2.20/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/nutrition-planet-gold-whey-with-added-digezyme-vanilla-ice-cream-4lb-60-servings-mj74s7-50690819/50690819\nOZiva,Mumbai,400001,bigbasket.com/jiomart,108578745,\"Nutrazen SimplyPure Fermented Yeast Protein Powder | Matcha Chocolate 288g | 24.3g Complete Protein | Muscle Recovery & Lean Muscle Support | Vegan Protein Powder for Gym, Workout & Fitness | Easy to Digest with Probiotics & Digestive Enzymes\",951,1189,20,3.30/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/nutrazen-simplypure-fermented-yeast-protein-powder-matcha-chocolate-288g-24-3g-complete-protein-muscle-recovery-lean-muscle-support-vegan-protein-powder-for-gym-workout-fitness-easy-to-digest-with-probiotics-digestive-enzymes-mq0wy5-108578745/108578745\nOZiva,Mumbai,400001,bigbasket.com/jiomart,50457279,MyFitFuel MFF Micellar Casein Protein Powder | Slow Release Protein Chocolate Silk Powder 500 g,1224,1539,20,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/myfitfuel-mff-micellar-casein-protein-powder-slow-release-protein-chocolate-silk-powder-500-g-mj73g7-50457279/50457279\nOZiva,Mumbai,400001,bigbasket.com/jiomart,21696588,\"Nutrition Planet Plant Protein With 100% Natural Ingredients for Pre/Post Workout Recovery ( Chocolate - 1000g, 30 Servings)\",1599,3000,47,1.60/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/nutrition-planet-plant-protein-with-100-natural-ingredients-1000g-miazf4-21696588/21696588\nOZiva,Mumbai,400001,bigbasket.com/jiomart,50192661,\"MyFitFuel Advance 100% Plant Protein (4 Plant Proteins, 16 Vitamins & Minerals, Easy to Digest), 1 Kg, Rich Chocolate Delight\",1699,2429,30,1699.00/kg,true,15-30 MINS,https://www.jiomart.com/p/groceries/myfitfuel-advance-100-plant-protein-4-plant-proteins-16-vitamins-minerals-easy-to-digest-1-kg-rich-chocolate-delight-mj7296-50192661/50192661\nOZiva,Mumbai,400001,bigbasket.com/jiomart,108556555,\"Nutrazen Fermented Yeast Protein Powder 1kg, Chocolate Flavour, PDCAAS 1.0, 24g Protein per Serving, Single Source Complete Protein, Vegan, Lactose free ,No Bloat,, Easy to Digest, No Added Sugar\",2399,2999,20,2399.00/kg,true,15-30 MINS,https://www.jiomart.com/p/groceries/nutrazen-simplypure-fermented-yeast-protein-powder-1kg-chocolate-24-5g-protein-per-serving-pdcaas-1-0-complete-protein-vegan-lactose-free-dairy-free-gut-friendly-with-probiotics-digestive-enzymes-no-sugar-no-soy-mq0vvu-108556555/108556555\nOZiva,Delhi,110001,bigbasket.com/jiomart,50690819,\"Nutrition Planet Gold Whey (With Added DigeZyme) Vanilla Ice Cream - 4lb, 60 Servings\",3999,7300,45,2.20/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/nutrition-planet-gold-whey-with-added-digezyme-vanilla-ice-cream-4lb-60-servings-mj74s7-50690819/50690819\nOZiva,Delhi,110001,bigbasket.com/jiomart,108578745,\"Nutrazen SimplyPure Fermented Yeast Protein Powder | Matcha Chocolate 288g | 24.3g Complete Protein | Muscle Recovery & Lean Muscle Support | Vegan Protein Powder for Gym, Workout & Fitness | Easy to Digest with Probiotics & Digestive Enzymes\",951,1189,20,3.30/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/nutrazen-simplypure-fermented-yeast-protein-powder-matcha-chocolate-288g-24-3g-complete-protein-muscle-recovery-lean-muscle-support-vegan-protein-powder-for-gym-workout-fitness-easy-to-digest-with-probiotics-digestive-enzymes-mq0wy5-108578745/108578745\nOZiva,Delhi,110001,bigbasket.com/jiomart,50457279,MyFitFuel MFF Micellar Casein Protein Powder | Slow Release Protein Chocolate Silk Powder 500 g,1224,1539,20,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/myfitfuel-mff-micellar-casein-protein-powder-slow-release-protein-chocolate-silk-powder-500-g-mj73g7-50457279/50457279\nOZiva,Delhi,110001,bigbasket.com/jiomart,21696588,\"Nutrition Planet Plant Protein With 100% Natural Ingredients for Pre/Post Workout Recovery ( Chocolate - 1000g, 30 Servings)\",1599,3000,47,1.60/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/nutrition-planet-plant-protein-with-100-natural-ingredients-1000g-miazf4-21696588/21696588\nOZiva,Delhi,110001,bigbasket.com/jiomart,50192661,\"MyFitFuel Advance 100% Plant Protein (4 Plant Proteins, 16 Vitamins & Minerals, Easy to Digest), 1 Kg, Rich Chocolate Delight\",1699,2429,30,1699.00/kg,true,15-30 MINS,https://www.jiomart.com/p/groceries/myfitfuel-advance-100-plant-protein-4-plant-proteins-16-vitamins-minerals-easy-to-digest-1-kg-rich-chocolate-delight-mj7296-50192661/50192661\nOZiva,Delhi,110001,bigbasket.com/jiomart,108556555,\"Nutrazen Fermented Yeast Protein Powder 1kg, Chocolate Flavour, PDCAAS 1.0, 24g Protein per Serving, Single Source Complete Protein, Vegan, Lactose free ,No Bloat,, Easy to Digest, No Added Sugar\",2399,2999,20,2399.00/kg,true,15-30 MINS,https://www.jiomart.com/p/groceries/nutrazen-simplypure-fermented-yeast-protein-powder-1kg-chocolate-24-5g-protein-per-serving-pdcaas-1-0-complete-protein-vegan-lactose-free-dairy-free-gut-friendly-with-probiotics-digestive-enzymes-no-sugar-no-soy-mq0vvu-108556555/108556555\nOZiva,Bengaluru,560001,flipkart.com,PSLHFPV8TBTPMEG4,OZiva Bioactive Plant Protein (25g Vegan Protein) for Endurance & Muscle Recovery Plant-Based Protein,1199,1459,18,25g,true,15 MINS,https://www.flipkart.com/oziva-bioactive-plant-protein-25g-vegan-protein-endurance-muscle-recovery-plant-based/p/itm0c53b6e7d6f25?pid=PSLHFPV8TBTPMEG4&lid=LSTPSLHFPV8TBTPMEG422ZBST&marketplace=FLIPKART&q=oziva+protein&store=hlc%2Fetg%2F1rx&srno=s_1_1&otracker=search&fm=organic&iid=en_iXT5tSJCxf54C67VxdavUyMbWmTkug-LPPV4i7yaqBMe_OtEU-Z-iJaM7m4ZeBa4RwKLOv-zHsRrJL9nFeaKi9Cl-Vx6qwgO0im0s2Y5topOh5K4NflA2GYJSQF1-PkC&ppt=sp&ppn=sp&ssid=toj7v5pcqo0000001793387288146&qH=d54278d83276c1e1&ov_redirect=true&ov_redirect=true\nOZiva,Bengaluru,560001,flipkart.com,PSLH266YUTCXSVGB,OZiva Bioactive Plant Protein (25g Vegan Protein) for Endurance & Muscle Recovery Plant-Based Protein,2319,2649,12,25g,true,15 MINS,https://www.flipkart.com/oziva-bioactive-plant-protein-25g-vegan-protein-endurance-muscle-recovery-plant-based/p/itmb698bef21297b?pid=PSLH266YUTCXSVGB&lid=LSTPSLH266YUTCXSVGB30VL71&marketplace=FLIPKART&q=oziva+protein&store=hlc%2Fetg%2F1rx&srno=s_1_2&otracker=search&fm=organic&iid=en_iXT5tSJCxf54C67VxdavUyMbWmTkug-LPPV4i7yaqBNbA1NT8_aMOMpqeLu2wedJ9aGXJZs0fLu5K8yHS2McspVEIc6frMOeHFY7hSjlkZgrXZ1ztBcl_CnISpEf6Tvi&ppt=sp&ppn=sp&ssid=toj7v5pcqo0000001793387288146&qH=d54278d83276c1e1&ov_redirect=true&ov_redirect=true\nOZiva,Bengaluru,560001,flipkart.com,PSLEQXSTGPFPTBG6,OZiva Protein & Herbs for Men|Muscle Building|Recovery & Stamina|No Sugar| Gluten Free Whey Protein,1559,2286,32,1 unit,true,15 MINS,https://www.flipkart.com/oziva-protein-herbs-men-muscle-building-recovery-stamina-no-sugar-gluten-free-whey/p/itma367480252cac?pid=PSLEQXSTGPFPTBG6&lid=LSTPSLEQXSTGPFPTBG6CSAOYV&marketplace=FLIPKART&q=oziva+protein&store=hlc%2Fetg%2F1rx&srno=s_1_3&otracker=search&fm=organic&iid=452d654a-34ab-4f31-ae20-1062edee0448.PSLEQXSTGPFPTBG6.SEARCH&ppt=sp&ppn=sp&ssid=toj7v5pcqo0000001793387288146&qH=d54278d83276c1e1&ov_redirect=true&ov_redirect=true\nOZiva,Bengaluru,560001,flipkart.com,PSLH28TE2QZBEGPF,OZiva Bioactive Plant Protein (25g Vegan Protein) for Endurance & Muscle Recovery Plant-Based Protein,1799,2649,32,25g,true,15 MINS,https://www.flipkart.com/oziva-bioactive-plant-protein-25g-vegan-protein-endurance-muscle-recovery-plant-based/p/itme940f63c6b391?pid=PSLH28TE2QZBEGPF&lid=LSTPSLH28TE2QZBEGPFJOOVVG&marketplace=FLIPKART&q=oziva+protein&store=hlc%2Fetg%2F1rx&srno=s_1_4&otracker=search&fm=organic&iid=452d654a-34ab-4f31-ae20-1062edee0448.PSLH28TE2QZBEGPF.SEARCH&ppt=sp&ppn=sp&ssid=toj7v5pcqo0000001793387288146&qH=d54278d83276c1e1&ov_redirect=true&ov_redirect=true\nOZiva,Bengaluru,560001,flipkart.com,PSLHFMCDFSERTHAK,OZiva Bioactive Plant Protein (25g Vegan Protein) for Endurance & Muscle Recovery Plant-Based Protein,1229,1459,16,25g,true,15 MINS,https://www.flipkart.com/oziva-bioactive-plant-protein-25g-vegan-protein-endurance-muscle-recovery-plant-based/p/itm0c53b6e7d6f25?pid=PSLHFMCDFSERTHAK&lid=LSTPSLHFMCDFSERTHAK91KJ8M&marketplace=FLIPKART&q=oziva+protein&store=hlc%2Fetg%2F1rx&srno=s_1_5&otracker=search&fm=organic&iid=452d654a-34ab-4f31-ae20-1062edee0448.PSLHFMCDFSERTHAK.SEARCH&ppt=sp&ppn=sp&ssid=toj7v5pcqo0000001793387288146&qH=d54278d83276c1e1&ov_redirect=true&ov_redirect=true\nOZiva,Bengaluru,560001,flipkart.com,PSLGBAGVHJCKGEFX,\"OZiva Daily Protein Activ For Women with Clean, Multivitamins &Probiotics Whey Protein\",749,799,6,1 unit,true,15 MINS,https://www.flipkart.com/oziva-daily-protein-activ-women-clean-multivitamins-probiotics-whey/p/itm04ca37c5a9419?pid=PSLGBAGVHJCKGEFX&lid=LSTPSLGBAGVHJCKGEFXMV5IPP&marketplace=FLIPKART&q=oziva+protein&store=hlc%2Fetg%2F1rx&srno=s_1_6&otracker=search&fm=organic&iid=452d654a-34ab-4f31-ae20-1062edee0448.PSLGBAGVHJCKGEFX.SEARCH&ppt=sp&ppn=sp&ssid=toj7v5pcqo0000001793387288146&qH=d54278d83276c1e1&ov_redirect=true&ov_redirect=true\nOZiva,Bengaluru,560001,blinkit.com,557356,Cosmix No-Nonsense Plant Protein (Indonesian Cacao),1034,1379,25,500 g,true,10 MINS,https://blinkit.com/prn/cosmix-no-nonsense-plant-protein-indonesian-cacao/prid/557356\nOZiva,Bengaluru,560001,blinkit.com,784774,\"OZiva Pro Digest Plant Protein (Chocolate, Vanilla, Strawberry & Mango)\",650,699,7,5 x 36 g,true,10 MINS,https://blinkit.com/prn/oziva-pro-digest-plant-protein-chocolate-vanilla-strawberry-mango/prid/784774\nOZiva,Bengaluru,560001,blinkit.com,775098,OZiva Bioactive Plant Protein (Chocolate),1199,1459,18,500 g,true,10 MINS,https://blinkit.com/prn/oziva-bioactive-plant-protein-chocolate/prid/775098\nOZiva,Bengaluru,560001,blinkit.com,775372,OZiva Clean Whey Protein Concentrate (Coffee),2890,3899,26,907 g,true,10 MINS,https://blinkit.com/prn/oziva-clean-whey-protein-concentrate-coffee/prid/775372\nOZiva,Bengaluru,560001,blinkit.com,560414,OZiva Hair Growth Biotin Vitamin Supplement,628,859,27,60 pcs,true,10 MINS,https://blinkit.com/prn/oziva-hair-growth-biotin-vitamin-supplement/prid/560414\nOZiva,Bengaluru,560001,blinkit.com,798125,Avvatar Performance Whey Protein (Assorted),825,1499,45,5 x 35 g,true,10 MINS,https://blinkit.com/prn/avvatar-performance-whey-protein-assorted/prid/798125\nOZiva,Bengaluru,560001,blinkit.com,519389,Optimum Nutrition (ON) Gold Standard 100% Whey Protein - 152 g (Double Rich Choco),999,1349,26,152 g,true,10 MINS,https://blinkit.com/prn/optimum-nutrition-on-gold-standard-100-whey-protein-152-g-double-rich-choco/prid/519389\nOZiva,Bengaluru,560001,blinkit.com,537926,The Whole Truth Whey Protein (Light Cocoa),4665,5399,14,1 kg,true,10 MINS,https://blinkit.com/prn/the-whole-truth-whey-protein-light-cocoa/prid/537926\nOZiva,Bengaluru,560001,amazon.in,B01M1MVIWX,\"Protein & Herbs for Women, No Added Sugar, Green Tea, Chocolate, 800g\",2609,260.9,0,800g,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B01M1MVIWX\nOZiva,Bengaluru,560001,amazon.in,B07GTNLNLM,\"Plant Protein Powder, Pea Isolate, Vegan, Unflavoured, 500g\",999,199.8,0,500g,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B07GTNLNLM\nOZiva,Bengaluru,560001,amazon.in,B0B5GDCH2H,\"Bioactive Plant Protein Powder, 5.5g BCAA, Pea Isolate, Mango, 1kg\",1899,189.9,0,5.5g,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0B5GDCH2H\nOZiva,Bengaluru,560001,amazon.in,B07H4NSYL4,\"Protein & Herbs for Women, No Added Sugar, Vanilla Almond, 800g\",2609,326.13,0,800g,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B07H4NSYL4\nOZiva,Bengaluru,560001,amazon.in,B01LYPWXH8,\"Protein & Herbs for Men (Chocolate) I Muscle Building, Stamina & Recovery | Clean Protein, Shatavari, Green Tea I No Added Sugar, 2lbs\",2899,289.9,0,1 unit,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B01LYPWXH8\nOZiva,Bengaluru,560001,amazon.in,B0D5451CFJ,Plant Protein + Pro-Digest | 25g Protein | Chocolate Flavour |1 kg,1799,179.9,0,25g,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0D5451CFJ\n";
+
+    function filterRows(mode) {
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const stock = row.getAttribute('data-stock');
+        if (mode === 'all') row.style.display = '';
+        else if (mode === 'oos') row.style.display = stock === 'oos' ? '' : 'none';
+        else if (mode === 'instock') row.style.display = stock === 'instock' ? '' : 'none';
+      });
+    }
+
+    function searchSkus() {
+      const q = document.getElementById('skuSearch').value.toLowerCase();
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const title = row.getAttribute('data-title') || '';
+        const platform = (row.getAttribute('data-platform') || '').toLowerCase();
+        row.style.display = (title.includes(q) || platform.includes(q)) ? '' : 'none';
+      });
+    }
+
+    function downloadCsv() {
+      const blob = new Blob([RAW_CSV], { type: 'text/csv;charset=utf-8;' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'oziva-3city-audit.csv';
+      a.click();
+    }
+  </script>
+</body>
+</html>

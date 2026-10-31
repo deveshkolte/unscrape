@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hyphen — 3-City Quick-Commerce Dark-Store Audit Scorecard | Unscrape Radar</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background-color: #07080d; color: #f3f4f6; font-family: Inter, system-ui, -apple-system, sans-serif; }
+  </style>
+</head>
+<body class="min-h-screen pb-24">
+  <!-- Top Bar -->
+  <header class="border-b border-slate-800 bg-slate-950/90 backdrop-blur sticky top-0 z-20">
+    <div class="max-w-7xl mx-auto px-6 py-3.5 flex items-center justify-between flex-wrap gap-3">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="text-emerald-400 font-black text-lg tracking-tight hover:text-emerald-300">⚡ UNSCRAPE RADAR</a>
+        <span class="text-xs text-slate-500">/</span>
+        <span class="text-sm font-bold text-white">Hyphen Executive Scorecard</span>
+      </div>
+      <div class="flex items-center gap-2.5 text-xs">
+        <a href="index.html" class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700">← All 56 Brand Audits</a>
+        <button onclick="downloadCsv()" class="px-3.5 py-1.5 rounded-lg bg-emerald-500 text-slate-950 font-bold hover:bg-emerald-400">⬇ Download Raw CSV (46 SKUs)</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-6 pt-8">
+    <!-- Executive Header -->
+    <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 mb-8">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+        <div>
+          <div class="flex items-center gap-2.5 mb-2">
+            <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded bg-slate-800 text-emerald-400">Barrier Care Skincare</span>
+            <span class="text-xs text-slate-400 font-mono">Audited: 2026-10-30</span>
+          </div>
+          <h1 class="text-3xl md:text-4xl font-black text-white tracking-tight">Hyphen — Hyperlocal Dark-Store Audit</h1>
+          <p class="text-slate-400 text-sm mt-1">
+            Live multi-platform inventory & MOP/MRP price variance scan across <strong>Bengaluru (560001)</strong>, <strong>Mumbai (400001)</strong>, and <strong>Delhi (110001)</strong>.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 shrink-0">
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">SKUs Audited</div>
+            <div class="text-2xl font-black text-white mt-1">46</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">OOS Leaks</div>
+            <div class="text-2xl font-black text-emerald-400 mt-1">0</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">Max Markdown</div>
+            <div class="text-2xl font-black text-amber-300 mt-1">70%</div>
+          </div>
+          <div class="border rounded-xl p-3.5 text-center bg-emerald-500/15 text-emerald-400 border-emerald-500/30">
+            <div class="text-[11px] uppercase font-bold opacity-80">Shelf Health</div>
+            <div class="text-2xl font-black mt-1">100%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="bg-emerald-950/30 border border-emerald-500/30 rounded-2xl p-5 mb-8 flex items-center justify-between flex-wrap gap-3">
+      <div>
+        <span class="px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 font-bold text-xs uppercase">✓ 100% In-Stock Snapshot</span>
+        <span class="text-sm text-slate-200 ml-2">All 46 audited dark-store listings across Bengaluru, Mumbai & Delhi were in stock during this scan. Max discount variance: <strong>70% below MRP</strong>.</span>
+      </div>
+    </div>
+
+    <!-- Filter Controls -->
+    <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+      <div class="flex items-center gap-2 text-xs">
+        <button onclick="filterRows('all')" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-semibold">All SKUs (46)</button>
+        <button onclick="filterRows('oos')" class="px-3 py-1.5 rounded-lg bg-rose-500/15 border border-rose-500/30 text-rose-300 hover:bg-rose-500/25 font-semibold">Out-of-Stock Only (0)</button>
+        <button onclick="filterRows('instock')" class="px-3 py-1.5 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 hover:bg-emerald-500/25 font-semibold">In-Stock (46)</button>
+      </div>
+      <div class="flex items-center gap-2">
+        <input id="skuSearch" type="text" oninput="searchSkus()" placeholder="Filter SKU title or platform..." class="bg-slate-900 border border-slate-800 rounded-lg px-3.5 py-1.5 text-xs text-white w-64" />
+      </div>
+    </div>
+
+    <!-- SKU Table -->
+    <div class="bg-slate-900/50 border border-slate-800 rounded-2xl overflow-x-auto">
+      <table class="w-full text-left text-xs">
+        <thead class="bg-slate-950/90 text-slate-400 uppercase border-b border-slate-800">
+          <tr>
+            <th class="px-4 py-3">SKU Title</th>
+            <th class="px-4 py-3">Platform</th>
+            <th class="px-4 py-3">City / Pin</th>
+            <th class="px-4 py-3">Pack Size</th>
+            <th class="px-4 py-3">Selling Price</th>
+            <th class="px-4 py-3">MRP</th>
+            <th class="px-4 py-3">Discount</th>
+            <th class="px-4 py-3">Stock Status</th>
+            <th class="px-4 py-3">ETA</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-800/60">
+          <tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="mvylissea pdrn hybrid sunscreen | smooth texture">
+        <td class="px-4 py-3 font-medium text-white max-w-md">MVYLISSEA PDRN Hybrid Sunscreen | Smooth Texture</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1199</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="mvylissea daily hybrid sunscreen | comfortable wear">
+        <td class="px-4 py-3 font-medium text-white max-w-md">MVYLISSEA Daily Hybrid Sunscreen | Comfortable Wear</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1199</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="mvylissea soft finish hybrid sunscreen | non-heavy">
+        <td class="px-4 py-3 font-medium text-white max-w-md">MVYLISSEA Soft Finish Hybrid Sunscreen | Non-Heavy</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1199</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="mvylissea hybrid sunscreen spf 60 pa plus | lightweight">
+        <td class="px-4 py-3 font-medium text-white max-w-md">MVYLISSEA Hybrid Sunscreen SPF 60 PA Plus | Lightweight</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1199</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="mvylissea spf 60 sunscreen | hybrid formula">
+        <td class="px-4 py-3 font-medium text-white max-w-md">MVYLISSEA SPF 60 Sunscreen | Hybrid Formula</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1199</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="dr.rashel serum sunscreen spf 40 with 1% hyaluronic acid , lightweight, hydrating &amp; broad spectrum sun protection (30ml)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">DR.RASHEL Serum Sunscreen SPF 40 with 1% Hyaluronic Acid , Lightweight, Hydrating &amp; Broad Spectrum Sun Protection (30ml)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹224.25</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹299</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">25% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="mvylissea pdrn hybrid sunscreen | smooth texture">
+        <td class="px-4 py-3 font-medium text-white max-w-md">MVYLISSEA PDRN Hybrid Sunscreen | Smooth Texture</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1199</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="mvylissea daily hybrid sunscreen | comfortable wear">
+        <td class="px-4 py-3 font-medium text-white max-w-md">MVYLISSEA Daily Hybrid Sunscreen | Comfortable Wear</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1199</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="mvylissea soft finish hybrid sunscreen | non-heavy">
+        <td class="px-4 py-3 font-medium text-white max-w-md">MVYLISSEA Soft Finish Hybrid Sunscreen | Non-Heavy</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1199</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="mvylissea hybrid sunscreen spf 60 pa plus | lightweight">
+        <td class="px-4 py-3 font-medium text-white max-w-md">MVYLISSEA Hybrid Sunscreen SPF 60 PA Plus | Lightweight</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1199</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="mvylissea spf 60 sunscreen | hybrid formula">
+        <td class="px-4 py-3 font-medium text-white max-w-md">MVYLISSEA SPF 60 Sunscreen | Hybrid Formula</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1199</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="dr.rashel serum sunscreen spf 40 with 1% hyaluronic acid , lightweight, hydrating &amp; broad spectrum sun protection (30ml)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">DR.RASHEL Serum Sunscreen SPF 40 with 1% Hyaluronic Acid , Lightweight, Hydrating &amp; Broad Spectrum Sun Protection (30ml)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹224.25</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹299</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">25% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="mvylissea pdrn hybrid sunscreen | smooth texture">
+        <td class="px-4 py-3 font-medium text-white max-w-md">MVYLISSEA PDRN Hybrid Sunscreen | Smooth Texture</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1199</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="mvylissea daily hybrid sunscreen | comfortable wear">
+        <td class="px-4 py-3 font-medium text-white max-w-md">MVYLISSEA Daily Hybrid Sunscreen | Comfortable Wear</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1199</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="mvylissea soft finish hybrid sunscreen | non-heavy">
+        <td class="px-4 py-3 font-medium text-white max-w-md">MVYLISSEA Soft Finish Hybrid Sunscreen | Non-Heavy</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1199</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="mvylissea hybrid sunscreen spf 60 pa plus | lightweight">
+        <td class="px-4 py-3 font-medium text-white max-w-md">MVYLISSEA Hybrid Sunscreen SPF 60 PA Plus | Lightweight</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1199</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="mvylissea spf 60 sunscreen | hybrid formula">
+        <td class="px-4 py-3 font-medium text-white max-w-md">MVYLISSEA SPF 60 Sunscreen | Hybrid Formula</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1199</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="dr.rashel serum sunscreen spf 40 with 1% hyaluronic acid , lightweight, hydrating &amp; broad spectrum sun protection (30ml)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">DR.RASHEL Serum Sunscreen SPF 40 with 1% Hyaluronic Acid , Lightweight, Hydrating &amp; Broad Spectrum Sun Protection (30ml)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹224.25</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹299</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">25% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="hyphen sunscreen - spf 50 pa++++ pa++++ all i need sunscreen with new gen uv filters|in-vivo tested">
+        <td class="px-4 py-3 font-medium text-white max-w-md">HYPHEN Sunscreen - SPF 50 PA++++ PA++++ All I Need Sunscreen with New Gen UV Filters|In-Vivo Tested</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹404</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹449</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">10% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="hyphen sunscreen - spf 50 pa++++ all i need sunscreen spf 50 pa++++ with new gen uv filters|in-vivo tested">
+        <td class="px-4 py-3 font-medium text-white max-w-md">HYPHEN Sunscreen - SPF 50 PA++++ All I Need Sunscreen SPF 50 PA++++ with New Gen UV Filters|In-Vivo Tested</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹296</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹315</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">6% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="hyphen sunscreen - spf 50 pa++++ ultra light water sunscreen in-vivo tested">
+        <td class="px-4 py-3 font-medium text-white max-w-md">HYPHEN Sunscreen - SPF 50 PA++++ Ultra Light Water Sunscreen In-vivo tested</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹497</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹549</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">9% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="hyphen sunscreen - spf 50 pa++++ all i need sunscreen| brightens - kojic acid, vit c rich kakadu plum, non-greasy">
+        <td class="px-4 py-3 font-medium text-white max-w-md">HYPHEN Sunscreen - SPF 50 PA++++ All I Need Sunscreen| Brightens - Kojic Acid, Vit C Rich Kakadu Plum, Non-Greasy</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹763</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹898</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="hyphen sunscreen - spf 70+ pa++++ matte max velvet touch | sweat &amp; water resistant | 12hrs uva-uvb protection">
+        <td class="px-4 py-3 font-medium text-white max-w-md">HYPHEN Sunscreen - SPF 70+ PA++++ Matte Max Velvet Touch | Sweat &amp; Water Resistant | 12Hrs UVA-UVB Protection</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹469</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">6% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="hyphen all i need sunscreen spf 50 pa++++ (pack of 2) | new &amp; old gen uv filters">
+        <td class="px-4 py-3 font-medium text-white max-w-md">HYPHEN All I Need Sunscreen SPF 50 PA++++ (Pack of 2) | New &amp; Old Gen UV Filters</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹536</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹630</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="minimalist sunscreen with niacinamide (spf 50 pa++++)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Minimalist Sunscreen with Niacinamide (SPF 50 PA++++)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">50 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹360</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹399</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">10% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="minimalist sunscreen with niacinamide (spf 50 pa++++) - pack of 3">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Minimalist Sunscreen with Niacinamide (SPF 50 PA++++) - Pack of 3</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">3 x 50 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹958</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1197</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="minimalist sunscreen with niacinamide (spf 50 pa++++)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Minimalist Sunscreen with Niacinamide (SPF 50 PA++++)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">100 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹630</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹699</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">10% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="hyphen all i need sunscreen (spf 50 pa++++)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Hyphen All I Need Sunscreen (SPF 50 PA++++)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">50 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹427</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹449</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="the derma co 1% hyaluronic sunscreen gel aqua (spf 50 pa++++)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">The Derma Co 1% Hyaluronic Sunscreen Gel Aqua (SPF 50 PA++++)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">50 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹434</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">13% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="the derma co 1% hyaluronic sunscreen gel aqua (spf 50 pa++++) - pack of 2">
+        <td class="px-4 py-3 font-medium text-white max-w-md">The Derma Co 1% Hyaluronic Sunscreen Gel Aqua (SPF 50 PA++++) - Pack of 2</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">2 x 50 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹847</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹998</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="the derma co 1% hyaluronic sunscreen gel aqua (spf 50 pa++++)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">The Derma Co 1% Hyaluronic Sunscreen Gel Aqua (SPF 50 PA++++)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">80 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹600</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹699</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">14% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="the derma co 1% hyaluronic sunscreen gel aqua (30 g) (spf 50 pa++++)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">The Derma Co 1% Hyaluronic Sunscreen Gel Aqua (30 g) (SPF 50 PA++++)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">30 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹278</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹299</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">7% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="hyphen sun milk 100% mineral sunscreen spf 50 pa++++">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Hyphen Sun Milk 100% Mineral Sunscreen SPF 50 PA++++</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (50 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹610</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹649</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">6% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="hyphen all i need sunscreen spf 50 pa ++++ | lightweight sun cream">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Hyphen All I Need Sunscreen SPF 50 PA ++++ | Lightweight Sun Cream</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (50 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹422</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹449</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">6% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="hyphen ultra light water sunscreen spf 50 pa ++++ uva-uvb &amp; blue light protection, no white cast">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Hyphen Ultra Light Water Sunscreen SPF 50 Pa ++++ UVA-UVB &amp; Blue Light Protection, No White Cast</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">50 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹516</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹549</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">6% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="hyphen fluid cooling sunscreen | spf 50 pa++++">
+        <td class="px-4 py-3 font-medium text-white max-w-md">HYPHEN Fluid Cooling Sunscreen | SPF 50 PA++++</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (50 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹469</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">6% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="dot &amp; key vitamin c + e face sunscreen spf 50 pa+++ for glowing skin, 100% no white cast">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dot &amp; Key Vitamin C + E Face Sunscreen SPF 50 PA+++ For Glowing Skin, 100% No White Cast</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (50 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹387</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹445</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">13% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="neutrogena ultra sheer dry touch spf 50+ sunblock sunscreen lotion">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Neutrogena Ultra Sheer Dry Touch SPF 50+ Sunblock Sunscreen Lotion</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">30 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹284</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹299</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="uv doux - silicone sunscreen gel">
+        <td class="px-4 py-3 font-medium text-white max-w-md">UV Doux - Silicone Sunscreen Gel</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (50 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹635</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹845</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">25% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="uv doux - silicone sunscreen gel">
+        <td class="px-4 py-3 font-medium text-white max-w-md">UV Doux - Silicone Sunscreen Gel</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (100 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1277</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1490</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">14% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="hyphen all i need sunscreen spf 50 pa++++ | with new-gen uv filters | no white cast | in-vivo tested | brightens,hydrates| lightweight non-greasy uva/uvb protection | for all skin types | women &amp; men | 50ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Hyphen All I Need Sunscreen SPF 50 PA++++ | With New-Gen UV Filters | No White Cast | In-Vivo Tested | Brightens,Hydrates| Lightweight Non-Greasy UVA/UVB Protection | For All Skin Types | Women &amp; Men | 50ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">50ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹404</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹808</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="hyphen all i need sunscreen spf 50 pa++++ | with new-gen uv filters | no white cast | in-vivo tested | brightens,hydrates| lightweight non-greasy uva/uvb protection | for all skin types | women &amp; men | 30ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Hyphen All I Need Sunscreen SPF 50 PA++++ | With New-Gen UV Filters | No White Cast | In-Vivo Tested | Brightens,Hydrates| Lightweight Non-Greasy UVA/UVB Protection | For All Skin Types | Women &amp; Men | 30ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">30ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹295</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹983.33</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">70% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="dot &amp; key strawberry dew tinted sunscreen in-vivo tested spf 50+ pa++++ with new-age uv filters, brightens &amp; protects skin, ultra-light, with niacinamide, natural finish, non-sticky|50ml|01a-rose">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dot &amp; Key Strawberry Dew Tinted Sunscreen In-Vivo Tested SPF 50+ PA++++ With New-Age UV Filters, Brightens &amp; Protects Skin, Ultra-light, With Niacinamide, Natural Finish, Non-Sticky|50ml|01A-Rose</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">50ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹488</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹976</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">2 - 7 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="aqualogica glow+ dewy gel sunscreen - 50 g | spf 50+ pa++++ | in-vivo tested | new-age filters | 12-hour* sun protection | tan protection | for bright &amp; hydrated skin | fragrance-free &amp; no white cast | c-hyaluron complex™ &amp; papaya | broad spectrum uva/b &amp; blue light protection | lightweight | for men &amp; women">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Aqualogica Glow+ Dewy Gel Sunscreen - 50 g | SPF 50+ PA++++ | In-Vivo Tested | New-age Filters | 12-Hour* Sun Protection | Tan Protection | For Bright &amp; Hydrated Skin | Fragrance-Free &amp; No White Cast | C-Hyaluron Complex™ &amp; Papaya | Broad Spectrum UVA/B &amp; Blue Light Protection | Lightweight | For Men &amp; Women</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">50 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹336</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹672</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Wed, 4 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="garnier super uv cooling watergel sunscreen spf 50 pa++++, 60ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Garnier Super UV Cooling Watergel Sunscreen SPF 50 PA++++, 60ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">60ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹247</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹411.67</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">40% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="hyphen 1% hyaluronic ultra light water sunscreen spf 50 pa ++++ | in-vivo certified | broad spectrum &amp; blue light protection | no white cast | contains 5% antioxidants niacinamide vitamin e| korean sunscreen for men &amp; women | 50ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Hyphen 1% Hyaluronic Ultra Light Water Sunscreen SPF 50 PA ++++ | In-Vivo certified | Broad Spectrum &amp; Blue Light Protection | No White Cast | Contains 5% Antioxidants Niacinamide Vitamin E| Korean Sunscreen for Men &amp; Women | 50ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">50ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹497</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹994</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Fri, 6 Nov</td>
+      </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- Sticky CTA Footer -->
+  <div class="fixed bottom-0 inset-x-0 bg-slate-950/95 border-t border-emerald-500/30 backdrop-blur px-6 py-3.5 z-30">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+      <div class="text-slate-200">
+        <span class="text-emerald-400 font-bold">⚡ Unscrape Radar:</span> Want real-time Slack/WhatsApp/Telegram alerts within 15 mins whenever <strong>Hyphen</strong> SKUs go Out-of-Stock across 20 BLR/MUM/DEL dark-store pin codes?
+      </div>
+      <div class="flex items-center gap-2.5 shrink-0">
+        <a href="https://github.com/deveshkolte/unscrape" target="_blank" class="px-4 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold">Unlock Automated 20-Pin-Code Monitor →</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const RAW_CSV = "brand,city,pincode,platform,skuId,title,sellingPriceInr,mrpInr,discountPercent,unit,inStock,deliveryEta,url\nHyphen,Bengaluru,560001,bigbasket.com/jiomart,50900524,MVYLISSEA PDRN Hybrid Sunscreen | Smooth Texture,1199,1499,20,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/mvylissea-pdrn-hybrid-sunscreen-smooth-texture-mj76of-50900524/50900524\nHyphen,Bengaluru,560001,bigbasket.com/jiomart,50798045,MVYLISSEA Daily Hybrid Sunscreen | Comfortable Wear,1199,1499,20,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/mvylissea-daily-hybrid-sunscreen-comfortable-wear-mj75dy-50798045/50798045\nHyphen,Bengaluru,560001,bigbasket.com/jiomart,50797453,MVYLISSEA Soft Finish Hybrid Sunscreen | Non-Heavy,1199,1499,20,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/mvylissea-soft-finish-hybrid-sunscreen-non-heavy-mj75du-50797453/50797453\nHyphen,Bengaluru,560001,bigbasket.com/jiomart,50240188,MVYLISSEA Hybrid Sunscreen SPF 60 PA Plus | Lightweight,1199,1499,20,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/mvylissea-hybrid-sunscreen-spf-60-pa-plus-lightweight-mj72g7-50240188/50240188\nHyphen,Bengaluru,560001,bigbasket.com/jiomart,50907347,MVYLISSEA SPF 60 Sunscreen | Hybrid Formula,1199,1499,20,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/mvylissea-spf-60-sunscreen-hybrid-formula-mj76sa-50907347/50907347\nHyphen,Bengaluru,560001,bigbasket.com/jiomart,67761138,\"DR.RASHEL Serum Sunscreen SPF 40 with 1% Hyaluronic Acid , Lightweight, Hydrating & Broad Spectrum Sun Protection (30ml)\",224.25,299,25,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/dr-rashel-serum-sunscreen-spf-40-with-1-hyaluronic-acid-lightweight-hydrating-broad-spectrum-sun-protection-30ml-mjhfpr-67761138/67761138\nHyphen,Mumbai,400001,bigbasket.com/jiomart,50900524,MVYLISSEA PDRN Hybrid Sunscreen | Smooth Texture,1199,1499,20,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/mvylissea-pdrn-hybrid-sunscreen-smooth-texture-mj76of-50900524/50900524\nHyphen,Mumbai,400001,bigbasket.com/jiomart,50798045,MVYLISSEA Daily Hybrid Sunscreen | Comfortable Wear,1199,1499,20,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/mvylissea-daily-hybrid-sunscreen-comfortable-wear-mj75dy-50798045/50798045\nHyphen,Mumbai,400001,bigbasket.com/jiomart,50797453,MVYLISSEA Soft Finish Hybrid Sunscreen | Non-Heavy,1199,1499,20,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/mvylissea-soft-finish-hybrid-sunscreen-non-heavy-mj75du-50797453/50797453\nHyphen,Mumbai,400001,bigbasket.com/jiomart,50240188,MVYLISSEA Hybrid Sunscreen SPF 60 PA Plus | Lightweight,1199,1499,20,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/mvylissea-hybrid-sunscreen-spf-60-pa-plus-lightweight-mj72g7-50240188/50240188\nHyphen,Mumbai,400001,bigbasket.com/jiomart,50907347,MVYLISSEA SPF 60 Sunscreen | Hybrid Formula,1199,1499,20,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/mvylissea-spf-60-sunscreen-hybrid-formula-mj76sa-50907347/50907347\nHyphen,Mumbai,400001,bigbasket.com/jiomart,67761138,\"DR.RASHEL Serum Sunscreen SPF 40 with 1% Hyaluronic Acid , Lightweight, Hydrating & Broad Spectrum Sun Protection (30ml)\",224.25,299,25,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/dr-rashel-serum-sunscreen-spf-40-with-1-hyaluronic-acid-lightweight-hydrating-broad-spectrum-sun-protection-30ml-mjhfpr-67761138/67761138\nHyphen,Delhi,110001,bigbasket.com/jiomart,50900524,MVYLISSEA PDRN Hybrid Sunscreen | Smooth Texture,1199,1499,20,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/mvylissea-pdrn-hybrid-sunscreen-smooth-texture-mj76of-50900524/50900524\nHyphen,Delhi,110001,bigbasket.com/jiomart,50798045,MVYLISSEA Daily Hybrid Sunscreen | Comfortable Wear,1199,1499,20,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/mvylissea-daily-hybrid-sunscreen-comfortable-wear-mj75dy-50798045/50798045\nHyphen,Delhi,110001,bigbasket.com/jiomart,50797453,MVYLISSEA Soft Finish Hybrid Sunscreen | Non-Heavy,1199,1499,20,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/mvylissea-soft-finish-hybrid-sunscreen-non-heavy-mj75du-50797453/50797453\nHyphen,Delhi,110001,bigbasket.com/jiomart,50240188,MVYLISSEA Hybrid Sunscreen SPF 60 PA Plus | Lightweight,1199,1499,20,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/mvylissea-hybrid-sunscreen-spf-60-pa-plus-lightweight-mj72g7-50240188/50240188\nHyphen,Delhi,110001,bigbasket.com/jiomart,50907347,MVYLISSEA SPF 60 Sunscreen | Hybrid Formula,1199,1499,20,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/mvylissea-spf-60-sunscreen-hybrid-formula-mj76sa-50907347/50907347\nHyphen,Delhi,110001,bigbasket.com/jiomart,67761138,\"DR.RASHEL Serum Sunscreen SPF 40 with 1% Hyaluronic Acid , Lightweight, Hydrating & Broad Spectrum Sun Protection (30ml)\",224.25,299,25,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/dr-rashel-serum-sunscreen-spf-40-with-1-hyaluronic-acid-lightweight-hydrating-broad-spectrum-sun-protection-30ml-mjhfpr-67761138/67761138\nHyphen,Bengaluru,560001,flipkart.com,SNRGTMWGQM2BCXBK,HYPHEN Sunscreen - SPF 50 PA++++ PA++++ All I Need Sunscreen with New Gen UV Filters|In-Vivo Tested,404,449,10,1 unit,true,15 MINS,https://www.flipkart.com/hyphen-sunscreen-spf-50-pa-all-need-new-gen-uv-filters-in-vivo-tested/p/itm2eeee853c5ae7?pid=SNRGTMWGQM2BCXBK&lid=LSTSNRGTMWGQM2BCXBKLVWXGF&marketplace=FLIPKART&q=hyphen+sunscreen&store=g9b%2Fema%2F5la%2Fxrh&srno=s_1_1&otracker=search&fm=organic&iid=9f751b6b-fa14-4e46-8ef4-dbbfe5cccde5.SNRGTMWGQM2BCXBK.SEARCH&ppt=sp&ppn=sp&ssid=fvkgbyrlxc0000001793387346454&qH=6d2d234219295f29&ov_redirect=true&ov_redirect=true\nHyphen,Bengaluru,560001,flipkart.com,SNRHDYMSSZABBCCE,HYPHEN Sunscreen - SPF 50 PA++++ All I Need Sunscreen SPF 50 PA++++ with New Gen UV Filters|In-Vivo Tested,296,315,6,1 unit,true,15 MINS,https://www.flipkart.com/hyphen-sunscreen-spf-50-pa-all-need-new-gen-uv-filters-in-vivo-tested/p/itma4b6ed2335b36?pid=SNRHDYMSSZABBCCE&lid=LSTSNRHDYMSSZABBCCE6L9U4X&marketplace=FLIPKART&q=hyphen+sunscreen&store=g9b%2Fema%2F5la%2Fxrh&srno=s_1_2&otracker=search&fm=organic&iid=9f751b6b-fa14-4e46-8ef4-dbbfe5cccde5.SNRHDYMSSZABBCCE.SEARCH&ppt=sp&ppn=sp&ssid=fvkgbyrlxc0000001793387346454&qH=6d2d234219295f29&ov_redirect=true&ov_redirect=true\nHyphen,Bengaluru,560001,flipkart.com,SNRGXNFYGGKBEJGR,HYPHEN Sunscreen - SPF 50 PA++++ Ultra Light Water Sunscreen In-vivo tested,497,549,9,1 unit,true,15 MINS,https://www.flipkart.com/hyphen-sunscreen-spf-50-pa-ultra-light-water-in-vivo-tested/p/itm09fb38e19bf07?pid=SNRGXNFYGGKBEJGR&lid=LSTSNRGXNFYGGKBEJGRS3DLO0&marketplace=FLIPKART&q=hyphen+sunscreen&store=g9b%2Fema%2F5la%2Fxrh&srno=s_1_3&otracker=search&fm=organic&iid=9f751b6b-fa14-4e46-8ef4-dbbfe5cccde5.SNRGXNFYGGKBEJGR.SEARCH&ppt=sp&ppn=sp&ssid=fvkgbyrlxc0000001793387346454&qH=6d2d234219295f29&ov_redirect=true&ov_redirect=true\nHyphen,Bengaluru,560001,flipkart.com,SNRHCJPXVZZABCUG,\"HYPHEN Sunscreen - SPF 50 PA++++ All I Need Sunscreen| Brightens - Kojic Acid, Vit C Rich Kakadu Plum, Non-Greasy\",763,898,15,1 unit,true,15 MINS,https://www.flipkart.com/hyphen-sunscreen-spf-50-pa-all-need-sunscreen-brightens-kojic-acid-vit-c-rich-kakadu-plum-non-greasy/p/itm8a1eb9b250cdb?pid=SNRHCJPXVZZABCUG&lid=LSTSNRHCJPXVZZABCUGSZHMGV&marketplace=FLIPKART&q=hyphen+sunscreen&store=g9b%2Fema%2F5la%2Fxrh&srno=s_1_4&otracker=search&fm=organic&iid=9f751b6b-fa14-4e46-8ef4-dbbfe5cccde5.SNRHCJPXVZZABCUG.SEARCH&ppt=sp&ppn=sp&ssid=fvkgbyrlxc0000001793387346454&qH=6d2d234219295f29&ov_redirect=true&ov_redirect=true\nHyphen,Bengaluru,560001,flipkart.com,SNRH47KSQNF9HVPP,HYPHEN Sunscreen - SPF 70+ PA++++ Matte Max Velvet Touch | Sweat & Water Resistant | 12Hrs UVA-UVB Protection,469,499,6,1 unit,true,15 MINS,https://www.flipkart.com/hyphen-sunscreen-spf-70-pa-matte-max-velvet-touch-sweat-water-resistant-12hrs-uva-uvb-protection/p/itm13beaf4b1b324?pid=SNRH47KSQNF9HVPP&lid=LSTSNRH47KSQNF9HVPP07BHXQ&marketplace=FLIPKART&q=hyphen+sunscreen&store=g9b%2Fema%2F5la%2Fxrh&srno=s_1_5&otracker=search&fm=organic&iid=9f751b6b-fa14-4e46-8ef4-dbbfe5cccde5.SNRH47KSQNF9HVPP.SEARCH&ppt=sp&ppn=sp&ssid=fvkgbyrlxc0000001793387346454&qH=6d2d234219295f29&ov_redirect=true&ov_redirect=true\nHyphen,Bengaluru,560001,flipkart.com,CBKHNZ7Y7VQFGH9H,HYPHEN All I Need Sunscreen SPF 50 PA++++ (Pack of 2) | New & Old Gen UV Filters,536,630,15,1 unit,true,15 MINS,https://www.flipkart.com/hyphen-all-need-sunscreen-spf-50-pa-pack-2-new-old-gen-uv-filters/p/itmdc163d9353322?pid=CBKHNZ7Y7VQFGH9H&lid=LSTCBKHNZ7Y7VQFGH9HEGLTTC&marketplace=FLIPKART&q=hyphen+sunscreen&store=g9b%2Fema%2F5la%2Fxrh&srno=s_1_6&otracker=search&fm=organic&iid=9f751b6b-fa14-4e46-8ef4-dbbfe5cccde5.CBKHNZ7Y7VQFGH9H.SEARCH&ppt=sp&ppn=sp&ssid=fvkgbyrlxc0000001793387346454&qH=6d2d234219295f29&ov_redirect=true&ov_redirect=true\nHyphen,Bengaluru,560001,blinkit.com,483561,Minimalist Sunscreen with Niacinamide (SPF 50 PA++++),360,399,10,50 g,true,10 MINS,https://blinkit.com/prn/minimalist-sunscreen-with-niacinamide-spf-50-pa/prid/483561\nHyphen,Bengaluru,560001,blinkit.com,690021,Minimalist Sunscreen with Niacinamide (SPF 50 PA++++) - Pack of 3,958,1197,20,3 x 50 g,true,10 MINS,https://blinkit.com/prn/minimalist-sunscreen-with-niacinamide-spf-50-pa-pack-of-3/prid/690021\nHyphen,Bengaluru,560001,blinkit.com,617360,Minimalist Sunscreen with Niacinamide (SPF 50 PA++++),630,699,10,100 g,true,10 MINS,https://blinkit.com/prn/minimalist-sunscreen-with-niacinamide-spf-50-pa/prid/617360\nHyphen,Bengaluru,560001,blinkit.com,539069,Hyphen All I Need Sunscreen (SPF 50 PA++++),427,449,5,50 ml,true,10 MINS,https://blinkit.com/prn/hyphen-all-i-need-sunscreen-spf-50-pa/prid/539069\nHyphen,Bengaluru,560001,blinkit.com,483562,The Derma Co 1% Hyaluronic Sunscreen Gel Aqua (SPF 50 PA++++),434,499,13,50 g,true,10 MINS,https://blinkit.com/prn/the-derma-co-1-hyaluronic-sunscreen-gel-aqua-spf-50-pa/prid/483562\nHyphen,Bengaluru,560001,blinkit.com,544057,The Derma Co 1% Hyaluronic Sunscreen Gel Aqua (SPF 50 PA++++) - Pack of 2,847,998,15,2 x 50 g,true,10 MINS,https://blinkit.com/prn/the-derma-co-1-hyaluronic-sunscreen-gel-aqua-spf-50-pa-pack-of-2/prid/544057\nHyphen,Bengaluru,560001,blinkit.com,544136,The Derma Co 1% Hyaluronic Sunscreen Gel Aqua (SPF 50 PA++++),600,699,14,80 g,true,10 MINS,https://blinkit.com/prn/the-derma-co-1-hyaluronic-sunscreen-gel-aqua-spf-50-pa/prid/544136\nHyphen,Bengaluru,560001,blinkit.com,557394,The Derma Co 1% Hyaluronic Sunscreen Gel Aqua (30 g) (SPF 50 PA++++),278,299,7,30 g,true,10 MINS,https://blinkit.com/prn/the-derma-co-1-hyaluronic-sunscreen-gel-aqua-30-g-spf-50-pa/prid/557394\nHyphen,Bengaluru,560001,zeptonow.com,7622385d-39f0-58a7-bfff-2d187183797b,Hyphen Sun Milk 100% Mineral Sunscreen SPF 50 PA++++,610,649,6,1 pc (50 ml),true,10 MINS,https://www.zepto.com/pn/hyphen-sun-milk-100-mineral-sunscreen-spf-50-pa/pvid/0d6ac857-8e8e-4f7f-8066-9ab3246f1101\nHyphen,Bengaluru,560001,zeptonow.com,6083654b-f7b8-5801-a9a0-24c8e06e787c,Hyphen All I Need Sunscreen SPF 50 PA ++++ | Lightweight Sun Cream,422,449,6,1 pc (50 ml),true,10 MINS,https://www.zepto.com/pn/hyphen-all-i-need-sunscreen-spf-50-pa-lightweight-sun-cream/pvid/c3f1dd6f-8193-4e09-ac41-f4cd14f190dd\nHyphen,Bengaluru,560001,zeptonow.com,269f1ae9-9adc-5565-b72b-4b322fd8dc4d,\"Hyphen Ultra Light Water Sunscreen SPF 50 Pa ++++ UVA-UVB & Blue Light Protection, No White Cast\",516,549,6,50 ml,true,10 MINS,https://www.zepto.com/pn/hyphen-ultra-light-water-sunscreen-spf-50-pa-uva-uvb-blue-light-protection-no-white-cast/pvid/39621b08-b6ab-4207-bb1f-edc1e33750c5\nHyphen,Bengaluru,560001,zeptonow.com,4d2e3d16-b57a-5281-a1cc-e9fb681dbb70,HYPHEN Fluid Cooling Sunscreen | SPF 50 PA++++,469,499,6,1 pc (50 ml),true,10 MINS,https://www.zepto.com/pn/hyphen-fluid-cooling-sunscreen-spf-50-pa/pvid/4b59a0ae-67c0-445e-9c4c-b91bfc441210\nHyphen,Bengaluru,560001,zeptonow.com,668d0cf8-47f5-507d-93e2-421b505a1f54,\"Dot & Key Vitamin C + E Face Sunscreen SPF 50 PA+++ For Glowing Skin, 100% No White Cast\",387,445,13,1 pc (50 g),true,10 MINS,https://www.zepto.com/pn/dot-key-vitamin-c-e-face-sunscreen-spf-50-pa-for-glowing-skin-100-no-white-cast/pvid/f815ae04-2bbf-4c33-91fe-57db3c9eb735\nHyphen,Bengaluru,560001,zeptonow.com,49cee313-0252-5ec4-b56d-0f95318fc570,Neutrogena Ultra Sheer Dry Touch SPF 50+ Sunblock Sunscreen Lotion,284,299,5,30 g,true,10 MINS,https://www.zepto.com/pn/neutrogena-ultra-sheer-dry-touch-spf-50-sunblock-sunscreen-lotion/pvid/5fc5c9b5-4657-4411-be5e-98e78350899f\nHyphen,Bengaluru,560001,zeptonow.com,8cbf4f5b-4713-5223-9b21-5248298aeceb,UV Doux - Silicone Sunscreen Gel,635,845,25,1 pc (50 g),true,10 MINS,https://www.zepto.com/pn/uv-doux-silicone-sunscreen-gel/pvid/445f9fce-3683-4f44-b81d-454e3ed980ed\nHyphen,Bengaluru,560001,zeptonow.com,64867386-4056-5ce9-9b79-bc1a7b098e06,UV Doux - Silicone Sunscreen Gel,1277,1490,14,1 pc (100 g),true,10 MINS,https://www.zepto.com/pn/uv-doux-silicone-sunscreen-gel/pvid/8b709f0a-9598-4083-b8da-6b7f0ec6a092\nHyphen,Bengaluru,560001,amazon.in,B0CGVGVT8P,\"Hyphen All I Need Sunscreen SPF 50 PA++++ | With New-Gen UV Filters | No White Cast | In-Vivo Tested | Brightens,Hydrates| Lightweight Non-Greasy UVA/UVB Protection | For All Skin Types | Women & Men | 50ml\",404,808,50,50ml,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0CGVGVT8P\nHyphen,Bengaluru,560001,amazon.in,B0FCSNRZBD,\"Hyphen All I Need Sunscreen SPF 50 PA++++ | With New-Gen UV Filters | No White Cast | In-Vivo Tested | Brightens,Hydrates| Lightweight Non-Greasy UVA/UVB Protection | For All Skin Types | Women & Men | 30ml\",295,983.33,70,30ml,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0FCSNRZBD\nHyphen,Bengaluru,560001,amazon.in,B0GL1TFQ19,\"Dot & Key Strawberry Dew Tinted Sunscreen In-Vivo Tested SPF 50+ PA++++ With New-Age UV Filters, Brightens & Protects Skin, Ultra-light, With Niacinamide, Natural Finish, Non-Sticky|50ml|01A-Rose\",488,976,50,50ml,true,2 - 7 Nov,https://www.amazon.in/dp/B0GL1TFQ19\nHyphen,Bengaluru,560001,amazon.in,B09TPFTJNN,Aqualogica Glow+ Dewy Gel Sunscreen - 50 g | SPF 50+ PA++++ | In-Vivo Tested | New-age Filters | 12-Hour* Sun Protection | Tan Protection | For Bright & Hydrated Skin | Fragrance-Free & No White Cast | C-Hyaluron Complex™ & Papaya | Broad Spectrum UVA/B & Blue Light Protection | Lightweight | For Men & Women,336,672,50,50 g,true,\"Wed, 4 Nov\",https://www.amazon.in/dp/B09TPFTJNN\nHyphen,Bengaluru,560001,amazon.in,B0F2J9V64H,\"Garnier Super UV Cooling Watergel Sunscreen SPF 50 PA++++, 60ml\",247,411.67,40,60ml,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0F2J9V64H\nHyphen,Bengaluru,560001,amazon.in,B0CTKCVC2W,Hyphen 1% Hyaluronic Ultra Light Water Sunscreen SPF 50 PA ++++ | In-Vivo certified | Broad Spectrum & Blue Light Protection | No White Cast | Contains 5% Antioxidants Niacinamide Vitamin E| Korean Sunscreen for Men & Women | 50ml,497,994,50,50ml,true,\"Fri, 6 Nov\",https://www.amazon.in/dp/B0CTKCVC2W\n";
+
+    function filterRows(mode) {
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const stock = row.getAttribute('data-stock');
+        if (mode === 'all') row.style.display = '';
+        else if (mode === 'oos') row.style.display = stock === 'oos' ? '' : 'none';
+        else if (mode === 'instock') row.style.display = stock === 'instock' ? '' : 'none';
+      });
+    }
+
+    function searchSkus() {
+      const q = document.getElementById('skuSearch').value.toLowerCase();
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const title = row.getAttribute('data-title') || '';
+        const platform = (row.getAttribute('data-platform') || '').toLowerCase();
+        row.style.display = (title.includes(q) || platform.includes(q)) ? '' : 'none';
+      });
+    }
+
+    function downloadCsv() {
+      const blob = new Blob([RAW_CSV], { type: 'text/csv;charset=utf-8;' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'hyphen-3city-audit.csv';
+      a.click();
+    }
+  </script>
+</body>
+</html>

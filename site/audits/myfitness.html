@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MyFitness — 3-City Quick-Commerce Dark-Store Audit Scorecard | Unscrape Radar</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background-color: #07080d; color: #f3f4f6; font-family: Inter, system-ui, -apple-system, sans-serif; }
+  </style>
+</head>
+<body class="min-h-screen pb-24">
+  <!-- Top Bar -->
+  <header class="border-b border-slate-800 bg-slate-950/90 backdrop-blur sticky top-0 z-20">
+    <div class="max-w-7xl mx-auto px-6 py-3.5 flex items-center justify-between flex-wrap gap-3">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="text-emerald-400 font-black text-lg tracking-tight hover:text-emerald-300">⚡ UNSCRAPE RADAR</a>
+        <span class="text-xs text-slate-500">/</span>
+        <span class="text-sm font-bold text-white">MyFitness Executive Scorecard</span>
+      </div>
+      <div class="flex items-center gap-2.5 text-xs">
+        <a href="index.html" class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700">← All 56 Brand Audits</a>
+        <button onclick="downloadCsv()" class="px-3.5 py-1.5 rounded-lg bg-emerald-500 text-slate-950 font-bold hover:bg-emerald-400">⬇ Download Raw CSV (38 SKUs)</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-6 pt-8">
+    <!-- Executive Header -->
+    <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 mb-8">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+        <div>
+          <div class="flex items-center gap-2.5 mb-2">
+            <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded bg-slate-800 text-emerald-400">Peanut Butter</span>
+            <span class="text-xs text-slate-400 font-mono">Audited: 2026-10-30</span>
+          </div>
+          <h1 class="text-3xl md:text-4xl font-black text-white tracking-tight">MyFitness — Hyperlocal Dark-Store Audit</h1>
+          <p class="text-slate-400 text-sm mt-1">
+            Live multi-platform inventory & MOP/MRP price variance scan across <strong>Bengaluru (560001)</strong>, <strong>Mumbai (400001)</strong>, and <strong>Delhi (110001)</strong>.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 shrink-0">
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">SKUs Audited</div>
+            <div class="text-2xl font-black text-white mt-1">38</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">OOS Leaks</div>
+            <div class="text-2xl font-black text-emerald-400 mt-1">0</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">Max Markdown</div>
+            <div class="text-2xl font-black text-amber-300 mt-1">33%</div>
+          </div>
+          <div class="border rounded-xl p-3.5 text-center bg-emerald-500/15 text-emerald-400 border-emerald-500/30">
+            <div class="text-[11px] uppercase font-bold opacity-80">Shelf Health</div>
+            <div class="text-2xl font-black mt-1">100%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="bg-emerald-950/30 border border-emerald-500/30 rounded-2xl p-5 mb-8 flex items-center justify-between flex-wrap gap-3">
+      <div>
+        <span class="px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 font-bold text-xs uppercase">✓ 100% In-Stock Snapshot</span>
+        <span class="text-sm text-slate-200 ml-2">All 38 audited dark-store listings across Bengaluru, Mumbai & Delhi were in stock during this scan. Max discount variance: <strong>33% below MRP</strong>.</span>
+      </div>
+    </div>
+
+    <!-- Filter Controls -->
+    <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+      <div class="flex items-center gap-2 text-xs">
+        <button onclick="filterRows('all')" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-semibold">All SKUs (38)</button>
+        <button onclick="filterRows('oos')" class="px-3 py-1.5 rounded-lg bg-rose-500/15 border border-rose-500/30 text-rose-300 hover:bg-rose-500/25 font-semibold">Out-of-Stock Only (0)</button>
+        <button onclick="filterRows('instock')" class="px-3 py-1.5 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 hover:bg-emerald-500/25 font-semibold">In-Stock (38)</button>
+      </div>
+      <div class="flex items-center gap-2">
+        <input id="skuSearch" type="text" oninput="searchSkus()" placeholder="Filter SKU title or platform..." class="bg-slate-900 border border-slate-800 rounded-lg px-3.5 py-1.5 text-xs text-white w-64" />
+      </div>
+    </div>
+
+    <!-- SKU Table -->
+    <div class="bg-slate-900/50 border border-slate-800 rounded-2xl overflow-x-auto">
+      <table class="w-full text-left text-xs">
+        <thead class="bg-slate-950/90 text-slate-400 uppercase border-b border-slate-800">
+          <tr>
+            <th class="px-4 py-3">SKU Title</th>
+            <th class="px-4 py-3">Platform</th>
+            <th class="px-4 py-3">City / Pin</th>
+            <th class="px-4 py-3">Pack Size</th>
+            <th class="px-4 py-3">Selling Price</th>
+            <th class="px-4 py-3">MRP</th>
+            <th class="px-4 py-3">Discount</th>
+            <th class="px-4 py-3">Stock Status</th>
+            <th class="px-4 py-3">ETA</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-800/60">
+          <tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="myfitness peanut butter chocolate spread crunchy 510g | (pack of 2, 510gm x 2) | 23g protein &amp; 9g fiber">
+        <td class="px-4 py-3 font-medium text-white max-w-md">MYFITNESS Peanut Butter Chocolate Spread Crunchy 510g | (Pack of 2, 510gm x 2) | 23g Protein &amp; 9g Fiber</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">199.50/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹399</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹598</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">33% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="myfitness peanut butter 510gm chocolate spread crunchy | 26g protein &amp; 9g fiber | tasty &amp; healthy nut butter spread for breakfast &amp; snacks | cholesterol free | zero trans fat | crunchy peanut butter">
+        <td class="px-4 py-3 font-medium text-white max-w-md">MYFITNESS Peanut Butter 510gm Chocolate Spread Crunchy | 26g Protein &amp; 9g Fiber | Tasty &amp; Healthy Nut Butter Spread for Breakfast &amp; Snacks | Cholesterol Free | Zero Trans Fat | Crunchy Peanut Butter</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.44/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹226</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹319</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">29% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="my fitness smooth chocolate peanut butter 510 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">My Fitness Smooth Chocolate Peanut Butter 510 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.50/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹255</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹319</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="my fitness crunchy chocolate peanut butter 510 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">My Fitness Crunchy Chocolate Peanut Butter 510 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.50/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹255</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹319</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="myfitness peanut butter - 1.25kg chocolate spread smooth | 22g protein &amp; 6g fiber | tasty &amp; healthy nut butter spread for breakfast, snacks | cholesterol free | zero trans fat | creamy peanut butter">
+        <td class="px-4 py-3 font-medium text-white max-w-md">MYFITNESS Peanut Butter - 1.25kg Chocolate Spread Smooth | 22g Protein &amp; 6g Fiber | Tasty &amp; Healthy Nut Butter Spread for Breakfast, Snacks | Cholesterol Free | Zero Trans Fat | Creamy Peanut Butter</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.35/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹434</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹619</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">30% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="myfitness peanut butter chocolate flavour, crunchy 1.25kg | 23g protein | tasty &amp; healthy nut butter spread | vegan | cholesterol free, gluten free | zero trans-fat | 100% pure roasted peanut">
+        <td class="px-4 py-3 font-medium text-white max-w-md">MYFITNESS Peanut Butter Chocolate Flavour, Crunchy 1.25kg | 23g Protein | Tasty &amp; Healthy Nut Butter Spread | Vegan | Cholesterol Free, Gluten Free | Zero Trans-Fat | 100% Pure Roasted Peanut</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.37/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹468</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹619</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">24% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="myfitness peanut butter chocolate spread crunchy 510g | (pack of 2, 510gm x 2) | 23g protein &amp; 9g fiber">
+        <td class="px-4 py-3 font-medium text-white max-w-md">MYFITNESS Peanut Butter Chocolate Spread Crunchy 510g | (Pack of 2, 510gm x 2) | 23g Protein &amp; 9g Fiber</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">199.50/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹399</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹598</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">33% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="myfitness peanut butter 510gm chocolate spread crunchy | 26g protein &amp; 9g fiber | tasty &amp; healthy nut butter spread for breakfast &amp; snacks | cholesterol free | zero trans fat | crunchy peanut butter">
+        <td class="px-4 py-3 font-medium text-white max-w-md">MYFITNESS Peanut Butter 510gm Chocolate Spread Crunchy | 26g Protein &amp; 9g Fiber | Tasty &amp; Healthy Nut Butter Spread for Breakfast &amp; Snacks | Cholesterol Free | Zero Trans Fat | Crunchy Peanut Butter</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.44/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹226</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹319</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">29% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="my fitness smooth chocolate peanut butter 510 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">My Fitness Smooth Chocolate Peanut Butter 510 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.50/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹255</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹319</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="my fitness crunchy chocolate peanut butter 510 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">My Fitness Crunchy Chocolate Peanut Butter 510 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.50/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹255</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹319</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="myfitness peanut butter - 1.25kg chocolate spread smooth | 22g protein &amp; 6g fiber | tasty &amp; healthy nut butter spread for breakfast, snacks | cholesterol free | zero trans fat | creamy peanut butter">
+        <td class="px-4 py-3 font-medium text-white max-w-md">MYFITNESS Peanut Butter - 1.25kg Chocolate Spread Smooth | 22g Protein &amp; 6g Fiber | Tasty &amp; Healthy Nut Butter Spread for Breakfast, Snacks | Cholesterol Free | Zero Trans Fat | Creamy Peanut Butter</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.35/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹434</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹619</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">30% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="myfitness peanut butter chocolate flavour, crunchy 1.25kg | 23g protein | tasty &amp; healthy nut butter spread | vegan | cholesterol free, gluten free | zero trans-fat | 100% pure roasted peanut">
+        <td class="px-4 py-3 font-medium text-white max-w-md">MYFITNESS Peanut Butter Chocolate Flavour, Crunchy 1.25kg | 23g Protein | Tasty &amp; Healthy Nut Butter Spread | Vegan | Cholesterol Free, Gluten Free | Zero Trans-Fat | 100% Pure Roasted Peanut</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.37/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹468</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹619</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">24% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="myfitness peanut butter chocolate spread crunchy 510g | (pack of 2, 510gm x 2) | 23g protein &amp; 9g fiber">
+        <td class="px-4 py-3 font-medium text-white max-w-md">MYFITNESS Peanut Butter Chocolate Spread Crunchy 510g | (Pack of 2, 510gm x 2) | 23g Protein &amp; 9g Fiber</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">199.50/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹399</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹598</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">33% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="myfitness peanut butter 510gm chocolate spread crunchy | 26g protein &amp; 9g fiber | tasty &amp; healthy nut butter spread for breakfast &amp; snacks | cholesterol free | zero trans fat | crunchy peanut butter">
+        <td class="px-4 py-3 font-medium text-white max-w-md">MYFITNESS Peanut Butter 510gm Chocolate Spread Crunchy | 26g Protein &amp; 9g Fiber | Tasty &amp; Healthy Nut Butter Spread for Breakfast &amp; Snacks | Cholesterol Free | Zero Trans Fat | Crunchy Peanut Butter</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.44/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹226</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹319</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">29% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="my fitness smooth chocolate peanut butter 510 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">My Fitness Smooth Chocolate Peanut Butter 510 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.50/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹255</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹319</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="my fitness crunchy chocolate peanut butter 510 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">My Fitness Crunchy Chocolate Peanut Butter 510 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.50/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹255</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹319</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="myfitness peanut butter - 1.25kg chocolate spread smooth | 22g protein &amp; 6g fiber | tasty &amp; healthy nut butter spread for breakfast, snacks | cholesterol free | zero trans fat | creamy peanut butter">
+        <td class="px-4 py-3 font-medium text-white max-w-md">MYFITNESS Peanut Butter - 1.25kg Chocolate Spread Smooth | 22g Protein &amp; 6g Fiber | Tasty &amp; Healthy Nut Butter Spread for Breakfast, Snacks | Cholesterol Free | Zero Trans Fat | Creamy Peanut Butter</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.35/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹434</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹619</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">30% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="myfitness peanut butter chocolate flavour, crunchy 1.25kg | 23g protein | tasty &amp; healthy nut butter spread | vegan | cholesterol free, gluten free | zero trans-fat | 100% pure roasted peanut">
+        <td class="px-4 py-3 font-medium text-white max-w-md">MYFITNESS Peanut Butter Chocolate Flavour, Crunchy 1.25kg | 23g Protein | Tasty &amp; Healthy Nut Butter Spread | Vegan | Cholesterol Free, Gluten Free | Zero Trans-Fat | 100% Pure Roasted Peanut</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.37/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹468</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹619</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">24% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="myfitness chocolate peanut butter (crunchy)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">MYFITNESS Chocolate Peanut Butter (Crunchy)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹248</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹319</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">22% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="myfitness 29g high protein dark chocolate peanut butter crispy with added whey">
+        <td class="px-4 py-3 font-medium text-white max-w-md">MYFITNESS 29g High Protein Dark Chocolate Peanut Butter Crispy with Added Whey</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">29g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹303</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹399</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">24% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="myfitness chocolate peanut butter- crunchy 26g high protein spread">
+        <td class="px-4 py-3 font-medium text-white max-w-md">MYFITNESS Chocolate Peanut Butter- Crunchy 26g High Protein Spread</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">26g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹579</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹669</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">13% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="myfitness chocolate peanut butter">
+        <td class="px-4 py-3 font-medium text-white max-w-md">MYFITNESS Chocolate Peanut Butter</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹287</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹319</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">10% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="myfitness zero peanut butter crunchy 510g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">MYFITNESS Zero Peanut Butter Crunchy 510g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">510g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹237</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹349</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">32% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="myfitness chocolate crunchy &amp; chocolate crispy peanut butter | combo">
+        <td class="px-4 py-3 font-medium text-white max-w-md">MYFITNESS Chocolate Crunchy &amp; Chocolate Crispy Peanut Butter | Combo</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹463</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹638</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">27% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="pintola dark chocolate creamy peanut butter">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pintola Dark Chocolate Creamy Peanut Butter</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">350 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹169</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹180</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">6% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="pintola dark chocolate creamy peanut butter">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pintola Dark Chocolate Creamy Peanut Butter</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">2 x 350 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹332</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹360</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">8% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="pintola dark chocolate creamy peanut butter">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pintola Dark Chocolate Creamy Peanut Butter</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 kg</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹443</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹475</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">7% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="myfitness high protein chocolate crunchy peanut butter spread">
+        <td class="px-4 py-3 font-medium text-white max-w-md">MyFitness High Protein Chocolate Crunchy Peanut Butter Spread</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">510 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹278</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹319</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">13% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="myfitness high protein chocolate crunchy peanut butter spread">
+        <td class="px-4 py-3 font-medium text-white max-w-md">MyFitness High Protein Chocolate Crunchy Peanut Butter Spread</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">210 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹147</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹159</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">8% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="myfitness high protein chocolate peanut butter smooth spread">
+        <td class="px-4 py-3 font-medium text-white max-w-md">MyFitness High Protein Chocolate Peanut Butter Smooth Spread</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">510 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹278</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹319</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">13% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="myfitness chocolate creamy peanut butter">
+        <td class="px-4 py-3 font-medium text-white max-w-md">MyFitness Chocolate Creamy Peanut Butter</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">900 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹425</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="pintola all natural crunchy peanut butter (unsweetened)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pintola All Natural Crunchy Peanut Butter (Unsweetened)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 kg</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹400</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹430</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">7% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="all natural peanut butter smooth 510g | 25g protein &amp; 7g fiber | 100% roasted peanuts | nut butter spread | no added sugar &amp; salt | no palm oil | zero cholesterol | unsweetened peanut butter">
+        <td class="px-4 py-3 font-medium text-white max-w-md">All Natural Peanut Butter Smooth 510g | 25g Protein &amp; 7g Fiber | 100% Roasted Peanuts | Nut Butter Spread | No Added Sugar &amp; Salt | No Palm Oil | Zero Cholesterol | Unsweetened Peanut Butter</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">510g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹229</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹44.9</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="30g high protein dark chocolate peanut butter crunchy with added whey, 510g | 7g fiber | for muscle building | tasty nut butter spread | gluten free | zero trans fat">
+        <td class="px-4 py-3 font-medium text-white max-w-md">30g High Protein Dark Chocolate Peanut Butter Crunchy with Added Whey, 510g | 7g Fiber | For Muscle Building | Tasty Nut Butter Spread | Gluten Free | Zero Trans Fat</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">30g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹299</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹58.63</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="all natural peanut butter crunchy 350g | smooth, unsweetened, 30g protein | gluten &amp; cholesterol free, vegan peanut butter, nut butter, high in protein spread, 100% pure roasted peanuts butter">
+        <td class="px-4 py-3 font-medium text-white max-w-md">All Natural Peanut Butter Crunchy 350g | Smooth, Unsweetened, 30g Protein | Gluten &amp; Cholesterol Free, Vegan Peanut Butter, Nut Butter, High in Protein Spread, 100% Pure Roasted peanuts butter</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">350g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹146</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹41.71</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="high protein peanut butter chocolate flavour crunchy 510g, added whey protein, 30g protein 6.2g fiber, dark chocolate peanut butter spread, nut butter bread snacks">
+        <td class="px-4 py-3 font-medium text-white max-w-md">High Protein Peanut Butter Chocolate Flavour Crunchy 510g, Added WHEY Protein, 30g Protein 6.2g Fiber, Dark Chocolate Peanut Butter Spread, Nut Butter Bread Snacks</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">510g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹300</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹58.82</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="peanut butter chocolate flavour creamy 350g - 24g protein &amp; 7.9g dietary fiber, made with premium roasted nuts &amp; cocoa, dark chocolate">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Peanut Butter Chocolate Flavour Creamy 350g - 24g Protein &amp; 7.9g Dietary Fiber, Made with Premium Roasted Nuts &amp; Cocoa, Dark Chocolate</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">350g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹152</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹43.43</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Tue, 3 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="peanut butter chocolate flavour, crunchy 2.2kg | 26g protein | tasty &amp; healthy nut butter spread | vegan | cholesterol free &amp; gluten free | zero trans fat | creamy peanut butter">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Peanut Butter Chocolate Flavour, Crunchy 2.2kg | 26g Protein | Tasty &amp; Healthy Nut Butter Spread | Vegan | Cholesterol Free &amp; Gluten Free | Zero Trans Fat | Creamy Peanut Butter</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">2.2kg</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹699</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹31.77</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- Sticky CTA Footer -->
+  <div class="fixed bottom-0 inset-x-0 bg-slate-950/95 border-t border-emerald-500/30 backdrop-blur px-6 py-3.5 z-30">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+      <div class="text-slate-200">
+        <span class="text-emerald-400 font-bold">⚡ Unscrape Radar:</span> Want real-time Slack/WhatsApp/Telegram alerts within 15 mins whenever <strong>MyFitness</strong> SKUs go Out-of-Stock across 20 BLR/MUM/DEL dark-store pin codes?
+      </div>
+      <div class="flex items-center gap-2.5 shrink-0">
+        <a href="https://github.com/deveshkolte/unscrape" target="_blank" class="px-4 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold">Unlock Automated 20-Pin-Code Monitor →</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const RAW_CSV = "brand,city,pincode,platform,skuId,title,sellingPriceInr,mrpInr,discountPercent,unit,inStock,deliveryEta,url\nMyFitness,Bengaluru,560001,bigbasket.com/jiomart,140392919,\"MYFITNESS Peanut Butter Chocolate Spread Crunchy 510g | (Pack of 2, 510gm x 2) | 23g Protein & 9g Fiber\",399,598,33,199.50/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/myfitness-peanut-butter-chocolate-spread-crunchy-510g-pack-of-2-510gm-x-2-23g-protein-9g-fiber-msir4x-140392919/140392919\nMyFitness,Bengaluru,560001,bigbasket.com/jiomart,24595281,MYFITNESS Peanut Butter 510gm Chocolate Spread Crunchy | 26g Protein & 9g Fiber | Tasty & Healthy Nut Butter Spread for Breakfast & Snacks | Cholesterol Free | Zero Trans Fat | Crunchy Peanut Butter,226,319,29,0.44/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/myfitness-peanut-butter-chocolate-spread-crunchy-510g-23g-protein-9g-fiber-tasty-healthy-nut-butter-spread-for-breakfast-snacks-cholesterol-free-zero-trans-fat-crunchy-peanut-butter-mih40r-24595281/24595281\nMyFitness,Bengaluru,560001,bigbasket.com/jiomart,7544584,My Fitness Smooth Chocolate Peanut Butter 510 g,255,319,20,0.50/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/my-fitness-smooth-chocolate-peanut-butter-510-g-mffnb0-7544584/7544584\nMyFitness,Bengaluru,560001,bigbasket.com/jiomart,7552509,My Fitness Crunchy Chocolate Peanut Butter 510 g,255,319,20,0.50/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/my-fitness-crunchy-chocolate-peanut-butter-510-g-mffnfa-7552509/7552509\nMyFitness,Bengaluru,560001,bigbasket.com/jiomart,19284998,\"MYFITNESS Peanut Butter - 1.25kg Chocolate Spread Smooth | 22g Protein & 6g Fiber | Tasty & Healthy Nut Butter Spread for Breakfast, Snacks | Cholesterol Free | Zero Trans Fat | Creamy Peanut Butter\",434,619,30,0.35/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/myfitness-peanut-butter-chocolate-spread-smooth-125kg-22g-protein-6g-fiber-tasty-healthy-nut-butter-spread-for-breakfast-snacks-cholesterol-free-zero-trans-fat-creamy-peanut-butter-mi8sjh-19284998/19284998\nMyFitness,Bengaluru,560001,bigbasket.com/jiomart,19284775,\"MYFITNESS Peanut Butter Chocolate Flavour, Crunchy 1.25kg | 23g Protein | Tasty & Healthy Nut Butter Spread | Vegan | Cholesterol Free, Gluten Free | Zero Trans-Fat | 100% Pure Roasted Peanut\",468,619,24,0.37/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/myfitness-peanut-butter-chocolate-flavour-crunchy-125kg-23g-protein-tasty-healthy-nut-butter-spread-vegan-cholesterol-free-gluten-free-zero-trans-fat-100-pure-roasted-peanut-mi8sj1-19284775/19284775\nMyFitness,Mumbai,400001,bigbasket.com/jiomart,140392919,\"MYFITNESS Peanut Butter Chocolate Spread Crunchy 510g | (Pack of 2, 510gm x 2) | 23g Protein & 9g Fiber\",399,598,33,199.50/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/myfitness-peanut-butter-chocolate-spread-crunchy-510g-pack-of-2-510gm-x-2-23g-protein-9g-fiber-msir4x-140392919/140392919\nMyFitness,Mumbai,400001,bigbasket.com/jiomart,24595281,MYFITNESS Peanut Butter 510gm Chocolate Spread Crunchy | 26g Protein & 9g Fiber | Tasty & Healthy Nut Butter Spread for Breakfast & Snacks | Cholesterol Free | Zero Trans Fat | Crunchy Peanut Butter,226,319,29,0.44/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/myfitness-peanut-butter-chocolate-spread-crunchy-510g-23g-protein-9g-fiber-tasty-healthy-nut-butter-spread-for-breakfast-snacks-cholesterol-free-zero-trans-fat-crunchy-peanut-butter-mih40r-24595281/24595281\nMyFitness,Mumbai,400001,bigbasket.com/jiomart,7544584,My Fitness Smooth Chocolate Peanut Butter 510 g,255,319,20,0.50/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/my-fitness-smooth-chocolate-peanut-butter-510-g-mffnb0-7544584/7544584\nMyFitness,Mumbai,400001,bigbasket.com/jiomart,7552509,My Fitness Crunchy Chocolate Peanut Butter 510 g,255,319,20,0.50/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/my-fitness-crunchy-chocolate-peanut-butter-510-g-mffnfa-7552509/7552509\nMyFitness,Mumbai,400001,bigbasket.com/jiomart,19284998,\"MYFITNESS Peanut Butter - 1.25kg Chocolate Spread Smooth | 22g Protein & 6g Fiber | Tasty & Healthy Nut Butter Spread for Breakfast, Snacks | Cholesterol Free | Zero Trans Fat | Creamy Peanut Butter\",434,619,30,0.35/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/myfitness-peanut-butter-chocolate-spread-smooth-125kg-22g-protein-6g-fiber-tasty-healthy-nut-butter-spread-for-breakfast-snacks-cholesterol-free-zero-trans-fat-creamy-peanut-butter-mi8sjh-19284998/19284998\nMyFitness,Mumbai,400001,bigbasket.com/jiomart,19284775,\"MYFITNESS Peanut Butter Chocolate Flavour, Crunchy 1.25kg | 23g Protein | Tasty & Healthy Nut Butter Spread | Vegan | Cholesterol Free, Gluten Free | Zero Trans-Fat | 100% Pure Roasted Peanut\",468,619,24,0.37/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/myfitness-peanut-butter-chocolate-flavour-crunchy-125kg-23g-protein-tasty-healthy-nut-butter-spread-vegan-cholesterol-free-gluten-free-zero-trans-fat-100-pure-roasted-peanut-mi8sj1-19284775/19284775\nMyFitness,Delhi,110001,bigbasket.com/jiomart,140392919,\"MYFITNESS Peanut Butter Chocolate Spread Crunchy 510g | (Pack of 2, 510gm x 2) | 23g Protein & 9g Fiber\",399,598,33,199.50/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/myfitness-peanut-butter-chocolate-spread-crunchy-510g-pack-of-2-510gm-x-2-23g-protein-9g-fiber-msir4x-140392919/140392919\nMyFitness,Delhi,110001,bigbasket.com/jiomart,24595281,MYFITNESS Peanut Butter 510gm Chocolate Spread Crunchy | 26g Protein & 9g Fiber | Tasty & Healthy Nut Butter Spread for Breakfast & Snacks | Cholesterol Free | Zero Trans Fat | Crunchy Peanut Butter,226,319,29,0.44/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/myfitness-peanut-butter-chocolate-spread-crunchy-510g-23g-protein-9g-fiber-tasty-healthy-nut-butter-spread-for-breakfast-snacks-cholesterol-free-zero-trans-fat-crunchy-peanut-butter-mih40r-24595281/24595281\nMyFitness,Delhi,110001,bigbasket.com/jiomart,7544584,My Fitness Smooth Chocolate Peanut Butter 510 g,255,319,20,0.50/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/my-fitness-smooth-chocolate-peanut-butter-510-g-mffnb0-7544584/7544584\nMyFitness,Delhi,110001,bigbasket.com/jiomart,7552509,My Fitness Crunchy Chocolate Peanut Butter 510 g,255,319,20,0.50/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/my-fitness-crunchy-chocolate-peanut-butter-510-g-mffnfa-7552509/7552509\nMyFitness,Delhi,110001,bigbasket.com/jiomart,19284998,\"MYFITNESS Peanut Butter - 1.25kg Chocolate Spread Smooth | 22g Protein & 6g Fiber | Tasty & Healthy Nut Butter Spread for Breakfast, Snacks | Cholesterol Free | Zero Trans Fat | Creamy Peanut Butter\",434,619,30,0.35/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/myfitness-peanut-butter-chocolate-spread-smooth-125kg-22g-protein-6g-fiber-tasty-healthy-nut-butter-spread-for-breakfast-snacks-cholesterol-free-zero-trans-fat-creamy-peanut-butter-mi8sjh-19284998/19284998\nMyFitness,Delhi,110001,bigbasket.com/jiomart,19284775,\"MYFITNESS Peanut Butter Chocolate Flavour, Crunchy 1.25kg | 23g Protein | Tasty & Healthy Nut Butter Spread | Vegan | Cholesterol Free, Gluten Free | Zero Trans-Fat | 100% Pure Roasted Peanut\",468,619,24,0.37/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/myfitness-peanut-butter-chocolate-flavour-crunchy-125kg-23g-protein-tasty-healthy-nut-butter-spread-vegan-cholesterol-free-gluten-free-zero-trans-fat-100-pure-roasted-peanut-mi8sj1-19284775/19284775\nMyFitness,Bengaluru,560001,flipkart.com,JASGYW3MHCX7H5P4,MYFITNESS Chocolate Peanut Butter (Crunchy),248,319,22,1 unit,true,15 MINS,https://www.flipkart.com/myfitness-chocolate-peanut-butter-crunchy/p/itmaed3d4132479a?pid=JASGYW3MHCX7H5P4&lid=LSTJASGYW3MHCX7H5P4GGE2SF&marketplace=FLIPKART&q=myfitness+peanut+butter&store=eat%2Fxhv&spotlightTagId=default_BestsellerId_eat%2Fxhv&srno=s_1_3&otracker=search&fm=organic&iid=104e33e4-fabc-4229-b7c5-3f452c162048.JASGYW3MHCX7H5P4.SEARCH&ppt=None&ppn=None&ssid=wjqjdiv4vk0000001793387271292&qH=a7de25832ff5c2f3&ov_redirect=true&ov_redirect=true\nMyFitness,Bengaluru,560001,flipkart.com,JASGKGN9R7ZBHZAQ,MYFITNESS 29g High Protein Dark Chocolate Peanut Butter Crispy with Added Whey,303,399,24,29g,true,15 MINS,https://www.flipkart.com/myfitness-29g-high-protein-dark-chocolate-peanut-butter-crispy-added-whey/p/itm99be2a92260be?pid=JASGKGN9R7ZBHZAQ&lid=LSTJASGKGN9R7ZBHZAQZDGWEH&marketplace=FLIPKART&q=myfitness+peanut+butter&store=eat%2Fxhv&srno=s_1_2&otracker=search&fm=organic&iid=en_ifAVTDuotaVBENOAtQBQC3N5lBLy9wPshta31U3HXc-GG3LL0XvUkJF_iR17FR2yFPpGN4JWMQb9CkDDwKfTqM79knl_5VODbN-LRqCoBUmjGbUtcP-iY3DtJS0-Oezy&ppt=None&ppn=None&ssid=wjqjdiv4vk0000001793387271292&qH=a7de25832ff5c2f3&ov_redirect=true&ov_redirect=true\nMyFitness,Bengaluru,560001,flipkart.com,JASGYW3M2HEEUNEP,MYFITNESS Chocolate Peanut Butter- Crunchy 26g High Protein Spread,579,669,13,26g,true,15 MINS,https://www.flipkart.com/myfitness-chocolate-peanut-butter-crunchy-26g-high-protein-spread/p/itmaed3d4132479a?pid=JASGYW3M2HEEUNEP&lid=LSTJASGYW3M2HEEUNEP0GV4TH&marketplace=FLIPKART&q=myfitness+peanut+butter&store=eat%2Fxhv&srno=s_1_4&otracker=search&fm=organic&iid=104e33e4-fabc-4229-b7c5-3f452c162048.JASGYW3M2HEEUNEP.SEARCH&ppt=None&ppn=None&ssid=wjqjdiv4vk0000001793387271292&qH=a7de25832ff5c2f3&ov_redirect=true&ov_redirect=true\nMyFitness,Bengaluru,560001,flipkart.com,JASF78GMYGR7CMEY,MYFITNESS Chocolate Peanut Butter,287,319,10,1 unit,true,15 MINS,https://www.flipkart.com/myfitness-chocolate-peanut-butter/p/itm845c50dd66de8?pid=JASF78GMYGR7CMEY&lid=LSTJASF78GMYGR7CMEYNZJG69&marketplace=FLIPKART&q=myfitness+peanut+butter&store=eat%2Fxhv&srno=s_1_8&otracker=search&fm=organic&iid=en_ifAVTDuotaVBENOAtQBQC3N5lBLy9wPshta31U3HXc_o0VsKYOr6Qjbm90kqBDWcVEr6bGcsYLzs4moj-KFTxnHGMRsOkPZl9HFyl0B-YSbiYL9H_JCkC1oYQGlKdk9Z9QWMJPI4egdmz5nn89L_DQ%3D%3D&ppt=None&ppn=None&ssid=wjqjdiv4vk0000001793387271292&qH=a7de25832ff5c2f3&ov_redirect=true&ov_redirect=true\nMyFitness,Bengaluru,560001,flipkart.com,JASHAUZRFGZGGAAV,MYFITNESS Zero Peanut Butter Crunchy 510g,237,349,32,510g,true,15 MINS,https://www.flipkart.com/myfitness-zero-peanut-butter-crunchy-510g/p/itm21cb24d4641d7?pid=JASHAUZRFGZGGAAV&lid=LSTJASHAUZRFGZGGAAVHNR0LW&marketplace=FLIPKART&q=myfitness+peanut+butter&store=eat%2Fxhv&srno=s_1_6&otracker=search&fm=organic&iid=104e33e4-fabc-4229-b7c5-3f452c162048.JASHAUZRFGZGGAAV.SEARCH&ppt=None&ppn=None&ssid=wjqjdiv4vk0000001793387271292&qH=a7de25832ff5c2f3&ov_redirect=true&ov_redirect=true\nMyFitness,Bengaluru,560001,flipkart.com,JASH25JKR56FTKGS,MYFITNESS Chocolate Crunchy & Chocolate Crispy Peanut Butter | Combo,463,638,27,1 unit,true,15 MINS,https://www.flipkart.com/myfitness-chocolate-crunchy-crispy-peanut-butter-combo/p/itmecd63ed0bba2e?pid=JASH25JKR56FTKGS&lid=LSTJASH25JKR56FTKGSH5UMLF&marketplace=FLIPKART&q=myfitness+peanut+butter&store=eat%2Fxhv&srno=s_1_7&otracker=search&fm=organic&iid=104e33e4-fabc-4229-b7c5-3f452c162048.JASH25JKR56FTKGS.SEARCH&ppt=None&ppn=None&ssid=wjqjdiv4vk0000001793387271292&qH=a7de25832ff5c2f3&ov_redirect=true&ov_redirect=true\nMyFitness,Bengaluru,560001,blinkit.com,444832,Pintola Dark Chocolate Creamy Peanut Butter,169,180,6,350 g,true,10 MINS,https://blinkit.com/prn/pintola-dark-chocolate-creamy-peanut-butter/prid/444832\nMyFitness,Bengaluru,560001,blinkit.com,671732,Pintola Dark Chocolate Creamy Peanut Butter,332,360,8,2 x 350 g,true,10 MINS,https://blinkit.com/prn/pintola-dark-chocolate-creamy-peanut-butter/prid/671732\nMyFitness,Bengaluru,560001,blinkit.com,498013,Pintola Dark Chocolate Creamy Peanut Butter,443,475,7,1 kg,true,10 MINS,https://blinkit.com/prn/pintola-dark-chocolate-creamy-peanut-butter/prid/498013\nMyFitness,Bengaluru,560001,blinkit.com,484008,MyFitness High Protein Chocolate Crunchy Peanut Butter Spread,278,319,13,510 g,true,10 MINS,https://blinkit.com/prn/myfitness-high-protein-chocolate-crunchy-peanut-butter-spread/prid/484008\nMyFitness,Bengaluru,560001,blinkit.com,497915,MyFitness High Protein Chocolate Crunchy Peanut Butter Spread,147,159,8,210 g,true,10 MINS,https://blinkit.com/prn/myfitness-high-protein-chocolate-crunchy-peanut-butter-spread/prid/497915\nMyFitness,Bengaluru,560001,blinkit.com,444825,MyFitness High Protein Chocolate Peanut Butter Smooth Spread,278,319,13,510 g,true,10 MINS,https://blinkit.com/prn/myfitness-high-protein-chocolate-peanut-butter-smooth-spread/prid/444825\nMyFitness,Bengaluru,560001,blinkit.com,750151,MyFitness Chocolate Creamy Peanut Butter,425,499,15,900 g,true,10 MINS,https://blinkit.com/prn/myfitness-chocolate-creamy-peanut-butter/prid/750151\nMyFitness,Bengaluru,560001,blinkit.com,444829,Pintola All Natural Crunchy Peanut Butter (Unsweetened),400,430,7,1 kg,true,10 MINS,https://blinkit.com/prn/pintola-all-natural-crunchy-peanut-butter-unsweetened/prid/444829\nMyFitness,Bengaluru,560001,amazon.in,B0CGSLWV2G,All Natural Peanut Butter Smooth 510g | 25g Protein & 7g Fiber | 100% Roasted Peanuts | Nut Butter Spread | No Added Sugar & Salt | No Palm Oil | Zero Cholesterol | Unsweetened Peanut Butter,229,44.9,0,510g,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0CGSLWV2G\nMyFitness,Bengaluru,560001,amazon.in,B0B4KMHZYQ,\"30g High Protein Dark Chocolate Peanut Butter Crunchy with Added Whey, 510g | 7g Fiber | For Muscle Building | Tasty Nut Butter Spread | Gluten Free | Zero Trans Fat\",299,58.63,0,30g,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0B4KMHZYQ\nMyFitness,Bengaluru,560001,amazon.in,B06XJY4GJ4,\"All Natural Peanut Butter Crunchy 350g | Smooth, Unsweetened, 30g Protein | Gluten & Cholesterol Free, Vegan Peanut Butter, Nut Butter, High in Protein Spread, 100% Pure Roasted peanuts butter\",146,41.71,0,350g,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B06XJY4GJ4\nMyFitness,Bengaluru,560001,amazon.in,B08R3B77QZ,\"High Protein Peanut Butter Chocolate Flavour Crunchy 510g, Added WHEY Protein, 30g Protein 6.2g Fiber, Dark Chocolate Peanut Butter Spread, Nut Butter Bread Snacks\",300,58.82,0,510g,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B08R3B77QZ\nMyFitness,Bengaluru,560001,amazon.in,B018GH5NMI,\"Peanut Butter Chocolate Flavour Creamy 350g - 24g Protein & 7.9g Dietary Fiber, Made with Premium Roasted Nuts & Cocoa, Dark Chocolate\",152,43.43,0,350g,true,\"Tue, 3 Nov\",https://www.amazon.in/dp/B018GH5NMI\nMyFitness,Bengaluru,560001,amazon.in,B0H9ZL8LMG,\"Peanut Butter Chocolate Flavour, Crunchy 2.2kg | 26g Protein | Tasty & Healthy Nut Butter Spread | Vegan | Cholesterol Free & Gluten Free | Zero Trans Fat | Creamy Peanut Butter\",699,31.77,0,2.2kg,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0H9ZL8LMG\n";
+
+    function filterRows(mode) {
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const stock = row.getAttribute('data-stock');
+        if (mode === 'all') row.style.display = '';
+        else if (mode === 'oos') row.style.display = stock === 'oos' ? '' : 'none';
+        else if (mode === 'instock') row.style.display = stock === 'instock' ? '' : 'none';
+      });
+    }
+
+    function searchSkus() {
+      const q = document.getElementById('skuSearch').value.toLowerCase();
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const title = row.getAttribute('data-title') || '';
+        const platform = (row.getAttribute('data-platform') || '').toLowerCase();
+        row.style.display = (title.includes(q) || platform.includes(q)) ? '' : 'none';
+      });
+    }
+
+    function downloadCsv() {
+      const blob = new Blob([RAW_CSV], { type: 'text/csv;charset=utf-8;' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'myfitness-3city-audit.csv';
+      a.click();
+    }
+  </script>
+</body>
+</html>

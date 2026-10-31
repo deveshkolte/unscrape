@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nua — 3-City Quick-Commerce Dark-Store Audit Scorecard | Unscrape Radar</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background-color: #07080d; color: #f3f4f6; font-family: Inter, system-ui, -apple-system, sans-serif; }
+  </style>
+</head>
+<body class="min-h-screen pb-24">
+  <!-- Top Bar -->
+  <header class="border-b border-slate-800 bg-slate-950/90 backdrop-blur sticky top-0 z-20">
+    <div class="max-w-7xl mx-auto px-6 py-3.5 flex items-center justify-between flex-wrap gap-3">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="text-emerald-400 font-black text-lg tracking-tight hover:text-emerald-300">⚡ UNSCRAPE RADAR</a>
+        <span class="text-xs text-slate-500">/</span>
+        <span class="text-sm font-bold text-white">Nua Executive Scorecard</span>
+      </div>
+      <div class="flex items-center gap-2.5 text-xs">
+        <a href="index.html" class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700">← All 56 Brand Audits</a>
+        <button onclick="downloadCsv()" class="px-3.5 py-1.5 rounded-lg bg-emerald-500 text-slate-950 font-bold hover:bg-emerald-400">⬇ Download Raw CSV (38 SKUs)</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-6 pt-8">
+    <!-- Executive Header -->
+    <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 mb-8">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+        <div>
+          <div class="flex items-center gap-2.5 mb-2">
+            <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded bg-slate-800 text-emerald-400">Women's Wellness</span>
+            <span class="text-xs text-slate-400 font-mono">Audited: 2026-10-30</span>
+          </div>
+          <h1 class="text-3xl md:text-4xl font-black text-white tracking-tight">Nua — Hyperlocal Dark-Store Audit</h1>
+          <p class="text-slate-400 text-sm mt-1">
+            Live multi-platform inventory & MOP/MRP price variance scan across <strong>Bengaluru (560001)</strong>, <strong>Mumbai (400001)</strong>, and <strong>Delhi (110001)</strong>.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 shrink-0">
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">SKUs Audited</div>
+            <div class="text-2xl font-black text-white mt-1">38</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">OOS Leaks</div>
+            <div class="text-2xl font-black text-emerald-400 mt-1">0</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">Max Markdown</div>
+            <div class="text-2xl font-black text-amber-300 mt-1">50%</div>
+          </div>
+          <div class="border rounded-xl p-3.5 text-center bg-emerald-500/15 text-emerald-400 border-emerald-500/30">
+            <div class="text-[11px] uppercase font-bold opacity-80">Shelf Health</div>
+            <div class="text-2xl font-black mt-1">100%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="bg-emerald-950/30 border border-emerald-500/30 rounded-2xl p-5 mb-8 flex items-center justify-between flex-wrap gap-3">
+      <div>
+        <span class="px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 font-bold text-xs uppercase">✓ 100% In-Stock Snapshot</span>
+        <span class="text-sm text-slate-200 ml-2">All 38 audited dark-store listings across Bengaluru, Mumbai & Delhi were in stock during this scan. Max discount variance: <strong>50% below MRP</strong>.</span>
+      </div>
+    </div>
+
+    <!-- Filter Controls -->
+    <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+      <div class="flex items-center gap-2 text-xs">
+        <button onclick="filterRows('all')" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-semibold">All SKUs (38)</button>
+        <button onclick="filterRows('oos')" class="px-3 py-1.5 rounded-lg bg-rose-500/15 border border-rose-500/30 text-rose-300 hover:bg-rose-500/25 font-semibold">Out-of-Stock Only (0)</button>
+        <button onclick="filterRows('instock')" class="px-3 py-1.5 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 hover:bg-emerald-500/25 font-semibold">In-Stock (38)</button>
+      </div>
+      <div class="flex items-center gap-2">
+        <input id="skuSearch" type="text" oninput="searchSkus()" placeholder="Filter SKU title or platform..." class="bg-slate-900 border border-slate-800 rounded-lg px-3.5 py-1.5 text-xs text-white w-64" />
+      </div>
+    </div>
+
+    <!-- SKU Table -->
+    <div class="bg-slate-900/50 border border-slate-800 rounded-2xl overflow-x-auto">
+      <table class="w-full text-left text-xs">
+        <thead class="bg-slate-950/90 text-slate-400 uppercase border-b border-slate-800">
+          <tr>
+            <th class="px-4 py-3">SKU Title</th>
+            <th class="px-4 py-3">Platform</th>
+            <th class="px-4 py-3">City / Pin</th>
+            <th class="px-4 py-3">Pack Size</th>
+            <th class="px-4 py-3">Selling Price</th>
+            <th class="px-4 py-3">MRP</th>
+            <th class="px-4 py-3">Discount</th>
+            <th class="px-4 py-3">Stock Status</th>
+            <th class="px-4 py-3">ETA</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-800/60">
+          <tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="nua zero irritation complete comfort pads xl+ (pack of 30)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Nua Zero Irritation Complete Comfort Pads XL+ (Pack of 30)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">8.97/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹269</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹449</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">40% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="nua zero irritation promise complete medium pads pack of 30">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Nua Zero Irritation Promise Complete Medium Pads Pack of 30</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">8.63/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹259</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹429</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">40% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="nua overnight ultra slim xl++ sanitary pads (pack of 30)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Nua Overnight Ultra Slim XL++ Sanitary Pads (Pack of 30)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">9.30/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹279</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹469</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">41% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="nua my wave sanitary pads xl (28 pads)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Nua My Wave Sanitary Pads XL (28 Pads)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">7.54/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹211</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹249</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="nua complete comfort pads | zero irritation promise | essentials pack  | 4x comfort | 100%  toxic-free | super saver pack | heavy flow -xxl (pack of 30)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Nua Complete Comfort Pads | Zero Irritation Promise | Essentials Pack  | 4x Comfort | 100%  Toxic-free | SUPER SAVER PACK | Heavy Flow -XXL (Pack of 30)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1.45/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹399</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹449</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">11% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="nua complete comfort sanitary pads for sensitive skin | medium flow -xl | with disposal  covers (12ps)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Nua Complete Comfort Sanitary Pads for Sensitive Skin | Medium Flow -XL | with Disposal  Covers (12ps)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">19.08/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹229</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹239</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">4% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="nua zero irritation complete comfort pads xl+ (pack of 30)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Nua Zero Irritation Complete Comfort Pads XL+ (Pack of 30)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">8.97/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹269</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹449</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">40% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="nua zero irritation promise complete medium pads pack of 30">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Nua Zero Irritation Promise Complete Medium Pads Pack of 30</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">8.63/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹259</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹429</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">40% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="nua overnight ultra slim xl++ sanitary pads (pack of 30)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Nua Overnight Ultra Slim XL++ Sanitary Pads (Pack of 30)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">9.30/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹279</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹469</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">41% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="nua my wave sanitary pads xl (28 pads)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Nua My Wave Sanitary Pads XL (28 Pads)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">7.54/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹211</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹249</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="nua complete comfort pads | zero irritation promise | essentials pack  | 4x comfort | 100%  toxic-free | super saver pack | heavy flow -xxl (pack of 30)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Nua Complete Comfort Pads | Zero Irritation Promise | Essentials Pack  | 4x Comfort | 100%  Toxic-free | SUPER SAVER PACK | Heavy Flow -XXL (Pack of 30)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1.45/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹399</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹449</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">11% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="nua complete comfort sanitary pads for sensitive skin | medium flow -xl | with disposal  covers (12ps)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Nua Complete Comfort Sanitary Pads for Sensitive Skin | Medium Flow -XL | with Disposal  Covers (12ps)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">19.08/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹229</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹239</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">4% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="nua zero irritation complete comfort pads xl+ (pack of 30)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Nua Zero Irritation Complete Comfort Pads XL+ (Pack of 30)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">8.97/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹269</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹449</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">40% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="nua zero irritation promise complete medium pads pack of 30">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Nua Zero Irritation Promise Complete Medium Pads Pack of 30</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">8.63/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹259</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹429</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">40% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="nua overnight ultra slim xl++ sanitary pads (pack of 30)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Nua Overnight Ultra Slim XL++ Sanitary Pads (Pack of 30)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">9.30/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹279</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹469</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">41% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="nua my wave sanitary pads xl (28 pads)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Nua My Wave Sanitary Pads XL (28 Pads)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">7.54/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹211</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹249</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="nua complete comfort pads | zero irritation promise | essentials pack  | 4x comfort | 100%  toxic-free | super saver pack | heavy flow -xxl (pack of 30)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Nua Complete Comfort Pads | Zero Irritation Promise | Essentials Pack  | 4x Comfort | 100%  Toxic-free | SUPER SAVER PACK | Heavy Flow -XXL (Pack of 30)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1.45/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹399</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹449</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">11% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="nua complete comfort sanitary pads for sensitive skin | medium flow -xl | with disposal  covers (12ps)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Nua Complete Comfort Sanitary Pads for Sensitive Skin | Medium Flow -XL | with Disposal  Covers (12ps)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">19.08/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹229</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹239</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">4% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="nua complete comfort 42 heavy flow xxl | essentials sanitary pad">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Nua Complete Comfort 42 Heavy Flow XXL | Essentials Sanitary Pad</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹314</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹629</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="nua complete comfort 42 medium flow xl | essentials pack | 4x comfort sanitary pad">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Nua Complete Comfort 42 Medium Flow XL | Essentials Pack | 4X Comfort Sanitary Pad</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹299</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹599</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="nua mywave night xxl sanitary pads for women | pack of 36 sanitary pad">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Nua MyWave Night XXL Sanitary Pads for Women | Pack of 36 Sanitary Pad</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹199</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹399</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="nua ultra-absorbent maternity panties xxl-xxxl (38-54 inches)|pack of 5 sanitary pad">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Nua Ultra-Absorbent Maternity Panties XXL-XXXL (38-54 INCHES)|Pack of 5 Sanitary Pad</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹239</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹319</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">25% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="nua mywave sanitary pads | long-lasting leak protection | xl | for heavy flow| sanitary pad">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Nua Mywave Sanitary Pads | Long-Lasting Leak Protection | XL | For Heavy Flow| Sanitary Pad</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹209</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹249</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">16% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="nua complete comfort heavy flow xxl |buy 2 get 1 free sanitary pad">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Nua Complete Comfort Heavy Flow XXL |Buy 2 Get 1 Free Sanitary Pad</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹809</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1347</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">40% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="nua comfort all night sanitary pad">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Nua Comfort All Night Sanitary Pad</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">18 pcs</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹325</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹649</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="nua sanitary pads for heavy flow (super saver pack)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Nua Sanitary Pads for Heavy Flow (Super Saver Pack)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">30 pcs</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹339</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹449</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">24% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="nua multi-size pads with disposal covers">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Nua Multi-size Pads with Disposal Covers</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">12 pcs</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹219</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹239</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">8% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="nua sanitary pads for heavy flow with disposal covers">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Nua Sanitary Pads for Heavy Flow with Disposal Covers</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">12 pcs</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹219</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹239</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">8% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="nua comfort all night sanitary pad (super saver)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Nua Comfort All Night Sanitary Pad (Super Saver)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">30 pcs</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹279</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹469</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">41% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="nua pads for medium flow (super saver pack)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Nua Pads for Medium Flow (Super Saver Pack)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">30 pcs</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹329</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹429</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">23% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="nua mywave sanitary pads">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Nua MyWave Sanitary Pads</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">28 pcs</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹190</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹249</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">24% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="nua ultra-absorbent comfort disposable period panty (xl - xxl)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Nua Ultra-Absorbent Comfort Disposable Period Panty (XL - XXL)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">5 pcs</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹169</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹269</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">37% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="nua all night comfort sanitary pads | pack of 30 (xxl 320mm) | twin layer protection | 50% wider back and anti stain wings | upto 10 hours of absorption | super soft and breathable | no rashes | 100% toxic-free">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Nua All Night Comfort Sanitary Pads | Pack of 30 (XXL 320mm) | Twin Layer Protection | 50% Wider Back and Anti Stain Wings | Upto 10 hours of Absorption | Super Soft and Breathable | No Rashes | 100% Toxic-Free</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹279</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹9.3</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Tue, 3 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="nua all night comfort sanitary pads | pack of 60 (xl++ 320mm) | twin layer protection | 50% wider back and anti stain wings | upto 10 hours of absorption | super soft and breathable | no rashes | 100% toxic-free">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Nua All Night Comfort Sanitary Pads | Pack of 60 (XL++ 320mm) | Twin Layer Protection | 50% Wider Back and Anti Stain Wings | Upto 10 hours of Absorption | Super Soft and Breathable | No Rashes | 100% Toxic-Free</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹938</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹15.63</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Tue, 3 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="nua complete comfort sanitary pads for sensitive skin | pack of 50 pads (12 heavy flow (xxl), 20 medium flow (xl), 18 light flow (l), ) with disposal covers | zero irritation | comfortable all-day protection | ultra-thin | super absorbent | no rashes | 50% wider back | 100% toxic-free, dermatologically tested">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Nua Complete Comfort Sanitary Pads for Sensitive Skin | Pack of 50 Pads (12 Heavy Flow (XXL), 20 Medium Flow (XL), 18 Light Flow (L), ) with Disposal covers | Zero Irritation | Comfortable All-Day Protection | Ultra-Thin | Super Absorbent | No rashes | 50% Wider Back | 100% Toxic-Free, Dermatologically Tested</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹739</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹14.78</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="nua complete comfort sanitary pads for heavy flow (xxl) | combo pack of 90 pads | zero irritation | 100% toxin-free | essentials super saver (xxl) | 4x comfort | b2g1 offer | pack of 3">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Nua Complete Comfort Sanitary Pads for Heavy Flow (XXL) | Combo Pack of 90 Pads | Zero Irritation | 100% Toxin-Free | Essentials Super Saver (XXL) | 4x Comfort | B2G1 Offer | Pack of 3</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹749</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹8.32</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Tue, 3 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="nua complete comfort sanitary pads - designed for sensitive skin | pack of 50 pads for medium flow, with disposal covers | zero irritation | comfortable all-day protection | ultra-thin | super absorbent | no rashes | 50% wider back | 100% toxic-free, dermatologically tested">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Nua Complete Comfort Sanitary Pads - Designed for Sensitive Skin | Pack of 50 pads for Medium flow, with Disposal covers | Zero Irritation | Comfortable All-Day Protection | Ultra-Thin | Super Absorbent | No rashes | 50% Wider Back | 100% Toxic-Free, Dermatologically Tested</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹709</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹14.18</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Tue, 3 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="nua complete comfort sanitary pads for women xxl | pack of 30 | heavy flow pads | super saver | zero irritation promise | comfortable all-day protection | ultra-thin | super absorbent | no rashes | 50% wider back | 100% toxic-free, dermatologically tested | essentials pack">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Nua Complete Comfort Sanitary Pads for Women XXL | Pack of 30 | Heavy Flow Pads | Super Saver | Zero Irritation Promise | Comfortable All-Day Protection | Ultra-Thin | Super Absorbent | No rashes | 50% Wider Back | 100% Toxic-Free, Dermatologically Tested | Essentials Pack</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹269</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹8.97</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Tue, 3 Nov</td>
+      </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- Sticky CTA Footer -->
+  <div class="fixed bottom-0 inset-x-0 bg-slate-950/95 border-t border-emerald-500/30 backdrop-blur px-6 py-3.5 z-30">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+      <div class="text-slate-200">
+        <span class="text-emerald-400 font-bold">⚡ Unscrape Radar:</span> Want real-time Slack/WhatsApp/Telegram alerts within 15 mins whenever <strong>Nua</strong> SKUs go Out-of-Stock across 20 BLR/MUM/DEL dark-store pin codes?
+      </div>
+      <div class="flex items-center gap-2.5 shrink-0">
+        <a href="https://github.com/deveshkolte/unscrape" target="_blank" class="px-4 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold">Unlock Automated 20-Pin-Code Monitor →</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const RAW_CSV = "brand,city,pincode,platform,skuId,title,sellingPriceInr,mrpInr,discountPercent,unit,inStock,deliveryEta,url\nNua,Bengaluru,560001,bigbasket.com/jiomart,7548677,Nua Zero Irritation Complete Comfort Pads XL+ (Pack of 30),269,449,40,8.97/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/nua-ultra-safe-30-sanitary-pads-size-xl-super-saver-pack-mffndh-7548677/7548677\nNua,Bengaluru,560001,bigbasket.com/jiomart,7550757,Nua Zero Irritation Promise Complete Medium Pads Pack of 30,259,429,40,8.63/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/nua-ultra-safe-sanitary-pads-xl-30-pcs-mffneb-7550757/7550757\nNua,Bengaluru,560001,bigbasket.com/jiomart,7546939,Nua Overnight Ultra Slim XL++ Sanitary Pads (Pack of 30),279,469,41,9.30/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/nua-all-night-comfort-pads-xl-30-pcs-mffnc9-7546939/7546939\nNua,Bengaluru,560001,bigbasket.com/jiomart,117640412,Nua My Wave Sanitary Pads XL (28 Pads),211,249,15,7.54/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/nua-my-wave-sanitary-pads-xl-28-pads-mql1hf-117640412/117640412\nNua,Bengaluru,560001,bigbasket.com/jiomart,19282492,Nua Complete Comfort Pads | Zero Irritation Promise | Essentials Pack  | 4x Comfort | 100%  Toxic-free | SUPER SAVER PACK | Heavy Flow -XXL (Pack of 30),399,449,11,1.45/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/nua-complete-comfort-pads-zero-irritation-promise-essentials-pack-super-saver-4x-comfort-100-toxic-free-heavy-flow-mi8sf1-19282492/19282492\nNua,Bengaluru,560001,bigbasket.com/jiomart,19454007,Nua Complete Comfort Sanitary Pads for Sensitive Skin | Medium Flow -XL | with Disposal  Covers (12ps),229,239,4,19.08/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/nua-complete-comfort-sanitary-pads-for-sensitive-skin-medium-flow-xl-with-disposal-covers-12pcs-mi8yjj-19454007/19454007\nNua,Mumbai,400001,bigbasket.com/jiomart,7548677,Nua Zero Irritation Complete Comfort Pads XL+ (Pack of 30),269,449,40,8.97/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/nua-ultra-safe-30-sanitary-pads-size-xl-super-saver-pack-mffndh-7548677/7548677\nNua,Mumbai,400001,bigbasket.com/jiomart,7550757,Nua Zero Irritation Promise Complete Medium Pads Pack of 30,259,429,40,8.63/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/nua-ultra-safe-sanitary-pads-xl-30-pcs-mffneb-7550757/7550757\nNua,Mumbai,400001,bigbasket.com/jiomart,7546939,Nua Overnight Ultra Slim XL++ Sanitary Pads (Pack of 30),279,469,41,9.30/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/nua-all-night-comfort-pads-xl-30-pcs-mffnc9-7546939/7546939\nNua,Mumbai,400001,bigbasket.com/jiomart,117640412,Nua My Wave Sanitary Pads XL (28 Pads),211,249,15,7.54/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/nua-my-wave-sanitary-pads-xl-28-pads-mql1hf-117640412/117640412\nNua,Mumbai,400001,bigbasket.com/jiomart,19282492,Nua Complete Comfort Pads | Zero Irritation Promise | Essentials Pack  | 4x Comfort | 100%  Toxic-free | SUPER SAVER PACK | Heavy Flow -XXL (Pack of 30),399,449,11,1.45/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/nua-complete-comfort-pads-zero-irritation-promise-essentials-pack-super-saver-4x-comfort-100-toxic-free-heavy-flow-mi8sf1-19282492/19282492\nNua,Mumbai,400001,bigbasket.com/jiomart,19454007,Nua Complete Comfort Sanitary Pads for Sensitive Skin | Medium Flow -XL | with Disposal  Covers (12ps),229,239,4,19.08/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/nua-complete-comfort-sanitary-pads-for-sensitive-skin-medium-flow-xl-with-disposal-covers-12pcs-mi8yjj-19454007/19454007\nNua,Delhi,110001,bigbasket.com/jiomart,7548677,Nua Zero Irritation Complete Comfort Pads XL+ (Pack of 30),269,449,40,8.97/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/nua-ultra-safe-30-sanitary-pads-size-xl-super-saver-pack-mffndh-7548677/7548677\nNua,Delhi,110001,bigbasket.com/jiomart,7550757,Nua Zero Irritation Promise Complete Medium Pads Pack of 30,259,429,40,8.63/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/nua-ultra-safe-sanitary-pads-xl-30-pcs-mffneb-7550757/7550757\nNua,Delhi,110001,bigbasket.com/jiomart,7546939,Nua Overnight Ultra Slim XL++ Sanitary Pads (Pack of 30),279,469,41,9.30/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/nua-all-night-comfort-pads-xl-30-pcs-mffnc9-7546939/7546939\nNua,Delhi,110001,bigbasket.com/jiomart,117640412,Nua My Wave Sanitary Pads XL (28 Pads),211,249,15,7.54/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/nua-my-wave-sanitary-pads-xl-28-pads-mql1hf-117640412/117640412\nNua,Delhi,110001,bigbasket.com/jiomart,19282492,Nua Complete Comfort Pads | Zero Irritation Promise | Essentials Pack  | 4x Comfort | 100%  Toxic-free | SUPER SAVER PACK | Heavy Flow -XXL (Pack of 30),399,449,11,1.45/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/nua-complete-comfort-pads-zero-irritation-promise-essentials-pack-super-saver-4x-comfort-100-toxic-free-heavy-flow-mi8sf1-19282492/19282492\nNua,Delhi,110001,bigbasket.com/jiomart,19454007,Nua Complete Comfort Sanitary Pads for Sensitive Skin | Medium Flow -XL | with Disposal  Covers (12ps),229,239,4,19.08/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/nua-complete-comfort-sanitary-pads-for-sensitive-skin-medium-flow-xl-with-disposal-covers-12pcs-mi8yjj-19454007/19454007\nNua,Bengaluru,560001,flipkart.com,SPPH4BZHPPXGZEFZ,Nua Complete Comfort 42 Heavy Flow XXL | Essentials Sanitary Pad,314,629,50,1 unit,true,15 MINS,https://www.flipkart.com/nua-complete-comfort-42-heavy-flow-xxl-essentials-sanitary-pad/p/itma4f1886300d69?pid=SPPH4BZHPPXGZEFZ&lid=LSTSPPH4BZHPPXGZEFZUIWYK6&marketplace=FLIPKART&q=nua+sanitary+pads&store=g9b%2Fiph%2Fjth&srno=s_1_3&otracker=search&fm=organic&iid=36ccb1f4-c5b8-452e-b4a6-62ea6640b5f7.SPPH4BZHPPXGZEFZ.SEARCH&ppt=None&ppn=None&ssid=z1a9fkdbhs0000001793387385623&qH=064fa5350901b1dd&ov_redirect=true&ov_redirect=true\nNua,Bengaluru,560001,flipkart.com,SPPH4BZJHYYMNFPG,Nua Complete Comfort 42 Medium Flow XL | Essentials Pack | 4X Comfort Sanitary Pad,299,599,50,1 unit,true,15 MINS,https://www.flipkart.com/nua-complete-comfort-42-medium-flow-xl-essentials-pack-4x-sanitary-pad/p/itm5d6995dbb2691?pid=SPPH4BZJHYYMNFPG&lid=LSTSPPH4BZJHYYMNFPGACSRN7&marketplace=FLIPKART&q=nua+sanitary+pads&store=g9b%2Fiph%2Fjth&srno=s_1_4&otracker=search&fm=organic&iid=36ccb1f4-c5b8-452e-b4a6-62ea6640b5f7.SPPH4BZJHYYMNFPG.SEARCH&ppt=None&ppn=None&ssid=z1a9fkdbhs0000001793387385623&qH=064fa5350901b1dd&ov_redirect=true&ov_redirect=true\nNua,Bengaluru,560001,flipkart.com,SPPHPY7VUTPFHMJ7,Nua MyWave Night XXL Sanitary Pads for Women | Pack of 36 Sanitary Pad,199,399,50,1 unit,true,15 MINS,https://www.flipkart.com/nua-mywave-night-xxl-sanitary-pads-women-pack-36-pad/p/itm3dd3ff8653da4?pid=SPPHPY7VUTPFHMJ7&lid=LSTSPPHPY7VUTPFHMJ7S4YEOZ&marketplace=FLIPKART&q=nua+sanitary+pads&store=g9b%2Fiph%2Fjth&srno=s_1_5&otracker=search&fm=organic&iid=36ccb1f4-c5b8-452e-b4a6-62ea6640b5f7.SPPHPY7VUTPFHMJ7.SEARCH&ppt=None&ppn=None&ssid=z1a9fkdbhs0000001793387385623&qH=064fa5350901b1dd&ov_redirect=true&ov_redirect=true\nNua,Bengaluru,560001,flipkart.com,SPPH4M5QGZJ7AJYV,Nua Ultra-Absorbent Maternity Panties XXL-XXXL (38-54 INCHES)|Pack of 5 Sanitary Pad,239,319,25,1 unit,true,15 MINS,https://www.flipkart.com/nua-ultra-absorbent-maternity-panties-xxl-xxxl-38-54-inches-pack-5-sanitary-pad/p/itm5567def937456?pid=SPPH4M5QGZJ7AJYV&lid=LSTSPPH4M5QGZJ7AJYVVDTYFZ&marketplace=FLIPKART&q=nua+sanitary+pads&store=g9b%2Fiph%2Fjth&srno=s_1_6&otracker=search&fm=organic&iid=en_t8F5plF06K78rXgzsNr32Fi5d6XYj7zVdQLPIIK4ZK32-qPoL3Ns4abXzEsDLtg5Q2RcxbmAtEouscgU0zX-L0urbpQT6xtvUju2PYaZUXD555gOK7fgUg7OKj05Z6Xh&ppt=None&ppn=None&ssid=z1a9fkdbhs0000001793387385623&qH=064fa5350901b1dd&ov_redirect=true&ov_redirect=true\nNua,Bengaluru,560001,flipkart.com,SPPHCZCFFSQCPNHU,Nua Mywave Sanitary Pads | Long-Lasting Leak Protection | XL | For Heavy Flow| Sanitary Pad,209,249,16,1 unit,true,15 MINS,https://www.flipkart.com/nua-mywave-sanitary-pads-long-lasting-leak-protection-xl-heavy-flow-pad/p/itm307a3fa4a5eea?pid=SPPHCZCFFSQCPNHU&lid=LSTSPPHCZCFFSQCPNHUAE1JVE&marketplace=FLIPKART&q=nua+sanitary+pads&store=g9b%2Fiph%2Fjth&spotlightTagId=default_BestsellerId_g9b%2Fiph%2Fjth&srno=s_1_7&otracker=search&fm=organic&iid=36ccb1f4-c5b8-452e-b4a6-62ea6640b5f7.SPPHCZCFFSQCPNHU.SEARCH&ppt=None&ppn=None&ssid=z1a9fkdbhs0000001793387385623&qH=064fa5350901b1dd&ov_redirect=true&ov_redirect=true\nNua,Bengaluru,560001,flipkart.com,SPPH7466JKZU2BC4,Nua Complete Comfort Heavy Flow XXL |Buy 2 Get 1 Free Sanitary Pad,809,1347,40,1 unit,true,15 MINS,https://www.flipkart.com/nua-complete-comfort-heavy-flow-xxl-buy-2-get-1-free-sanitary-pad/p/itm8ca1555d2856f?pid=SPPH7466JKZU2BC4&lid=LSTSPPH7466JKZU2BC4XWL7CC&marketplace=FLIPKART&q=nua+sanitary+pads&store=g9b%2Fiph%2Fjth&srno=s_1_8&otracker=search&fm=organic&iid=36ccb1f4-c5b8-452e-b4a6-62ea6640b5f7.SPPH7466JKZU2BC4.SEARCH&ppt=None&ppn=None&ssid=z1a9fkdbhs0000001793387385623&qH=064fa5350901b1dd&ov_redirect=true&ov_redirect=true\nNua,Bengaluru,560001,blinkit.com,716952,Nua Comfort All Night Sanitary Pad,325,649,50,18 pcs,true,10 MINS,https://blinkit.com/prn/nua-comfort-all-night-sanitary-pad/prid/716952\nNua,Bengaluru,560001,blinkit.com,545479,Nua Sanitary Pads for Heavy Flow (Super Saver Pack),339,449,24,30 pcs,true,10 MINS,https://blinkit.com/prn/nua-sanitary-pads-for-heavy-flow-super-saver-pack/prid/545479\nNua,Bengaluru,560001,blinkit.com,482766,Nua Multi-size Pads with Disposal Covers,219,239,8,12 pcs,true,10 MINS,https://blinkit.com/prn/nua-multi-size-pads-with-disposal-covers/prid/482766\nNua,Bengaluru,560001,blinkit.com,482767,Nua Sanitary Pads for Heavy Flow with Disposal Covers,219,239,8,12 pcs,true,10 MINS,https://blinkit.com/prn/nua-sanitary-pads-for-heavy-flow-with-disposal-covers/prid/482767\nNua,Bengaluru,560001,blinkit.com,650145,Nua Comfort All Night Sanitary Pad (Super Saver),279,469,41,30 pcs,true,10 MINS,https://blinkit.com/prn/nua-comfort-all-night-sanitary-pad-super-saver/prid/650145\nNua,Bengaluru,560001,blinkit.com,591425,Nua Pads for Medium Flow (Super Saver Pack),329,429,23,30 pcs,true,10 MINS,https://blinkit.com/prn/nua-pads-for-medium-flow-super-saver-pack/prid/591425\nNua,Bengaluru,560001,blinkit.com,686685,Nua MyWave Sanitary Pads,190,249,24,28 pcs,true,10 MINS,https://blinkit.com/prn/nua-mywave-sanitary-pads/prid/686685\nNua,Bengaluru,560001,blinkit.com,547175,Nua Ultra-Absorbent Comfort Disposable Period Panty (XL - XXL),169,269,37,5 pcs,true,10 MINS,https://blinkit.com/prn/nua-ultra-absorbent-comfort-disposable-period-panty-xl-xxl/prid/547175\nNua,Bengaluru,560001,amazon.in,B0DNMHK2YY,Nua All Night Comfort Sanitary Pads | Pack of 30 (XXL 320mm) | Twin Layer Protection | 50% Wider Back and Anti Stain Wings | Upto 10 hours of Absorption | Super Soft and Breathable | No Rashes | 100% Toxic-Free,279,9.3,0,1 unit,true,\"Tue, 3 Nov\",https://www.amazon.in/dp/B0DNMHK2YY\nNua,Bengaluru,560001,amazon.in,B0G8KJ21HY,Nua All Night Comfort Sanitary Pads | Pack of 60 (XL++ 320mm) | Twin Layer Protection | 50% Wider Back and Anti Stain Wings | Upto 10 hours of Absorption | Super Soft and Breathable | No Rashes | 100% Toxic-Free,938,15.63,0,1 unit,true,\"Tue, 3 Nov\",https://www.amazon.in/dp/B0G8KJ21HY\nNua,Bengaluru,560001,amazon.in,B09P1T6CTD,\"Nua Complete Comfort Sanitary Pads for Sensitive Skin | Pack of 50 Pads (12 Heavy Flow (XXL), 20 Medium Flow (XL), 18 Light Flow (L), ) with Disposal covers | Zero Irritation | Comfortable All-Day Protection | Ultra-Thin | Super Absorbent | No rashes | 50% Wider Back | 100% Toxic-Free, Dermatologically Tested\",739,14.78,0,1 unit,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B09P1T6CTD\nNua,Bengaluru,560001,amazon.in,B0F8VWJ5TS,Nua Complete Comfort Sanitary Pads for Heavy Flow (XXL) | Combo Pack of 90 Pads | Zero Irritation | 100% Toxin-Free | Essentials Super Saver (XXL) | 4x Comfort | B2G1 Offer | Pack of 3,749,8.32,0,1 unit,true,\"Tue, 3 Nov\",https://www.amazon.in/dp/B0F8VWJ5TS\nNua,Bengaluru,560001,amazon.in,B09P29JLQL,\"Nua Complete Comfort Sanitary Pads - Designed for Sensitive Skin | Pack of 50 pads for Medium flow, with Disposal covers | Zero Irritation | Comfortable All-Day Protection | Ultra-Thin | Super Absorbent | No rashes | 50% Wider Back | 100% Toxic-Free, Dermatologically Tested\",709,14.18,0,1 unit,true,\"Tue, 3 Nov\",https://www.amazon.in/dp/B09P29JLQL\nNua,Bengaluru,560001,amazon.in,B0D7VM3WWB,\"Nua Complete Comfort Sanitary Pads for Women XXL | Pack of 30 | Heavy Flow Pads | Super Saver | Zero Irritation Promise | Comfortable All-Day Protection | Ultra-Thin | Super Absorbent | No rashes | 50% Wider Back | 100% Toxic-Free, Dermatologically Tested | Essentials Pack\",269,8.97,0,1 unit,true,\"Tue, 3 Nov\",https://www.amazon.in/dp/B0D7VM3WWB\n";
+
+    function filterRows(mode) {
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const stock = row.getAttribute('data-stock');
+        if (mode === 'all') row.style.display = '';
+        else if (mode === 'oos') row.style.display = stock === 'oos' ? '' : 'none';
+        else if (mode === 'instock') row.style.display = stock === 'instock' ? '' : 'none';
+      });
+    }
+
+    function searchSkus() {
+      const q = document.getElementById('skuSearch').value.toLowerCase();
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const title = row.getAttribute('data-title') || '';
+        const platform = (row.getAttribute('data-platform') || '').toLowerCase();
+        row.style.display = (title.includes(q) || platform.includes(q)) ? '' : 'none';
+      });
+    }
+
+    function downloadCsv() {
+      const blob = new Blob([RAW_CSV], { type: 'text/csv;charset=utf-8;' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'nua-3city-audit.csv';
+      a.click();
+    }
+  </script>
+</body>
+</html>

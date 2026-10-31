@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pilgrim — 3-City Quick-Commerce Dark-Store Audit Scorecard | Unscrape Radar</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background-color: #07080d; color: #f3f4f6; font-family: Inter, system-ui, -apple-system, sans-serif; }
+  </style>
+</head>
+<body class="min-h-screen pb-24">
+  <!-- Top Bar -->
+  <header class="border-b border-slate-800 bg-slate-950/90 backdrop-blur sticky top-0 z-20">
+    <div class="max-w-7xl mx-auto px-6 py-3.5 flex items-center justify-between flex-wrap gap-3">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="text-emerald-400 font-black text-lg tracking-tight hover:text-emerald-300">⚡ UNSCRAPE RADAR</a>
+        <span class="text-xs text-slate-500">/</span>
+        <span class="text-sm font-bold text-white">Pilgrim Executive Scorecard</span>
+      </div>
+      <div class="flex items-center gap-2.5 text-xs">
+        <a href="index.html" class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700">← All 56 Brand Audits</a>
+        <button onclick="downloadCsv()" class="px-3.5 py-1.5 rounded-lg bg-emerald-500 text-slate-950 font-bold hover:bg-emerald-400">⬇ Download Raw CSV (46 SKUs)</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-6 pt-8">
+    <!-- Executive Header -->
+    <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 mb-8">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+        <div>
+          <div class="flex items-center gap-2.5 mb-2">
+            <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded bg-slate-800 text-emerald-400">Global Beauty Secrets</span>
+            <span class="text-xs text-slate-400 font-mono">Audited: 2026-10-30</span>
+          </div>
+          <h1 class="text-3xl md:text-4xl font-black text-white tracking-tight">Pilgrim — Hyperlocal Dark-Store Audit</h1>
+          <p class="text-slate-400 text-sm mt-1">
+            Live multi-platform inventory & MOP/MRP price variance scan across <strong>Bengaluru (560001)</strong>, <strong>Mumbai (400001)</strong>, and <strong>Delhi (110001)</strong>.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 shrink-0">
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">SKUs Audited</div>
+            <div class="text-2xl font-black text-white mt-1">46</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">OOS Leaks</div>
+            <div class="text-2xl font-black text-emerald-400 mt-1">0</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">Max Markdown</div>
+            <div class="text-2xl font-black text-amber-300 mt-1">75%</div>
+          </div>
+          <div class="border rounded-xl p-3.5 text-center bg-emerald-500/15 text-emerald-400 border-emerald-500/30">
+            <div class="text-[11px] uppercase font-bold opacity-80">Shelf Health</div>
+            <div class="text-2xl font-black mt-1">100%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="bg-emerald-950/30 border border-emerald-500/30 rounded-2xl p-5 mb-8 flex items-center justify-between flex-wrap gap-3">
+      <div>
+        <span class="px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 font-bold text-xs uppercase">✓ 100% In-Stock Snapshot</span>
+        <span class="text-sm text-slate-200 ml-2">All 46 audited dark-store listings across Bengaluru, Mumbai & Delhi were in stock during this scan. Max discount variance: <strong>75% below MRP</strong>.</span>
+      </div>
+    </div>
+
+    <!-- Filter Controls -->
+    <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+      <div class="flex items-center gap-2 text-xs">
+        <button onclick="filterRows('all')" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-semibold">All SKUs (46)</button>
+        <button onclick="filterRows('oos')" class="px-3 py-1.5 rounded-lg bg-rose-500/15 border border-rose-500/30 text-rose-300 hover:bg-rose-500/25 font-semibold">Out-of-Stock Only (0)</button>
+        <button onclick="filterRows('instock')" class="px-3 py-1.5 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 hover:bg-emerald-500/25 font-semibold">In-Stock (46)</button>
+      </div>
+      <div class="flex items-center gap-2">
+        <input id="skuSearch" type="text" oninput="searchSkus()" placeholder="Filter SKU title or platform..." class="bg-slate-900 border border-slate-800 rounded-lg px-3.5 py-1.5 text-xs text-white w-64" />
+      </div>
+    </div>
+
+    <!-- SKU Table -->
+    <div class="bg-slate-900/50 border border-slate-800 rounded-2xl overflow-x-auto">
+      <table class="w-full text-left text-xs">
+        <thead class="bg-slate-950/90 text-slate-400 uppercase border-b border-slate-800">
+          <tr>
+            <th class="px-4 py-3">SKU Title</th>
+            <th class="px-4 py-3">Platform</th>
+            <th class="px-4 py-3">City / Pin</th>
+            <th class="px-4 py-3">Pack Size</th>
+            <th class="px-4 py-3">Selling Price</th>
+            <th class="px-4 py-3">MRP</th>
+            <th class="px-4 py-3">Discount</th>
+            <th class="px-4 py-3">Stock Status</th>
+            <th class="px-4 py-3">ETA</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-800/60">
+          <tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="pilgrim 10% niacinamide face serum with kojic acid for acne marks, clear &amp; glowing skin">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pilgrim 10% Niacinamide Face Serum with Kojic Acid For Acne Marks, Clear &amp; Glowing Skin</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">22.50/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹225</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹249</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">10% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="pilgrim 10% niacinamide face serum with kojic acid for acne marks, clear &amp; glowing skin">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pilgrim 10% Niacinamide Face Serum with Kojic Acid For Acne Marks, Clear &amp; Glowing Skin</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">15.17/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹455</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹649</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">30% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="pilgrim 10% vitamin c face serum with 5% niacinamide reduces dark spots &amp; evens skin tone">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pilgrim 10% Vitamin C Face Serum with 5% Niacinamide Reduces Dark Spots &amp; Evens Skin Tone</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">16.57/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹497</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹645</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">23% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="pilgrim 15% vitamin c face serum for hyperpigmentation, glow &amp; even tone skin 10ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pilgrim 15% Vitamin C Face Serum for Hyperpigmentation, Glow &amp; Even Tone Skin 10ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">25.70/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹257</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹295</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">13% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="pilgrim 3% redensyl &amp; 4% anagain advanced hair growth serum">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pilgrim 3% Redensyl &amp; 4% Anagain Advanced Hair Growth Serum</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">19.90/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹597</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹795</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">25% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="pilgrim brightening skin face serum with 2% alpha arbutin &amp; 3% vitamin c for pigmentation &amp; glow">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pilgrim Brightening Skin Face Serum with 2% Alpha Arbutin &amp; 3% Vitamin C for Pigmentation &amp; Glow</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">5.70/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹570</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹695</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">18% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="pilgrim 10% niacinamide face serum with kojic acid for acne marks, clear &amp; glowing skin">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pilgrim 10% Niacinamide Face Serum with Kojic Acid For Acne Marks, Clear &amp; Glowing Skin</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">22.50/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹225</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹249</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">10% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="pilgrim 10% niacinamide face serum with kojic acid for acne marks, clear &amp; glowing skin">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pilgrim 10% Niacinamide Face Serum with Kojic Acid For Acne Marks, Clear &amp; Glowing Skin</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">15.17/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹455</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹649</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">30% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="pilgrim 10% vitamin c face serum with 5% niacinamide reduces dark spots &amp; evens skin tone">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pilgrim 10% Vitamin C Face Serum with 5% Niacinamide Reduces Dark Spots &amp; Evens Skin Tone</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">16.57/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹497</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹645</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">23% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="pilgrim 15% vitamin c face serum for hyperpigmentation, glow &amp; even tone skin 10ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pilgrim 15% Vitamin C Face Serum for Hyperpigmentation, Glow &amp; Even Tone Skin 10ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">25.70/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹257</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹295</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">13% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="pilgrim 3% redensyl &amp; 4% anagain advanced hair growth serum">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pilgrim 3% Redensyl &amp; 4% Anagain Advanced Hair Growth Serum</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">19.90/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹597</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹795</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">25% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="pilgrim brightening skin face serum with 2% alpha arbutin &amp; 3% vitamin c for pigmentation &amp; glow">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pilgrim Brightening Skin Face Serum with 2% Alpha Arbutin &amp; 3% Vitamin C for Pigmentation &amp; Glow</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">5.70/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹570</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹695</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">18% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="pilgrim 10% niacinamide face serum with kojic acid for acne marks, clear &amp; glowing skin">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pilgrim 10% Niacinamide Face Serum with Kojic Acid For Acne Marks, Clear &amp; Glowing Skin</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">22.50/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹225</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹249</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">10% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="pilgrim 10% niacinamide face serum with kojic acid for acne marks, clear &amp; glowing skin">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pilgrim 10% Niacinamide Face Serum with Kojic Acid For Acne Marks, Clear &amp; Glowing Skin</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">15.17/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹455</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹649</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">30% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="pilgrim 10% vitamin c face serum with 5% niacinamide reduces dark spots &amp; evens skin tone">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pilgrim 10% Vitamin C Face Serum with 5% Niacinamide Reduces Dark Spots &amp; Evens Skin Tone</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">16.57/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹497</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹645</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">23% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="pilgrim 15% vitamin c face serum for hyperpigmentation, glow &amp; even tone skin 10ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pilgrim 15% Vitamin C Face Serum for Hyperpigmentation, Glow &amp; Even Tone Skin 10ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">25.70/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹257</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹295</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">13% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="pilgrim 3% redensyl &amp; 4% anagain advanced hair growth serum">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pilgrim 3% Redensyl &amp; 4% Anagain Advanced Hair Growth Serum</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">19.90/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹597</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹795</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">25% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="pilgrim brightening skin face serum with 2% alpha arbutin &amp; 3% vitamin c for pigmentation &amp; glow">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pilgrim Brightening Skin Face Serum with 2% Alpha Arbutin &amp; 3% Vitamin C for Pigmentation &amp; Glow</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">5.70/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹570</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹695</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">18% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="pilgrim 10% vitamin c serum for glowing face , skin brightening &amp; reduce dark spots">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pilgrim 10% Vitamin C Serum For Glowing Face , Skin Brightening &amp; Reduce Dark Spots</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹266</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹275</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">3% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="pilgrim 10% niacinamide serum for pigmentation and dark spot | clear glass skin glow">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pilgrim 10% Niacinamide Serum For Pigmentation And Dark Spot | Clear Glass Skin Glow</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹235</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹249</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">6% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="pilgrim 10% niacinamide serum for pigmentation and dark spot | clear glass skin glow">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pilgrim 10% Niacinamide Serum For Pigmentation And Dark Spot | Clear Glass Skin Glow</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹612</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹649</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">6% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="pilgrim 2% salicylic acid serum for active acne &amp; pimple control">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pilgrim 2% Salicylic Acid Serum for Active Acne &amp; Pimple Control</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹160</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹275</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">42% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="pilgrim 15% vitamin c serum for glowing face , brightening skin &amp; reduce pigmentation">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pilgrim 15% Vitamin C Serum For Glowing Face , Brightening Skin &amp; Reduce Pigmentation</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹294</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹295</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="pilgrim pilgrim peeling solution face serum for women and men with 25% aha + 2% bha">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pilgrim Pilgrim Peeling Solution Face Serum For Women And Men With 25% AHA + 2% BHA</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹155</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹245</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">37% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="the derma co 10% vitamin c face serum">
+        <td class="px-4 py-3 font-medium text-white max-w-md">The Derma Co 10% Vitamin C Face Serum</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">10 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹272</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹299</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">9% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="the derma co 10% vitamin c face serum">
+        <td class="px-4 py-3 font-medium text-white max-w-md">The Derma Co 10% Vitamin C Face Serum</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">30 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹635</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹699</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">9% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="the derma co 10% vitamin c face serum">
+        <td class="px-4 py-3 font-medium text-white max-w-md">The Derma Co 10% Vitamin C Face Serum</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">2 x 30 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1228</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1398</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">12% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="pilgrim 10% vitamin c face serum">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pilgrim 10% Vitamin C Face Serum</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">30 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹483</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹645</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">25% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="pilgrim 10% vitamin c face serum">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pilgrim 10% Vitamin C Face Serum</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">10 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹216</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹275</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">21% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="pilgrim 10% niacinamide face serum">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pilgrim 10% Niacinamide Face Serum</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">10 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹208</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹249</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">16% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="pilgrim 10% niacinamide face serum">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pilgrim 10% Niacinamide Face Serum</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">30 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹428</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹649</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">34% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="pilgrim redensyl advanced hair growth serum">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pilgrim Redensyl Advanced Hair Growth Serum</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">25 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹509</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹795</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">36% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="pilgrim 10% vitamin c face serum with 5% niacinamide reduces dark spots &amp; evens skin tone">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pilgrim 10% Vitamin C Face Serum with 5% Niacinamide Reduces Dark Spots &amp; Evens Skin Tone</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (30 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹483</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹645</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">25% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="hyphen 18% brightening + 20% collagen double shot face serum | 5% niacinamide for dark spots">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Hyphen 18% Brightening + 20% Collagen Double Shot Face Serum | 5% Niacinamide for Dark Spots</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (50 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹590</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹649</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">9% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="pilgrim 10% niacinamide face serum with kojic acid for acne marks, clear &amp; glowing skin">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pilgrim 10% Niacinamide Face Serum with Kojic Acid for Acne Marks, Clear &amp; Glowing Skin</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (10 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹208</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹249</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">16% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="the derma co 10% niacinamide face serum for acne marks">
+        <td class="px-4 py-3 font-medium text-white max-w-md">The Derma Co 10% Niacinamide Face Serum For Acne Marks</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (10 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹224</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹249</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">10% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="pilgrim pha peeling solution mini">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pilgrim Pha Peeling Solution Mini</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 Pack(5 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹108</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹200</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">46% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="minimalist 10% vitamin c brightening &amp; hydrating face serum">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Minimalist 10% Vitamin C Brightening &amp; Hydrating Face Serum</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (10 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹284</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹299</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="cetaphil optimal hydration 48h activation serum">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Cetaphil Optimal Hydration 48H Activation Serum</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (30 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹751</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹899</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">16% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="minimalist anti-acne 2% salicylic acid face serum for all skin types">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Minimalist Anti-Acne 2% Salicylic Acid Face Serum for All Skin Types</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (10 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹237</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹249</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="korean 2% alpha arbutin &amp; 3% vitamin c brightening face serum for glowing skin| alpha arbutin face serum|all skin types | men &amp; women| korean skin care| vegan &amp; cruelty-free | 30ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Korean 2% Alpha Arbutin &amp; 3% Vitamin C Brightening Face Serum for glowing skin| Alpha arbutin face serum|All skin types | Men &amp; Women| Korean Skin Care| Vegan &amp; Cruelty-free | 30ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">30ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹570</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹695</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">18% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="advanced hair growth serum roll-on | women &amp; men | 25ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Advanced Hair Growth Serum Roll-On | Women &amp; Men | 25ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">25ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹628</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹2512</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">75% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="luminous even glow face serum | for glowing skin, skin brightening &amp; refined pores | niacinamide, thiamidol &amp; vitamin c serum | anti-dark spots | with aloe extracts | 3d glow in 3 days | 30ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Luminous Even Glow Face Serum | For Glowing Skin, Skin Brightening &amp; Refined Pores | Niacinamide, Thiamidol &amp; Vitamin C Serum | Anti-Dark Spots | With Aloe Extracts | 3D Glow in 3 Days | 30ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">30ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹372</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹12.4</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="18% brightening + 20% collagen face serum | double shot serum with 11% mandarin 5% niacinamide 2% pga &amp; bakuchiol | skincare | brightening, hydrating &amp; collagen boost for dry skin - 50ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">18% Brightening + 20% Collagen Face Serum | Double Shot Serum with 11% Mandarin 5% Niacinamide 2% PGA &amp; Bakuchiol | Skincare | Brightening, Hydrating &amp; Collagen Boost for Dry Skin - 50ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">50ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹549</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹10.98</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="/phd/ 2% alpha arbutin depigmentation serum | alpha arbutin for pigmentation &amp; dark spot | pigmentation serum for women &amp; men | tyrobright™, niacinamide | tan removal | fragrance-free | 30ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">/PHD/ 2% Alpha Arbutin Depigmentation Serum | Alpha Arbutin for Pigmentation &amp; Dark Spot | Pigmentation serum for Women &amp; Men | Tyrobright™, Niacinamide | Tan removal | Fragrance-Free | 30ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">30ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹606</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹20.2</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Tue, 3 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="10% vitamin c face serum for glowing skin with niacinamide - 10ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">10% Vitamin C Face Serum for Glowing Skin with Niacinamide - 10ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">10ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹181</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹18.1</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- Sticky CTA Footer -->
+  <div class="fixed bottom-0 inset-x-0 bg-slate-950/95 border-t border-emerald-500/30 backdrop-blur px-6 py-3.5 z-30">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+      <div class="text-slate-200">
+        <span class="text-emerald-400 font-bold">⚡ Unscrape Radar:</span> Want real-time Slack/WhatsApp/Telegram alerts within 15 mins whenever <strong>Pilgrim</strong> SKUs go Out-of-Stock across 20 BLR/MUM/DEL dark-store pin codes?
+      </div>
+      <div class="flex items-center gap-2.5 shrink-0">
+        <a href="https://github.com/deveshkolte/unscrape" target="_blank" class="px-4 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold">Unlock Automated 20-Pin-Code Monitor →</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const RAW_CSV = "brand,city,pincode,platform,skuId,title,sellingPriceInr,mrpInr,discountPercent,unit,inStock,deliveryEta,url\nPilgrim,Bengaluru,560001,bigbasket.com/jiomart,143532991,\"Pilgrim 10% Niacinamide Face Serum with Kojic Acid For Acne Marks, Clear & Glowing Skin\",225,249,10,22.50/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/pilgrim-10-niacinamide-face-serum-with-kojic-acid-for-acne-marks-clear-glowing-skin-mt7425-143532991/143532991\nPilgrim,Bengaluru,560001,bigbasket.com/jiomart,143534814,\"Pilgrim 10% Niacinamide Face Serum with Kojic Acid For Acne Marks, Clear & Glowing Skin\",455,649,30,15.17/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/pilgrim-10-niacinamide-face-serum-with-kojic-acid-for-acne-marks-clear-glowing-skin-mt751d-143534814/143534814\nPilgrim,Bengaluru,560001,bigbasket.com/jiomart,146035657,Pilgrim 10% Vitamin C Face Serum with 5% Niacinamide Reduces Dark Spots & Evens Skin Tone,497,645,23,16.57/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/pilgrim-10-vitamin-c-face-serum-with-5-niacinamide-reduces-dark-spots-evens-skin-tone-mtgyph-146035657/146035657\nPilgrim,Bengaluru,560001,bigbasket.com/jiomart,146817794,\"Pilgrim 15% Vitamin C Face Serum for Hyperpigmentation, Glow & Even Tone Skin 10ml\",257,295,13,25.70/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/pilgrim-15-vitamin-c-face-serum-for-hyperpigmentation-glow-even-tone-skin-10ml-mtr44f-146817794/146817794\nPilgrim,Bengaluru,560001,bigbasket.com/jiomart,145690626,Pilgrim 3% Redensyl & 4% Anagain Advanced Hair Growth Serum,597,795,25,19.90/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/pilgrim-3-redensyl-4-anagain-advanced-hair-growth-serum-mtckzq-145690626/145690626\nPilgrim,Bengaluru,560001,bigbasket.com/jiomart,146177246,Pilgrim Brightening Skin Face Serum with 2% Alpha Arbutin & 3% Vitamin C for Pigmentation & Glow,570,695,18,5.70/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/pilgrim-brightening-skin-face-serum-with-2-alpha-arbutin-3-vitamin-c-for-pigmentation-glow-mtiorm-146177246/146177246\nPilgrim,Mumbai,400001,bigbasket.com/jiomart,143532991,\"Pilgrim 10% Niacinamide Face Serum with Kojic Acid For Acne Marks, Clear & Glowing Skin\",225,249,10,22.50/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/pilgrim-10-niacinamide-face-serum-with-kojic-acid-for-acne-marks-clear-glowing-skin-mt7425-143532991/143532991\nPilgrim,Mumbai,400001,bigbasket.com/jiomart,143534814,\"Pilgrim 10% Niacinamide Face Serum with Kojic Acid For Acne Marks, Clear & Glowing Skin\",455,649,30,15.17/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/pilgrim-10-niacinamide-face-serum-with-kojic-acid-for-acne-marks-clear-glowing-skin-mt751d-143534814/143534814\nPilgrim,Mumbai,400001,bigbasket.com/jiomart,146035657,Pilgrim 10% Vitamin C Face Serum with 5% Niacinamide Reduces Dark Spots & Evens Skin Tone,497,645,23,16.57/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/pilgrim-10-vitamin-c-face-serum-with-5-niacinamide-reduces-dark-spots-evens-skin-tone-mtgyph-146035657/146035657\nPilgrim,Mumbai,400001,bigbasket.com/jiomart,146817794,\"Pilgrim 15% Vitamin C Face Serum for Hyperpigmentation, Glow & Even Tone Skin 10ml\",257,295,13,25.70/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/pilgrim-15-vitamin-c-face-serum-for-hyperpigmentation-glow-even-tone-skin-10ml-mtr44f-146817794/146817794\nPilgrim,Mumbai,400001,bigbasket.com/jiomart,145690626,Pilgrim 3% Redensyl & 4% Anagain Advanced Hair Growth Serum,597,795,25,19.90/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/pilgrim-3-redensyl-4-anagain-advanced-hair-growth-serum-mtckzq-145690626/145690626\nPilgrim,Mumbai,400001,bigbasket.com/jiomart,146177246,Pilgrim Brightening Skin Face Serum with 2% Alpha Arbutin & 3% Vitamin C for Pigmentation & Glow,570,695,18,5.70/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/pilgrim-brightening-skin-face-serum-with-2-alpha-arbutin-3-vitamin-c-for-pigmentation-glow-mtiorm-146177246/146177246\nPilgrim,Delhi,110001,bigbasket.com/jiomart,143532991,\"Pilgrim 10% Niacinamide Face Serum with Kojic Acid For Acne Marks, Clear & Glowing Skin\",225,249,10,22.50/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/pilgrim-10-niacinamide-face-serum-with-kojic-acid-for-acne-marks-clear-glowing-skin-mt7425-143532991/143532991\nPilgrim,Delhi,110001,bigbasket.com/jiomart,143534814,\"Pilgrim 10% Niacinamide Face Serum with Kojic Acid For Acne Marks, Clear & Glowing Skin\",455,649,30,15.17/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/pilgrim-10-niacinamide-face-serum-with-kojic-acid-for-acne-marks-clear-glowing-skin-mt751d-143534814/143534814\nPilgrim,Delhi,110001,bigbasket.com/jiomart,146035657,Pilgrim 10% Vitamin C Face Serum with 5% Niacinamide Reduces Dark Spots & Evens Skin Tone,497,645,23,16.57/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/pilgrim-10-vitamin-c-face-serum-with-5-niacinamide-reduces-dark-spots-evens-skin-tone-mtgyph-146035657/146035657\nPilgrim,Delhi,110001,bigbasket.com/jiomart,146817794,\"Pilgrim 15% Vitamin C Face Serum for Hyperpigmentation, Glow & Even Tone Skin 10ml\",257,295,13,25.70/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/pilgrim-15-vitamin-c-face-serum-for-hyperpigmentation-glow-even-tone-skin-10ml-mtr44f-146817794/146817794\nPilgrim,Delhi,110001,bigbasket.com/jiomart,145690626,Pilgrim 3% Redensyl & 4% Anagain Advanced Hair Growth Serum,597,795,25,19.90/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/pilgrim-3-redensyl-4-anagain-advanced-hair-growth-serum-mtckzq-145690626/145690626\nPilgrim,Delhi,110001,bigbasket.com/jiomart,146177246,Pilgrim Brightening Skin Face Serum with 2% Alpha Arbutin & 3% Vitamin C for Pigmentation & Glow,570,695,18,5.70/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/pilgrim-brightening-skin-face-serum-with-2-alpha-arbutin-3-vitamin-c-for-pigmentation-glow-mtiorm-146177246/146177246\nPilgrim,Bengaluru,560001,flipkart.com,FRNHFCJDBTSBZGNF,\"Pilgrim 10% Vitamin C Serum For Glowing Face , Skin Brightening & Reduce Dark Spots\",266,275,3,1 unit,true,15 MINS,https://www.flipkart.com/pilgrim-10-vitamin-c-serum-glowing-face-skin-brightening-reduce-dark-spots/p/itm41b5c7deab6b8?pid=FRNHFCJDBTSBZGNF&lid=LSTFRNHFCJDBTSBZGNFPUBK4O&marketplace=FLIPKART&q=pilgrim+serum&store=g9b%2Fema%2F5la%2F8um&spotlightTagId=default_BestsellerId_g9b%2Fema%2F5la%2F8um&srno=s_1_1&otracker=search&fm=organic&iid=0154f659-2c56-4480-9df8-b8478c797d17.FRNHFCJDBTSBZGNF.SEARCH&ppt=sp&ppn=sp&ssid=ql6w5jg6ds0000001793387328480&qH=b5cb18be79df22f8&ov_redirect=true&ov_redirect=true\nPilgrim,Bengaluru,560001,flipkart.com,FRNHFCGKWWJVP25X,Pilgrim 10% Niacinamide Serum For Pigmentation And Dark Spot | Clear Glass Skin Glow,235,249,6,1 unit,true,15 MINS,https://www.flipkart.com/pilgrim-10-niacinamide-serum-pigmentation-dark-spot-clear-glass-skin-glow/p/itm5ba163a09e796?pid=FRNHFCGKWWJVP25X&lid=LSTFRNHFCGKWWJVP25XEVYFXJ&marketplace=FLIPKART&q=pilgrim+serum&store=g9b%2Fema%2F5la%2F8um&spotlightTagId=default_BestsellerId_g9b%2Fema%2F5la%2F8um&srno=s_1_2&otracker=search&fm=organic&iid=0154f659-2c56-4480-9df8-b8478c797d17.FRNHFCGKWWJVP25X.SEARCH&ppt=sp&ppn=sp&ssid=ql6w5jg6ds0000001793387328480&qH=b5cb18be79df22f8&ov_redirect=true&ov_redirect=true\nPilgrim,Bengaluru,560001,flipkart.com,FRNHFCG4YEBFWXVY,Pilgrim 10% Niacinamide Serum For Pigmentation And Dark Spot | Clear Glass Skin Glow,612,649,6,1 unit,true,15 MINS,https://www.flipkart.com/pilgrim-10-niacinamide-serum-pigmentation-dark-spot-clear-glass-skin-glow/p/itmd6668334cc6fa?pid=FRNHFCG4YEBFWXVY&lid=LSTFRNHFCG4YEBFWXVYZLTJCP&marketplace=FLIPKART&q=pilgrim+serum&store=g9b%2Fema%2F5la%2F8um&srno=s_1_3&otracker=search&fm=organic&iid=0154f659-2c56-4480-9df8-b8478c797d17.FRNHFCG4YEBFWXVY.SEARCH&ppt=sp&ppn=sp&ssid=ql6w5jg6ds0000001793387328480&qH=b5cb18be79df22f8&ov_redirect=true&ov_redirect=true\nPilgrim,Bengaluru,560001,flipkart.com,FRNHFCHRHAVPB5AZ,Pilgrim 2% Salicylic Acid Serum for Active Acne & Pimple Control,160,275,42,1 unit,true,15 MINS,https://www.flipkart.com/pilgrim-2-salicylic-acid-serum-active-acne-pimple-control/p/itmf5559ae3cc64d?pid=FRNHFCHRHAVPB5AZ&lid=LSTFRNHFCHRHAVPB5AZJCCSIQ&marketplace=FLIPKART&q=pilgrim+serum&store=g9b%2Fema%2F5la%2F8um&srno=s_1_4&otracker=search&fm=organic&iid=0154f659-2c56-4480-9df8-b8478c797d17.FRNHFCHRHAVPB5AZ.SEARCH&ppt=sp&ppn=sp&ssid=ql6w5jg6ds0000001793387328480&qH=b5cb18be79df22f8&ov_redirect=true&ov_redirect=true\nPilgrim,Bengaluru,560001,flipkart.com,KMTHE28VVNXYBZ2N,\"Pilgrim 15% Vitamin C Serum For Glowing Face , Brightening Skin & Reduce Pigmentation\",294,295,0,1 unit,true,15 MINS,https://www.flipkart.com/pilgrim-15-vitamin-c-serum-glowing-face-brightening-skin-reduce-pigmentation/p/itm21672ba0f6c38?pid=KMTHE28VVNXYBZ2N&lid=LSTKMTHE28VVNXYBZ2NDDLTNF&marketplace=FLIPKART&q=pilgrim+serum&store=g9b%2Fema%2F5la%2F8um&srno=s_1_5&otracker=search&fm=organic&iid=0154f659-2c56-4480-9df8-b8478c797d17.KMTHE28VVNXYBZ2N.SEARCH&ppt=sp&ppn=sp&ssid=ql6w5jg6ds0000001793387328480&qH=b5cb18be79df22f8&ov_redirect=true&ov_redirect=true\nPilgrim,Bengaluru,560001,flipkart.com,KMTHDTC3CFX8Q6WU,Pilgrim Pilgrim Peeling Solution Face Serum For Women And Men With 25% AHA + 2% BHA,155,245,37,1 unit,true,15 MINS,https://www.flipkart.com/pilgrim-peeling-solution-face-serum-women-men-25-aha-2-bha/p/itm9c034ff16fb28?pid=KMTHDTC3CFX8Q6WU&lid=LSTKMTHDTC3CFX8Q6WU5QA1VE&marketplace=FLIPKART&q=pilgrim+serum&store=g9b%2Fema%2F5la%2F8um&srno=s_1_6&otracker=search&fm=organic&iid=0154f659-2c56-4480-9df8-b8478c797d17.KMTHDTC3CFX8Q6WU.SEARCH&ppt=sp&ppn=sp&ssid=ql6w5jg6ds0000001793387328480&qH=b5cb18be79df22f8&ov_redirect=true&ov_redirect=true\nPilgrim,Bengaluru,560001,blinkit.com,556704,The Derma Co 10% Vitamin C Face Serum,272,299,9,10 ml,true,10 MINS,https://blinkit.com/prn/the-derma-co-10-vitamin-c-face-serum/prid/556704\nPilgrim,Bengaluru,560001,blinkit.com,539563,The Derma Co 10% Vitamin C Face Serum,635,699,9,30 ml,true,10 MINS,https://blinkit.com/prn/the-derma-co-10-vitamin-c-face-serum/prid/539563\nPilgrim,Bengaluru,560001,blinkit.com,791806,The Derma Co 10% Vitamin C Face Serum,1228,1398,12,2 x 30 ml,true,10 MINS,https://blinkit.com/prn/the-derma-co-10-vitamin-c-face-serum/prid/791806\nPilgrim,Bengaluru,560001,blinkit.com,603297,Pilgrim 10% Vitamin C Face Serum,483,645,25,30 ml,true,10 MINS,https://blinkit.com/prn/pilgrim-10-vitamin-c-face-serum/prid/603297\nPilgrim,Bengaluru,560001,blinkit.com,603294,Pilgrim 10% Vitamin C Face Serum,216,275,21,10 ml,true,10 MINS,https://blinkit.com/prn/pilgrim-10-vitamin-c-face-serum/prid/603294\nPilgrim,Bengaluru,560001,blinkit.com,691992,Pilgrim 10% Niacinamide Face Serum,208,249,16,10 ml,true,10 MINS,https://blinkit.com/prn/pilgrim-10-niacinamide-face-serum/prid/691992\nPilgrim,Bengaluru,560001,blinkit.com,596896,Pilgrim 10% Niacinamide Face Serum,428,649,34,30 ml,true,10 MINS,https://blinkit.com/prn/pilgrim-10-niacinamide-face-serum/prid/596896\nPilgrim,Bengaluru,560001,blinkit.com,546710,Pilgrim Redensyl Advanced Hair Growth Serum,509,795,36,25 ml,true,10 MINS,https://blinkit.com/prn/pilgrim-redensyl-advanced-hair-growth-serum/prid/546710\nPilgrim,Bengaluru,560001,zeptonow.com,d077c9b9-44d3-5f3e-bc22-7112aa3c04b4,Pilgrim 10% Vitamin C Face Serum with 5% Niacinamide Reduces Dark Spots & Evens Skin Tone,483,645,25,1 pc (30 ml),true,10 MINS,https://www.zepto.com/pn/pilgrim-10-vitamin-c-face-serum-with-5-niacinamide-reduces-dark-spots-evens-skin-tone/pvid/13c53ec8-6589-4ec4-841c-616af28c56ac\nPilgrim,Bengaluru,560001,zeptonow.com,27638d79-7ba5-55fb-8c8c-9061f79129bc,Hyphen 18% Brightening + 20% Collagen Double Shot Face Serum | 5% Niacinamide for Dark Spots,590,649,9,1 pc (50 ml),true,10 MINS,https://www.zepto.com/pn/hyphen-18-brightening-20-collagen-double-shot-face-serum-5-niacinamide-for-dark-spots/pvid/084c5cc4-73d9-4d11-b4c1-1b37fa08892b\nPilgrim,Bengaluru,560001,zeptonow.com,0c4d7cd7-2073-5a07-a4d8-7e6e5a3b07d9,\"Pilgrim 10% Niacinamide Face Serum with Kojic Acid for Acne Marks, Clear & Glowing Skin\",208,249,16,1 pc (10 ml),true,10 MINS,https://www.zepto.com/pn/pilgrim-10-niacinamide-face-serum-with-kojic-acid-for-acne-marks-clear-glowing-skin/pvid/cbd42bd7-e148-43ae-855e-77a49ddc49e7\nPilgrim,Bengaluru,560001,zeptonow.com,02dd4718-9e2f-54fa-818a-bbb548ce96c3,The Derma Co 10% Niacinamide Face Serum For Acne Marks,224,249,10,1 pc (10 ml),true,10 MINS,https://www.zepto.com/pn/the-derma-co-10-niacinamide-face-serum-for-acne-marks/pvid/9c067705-4948-4c61-97ea-9cff3485348a\nPilgrim,Bengaluru,560001,zeptonow.com,f58ea91e-1417-5b66-b2be-9f31bb7ca586,Pilgrim Pha Peeling Solution Mini,108,200,46,1 Pack(5 ml),true,10 MINS,https://www.zepto.com/pn/pilgrim-pha-peeling-solution-mini/pvid/fe5c1a25-1393-4a60-804c-841673f5d97c\nPilgrim,Bengaluru,560001,zeptonow.com,4e3c04f7-6a0d-5a33-84c7-599a95a6ebf2,Minimalist 10% Vitamin C Brightening & Hydrating Face Serum,284,299,5,1 pc (10 ml),true,10 MINS,https://www.zepto.com/pn/minimalist-10-vitamin-c-brightening-hydrating-face-serum/pvid/e282b868-4ba0-49e6-8064-32812cf3e5cd\nPilgrim,Bengaluru,560001,zeptonow.com,14a07969-4855-5857-a874-d8adc010ba39,Cetaphil Optimal Hydration 48H Activation Serum,751,899,16,1 pc (30 ml),true,10 MINS,https://www.zepto.com/pn/cetaphil-optimal-hydration-48h-activation-serum/pvid/0be93752-8879-4b42-b84c-d18ccf0d07b3\nPilgrim,Bengaluru,560001,zeptonow.com,7f9b20bd-166f-546f-a659-44d21e87d31d,Minimalist Anti-Acne 2% Salicylic Acid Face Serum for All Skin Types,237,249,5,1 pc (10 ml),true,10 MINS,https://www.zepto.com/pn/minimalist-anti-acne-2-salicylic-acid-face-serum-for-all-skin-types/pvid/75dc7ea8-0e55-425b-b0e1-0469a8fbbaf1\nPilgrim,Bengaluru,560001,amazon.in,B096XYRM5X,Korean 2% Alpha Arbutin & 3% Vitamin C Brightening Face Serum for glowing skin| Alpha arbutin face serum|All skin types | Men & Women| Korean Skin Care| Vegan & Cruelty-free | 30ml,570,695,18,30ml,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B096XYRM5X\nPilgrim,Bengaluru,560001,amazon.in,B0FTSBJGMK,Advanced Hair Growth Serum Roll-On | Women & Men | 25ml,628,2512,75,25ml,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0FTSBJGMK\nPilgrim,Bengaluru,560001,amazon.in,B0F99FRTNC,\"Luminous Even Glow Face Serum | For Glowing Skin, Skin Brightening & Refined Pores | Niacinamide, Thiamidol & Vitamin C Serum | Anti-Dark Spots | With Aloe Extracts | 3D Glow in 3 Days | 30ml\",372,12.4,0,30ml,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0F99FRTNC\nPilgrim,Bengaluru,560001,amazon.in,B0FDQZBV6K,\"18% Brightening + 20% Collagen Face Serum | Double Shot Serum with 11% Mandarin 5% Niacinamide 2% PGA & Bakuchiol | Skincare | Brightening, Hydrating & Collagen Boost for Dry Skin - 50ml\",549,10.98,0,50ml,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0FDQZBV6K\nPilgrim,Bengaluru,560001,amazon.in,B0F6YP63KW,\"/PHD/ 2% Alpha Arbutin Depigmentation Serum | Alpha Arbutin for Pigmentation & Dark Spot | Pigmentation serum for Women & Men | Tyrobright™, Niacinamide | Tan removal | Fragrance-Free | 30ml\",606,20.2,0,30ml,true,\"Tue, 3 Nov\",https://www.amazon.in/dp/B0F6YP63KW\nPilgrim,Bengaluru,560001,amazon.in,B0D5DBMKMC,10% Vitamin C Face Serum for Glowing Skin with Niacinamide - 10ml,181,18.1,0,10ml,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0D5DBMKMC\n";
+
+    function filterRows(mode) {
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const stock = row.getAttribute('data-stock');
+        if (mode === 'all') row.style.display = '';
+        else if (mode === 'oos') row.style.display = stock === 'oos' ? '' : 'none';
+        else if (mode === 'instock') row.style.display = stock === 'instock' ? '' : 'none';
+      });
+    }
+
+    function searchSkus() {
+      const q = document.getElementById('skuSearch').value.toLowerCase();
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const title = row.getAttribute('data-title') || '';
+        const platform = (row.getAttribute('data-platform') || '').toLowerCase();
+        row.style.display = (title.includes(q) || platform.includes(q)) ? '' : 'none';
+      });
+    }
+
+    function downloadCsv() {
+      const blob = new Blob([RAW_CSV], { type: 'text/csv;charset=utf-8;' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'pilgrim-3city-audit.csv';
+      a.click();
+    }
+  </script>
+</body>
+</html>

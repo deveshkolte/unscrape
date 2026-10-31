@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SUGAR Cosmetics — 3-City Quick-Commerce Dark-Store Audit Scorecard | Unscrape Radar</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background-color: #07080d; color: #f3f4f6; font-family: Inter, system-ui, -apple-system, sans-serif; }
+  </style>
+</head>
+<body class="min-h-screen pb-24">
+  <!-- Top Bar -->
+  <header class="border-b border-slate-800 bg-slate-950/90 backdrop-blur sticky top-0 z-20">
+    <div class="max-w-7xl mx-auto px-6 py-3.5 flex items-center justify-between flex-wrap gap-3">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="text-emerald-400 font-black text-lg tracking-tight hover:text-emerald-300">⚡ UNSCRAPE RADAR</a>
+        <span class="text-xs text-slate-500">/</span>
+        <span class="text-sm font-bold text-white">SUGAR Cosmetics Executive Scorecard</span>
+      </div>
+      <div class="flex items-center gap-2.5 text-xs">
+        <a href="index.html" class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700">← All 56 Brand Audits</a>
+        <button onclick="downloadCsv()" class="px-3.5 py-1.5 rounded-lg bg-emerald-500 text-slate-950 font-bold hover:bg-emerald-400">⬇ Download Raw CSV (46 SKUs)</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-6 pt-8">
+    <!-- Executive Header -->
+    <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 mb-8">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+        <div>
+          <div class="flex items-center gap-2.5 mb-2">
+            <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded bg-slate-800 text-emerald-400">Color Cosmetics</span>
+            <span class="text-xs text-slate-400 font-mono">Audited: 2026-10-30</span>
+          </div>
+          <h1 class="text-3xl md:text-4xl font-black text-white tracking-tight">SUGAR Cosmetics — Hyperlocal Dark-Store Audit</h1>
+          <p class="text-slate-400 text-sm mt-1">
+            Live multi-platform inventory & MOP/MRP price variance scan across <strong>Bengaluru (560001)</strong>, <strong>Mumbai (400001)</strong>, and <strong>Delhi (110001)</strong>.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 shrink-0">
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">SKUs Audited</div>
+            <div class="text-2xl font-black text-white mt-1">46</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">OOS Leaks</div>
+            <div class="text-2xl font-black text-rose-400 mt-1">1</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">Max Markdown</div>
+            <div class="text-2xl font-black text-amber-300 mt-1">80%</div>
+          </div>
+          <div class="border rounded-xl p-3.5 text-center bg-emerald-500/15 text-emerald-400 border-emerald-500/30">
+            <div class="text-[11px] uppercase font-bold opacity-80">Shelf Health</div>
+            <div class="text-2xl font-black mt-1">98%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="bg-rose-950/50 border border-rose-500/40 rounded-2xl p-6 mb-8">
+      <div class="flex items-center justify-between flex-wrap gap-3 mb-4">
+        <div class="flex items-center gap-3">
+          <span class="px-3 py-1 rounded-full bg-rose-500 text-slate-950 font-black text-xs uppercase tracking-wider">🚨 REVENUE LEAK DETECTED</span>
+          <h2 class="text-lg font-bold text-white">1 Out-of-Stock Dark-Store Listing(s) Caught Live</h2>
+        </div>
+        <span class="text-xs font-mono text-rose-300">Immediate Shelf Conversion Loss</span>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+        
+          <div class="bg-slate-950/90 border border-rose-500/30 rounded-xl p-3.5 flex items-center justify-between gap-3">
+            <div>
+              <div class="text-sm font-bold text-white">Sugar Glide Peptide Serum Lipstick (01 Santorini Sunset)</div>
+              <div class="text-xs text-slate-400 mt-1">
+                Platform: <span class="text-rose-300 font-mono">blinkit.com</span> ·
+                City: <span class="text-slate-200">Bengaluru (560001)</span> ·
+                Pack: <span class="text-slate-300">4.2 g</span>
+              </div>
+            </div>
+            <div class="text-right shrink-0">
+              <div class="text-sm font-extrabold text-rose-400">OUT OF STOCK</div>
+              <div class="text-xs text-slate-400">₹429</div>
+            </div>
+          </div>
+      </div>
+    </div>
+
+    <!-- Filter Controls -->
+    <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+      <div class="flex items-center gap-2 text-xs">
+        <button onclick="filterRows('all')" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-semibold">All SKUs (46)</button>
+        <button onclick="filterRows('oos')" class="px-3 py-1.5 rounded-lg bg-rose-500/15 border border-rose-500/30 text-rose-300 hover:bg-rose-500/25 font-semibold">Out-of-Stock Only (1)</button>
+        <button onclick="filterRows('instock')" class="px-3 py-1.5 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 hover:bg-emerald-500/25 font-semibold">In-Stock (45)</button>
+      </div>
+      <div class="flex items-center gap-2">
+        <input id="skuSearch" type="text" oninput="searchSkus()" placeholder="Filter SKU title or platform..." class="bg-slate-900 border border-slate-800 rounded-lg px-3.5 py-1.5 text-xs text-white w-64" />
+      </div>
+    </div>
+
+    <!-- SKU Table -->
+    <div class="bg-slate-900/50 border border-slate-800 rounded-2xl overflow-x-auto">
+      <table class="w-full text-left text-xs">
+        <thead class="bg-slate-950/90 text-slate-400 uppercase border-b border-slate-800">
+          <tr>
+            <th class="px-4 py-3">SKU Title</th>
+            <th class="px-4 py-3">Platform</th>
+            <th class="px-4 py-3">City / Pin</th>
+            <th class="px-4 py-3">Pack Size</th>
+            <th class="px-4 py-3">Selling Price</th>
+            <th class="px-4 py-3">MRP</th>
+            <th class="px-4 py-3">Discount</th>
+            <th class="px-4 py-3">Stock Status</th>
+            <th class="px-4 py-3">ETA</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-800/60">
+          <tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="love earth satin matte lipstick - sugar -3.5g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Love Earth Satin Matte Lipstick - Sugar -3.5G</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹299</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹659</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">55% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="colorflix velvet matte non-transfer lip color long-lasting smudge-proof waterproof (brown sugar, 6 ml)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">ColorFlix Velvet Matte Non-Transfer Lip Color Long-Lasting Smudge-Proof Waterproof (Brown Sugar, 6 ml)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹179</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹275</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">35% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="daimanpu 4in1 mini matte liquid lipstick and 2in1 sugar scrub lip balm and repair winter makeup kit (2 items in the set)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">DAIMANPU 4in1 Mini Matte Liquid Lipstick and 2in1 Sugar Scrub Lip Balm and Repair Winter Makeup Kit (2 Items in the set)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹474</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1299</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">64% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="makin beauty brown sugar dream liquid lipstick | makin beauty 12hr glamm time kiss proof 4ml | matte lipstick | lip color | long lasting lipstick | lip makeup | makeup lipstick | lipstick for women">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Makin Beauty Brown Sugar Dream Liquid Lipstick | Makin Beauty 12HR Glamm Time Kiss Proof 4ml | Matte Lipstick | Lip Color | Long Lasting Lipstick | Lip Makeup | Makeup Lipstick | Lipstick for Women</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">197.00/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹197</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹599</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">67% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="colors queen queen lips matte lipstick| long lasting lipstick waterproof highly pigmented with smooth application| smudge proof lipstick for women (rose blush) lipstick">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Colors Queen Queen Lips Matte Lipstick| Long Lasting Lipstick Waterproof Highly Pigmented with Smooth Application| Smudge Proof Lipstick for Women (Rose Blush) Lipstick</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">229.00/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹229</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹399</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">43% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="wutend professional liquid lipstick set, 4 colors, pink, mehroon, peach, coffee.">
+        <td class="px-4 py-3 font-medium text-white max-w-md">WUTEND Professional Liquid Lipstick Set, 4 Colors, Pink, Mehroon, Peach, Coffee.</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹189</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹349</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">46% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="love earth satin matte lipstick - sugar -3.5g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Love Earth Satin Matte Lipstick - Sugar -3.5G</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹299</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹659</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">55% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="colorflix velvet matte non-transfer lip color long-lasting smudge-proof waterproof (brown sugar, 6 ml)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">ColorFlix Velvet Matte Non-Transfer Lip Color Long-Lasting Smudge-Proof Waterproof (Brown Sugar, 6 ml)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹179</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹275</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">35% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="daimanpu 4in1 mini matte liquid lipstick and 2in1 sugar scrub lip balm and repair winter makeup kit (2 items in the set)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">DAIMANPU 4in1 Mini Matte Liquid Lipstick and 2in1 Sugar Scrub Lip Balm and Repair Winter Makeup Kit (2 Items in the set)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹474</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1299</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">64% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="makin beauty brown sugar dream liquid lipstick | makin beauty 12hr glamm time kiss proof 4ml | matte lipstick | lip color | long lasting lipstick | lip makeup | makeup lipstick | lipstick for women">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Makin Beauty Brown Sugar Dream Liquid Lipstick | Makin Beauty 12HR Glamm Time Kiss Proof 4ml | Matte Lipstick | Lip Color | Long Lasting Lipstick | Lip Makeup | Makeup Lipstick | Lipstick for Women</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">197.00/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹197</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹599</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">67% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="colors queen queen lips matte lipstick| long lasting lipstick waterproof highly pigmented with smooth application| smudge proof lipstick for women (rose blush) lipstick">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Colors Queen Queen Lips Matte Lipstick| Long Lasting Lipstick Waterproof Highly Pigmented with Smooth Application| Smudge Proof Lipstick for Women (Rose Blush) Lipstick</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">229.00/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹229</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹399</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">43% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="wutend professional liquid lipstick set, 4 colors, pink, mehroon, peach, coffee.">
+        <td class="px-4 py-3 font-medium text-white max-w-md">WUTEND Professional Liquid Lipstick Set, 4 Colors, Pink, Mehroon, Peach, Coffee.</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹189</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹349</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">46% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="love earth satin matte lipstick - sugar -3.5g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Love Earth Satin Matte Lipstick - Sugar -3.5G</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹299</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹659</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">55% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="colorflix velvet matte non-transfer lip color long-lasting smudge-proof waterproof (brown sugar, 6 ml)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">ColorFlix Velvet Matte Non-Transfer Lip Color Long-Lasting Smudge-Proof Waterproof (Brown Sugar, 6 ml)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹179</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹275</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">35% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="daimanpu 4in1 mini matte liquid lipstick and 2in1 sugar scrub lip balm and repair winter makeup kit (2 items in the set)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">DAIMANPU 4in1 Mini Matte Liquid Lipstick and 2in1 Sugar Scrub Lip Balm and Repair Winter Makeup Kit (2 Items in the set)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹474</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1299</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">64% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="makin beauty brown sugar dream liquid lipstick | makin beauty 12hr glamm time kiss proof 4ml | matte lipstick | lip color | long lasting lipstick | lip makeup | makeup lipstick | lipstick for women">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Makin Beauty Brown Sugar Dream Liquid Lipstick | Makin Beauty 12HR Glamm Time Kiss Proof 4ml | Matte Lipstick | Lip Color | Long Lasting Lipstick | Lip Makeup | Makeup Lipstick | Lipstick for Women</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">197.00/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹197</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹599</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">67% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="colors queen queen lips matte lipstick| long lasting lipstick waterproof highly pigmented with smooth application| smudge proof lipstick for women (rose blush) lipstick">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Colors Queen Queen Lips Matte Lipstick| Long Lasting Lipstick Waterproof Highly Pigmented with Smooth Application| Smudge Proof Lipstick for Women (Rose Blush) Lipstick</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">229.00/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹229</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹399</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">43% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="wutend professional liquid lipstick set, 4 colors, pink, mehroon, peach, coffee.">
+        <td class="px-4 py-3 font-medium text-white max-w-md">WUTEND Professional Liquid Lipstick Set, 4 Colors, Pink, Mehroon, Peach, Coffee.</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹189</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹349</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">46% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="sugar cosmetics nothing else matter longwear lipstick">
+        <td class="px-4 py-3 font-medium text-white max-w-md">SUGAR Cosmetics Nothing Else Matter Longwear Lipstick</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹363</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹599</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">39% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="sugar pop matte lipcolour 11 ruby - super matte | lasts 8+ hours | non-drying">
+        <td class="px-4 py-3 font-medium text-white max-w-md">SUGAR POP Matte Lipcolour 11 Ruby - Super Matte | Lasts 8+ hours | Non-Drying</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹200</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹279</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">28% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="sugar matte attack transferproof &amp; waterproof lipstick">
+        <td class="px-4 py-3 font-medium text-white max-w-md">SUGAR Matte Attack Transferproof &amp; Waterproof Lipstick</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹569</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹749</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">24% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="renee stay with me lip crayon">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Renee Stay With Me Lip Crayon</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹255</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹299</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="sugar mousse muse">
+        <td class="px-4 py-3 font-medium text-white max-w-md">SUGAR Mousse Muse</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹458</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹599</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">24% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="sugar matte as hell crayon lipstick">
+        <td class="px-4 py-3 font-medium text-white max-w-md">SUGAR Matte As Hell Crayon Lipstick</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹806</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹949</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="renee madness ph stick lipstick">
+        <td class="px-4 py-3 font-medium text-white max-w-md">RENEE Madness PH Stick Lipstick</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">3 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹425</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="sugar glide peptide serum lipstick (11 malta mauve)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Sugar Glide Peptide Serum Lipstick (11 Malta Mauve)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">4.2 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹500</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹549</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">9% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="sugar glide peptide serum lipstick (10 miami mocha)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Sugar Glide Peptide Serum Lipstick (10 Miami Mocha)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">4.2 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹500</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹549</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">9% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="sugar glide peptide serum lipstick (09 boston blush)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Sugar Glide Peptide Serum Lipstick (09 Boston Blush)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">4.2 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹500</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹549</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">9% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="sugar glide peptide serum lipstick (06 moscow mulberry)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Sugar Glide Peptide Serum Lipstick (06 Moscow Mulberry)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">4.2 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹429</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹549</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">22% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="sugar glide peptide serum lipstick (03 sahara sands)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Sugar Glide Peptide Serum Lipstick (03 Sahara Sands)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">4.2 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹429</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹549</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">22% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="oos" data-platform="blinkit.com" data-title="sugar glide peptide serum lipstick (01 santorini sunset)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Sugar Glide Peptide Serum Lipstick (01 Santorini Sunset)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">4.2 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹429</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹549</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">22% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-rose-500/20 text-rose-400 border border-rose-500/30 font-mono text-[11px] font-bold">OUT OF STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="sugar glide peptide serum lipstick (07 tuscany truffle)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Sugar Glide Peptide Serum Lipstick (07 Tuscany Truffle)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">4.2 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹429</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹549</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">22% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="sugar cosmetics glide peptide serum lipstick with hyaluronic acid &amp; vitamin e | velvet matte lipstick for indian skin | 1-swipe full coverage | 4.2gm - 07 tuscany truffle">
+        <td class="px-4 py-3 font-medium text-white max-w-md">SUGAR Cosmetics Glide Peptide Serum Lipstick with Hyaluronic Acid &amp; Vitamin E | Velvet Matte Lipstick for Indian Skin | 1-Swipe Full Coverage | 4.2gm - 07 Tuscany Truffle</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">4.2gm</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹374</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">25% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="sugar cosmetics matte as hell crayon lipstick for indian skin | long lasting matte lipstick | smudge proof lip crayon with sharpener | 12hr wear | 2.8gm - 24 rachel berry">
+        <td class="px-4 py-3 font-medium text-white max-w-md">SUGAR Cosmetics Matte As Hell Crayon Lipstick for Indian Skin | Long Lasting Matte Lipstick | Smudge Proof Lip Crayon with Sharpener | 12Hr Wear | 2.8gm - 24 Rachel Berry</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">2.8gm</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹759</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹949</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Fri, 6 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="sugar glide peptide tripstick™ - 01 bare affair (10.2 g) karwachauth gift set">
+        <td class="px-4 py-3 font-medium text-white max-w-md">SUGAR Glide Peptide Tripstick™ - 01 Bare Affair (10.2 g) karwachauth gift Set</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">10.2 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1699</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">-</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Tue, 17 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="l'oreal paris infallible matte resistance liquid lipstick, 665 first move">
+        <td class="px-4 py-3 font-medium text-white max-w-md">L'Oreal Paris Infallible Matte Resistance Liquid Lipstick, 665 First Move</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹620</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹999</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">38% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="superstay vinyl ink mithai limited edition - berry barfi, 4.2g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Superstay Vinyl Ink Mithai Limited Edition - Berry Barfi, 4.2g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">4.2g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹499</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹849</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">41% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="sugar cosmetics glide peptide serum lipstick with hyaluronic acid &amp; vitamin e | velvet matte lipstick for indian skin | 1-swipe full coverage | 4.2gm - 03 sahara sands">
+        <td class="px-4 py-3 font-medium text-white max-w-md">SUGAR Cosmetics Glide Peptide Serum Lipstick with Hyaluronic Acid &amp; Vitamin E | Velvet Matte Lipstick for Indian Skin | 1-Swipe Full Coverage | 4.2gm - 03 Sahara Sands</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">4.2gm</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹374</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">25% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="sugar cosmetics mousse muse lip cream - 02 pinkie">
+        <td class="px-4 py-3 font-medium text-white max-w-md">SUGAR Cosmetics Mousse Muse Lip Cream - 02 Pinkie</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (5 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹306</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹599</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">49% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="sugar smudge me not liquid mini lipstick - 43 hot shot">
+        <td class="px-4 py-3 font-medium text-white max-w-md">SUGAR Smudge Me Not Liquid Mini Lipstick - 43 Hot Shot</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹49</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹249</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">80% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="sugar pop matte lip colour | smudge-proof | 12 rust">
+        <td class="px-4 py-3 font-medium text-white max-w-md">SUGAR POP Matte Lip Colour | Smudge-Proof | 12 Rust</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (1.6 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹237</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹279</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="sugar pop 4 in 1 lip twist 01 | smooth &amp; vibrant">
+        <td class="px-4 py-3 font-medium text-white max-w-md">SUGAR POP 4 In 1 Lip Twist 01 | Smooth &amp; Vibrant</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (4 pcs)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹200</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">60% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="sugar la la love 18 hr liquid lipstick | festive kit| long-lasting color">
+        <td class="px-4 py-3 font-medium text-white max-w-md">SUGAR La La Love 18 Hr Liquid Lipstick | Festive Kit| Long-Lasting Color</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">3 x 5 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹444</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1197</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">63% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="just herbs ayurvedic matte liquid lipstick set of 10 | bridal &amp; karwa chauth shringar gift for women">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Just Herbs Ayurvedic Matte Liquid Lipstick Set of 10 | Bridal &amp; Karwa Chauth Shringar Gift for Women</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (10 x 0.9 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹446</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹825</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">46% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="faces canada comfy matte wow liquid lipstick | the bold edit | cocoa crush 07 + maroon maven 05">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Faces Canada Comfy Matte Wow Liquid Lipstick | The Bold Edit | Cocoa Crush 07 + Maroon Maven 05</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (2 x 3.8 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹379</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹399</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="faces canada comfy matte wow liquid lipstick - the soft edit | pink petal 09 + mauve majesty 02">
+        <td class="px-4 py-3 font-medium text-white max-w-md">FACES CANADA Comfy Matte Wow Liquid Lipstick - The Soft Edit | Pink Petal 09 + Mauve Majesty 02</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (2 x 3.8 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹379</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹399</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- Sticky CTA Footer -->
+  <div class="fixed bottom-0 inset-x-0 bg-slate-950/95 border-t border-emerald-500/30 backdrop-blur px-6 py-3.5 z-30">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+      <div class="text-slate-200">
+        <span class="text-emerald-400 font-bold">⚡ Unscrape Radar:</span> Want real-time Slack/WhatsApp/Telegram alerts within 15 mins whenever <strong>SUGAR Cosmetics</strong> SKUs go Out-of-Stock across 20 BLR/MUM/DEL dark-store pin codes?
+      </div>
+      <div class="flex items-center gap-2.5 shrink-0">
+        <a href="https://github.com/deveshkolte/unscrape" target="_blank" class="px-4 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold">Unlock Automated 20-Pin-Code Monitor →</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const RAW_CSV = "brand,city,pincode,platform,skuId,title,sellingPriceInr,mrpInr,discountPercent,unit,inStock,deliveryEta,url\nSUGAR Cosmetics,Bengaluru,560001,bigbasket.com/jiomart,72249491,Love Earth Satin Matte Lipstick - Sugar -3.5G,299,659,55,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/love-earth-satin-matte-lipstick-sugar-3-5g-mkija6-72249491/72249491\nSUGAR Cosmetics,Bengaluru,560001,bigbasket.com/jiomart,73103473,\"ColorFlix Velvet Matte Non-Transfer Lip Color Long-Lasting Smudge-Proof Waterproof (Brown Sugar, 6 ml)\",179,275,35,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/colorflix-velvet-matte-non-transfer-lip-color-long-lasting-smudge-proof-waterproof-brown-sugar-6-ml-mlhybu-73103473/73103473\nSUGAR Cosmetics,Bengaluru,560001,bigbasket.com/jiomart,50117197,DAIMANPU 4in1 Mini Matte Liquid Lipstick and 2in1 Sugar Scrub Lip Balm and Repair Winter Makeup Kit (2 Items in the set),474,1299,64,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/daimanpu-4in1-mini-matte-liquid-lipstick-and-2in1-sugar-scrub-lip-balm-and-repair-winter-makeup-kit-2-items-in-the-set-mj71tz-50117197/50117197\nSUGAR Cosmetics,Bengaluru,560001,bigbasket.com/jiomart,143100385,Makin Beauty Brown Sugar Dream Liquid Lipstick | Makin Beauty 12HR Glamm Time Kiss Proof 4ml | Matte Lipstick | Lip Color | Long Lasting Lipstick | Lip Makeup | Makeup Lipstick | Lipstick for Women,197,599,67,197.00/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/makin-beauty-12hr-glamm-time-luxe-lip-gloss-4ml-brown-sugar-high-shine-glossy-lip-color-smooth-lightweight-finish-everyday-lip-makeup-mt1hd8-143100385/143100385\nSUGAR Cosmetics,Bengaluru,560001,bigbasket.com/jiomart,35830881,Colors Queen Queen Lips Matte Lipstick| Long Lasting Lipstick Waterproof Highly Pigmented with Smooth Application| Smudge Proof Lipstick for Women (Rose Blush) Lipstick,229,399,43,229.00/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/colors-queen-queen-lips-matte-lipstick-long-lasting-lipstick-waterproof-highly-pigmented-mixg0m-35830881/35830881\nSUGAR Cosmetics,Bengaluru,560001,bigbasket.com/jiomart,115701799,\"WUTEND Professional Liquid Lipstick Set, 4 Colors, Pink, Mehroon, Peach, Coffee.\",189,349,46,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/wutend-professional-liquid-lipstick-set-4-colors-pink-mehroon-peach-coffee-mqja74-115701799/115701799\nSUGAR Cosmetics,Mumbai,400001,bigbasket.com/jiomart,72249491,Love Earth Satin Matte Lipstick - Sugar -3.5G,299,659,55,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/love-earth-satin-matte-lipstick-sugar-3-5g-mkija6-72249491/72249491\nSUGAR Cosmetics,Mumbai,400001,bigbasket.com/jiomart,73103473,\"ColorFlix Velvet Matte Non-Transfer Lip Color Long-Lasting Smudge-Proof Waterproof (Brown Sugar, 6 ml)\",179,275,35,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/colorflix-velvet-matte-non-transfer-lip-color-long-lasting-smudge-proof-waterproof-brown-sugar-6-ml-mlhybu-73103473/73103473\nSUGAR Cosmetics,Mumbai,400001,bigbasket.com/jiomart,50117197,DAIMANPU 4in1 Mini Matte Liquid Lipstick and 2in1 Sugar Scrub Lip Balm and Repair Winter Makeup Kit (2 Items in the set),474,1299,64,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/daimanpu-4in1-mini-matte-liquid-lipstick-and-2in1-sugar-scrub-lip-balm-and-repair-winter-makeup-kit-2-items-in-the-set-mj71tz-50117197/50117197\nSUGAR Cosmetics,Mumbai,400001,bigbasket.com/jiomart,143100385,Makin Beauty Brown Sugar Dream Liquid Lipstick | Makin Beauty 12HR Glamm Time Kiss Proof 4ml | Matte Lipstick | Lip Color | Long Lasting Lipstick | Lip Makeup | Makeup Lipstick | Lipstick for Women,197,599,67,197.00/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/makin-beauty-12hr-glamm-time-luxe-lip-gloss-4ml-brown-sugar-high-shine-glossy-lip-color-smooth-lightweight-finish-everyday-lip-makeup-mt1hd8-143100385/143100385\nSUGAR Cosmetics,Mumbai,400001,bigbasket.com/jiomart,35830881,Colors Queen Queen Lips Matte Lipstick| Long Lasting Lipstick Waterproof Highly Pigmented with Smooth Application| Smudge Proof Lipstick for Women (Rose Blush) Lipstick,229,399,43,229.00/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/colors-queen-queen-lips-matte-lipstick-long-lasting-lipstick-waterproof-highly-pigmented-mixg0m-35830881/35830881\nSUGAR Cosmetics,Mumbai,400001,bigbasket.com/jiomart,115701799,\"WUTEND Professional Liquid Lipstick Set, 4 Colors, Pink, Mehroon, Peach, Coffee.\",189,349,46,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/wutend-professional-liquid-lipstick-set-4-colors-pink-mehroon-peach-coffee-mqja74-115701799/115701799\nSUGAR Cosmetics,Delhi,110001,bigbasket.com/jiomart,72249491,Love Earth Satin Matte Lipstick - Sugar -3.5G,299,659,55,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/love-earth-satin-matte-lipstick-sugar-3-5g-mkija6-72249491/72249491\nSUGAR Cosmetics,Delhi,110001,bigbasket.com/jiomart,73103473,\"ColorFlix Velvet Matte Non-Transfer Lip Color Long-Lasting Smudge-Proof Waterproof (Brown Sugar, 6 ml)\",179,275,35,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/colorflix-velvet-matte-non-transfer-lip-color-long-lasting-smudge-proof-waterproof-brown-sugar-6-ml-mlhybu-73103473/73103473\nSUGAR Cosmetics,Delhi,110001,bigbasket.com/jiomart,50117197,DAIMANPU 4in1 Mini Matte Liquid Lipstick and 2in1 Sugar Scrub Lip Balm and Repair Winter Makeup Kit (2 Items in the set),474,1299,64,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/daimanpu-4in1-mini-matte-liquid-lipstick-and-2in1-sugar-scrub-lip-balm-and-repair-winter-makeup-kit-2-items-in-the-set-mj71tz-50117197/50117197\nSUGAR Cosmetics,Delhi,110001,bigbasket.com/jiomart,143100385,Makin Beauty Brown Sugar Dream Liquid Lipstick | Makin Beauty 12HR Glamm Time Kiss Proof 4ml | Matte Lipstick | Lip Color | Long Lasting Lipstick | Lip Makeup | Makeup Lipstick | Lipstick for Women,197,599,67,197.00/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/makin-beauty-12hr-glamm-time-luxe-lip-gloss-4ml-brown-sugar-high-shine-glossy-lip-color-smooth-lightweight-finish-everyday-lip-makeup-mt1hd8-143100385/143100385\nSUGAR Cosmetics,Delhi,110001,bigbasket.com/jiomart,35830881,Colors Queen Queen Lips Matte Lipstick| Long Lasting Lipstick Waterproof Highly Pigmented with Smooth Application| Smudge Proof Lipstick for Women (Rose Blush) Lipstick,229,399,43,229.00/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/colors-queen-queen-lips-matte-lipstick-long-lasting-lipstick-waterproof-highly-pigmented-mixg0m-35830881/35830881\nSUGAR Cosmetics,Delhi,110001,bigbasket.com/jiomart,115701799,\"WUTEND Professional Liquid Lipstick Set, 4 Colors, Pink, Mehroon, Peach, Coffee.\",189,349,46,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/wutend-professional-liquid-lipstick-set-4-colors-pink-mehroon-peach-coffee-mqja74-115701799/115701799\nSUGAR Cosmetics,Bengaluru,560001,flipkart.com,LSKFGVBKTGKHESCG,SUGAR Cosmetics Nothing Else Matter Longwear Lipstick,363,599,39,1 unit,true,15 MINS,https://www.flipkart.com/sugar-cosmetics-nothing-else-matter-longwear-lipstick/p/itme95e8e5c16ebf?pid=LSKFGVBKTGKHESCG&lid=LSTLSKFGVBKTGKHESCG73Y2OV&marketplace=FLIPKART&q=sugar+lipstick&store=g9b%2Fffi%2Ftv5%2Funa&srno=s_1_1&otracker=search&fm=organic&iid=c026a458-45c9-4010-977b-a64e29b1afb9.LSKFGVBKTGKHESCG.SEARCH&ppt=None&ppn=None&ssid=kzagg8mrwg0000001793387348735&qH=d50c2ab7f8d87d00&ov_redirect=true&ov_redirect=true\nSUGAR Cosmetics,Bengaluru,560001,flipkart.com,LSKGCZWVHJ3UKJ28,SUGAR POP Matte Lipcolour 11 Ruby - Super Matte | Lasts 8+ hours | Non-Drying,200,279,28,1 unit,true,15 MINS,https://www.flipkart.com/sugar-pop-matte-lipcolour-11-ruby-super-lasts-8-hours-non-drying/p/itmc9a86690f97d1?pid=LSKGCZWVHJ3UKJ28&lid=LSTLSKGCZWVHJ3UKJ28EQBOPT&marketplace=FLIPKART&q=sugar+lipstick&store=g9b%2Fffi%2Ftv5%2Funa&srno=s_1_2&otracker=search&fm=organic&iid=c026a458-45c9-4010-977b-a64e29b1afb9.LSKGCZWVHJ3UKJ28.SEARCH&ppt=None&ppn=None&ssid=kzagg8mrwg0000001793387348735&qH=d50c2ab7f8d87d00&ov_redirect=true&ov_redirect=true\nSUGAR Cosmetics,Bengaluru,560001,flipkart.com,LSKFNYSMNTQ5DKYA,SUGAR Matte Attack Transferproof & Waterproof Lipstick,569,749,24,1 unit,true,15 MINS,https://www.flipkart.com/sugar-matte-attack-transferproof-waterproof-lipstick/p/itm2e49c21bb4bf7?pid=LSKFNYSMNTQ5DKYA&lid=LSTLSKFNYSMNTQ5DKYA8UNY4E&marketplace=FLIPKART&q=sugar+lipstick&store=g9b%2Fffi%2Ftv5%2Funa&srno=s_1_3&otracker=search&fm=organic&iid=c026a458-45c9-4010-977b-a64e29b1afb9.LSKFNYSMNTQ5DKYA.SEARCH&ppt=None&ppn=None&ssid=kzagg8mrwg0000001793387348735&qH=d50c2ab7f8d87d00&ov_redirect=true&ov_redirect=true\nSUGAR Cosmetics,Bengaluru,560001,flipkart.com,LSKHQRWHGGNRXUMH,Renee Stay With Me Lip Crayon,255,299,15,1 unit,true,15 MINS,https://www.flipkart.com/renee-stay-me-lip-crayon/p/itm4705febc88b97?pid=LSKHQRWHGGNRXUMH&lid=LSTLSKHQRWHGGNRXUMHHA3PQB&marketplace=FLIPKART&q=sugar+lipstick&store=g9b%2Fffi%2Ftv5%2Funa&srno=s_1_4&otracker=search&fm=organic&iid=c026a458-45c9-4010-977b-a64e29b1afb9.LSKHQRWHGGNRXUMH.SEARCH&ppt=None&ppn=None&ssid=kzagg8mrwg0000001793387348735&qH=d50c2ab7f8d87d00&ov_redirect=true&ov_redirect=true\nSUGAR Cosmetics,Bengaluru,560001,flipkart.com,LSKGHKUYSCMCGHRK,SUGAR Mousse Muse,458,599,24,1 unit,true,15 MINS,https://www.flipkart.com/sugar-mousse-muse/p/itm6126eb088e8c7?pid=LSKGHKUYSCMCGHRK&lid=LSTLSKGHKUYSCMCGHRKESIAD8&marketplace=FLIPKART&q=sugar+lipstick&store=g9b%2Fffi%2Ftv5%2Funa&srno=s_1_5&otracker=search&fm=organic&iid=c026a458-45c9-4010-977b-a64e29b1afb9.LSKGHKUYSCMCGHRK.SEARCH&ppt=None&ppn=None&ssid=kzagg8mrwg0000001793387348735&qH=d50c2ab7f8d87d00&ov_redirect=true&ov_redirect=true\nSUGAR Cosmetics,Bengaluru,560001,flipkart.com,LSKEY83VRQZDVNQ3,SUGAR Matte As Hell Crayon Lipstick,806,949,15,1 unit,true,15 MINS,https://www.flipkart.com/sugar-matte-hell-crayon-lipstick/p/itmd7d977383912e?pid=LSKEY83VRQZDVNQ3&lid=LSTLSKEY83VRQZDVNQ3XBYURR&marketplace=FLIPKART&q=sugar+lipstick&store=g9b%2Fffi%2Ftv5%2Funa&srno=s_1_6&otracker=search&fm=organic&iid=c026a458-45c9-4010-977b-a64e29b1afb9.LSKEY83VRQZDVNQ3.SEARCH&ppt=None&ppn=None&ssid=kzagg8mrwg0000001793387348735&qH=d50c2ab7f8d87d00&ov_redirect=true&ov_redirect=true\nSUGAR Cosmetics,Bengaluru,560001,blinkit.com,512466,RENEE Madness PH Stick Lipstick,425,499,15,3 g,true,10 MINS,https://blinkit.com/prn/renee-madness-ph-stick-lipstick/prid/512466\nSUGAR Cosmetics,Bengaluru,560001,blinkit.com,806333,Sugar Glide Peptide Serum Lipstick (11 Malta Mauve),500,549,9,4.2 g,true,10 MINS,https://blinkit.com/prn/sugar-glide-peptide-serum-lipstick-11-malta-mauve/prid/806333\nSUGAR Cosmetics,Bengaluru,560001,blinkit.com,806727,Sugar Glide Peptide Serum Lipstick (10 Miami Mocha),500,549,9,4.2 g,true,10 MINS,https://blinkit.com/prn/sugar-glide-peptide-serum-lipstick-10-miami-mocha/prid/806727\nSUGAR Cosmetics,Bengaluru,560001,blinkit.com,806074,Sugar Glide Peptide Serum Lipstick (09 Boston Blush),500,549,9,4.2 g,true,10 MINS,https://blinkit.com/prn/sugar-glide-peptide-serum-lipstick-09-boston-blush/prid/806074\nSUGAR Cosmetics,Bengaluru,560001,blinkit.com,608139,Sugar Glide Peptide Serum Lipstick (06 Moscow Mulberry),429,549,22,4.2 g,true,10 MINS,https://blinkit.com/prn/sugar-glide-peptide-serum-lipstick-06-moscow-mulberry/prid/608139\nSUGAR Cosmetics,Bengaluru,560001,blinkit.com,608141,Sugar Glide Peptide Serum Lipstick (03 Sahara Sands),429,549,22,4.2 g,true,10 MINS,https://blinkit.com/prn/sugar-glide-peptide-serum-lipstick-03-sahara-sands/prid/608141\nSUGAR Cosmetics,Bengaluru,560001,blinkit.com,608126,Sugar Glide Peptide Serum Lipstick (01 Santorini Sunset),429,549,22,4.2 g,false,10 MINS,https://blinkit.com/prn/sugar-glide-peptide-serum-lipstick-01-santorini-sunset/prid/608126\nSUGAR Cosmetics,Bengaluru,560001,blinkit.com,608744,Sugar Glide Peptide Serum Lipstick (07 Tuscany Truffle),429,549,22,4.2 g,true,10 MINS,https://blinkit.com/prn/sugar-glide-peptide-serum-lipstick-07-tuscany-truffle/prid/608744\nSUGAR Cosmetics,Bengaluru,560001,amazon.in,B0DK77QJSH,SUGAR Cosmetics Glide Peptide Serum Lipstick with Hyaluronic Acid & Vitamin E | Velvet Matte Lipstick for Indian Skin | 1-Swipe Full Coverage | 4.2gm - 07 Tuscany Truffle,374,499,25,4.2gm,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0DK77QJSH\nSUGAR Cosmetics,Bengaluru,560001,amazon.in,B07PWZWZV9,SUGAR Cosmetics Matte As Hell Crayon Lipstick for Indian Skin | Long Lasting Matte Lipstick | Smudge Proof Lip Crayon with Sharpener | 12Hr Wear | 2.8gm - 24 Rachel Berry,759,949,20,2.8gm,true,\"Fri, 6 Nov\",https://www.amazon.in/dp/B07PWZWZV9\nSUGAR Cosmetics,Bengaluru,560001,amazon.in,B0HJRHLPSW,SUGAR Glide Peptide Tripstick™ - 01 Bare Affair (10.2 g) karwachauth gift Set,1699,,0,10.2 g,true,\"Tue, 17 Nov\",https://www.amazon.in/dp/B0HJRHLPSW\nSUGAR Cosmetics,Bengaluru,560001,amazon.in,B0D6XZXSZV,\"L'Oreal Paris Infallible Matte Resistance Liquid Lipstick, 665 First Move\",620,999,38,1 unit,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0D6XZXSZV\nSUGAR Cosmetics,Bengaluru,560001,amazon.in,B0H9X23WP7,\"Superstay Vinyl Ink Mithai Limited Edition - Berry Barfi, 4.2g\",499,849,41,4.2g,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0H9X23WP7\nSUGAR Cosmetics,Bengaluru,560001,amazon.in,B0DK77BY43,SUGAR Cosmetics Glide Peptide Serum Lipstick with Hyaluronic Acid & Vitamin E | Velvet Matte Lipstick for Indian Skin | 1-Swipe Full Coverage | 4.2gm - 03 Sahara Sands,374,499,25,4.2gm,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0DK77BY43\nSUGAR Cosmetics,Bengaluru,560001,zeptonow.com,384c41b7-e98f-5d03-949d-a830fa4b4380,SUGAR Cosmetics Mousse Muse Lip Cream - 02 Pinkie,306,599,49,1 pc (5 ml),true,10 MINS,https://www.zepto.com/pn/sugar-cosmetics-mousse-muse-lip-cream-02-pinkie/pvid/18bcd90a-2111-4bb1-923d-92dd11534a39\nSUGAR Cosmetics,Bengaluru,560001,zeptonow.com,22805898-f288-533c-9c31-5564979e206d,SUGAR Smudge Me Not Liquid Mini Lipstick - 43 Hot Shot,49,249,80,1 pc,true,10 MINS,https://www.zepto.com/pn/sugar-smudge-me-not-liquid-mini-lipstick-43-hot-shot/pvid/b3a495b4-787e-41ce-9641-a884f8654620\nSUGAR Cosmetics,Bengaluru,560001,zeptonow.com,c99d3470-e5c5-59a8-b7b3-2cbcfcd5f07d,SUGAR POP Matte Lip Colour | Smudge-Proof | 12 Rust,237,279,15,1 pc (1.6 ml),true,10 MINS,https://www.zepto.com/pn/sugar-pop-matte-lip-colour-smudge-proof-12-rust/pvid/7d0ad782-8cb3-45dc-b341-2583ba4afd3a\nSUGAR Cosmetics,Bengaluru,560001,zeptonow.com,dbde2014-fab2-5ddb-a648-f25ed062cdcd,SUGAR POP 4 In 1 Lip Twist 01 | Smooth & Vibrant,200,499,60,1 pack (4 pcs),true,10 MINS,https://www.zepto.com/pn/sugar-pop-4-in-1-lip-twist-01-smooth-vibrant/pvid/57a96627-b6ca-4e45-8f5e-dbfc948a4dca\nSUGAR Cosmetics,Bengaluru,560001,zeptonow.com,9b6be43e-3bbe-59fd-ab9f-6e0cfc86d122,SUGAR La La Love 18 Hr Liquid Lipstick | Festive Kit| Long-Lasting Color,444,1197,63,3 x 5 ml,true,10 MINS,https://www.zepto.com/pn/sugar-la-la-love-18-hr-liquid-lipstick-festive-kit-long-lasting-color/pvid/4b7f0591-25f4-4042-b4b9-d91829cc2fe7\nSUGAR Cosmetics,Bengaluru,560001,zeptonow.com,ab10e8d0-fd15-5b53-b785-c8803edaa51c,Just Herbs Ayurvedic Matte Liquid Lipstick Set of 10 | Bridal & Karwa Chauth Shringar Gift for Women,446,825,46,1 pack (10 x 0.9 ml),true,10 MINS,https://www.zepto.com/pn/just-herbs-ayurvedic-matte-liquid-lipstick-set-of-10-bridal-karwa-chauth-shringar-gift-for-women/pvid/8f78b5da-c5c1-4b48-8124-dbc40ab8abfb\nSUGAR Cosmetics,Bengaluru,560001,zeptonow.com,eafa80af-2fd5-5423-a25b-455857c2d341,Faces Canada Comfy Matte Wow Liquid Lipstick | The Bold Edit | Cocoa Crush 07 + Maroon Maven 05,379,399,5,1 pack (2 x 3.8 ml),true,10 MINS,https://www.zepto.com/pn/faces-canada-comfy-matte-wow-liquid-lipstick-the-bold-edit-cocoa-crush-07-maroon-maven-05/pvid/ccc01901-7f62-44f4-b64a-af82317ec4c8\nSUGAR Cosmetics,Bengaluru,560001,zeptonow.com,33f0d3d4-3097-5ca2-b7ba-03adfeb571a3,FACES CANADA Comfy Matte Wow Liquid Lipstick - The Soft Edit | Pink Petal 09 + Mauve Majesty 02,379,399,5,1 pack (2 x 3.8 ml),true,10 MINS,https://www.zepto.com/pn/faces-canada-comfy-matte-wow-liquid-lipstick-the-soft-edit-pink-petal-09-mauve-majesty-02/pvid/dc0dc72b-5e1e-4456-af1d-20480899095d\n";
+
+    function filterRows(mode) {
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const stock = row.getAttribute('data-stock');
+        if (mode === 'all') row.style.display = '';
+        else if (mode === 'oos') row.style.display = stock === 'oos' ? '' : 'none';
+        else if (mode === 'instock') row.style.display = stock === 'instock' ? '' : 'none';
+      });
+    }
+
+    function searchSkus() {
+      const q = document.getElementById('skuSearch').value.toLowerCase();
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const title = row.getAttribute('data-title') || '';
+        const platform = (row.getAttribute('data-platform') || '').toLowerCase();
+        row.style.display = (title.includes(q) || platform.includes(q)) ? '' : 'none';
+      });
+    }
+
+    function downloadCsv() {
+      const blob = new Blob([RAW_CSV], { type: 'text/csv;charset=utf-8;' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'sugar-cosmetics-3city-audit.csv';
+      a.click();
+    }
+  </script>
+</body>
+</html>

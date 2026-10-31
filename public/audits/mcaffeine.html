@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>mCaffeine — 3-City Quick-Commerce Dark-Store Audit Scorecard | Unscrape Radar</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background-color: #07080d; color: #f3f4f6; font-family: Inter, system-ui, -apple-system, sans-serif; }
+  </style>
+</head>
+<body class="min-h-screen pb-24">
+  <!-- Top Bar -->
+  <header class="border-b border-slate-800 bg-slate-950/90 backdrop-blur sticky top-0 z-20">
+    <div class="max-w-7xl mx-auto px-6 py-3.5 flex items-center justify-between flex-wrap gap-3">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="text-emerald-400 font-black text-lg tracking-tight hover:text-emerald-300">⚡ UNSCRAPE RADAR</a>
+        <span class="text-xs text-slate-500">/</span>
+        <span class="text-sm font-bold text-white">mCaffeine Executive Scorecard</span>
+      </div>
+      <div class="flex items-center gap-2.5 text-xs">
+        <a href="index.html" class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700">← All 56 Brand Audits</a>
+        <button onclick="downloadCsv()" class="px-3.5 py-1.5 rounded-lg bg-emerald-500 text-slate-950 font-bold hover:bg-emerald-400">⬇ Download Raw CSV (46 SKUs)</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-6 pt-8">
+    <!-- Executive Header -->
+    <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 mb-8">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+        <div>
+          <div class="flex items-center gap-2.5 mb-2">
+            <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded bg-slate-800 text-emerald-400">Caffeinated Personal Care</span>
+            <span class="text-xs text-slate-400 font-mono">Audited: 2026-10-30</span>
+          </div>
+          <h1 class="text-3xl md:text-4xl font-black text-white tracking-tight">mCaffeine — Hyperlocal Dark-Store Audit</h1>
+          <p class="text-slate-400 text-sm mt-1">
+            Live multi-platform inventory & MOP/MRP price variance scan across <strong>Bengaluru (560001)</strong>, <strong>Mumbai (400001)</strong>, and <strong>Delhi (110001)</strong>.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 shrink-0">
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">SKUs Audited</div>
+            <div class="text-2xl font-black text-white mt-1">46</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">OOS Leaks</div>
+            <div class="text-2xl font-black text-emerald-400 mt-1">0</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">Max Markdown</div>
+            <div class="text-2xl font-black text-amber-300 mt-1">50%</div>
+          </div>
+          <div class="border rounded-xl p-3.5 text-center bg-emerald-500/15 text-emerald-400 border-emerald-500/30">
+            <div class="text-[11px] uppercase font-bold opacity-80">Shelf Health</div>
+            <div class="text-2xl font-black mt-1">100%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="bg-emerald-950/30 border border-emerald-500/30 rounded-2xl p-5 mb-8 flex items-center justify-between flex-wrap gap-3">
+      <div>
+        <span class="px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 font-bold text-xs uppercase">✓ 100% In-Stock Snapshot</span>
+        <span class="text-sm text-slate-200 ml-2">All 46 audited dark-store listings across Bengaluru, Mumbai & Delhi were in stock during this scan. Max discount variance: <strong>50% below MRP</strong>.</span>
+      </div>
+    </div>
+
+    <!-- Filter Controls -->
+    <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+      <div class="flex items-center gap-2 text-xs">
+        <button onclick="filterRows('all')" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-semibold">All SKUs (46)</button>
+        <button onclick="filterRows('oos')" class="px-3 py-1.5 rounded-lg bg-rose-500/15 border border-rose-500/30 text-rose-300 hover:bg-rose-500/25 font-semibold">Out-of-Stock Only (0)</button>
+        <button onclick="filterRows('instock')" class="px-3 py-1.5 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 hover:bg-emerald-500/25 font-semibold">In-Stock (46)</button>
+      </div>
+      <div class="flex items-center gap-2">
+        <input id="skuSearch" type="text" oninput="searchSkus()" placeholder="Filter SKU title or platform..." class="bg-slate-900 border border-slate-800 rounded-lg px-3.5 py-1.5 text-xs text-white w-64" />
+      </div>
+    </div>
+
+    <!-- SKU Table -->
+    <div class="bg-slate-900/50 border border-slate-800 rounded-2xl overflow-x-auto">
+      <table class="w-full text-left text-xs">
+        <thead class="bg-slate-950/90 text-slate-400 uppercase border-b border-slate-800">
+          <tr>
+            <th class="px-4 py-3">SKU Title</th>
+            <th class="px-4 py-3">Platform</th>
+            <th class="px-4 py-3">City / Pin</th>
+            <th class="px-4 py-3">Pack Size</th>
+            <th class="px-4 py-3">Selling Price</th>
+            <th class="px-4 py-3">MRP</th>
+            <th class="px-4 py-3">Discount</th>
+            <th class="px-4 py-3">Stock Status</th>
+            <th class="px-4 py-3">ETA</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-800/60">
+          <tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="reeash caffeine fix sugar body scrub">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Reeash Caffeine fix sugar body scrub</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹650</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹750</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">13% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="caryl cocoa coffee face and body scrub for skin moisturizing and coffee moisturizing lotion combo|all skin types">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Caryl Cocoa Coffee Face and Body Scrub for Skin Moisturizing and Coffee Moisturizing Lotion Combo|All Skin Types</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹450</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹585</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">23% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="enchanting showstopper coffee bean body scrub for tan removal &amp; skin brightening i exfoliating caffeine scrub for smooth, radiant skin i all skin type 100 gm">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Enchanting Showstopper Coffee Bean Body Scrub for Tan Removal &amp; Skin Brightening I Exfoliating Caffeine Scrub for Smooth, Radiant Skin I All Skin Type 100 gm</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹404</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹449</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">10% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="dr.rashel coffee gel scrub  face &amp; body for men and women (380 ml)| all skin |cleanser scrub for deep exfoliation | dead skin remover | tan removal | blackhead remover">
+        <td class="px-4 py-3 font-medium text-white max-w-md">DR.RASHEL Coffee Gel Scrub  Face &amp; Body For Men and Women (380 ml)| All Skin |Cleanser Scrub For Deep Exfoliation | Dead Skin Remover | Tan Removal | Blackhead Remover</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">156.00/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹156</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹275</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">43% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="dr.rashel coffee face &amp; body scrub | coffee extract &amp; walnut powder exfoliating scrub for tan, dead skin, dirt &amp; impurities | deep cleansing, skin polishing, hydrating &amp; smooth skin care | face, body, hands &amp; feet | 380 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">DR.RASHEL Coffee Face &amp; Body Scrub | Coffee Extract &amp; Walnut Powder Exfoliating Scrub for Tan, Dead Skin, Dirt &amp; Impurities | Deep Cleansing, Skin Polishing, Hydrating &amp; Smooth Skin Care | Face, Body, Hands &amp; Feet | 380 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">138.00/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹138</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹275</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="the enq arabica coffee de - tan body scrub 500gm">
+        <td class="px-4 py-3 font-medium text-white max-w-md">The EnQ Arabica Coffee De - Tan Body Scrub 500gm</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1.78/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹890</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹890</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="reeash caffeine fix sugar body scrub">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Reeash Caffeine fix sugar body scrub</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹650</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹750</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">13% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="caryl cocoa coffee face and body scrub for skin moisturizing and coffee moisturizing lotion combo|all skin types">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Caryl Cocoa Coffee Face and Body Scrub for Skin Moisturizing and Coffee Moisturizing Lotion Combo|All Skin Types</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹450</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹585</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">23% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="enchanting showstopper coffee bean body scrub for tan removal &amp; skin brightening i exfoliating caffeine scrub for smooth, radiant skin i all skin type 100 gm">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Enchanting Showstopper Coffee Bean Body Scrub for Tan Removal &amp; Skin Brightening I Exfoliating Caffeine Scrub for Smooth, Radiant Skin I All Skin Type 100 gm</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹404</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹449</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">10% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="dr.rashel coffee gel scrub  face &amp; body for men and women (380 ml)| all skin |cleanser scrub for deep exfoliation | dead skin remover | tan removal | blackhead remover">
+        <td class="px-4 py-3 font-medium text-white max-w-md">DR.RASHEL Coffee Gel Scrub  Face &amp; Body For Men and Women (380 ml)| All Skin |Cleanser Scrub For Deep Exfoliation | Dead Skin Remover | Tan Removal | Blackhead Remover</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">156.00/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹156</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹275</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">43% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="dr.rashel coffee face &amp; body scrub | coffee extract &amp; walnut powder exfoliating scrub for tan, dead skin, dirt &amp; impurities | deep cleansing, skin polishing, hydrating &amp; smooth skin care | face, body, hands &amp; feet | 380 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">DR.RASHEL Coffee Face &amp; Body Scrub | Coffee Extract &amp; Walnut Powder Exfoliating Scrub for Tan, Dead Skin, Dirt &amp; Impurities | Deep Cleansing, Skin Polishing, Hydrating &amp; Smooth Skin Care | Face, Body, Hands &amp; Feet | 380 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">138.00/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹138</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹275</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="the enq arabica coffee de - tan body scrub 500gm">
+        <td class="px-4 py-3 font-medium text-white max-w-md">The EnQ Arabica Coffee De - Tan Body Scrub 500gm</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1.78/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹890</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹890</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="reeash caffeine fix sugar body scrub">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Reeash Caffeine fix sugar body scrub</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹650</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹750</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">13% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="caryl cocoa coffee face and body scrub for skin moisturizing and coffee moisturizing lotion combo|all skin types">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Caryl Cocoa Coffee Face and Body Scrub for Skin Moisturizing and Coffee Moisturizing Lotion Combo|All Skin Types</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹450</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹585</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">23% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="enchanting showstopper coffee bean body scrub for tan removal &amp; skin brightening i exfoliating caffeine scrub for smooth, radiant skin i all skin type 100 gm">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Enchanting Showstopper Coffee Bean Body Scrub for Tan Removal &amp; Skin Brightening I Exfoliating Caffeine Scrub for Smooth, Radiant Skin I All Skin Type 100 gm</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹404</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹449</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">10% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="dr.rashel coffee gel scrub  face &amp; body for men and women (380 ml)| all skin |cleanser scrub for deep exfoliation | dead skin remover | tan removal | blackhead remover">
+        <td class="px-4 py-3 font-medium text-white max-w-md">DR.RASHEL Coffee Gel Scrub  Face &amp; Body For Men and Women (380 ml)| All Skin |Cleanser Scrub For Deep Exfoliation | Dead Skin Remover | Tan Removal | Blackhead Remover</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">156.00/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹156</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹275</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">43% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="dr.rashel coffee face &amp; body scrub | coffee extract &amp; walnut powder exfoliating scrub for tan, dead skin, dirt &amp; impurities | deep cleansing, skin polishing, hydrating &amp; smooth skin care | face, body, hands &amp; feet | 380 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">DR.RASHEL Coffee Face &amp; Body Scrub | Coffee Extract &amp; Walnut Powder Exfoliating Scrub for Tan, Dead Skin, Dirt &amp; Impurities | Deep Cleansing, Skin Polishing, Hydrating &amp; Smooth Skin Care | Face, Body, Hands &amp; Feet | 380 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">138.00/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹138</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹275</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="the enq arabica coffee de - tan body scrub 500gm">
+        <td class="px-4 py-3 font-medium text-white max-w-md">The EnQ Arabica Coffee De - Tan Body Scrub 500gm</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1.78/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹890</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹890</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="mcaffeine exfoliating coffee body scrub for men &amp; women | tan removal scrub">
+        <td class="px-4 py-3 font-medium text-white max-w-md">mCaffeine Exfoliating Coffee body scrub for Men &amp; Women | Tan Removal Scrub</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹337</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹449</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">25% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="mcaffeine coffee face &amp; body scrub, remove tan, dead skin, black &amp; white heads, pack of 2 scrub">
+        <td class="px-4 py-3 font-medium text-white max-w-md">mCaffeine Coffee Face &amp; Body Scrub, Remove Tan, Dead Skin, Black &amp; White heads, Pack of 2 Scrub</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹546</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹678</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">19% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="mcaffeine coffee body for tan removal &amp; exfoliation, get glowing soft skin men women scrub">
+        <td class="px-4 py-3 font-medium text-white max-w-md">mCaffeine Coffee Body for Tan Removal &amp; Exfoliation, Get Glowing Soft Skin Men Women Scrub</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹237</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹279</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="mcaffeine brightening raspberry de-tan body scrub | lactic &amp; glycolic scrub">
+        <td class="px-4 py-3 font-medium text-white max-w-md">mCaffeine Brightening Raspberry De-Tan Body Scrub | Lactic &amp; Glycolic Scrub</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹382</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹449</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="mcaffeine coffee body scrub for tan removal, exfoliation &amp; soft glowing skin, pack of 2 scrub">
+        <td class="px-4 py-3 font-medium text-white max-w-md">mCaffeine Coffee Body Scrub for Tan Removal, Exfoliation &amp; Soft Glowing Skin, Pack of 2 Scrub</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹335</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹558</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">40% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="lotus white glow oatmeal &amp; yogurt skin whitening  scrub">
+        <td class="px-4 py-3 font-medium text-white max-w-md">LOTUS White Glow Oatmeal &amp; Yogurt Skin Whitening  Scrub</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹233</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹325</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">28% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="mcaffeine blueberry breeze body scrub">
+        <td class="px-4 py-3 font-medium text-white max-w-md">mCaffeine Blueberry Breeze Body Scrub</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (175 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹382</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹449</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="mcaffeine brightening raspberry rush body scrub">
+        <td class="px-4 py-3 font-medium text-white max-w-md">mCaffeine Brightening Raspberry Rush Body Scrub</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (175 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹382</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹449</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="mcaffeine exfoliating coffee body scrub for tan removal - vegan">
+        <td class="px-4 py-3 font-medium text-white max-w-md">mCaffeine Exfoliating Coffee Body Scrub for Tan Removal - Vegan</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (100 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹359</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹449</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="mcaffeine exfoliating coffee body scrub for tan removal - vegan">
+        <td class="px-4 py-3 font-medium text-white max-w-md">mCaffeine Exfoliating Coffee Body Scrub for Tan Removal - Vegan</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (55 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹237</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹279</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="mcaffeine berries brightening coffee face scrub for glow | exfoliating and tan removal scrub">
+        <td class="px-4 py-3 font-medium text-white max-w-md">mCaffeine Berries Brightening Coffee Face Scrub For Glow | Exfoliating And Tan Removal Scrub</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (75 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹212</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹249</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="be bodywise 10% aha body scrub - reduces strawberry skin, exfoliates">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Be Bodywise 10% Aha Body Scrub - Reduces Strawberry Skin, Exfoliates</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (200 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹369</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹369</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="mcaffeine coffee face scrub for fresh &amp; glowing skin - removes tan">
+        <td class="px-4 py-3 font-medium text-white max-w-md">mCaffeine Coffee Face Scrub for Fresh &amp; Glowing Skin - Removes Tan</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (75 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹199</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹229</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">13% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="dove exfoliating body polish scrub crushed lavender &amp; coconut milk for dry skin">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dove Exfoliating Body Polish Scrub Crushed Lavender &amp; Coconut Milk For Dry Skin</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (298 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹630</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹799</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">21% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="be bodywise de-tan 10% aha exfoliating body scrub">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Be Bodywise De-tan 10% AHA Exfoliating Body Scrub</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">200 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹369</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹369</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="mcaffeine naked &amp; raw coffee body scrub">
+        <td class="px-4 py-3 font-medium text-white max-w-md">MCaffeine Naked &amp; Raw Coffee Body Scrub</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">55 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹237</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹279</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="mcaffeine brightening raspberry rush body scrub">
+        <td class="px-4 py-3 font-medium text-white max-w-md">MCaffeine Brightening Raspberry Rush Body Scrub</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">175 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹382</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹449</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="mcaffeine body mini polishing kit gift set">
+        <td class="px-4 py-3 font-medium text-white max-w-md">MCaffeine Body Mini Polishing Kit Gift Set</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹239</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹299</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="mcaffeine caramel eclairs coffee body scrub">
+        <td class="px-4 py-3 font-medium text-white max-w-md">MCaffeine Caramel Eclairs Coffee Body Scrub</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">175 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹439</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹549</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="mcaffeine guava tini de-tan body scrub">
+        <td class="px-4 py-3 font-medium text-white max-w-md">MCaffeine Guava Tini De-Tan Body Scrub</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">175 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹412</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹549</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">25% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="mcaffeine blueberry breeze body scrub">
+        <td class="px-4 py-3 font-medium text-white max-w-md">MCaffeine Blueberry Breeze Body Scrub</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">175 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹382</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹449</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="chemist at play exfoliating body scrub">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Chemist At Play Exfoliating Body Scrub</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">75 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹318</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹349</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">9% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="exfoliating coffee body scrub powder jar for tan removal&amp;soft-smooth skin|de-tan bathing scrub with coconut oil,removes dirt&amp;dead skin from neck,knees,elbows&amp;arms| all skin types-100gm">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Exfoliating Coffee Body Scrub Powder Jar for Tan Removal&amp;Soft-Smooth Skin|De-Tan Bathing Scrub With Coconut Oil,Removes Dirt&amp;Dead Skin From Neck,Knees,Elbows&amp;Arms| All Skin Types-100Gm</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">100Gm</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹337</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹449</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">25% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="dual action guava de-tan body scrub with 5% natural &amp; chemical exfoliants | glycolic, lactic &amp; salicylic acid | reduces tan &amp; brightens skin | fruity, guava fragrance - 175g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dual Action Guava De-Tan Body Scrub with 5% Natural &amp; Chemical Exfoliants | Glycolic, Lactic &amp; Salicylic Acid | Reduces Tan &amp; Brightens Skin | Fruity, Guava Fragrance - 175g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">175g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹384</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹219.43</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Wed, 4 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="2-in-1 by the blues exfoliating &amp; brightening body scrub | 6% multi-action actives with niacinamide, walnut &amp; apricot | glycerin for hydration | aqua-fresh fragrance - 175g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">2-in-1 By The Blues Exfoliating &amp; Brightening Body Scrub | 6% Multi-Action Actives with Niacinamide, Walnut &amp; Apricot | Glycerin for Hydration | Aqua-Fresh Fragrance - 175g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">175g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹384</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹219.43</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="exfoliating body scrub for removing tan &amp; dead cells | rough &amp; bumpy texture, tanned &amp; pigmented areas | smooth, soft &amp; bright care | natural ahas | coffee | for men &amp; women | 75g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Exfoliating Body Scrub for Removing Tan &amp; Dead Cells | Rough &amp; Bumpy Texture, Tanned &amp; Pigmented Areas | Smooth, Soft &amp; Bright Care | Natural AHAs | Coffee | For Men &amp; Women | 75g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">75g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹319</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹425.33</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">25% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="tan removal kit with face scrub &amp; mask | sunday routine for face clean - up | for men &amp; women | combo for all skin types | pack of 2">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Tan Removal Kit with Face Scrub &amp; Mask | Sunday Routine For Face Clean - Up | For Men &amp; Women | Combo for All Skin Types | Pack of 2</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹693</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹346.5</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="brightening raspberry body scrub | tan removal | ahas - lactic &amp; glycolic acid, niacinamide | vitamin c rich for brighter, soft skin | remove dry, dead skin | fruity berries aroma - 175g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Brightening Raspberry Body Scrub | Tan Removal | AHAs - Lactic &amp; Glycolic Acid, Niacinamide | Vitamin C Rich for Brighter, Soft Skin | Remove Dry, Dead Skin | Fruity Berries Aroma - 175g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">175g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹382</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹218.29</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- Sticky CTA Footer -->
+  <div class="fixed bottom-0 inset-x-0 bg-slate-950/95 border-t border-emerald-500/30 backdrop-blur px-6 py-3.5 z-30">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+      <div class="text-slate-200">
+        <span class="text-emerald-400 font-bold">⚡ Unscrape Radar:</span> Want real-time Slack/WhatsApp/Telegram alerts within 15 mins whenever <strong>mCaffeine</strong> SKUs go Out-of-Stock across 20 BLR/MUM/DEL dark-store pin codes?
+      </div>
+      <div class="flex items-center gap-2.5 shrink-0">
+        <a href="https://github.com/deveshkolte/unscrape" target="_blank" class="px-4 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold">Unlock Automated 20-Pin-Code Monitor →</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const RAW_CSV = "brand,city,pincode,platform,skuId,title,sellingPriceInr,mrpInr,discountPercent,unit,inStock,deliveryEta,url\nmCaffeine,Bengaluru,560001,bigbasket.com/jiomart,49704564,Reeash Caffeine fix sugar body scrub,650,750,13,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/reeash-caffeine-fix-sugar-body-scrub-mj4ohe-49704564/49704564\nmCaffeine,Bengaluru,560001,bigbasket.com/jiomart,50497510,Caryl Cocoa Coffee Face and Body Scrub for Skin Moisturizing and Coffee Moisturizing Lotion Combo|All Skin Types,450,585,23,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/caryl-cocoa-coffee-face-and-body-scrub-for-skin-moisturizing-coffee-moisturizing-lotion-combo-mj73m1-50497510/50497510\nmCaffeine,Bengaluru,560001,bigbasket.com/jiomart,74864412,\"Enchanting Showstopper Coffee Bean Body Scrub for Tan Removal & Skin Brightening I Exfoliating Caffeine Scrub for Smooth, Radiant Skin I All Skin Type 100 gm\",404,449,10,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/enchanting-showstopper-coffee-bean-body-scrub-for-tan-removal-skin-brightening-i-exfoliating-caffeine-scrub-for-smooth-radiant-skin-i-all-skin-type-100-gm-mmnhg5-74864412/74864412\nmCaffeine,Bengaluru,560001,bigbasket.com/jiomart,67744515,DR.RASHEL Coffee Gel Scrub  Face & Body For Men and Women (380 ml)| All Skin |Cleanser Scrub For Deep Exfoliation | Dead Skin Remover | Tan Removal | Blackhead Remover,156,275,43,156.00/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/dr-rashel-coffee-gel-scrub-face-body-for-men-and-women-all-skin-cleanser-scrub-for-deep-exfoliation-dead-skin-remover-tan-removal-blackhead-remover-380-ml-mjhfk3-67744515/67744515\nmCaffeine,Bengaluru,560001,bigbasket.com/jiomart,67742347,\"DR.RASHEL Coffee Face & Body Scrub | Coffee Extract & Walnut Powder Exfoliating Scrub for Tan, Dead Skin, Dirt & Impurities | Deep Cleansing, Skin Polishing, Hydrating & Smooth Skin Care | Face, Body, Hands & Feet | 380 ml\",138,275,50,138.00/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/dr-rashel-coffee-scrub-face-body-re-sculpting-scrub-for-brightening-vitamin-dark-circle-380-ml-mjhfin-67742347/67742347\nmCaffeine,Bengaluru,560001,bigbasket.com/jiomart,49690933,The EnQ Arabica Coffee De - Tan Body Scrub 500gm,890,890,0,1.78/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/the-enq-arabica-coffee-de-tan-body-scrub-500gm-mj4mo0-49690933/49690933\nmCaffeine,Mumbai,400001,bigbasket.com/jiomart,49704564,Reeash Caffeine fix sugar body scrub,650,750,13,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/reeash-caffeine-fix-sugar-body-scrub-mj4ohe-49704564/49704564\nmCaffeine,Mumbai,400001,bigbasket.com/jiomart,50497510,Caryl Cocoa Coffee Face and Body Scrub for Skin Moisturizing and Coffee Moisturizing Lotion Combo|All Skin Types,450,585,23,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/caryl-cocoa-coffee-face-and-body-scrub-for-skin-moisturizing-coffee-moisturizing-lotion-combo-mj73m1-50497510/50497510\nmCaffeine,Mumbai,400001,bigbasket.com/jiomart,74864412,\"Enchanting Showstopper Coffee Bean Body Scrub for Tan Removal & Skin Brightening I Exfoliating Caffeine Scrub for Smooth, Radiant Skin I All Skin Type 100 gm\",404,449,10,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/enchanting-showstopper-coffee-bean-body-scrub-for-tan-removal-skin-brightening-i-exfoliating-caffeine-scrub-for-smooth-radiant-skin-i-all-skin-type-100-gm-mmnhg5-74864412/74864412\nmCaffeine,Mumbai,400001,bigbasket.com/jiomart,67744515,DR.RASHEL Coffee Gel Scrub  Face & Body For Men and Women (380 ml)| All Skin |Cleanser Scrub For Deep Exfoliation | Dead Skin Remover | Tan Removal | Blackhead Remover,156,275,43,156.00/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/dr-rashel-coffee-gel-scrub-face-body-for-men-and-women-all-skin-cleanser-scrub-for-deep-exfoliation-dead-skin-remover-tan-removal-blackhead-remover-380-ml-mjhfk3-67744515/67744515\nmCaffeine,Mumbai,400001,bigbasket.com/jiomart,67742347,\"DR.RASHEL Coffee Face & Body Scrub | Coffee Extract & Walnut Powder Exfoliating Scrub for Tan, Dead Skin, Dirt & Impurities | Deep Cleansing, Skin Polishing, Hydrating & Smooth Skin Care | Face, Body, Hands & Feet | 380 ml\",138,275,50,138.00/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/dr-rashel-coffee-scrub-face-body-re-sculpting-scrub-for-brightening-vitamin-dark-circle-380-ml-mjhfin-67742347/67742347\nmCaffeine,Mumbai,400001,bigbasket.com/jiomart,49690933,The EnQ Arabica Coffee De - Tan Body Scrub 500gm,890,890,0,1.78/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/the-enq-arabica-coffee-de-tan-body-scrub-500gm-mj4mo0-49690933/49690933\nmCaffeine,Delhi,110001,bigbasket.com/jiomart,49704564,Reeash Caffeine fix sugar body scrub,650,750,13,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/reeash-caffeine-fix-sugar-body-scrub-mj4ohe-49704564/49704564\nmCaffeine,Delhi,110001,bigbasket.com/jiomart,50497510,Caryl Cocoa Coffee Face and Body Scrub for Skin Moisturizing and Coffee Moisturizing Lotion Combo|All Skin Types,450,585,23,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/caryl-cocoa-coffee-face-and-body-scrub-for-skin-moisturizing-coffee-moisturizing-lotion-combo-mj73m1-50497510/50497510\nmCaffeine,Delhi,110001,bigbasket.com/jiomart,74864412,\"Enchanting Showstopper Coffee Bean Body Scrub for Tan Removal & Skin Brightening I Exfoliating Caffeine Scrub for Smooth, Radiant Skin I All Skin Type 100 gm\",404,449,10,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/enchanting-showstopper-coffee-bean-body-scrub-for-tan-removal-skin-brightening-i-exfoliating-caffeine-scrub-for-smooth-radiant-skin-i-all-skin-type-100-gm-mmnhg5-74864412/74864412\nmCaffeine,Delhi,110001,bigbasket.com/jiomart,67744515,DR.RASHEL Coffee Gel Scrub  Face & Body For Men and Women (380 ml)| All Skin |Cleanser Scrub For Deep Exfoliation | Dead Skin Remover | Tan Removal | Blackhead Remover,156,275,43,156.00/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/dr-rashel-coffee-gel-scrub-face-body-for-men-and-women-all-skin-cleanser-scrub-for-deep-exfoliation-dead-skin-remover-tan-removal-blackhead-remover-380-ml-mjhfk3-67744515/67744515\nmCaffeine,Delhi,110001,bigbasket.com/jiomart,67742347,\"DR.RASHEL Coffee Face & Body Scrub | Coffee Extract & Walnut Powder Exfoliating Scrub for Tan, Dead Skin, Dirt & Impurities | Deep Cleansing, Skin Polishing, Hydrating & Smooth Skin Care | Face, Body, Hands & Feet | 380 ml\",138,275,50,138.00/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/dr-rashel-coffee-scrub-face-body-re-sculpting-scrub-for-brightening-vitamin-dark-circle-380-ml-mjhfin-67742347/67742347\nmCaffeine,Delhi,110001,bigbasket.com/jiomart,49690933,The EnQ Arabica Coffee De - Tan Body Scrub 500gm,890,890,0,1.78/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/the-enq-arabica-coffee-de-tan-body-scrub-500gm-mj4mo0-49690933/49690933\nmCaffeine,Bengaluru,560001,flipkart.com,SCBFAUSZRCHTXUHG,mCaffeine Exfoliating Coffee body scrub for Men & Women | Tan Removal Scrub,337,449,25,1 unit,true,15 MINS,https://www.flipkart.com/mcaffeine-exfoliating-coffee-body-scrub-men-women-tan-removal/p/itm2c64a582c4781?pid=SCBFAUSZRCHTXUHG&lid=LSTSCBFAUSZRCHTXUHGUA5N1G&marketplace=FLIPKART&q=mcaffeine+body+scrub&store=g9b%2Fema%2F5la%2Fcvd&srno=s_1_1&otracker=search&fm=organic&iid=en_0pmW6CT6E0WR_mnk1H5-hbggdggSUnPXAGV3SnCrmAIkWDwL3L_1VmghVMfysn59NgSWATB9BrTj7FIm4bR7R9YDCCEbNPOBGTbyBtY-PMc9bnqZ7CAEqsGEqYKhx2x7&ppt=sp&ppn=sp&ssid=nlcka5lkgw0000001793387320577&qH=53a92abffd33e759&ov_redirect=true&ov_redirect=true\nmCaffeine,Bengaluru,560001,flipkart.com,SCBG6Z66K9Z7JQP6,\"mCaffeine Coffee Face & Body Scrub, Remove Tan, Dead Skin, Black & White heads, Pack of 2 Scrub\",546,678,19,1 unit,true,15 MINS,https://www.flipkart.com/mcaffeine-coffee-face-body-scrub-remove-tan-dead-skin-black-white-heads-pack-2-scrub/p/itma3add91572615?pid=SCBG6Z66K9Z7JQP6&lid=LSTSCBG6Z66K9Z7JQP6VJORNJ&marketplace=FLIPKART&q=mcaffeine+body+scrub&store=g9b%2Fema%2F5la%2Fcvd&srno=s_1_2&otracker=search&fm=organic&iid=en_0pmW6CT6E0WR_mnk1H5-hbggdggSUnPXAGV3SnCrmALT4a-Qhh6664oBxFUG8uli_3w6w5ePUL_tNLOEw6iFRDw2xHQcdycY_0LxB1RctqJODIef6qwWZ5Vn5UtDOe_h&ppt=sp&ppn=sp&ssid=nlcka5lkgw0000001793387320577&qH=53a92abffd33e759&ov_redirect=true&ov_redirect=true\nmCaffeine,Bengaluru,560001,flipkart.com,SCBGD57RDXPFMCWD,\"mCaffeine Coffee Body for Tan Removal & Exfoliation, Get Glowing Soft Skin Men Women Scrub\",237,279,15,1 unit,true,15 MINS,https://www.flipkart.com/mcaffeine-coffee-body-tan-removal-exfoliation-get-glowing-soft-skin-men-women-scrub/p/itm62e37200c7c4b?pid=SCBGD57RDXPFMCWD&lid=LSTSCBGD57RDXPFMCWD9KNXCC&marketplace=FLIPKART&q=mcaffeine+body+scrub&store=g9b%2Fema%2F5la%2Fcvd&srno=s_1_3&otracker=search&fm=organic&iid=f5e51ea9-99c8-4b31-9127-adca4d415b4b.SCBGD57RDXPFMCWD.SEARCH&ppt=sp&ppn=sp&ssid=nlcka5lkgw0000001793387320577&qH=53a92abffd33e759&ov_redirect=true&ov_redirect=true\nmCaffeine,Bengaluru,560001,flipkart.com,SCBH8VHGYMPBKWAZ,mCaffeine Brightening Raspberry De-Tan Body Scrub | Lactic & Glycolic Scrub,382,449,15,1 unit,true,15 MINS,https://www.flipkart.com/mcaffeine-brightening-raspberry-de-tan-body-scrub-lactic-glycolic/p/itm01b7515e86fda?pid=SCBH8VHGYMPBKWAZ&lid=LSTSCBH8VHGYMPBKWAZDAEKJ3&marketplace=FLIPKART&q=mcaffeine+body+scrub&store=g9b%2Fema%2F5la%2Fcvd&srno=s_1_4&otracker=search&fm=organic&iid=f5e51ea9-99c8-4b31-9127-adca4d415b4b.SCBH8VHGYMPBKWAZ.SEARCH&ppt=sp&ppn=sp&ssid=nlcka5lkgw0000001793387320577&qH=53a92abffd33e759&ov_redirect=true&ov_redirect=true\nmCaffeine,Bengaluru,560001,flipkart.com,SCBGGP6CKMEFNWV6,\"mCaffeine Coffee Body Scrub for Tan Removal, Exfoliation & Soft Glowing Skin, Pack of 2 Scrub\",335,558,40,1 unit,true,15 MINS,https://www.flipkart.com/mcaffeine-coffee-body-scrub-tan-removal-exfoliation-soft-glowing-skin-pack-2/p/itmfe5da483390d4?pid=SCBGGP6CKMEFNWV6&lid=LSTSCBGGP6CKMEFNWV63F45PY&marketplace=FLIPKART&q=mcaffeine+body+scrub&store=g9b%2Fema%2F5la%2Fcvd&srno=s_1_5&otracker=search&fm=organic&iid=f5e51ea9-99c8-4b31-9127-adca4d415b4b.SCBGGP6CKMEFNWV6.SEARCH&ppt=sp&ppn=sp&ssid=nlcka5lkgw0000001793387320577&qH=53a92abffd33e759&ov_redirect=true&ov_redirect=true\nmCaffeine,Bengaluru,560001,flipkart.com,SCBD923QHKKMMGAP,LOTUS White Glow Oatmeal & Yogurt Skin Whitening  Scrub,233,325,28,1 unit,true,15 MINS,https://www.flipkart.com/lotus-white-glow-oatmeal-yogurt-skin-whitening-scrub/p/itmekcftbkzzfeey?pid=SCBD923QHKKMMGAP&lid=LSTSCBD923QHKKMMGAPVSR8PW&marketplace=FLIPKART&q=mcaffeine+body+scrub&store=g9b%2Fema%2F5la%2Fcvd&srno=s_1_6&otracker=search&fm=organic&iid=en_0pmW6CT6E0WR_mnk1H5-hbggdggSUnPXAGV3SnCrmAJ8TCJAhIE0q0M2H7S2OINoMP4zMy66Muf2C7QUHwo7tu0461gqmSzkLjpxL4ug5VG36qef9kbrDz7cl3LgQ1WM&ppt=sp&ppn=sp&ssid=nlcka5lkgw0000001793387320577&qH=53a92abffd33e759&ov_redirect=true&ov_redirect=true\nmCaffeine,Bengaluru,560001,zeptonow.com,fb395a97-1fe0-531f-b092-219dc0b09142,mCaffeine Blueberry Breeze Body Scrub,382,449,15,1 pc (175 g),true,10 MINS,https://www.zepto.com/pn/mcaffeine-blueberry-breeze-body-scrub/pvid/6b722712-6121-4517-958c-ba3479155f32\nmCaffeine,Bengaluru,560001,zeptonow.com,9a5a6965-0480-572f-bf73-98ae71d4734f,mCaffeine Brightening Raspberry Rush Body Scrub,382,449,15,1 pc (175 g),true,10 MINS,https://www.zepto.com/pn/mcaffeine-brightening-raspberry-rush-body-scrub/pvid/84b1b480-060c-450a-9870-26a1a4b27bfc\nmCaffeine,Bengaluru,560001,zeptonow.com,4dbf7c0a-688a-5bf9-888d-543338ef979f,mCaffeine Exfoliating Coffee Body Scrub for Tan Removal - Vegan,359,449,20,1 pc (100 g),true,10 MINS,https://www.zepto.com/pn/mcaffeine-exfoliating-coffee-body-scrub-for-tan-removal-vegan/pvid/6ad4b123-4698-4e80-b02a-4dde52bf4af1\nmCaffeine,Bengaluru,560001,zeptonow.com,8e03f33e-3cb9-546b-8a70-cd08f868b8ea,mCaffeine Exfoliating Coffee Body Scrub for Tan Removal - Vegan,237,279,15,1 pc (55 g),true,10 MINS,https://www.zepto.com/pn/mcaffeine-exfoliating-coffee-body-scrub-for-tan-removal-vegan/pvid/1256f5ea-5188-47dc-800f-4590b9a3abff\nmCaffeine,Bengaluru,560001,zeptonow.com,b693f131-1a8e-5020-89b8-0ce82f88f14f,mCaffeine Berries Brightening Coffee Face Scrub For Glow | Exfoliating And Tan Removal Scrub,212,249,15,1 pc (75 g),true,10 MINS,https://www.zepto.com/pn/mcaffeine-berries-brightening-coffee-face-scrub-for-glow-exfoliating-and-tan-removal-scrub/pvid/c5024db4-9ed2-4581-a114-9fda1bd67ce3\nmCaffeine,Bengaluru,560001,zeptonow.com,0183ce07-e804-5b79-bf96-ad2bba8028b7,\"Be Bodywise 10% Aha Body Scrub - Reduces Strawberry Skin, Exfoliates\",369,369,0,1 pc (200 g),true,10 MINS,https://www.zepto.com/pn/be-bodywise-10-aha-body-scrub-reduces-strawberry-skin-exfoliates/pvid/c7e6c762-eaf2-4841-b193-e133f75dc5f3\nmCaffeine,Bengaluru,560001,zeptonow.com,f265c325-7227-52eb-a08c-6c8e3d5e9997,mCaffeine Coffee Face Scrub for Fresh & Glowing Skin - Removes Tan,199,229,13,1 pc (75 g),true,10 MINS,https://www.zepto.com/pn/mcaffeine-coffee-face-scrub-for-fresh-glowing-skin-removes-tan/pvid/e13e026d-0fa4-4ca9-b522-f1cb9daa242e\nmCaffeine,Bengaluru,560001,zeptonow.com,53c5ba45-c95a-5c4c-b0d7-1a6db1da060e,Dove Exfoliating Body Polish Scrub Crushed Lavender & Coconut Milk For Dry Skin,630,799,21,1 pc (298 g),true,10 MINS,https://www.zepto.com/pn/dove-exfoliating-body-polish-scrub-crushed-lavender-coconut-milk-for-dry-skin/pvid/e48e0162-bd3f-419b-97ab-3e4f99fe589d\nmCaffeine,Bengaluru,560001,blinkit.com,597782,Be Bodywise De-tan 10% AHA Exfoliating Body Scrub,369,369,0,200 g,true,10 MINS,https://blinkit.com/prn/be-bodywise-de-tan-10-aha-exfoliating-body-scrub/prid/597782\nmCaffeine,Bengaluru,560001,blinkit.com,492134,MCaffeine Naked & Raw Coffee Body Scrub,237,279,15,55 g,true,10 MINS,https://blinkit.com/prn/mcaffeine-naked-raw-coffee-body-scrub/prid/492134\nmCaffeine,Bengaluru,560001,blinkit.com,624345,MCaffeine Brightening Raspberry Rush Body Scrub,382,449,15,175 g,true,10 MINS,https://blinkit.com/prn/mcaffeine-brightening-raspberry-rush-body-scrub/prid/624345\nmCaffeine,Bengaluru,560001,blinkit.com,480508,MCaffeine Body Mini Polishing Kit Gift Set,239,299,20,1 pc,true,10 MINS,https://blinkit.com/prn/mcaffeine-body-mini-polishing-kit-gift-set/prid/480508\nmCaffeine,Bengaluru,560001,blinkit.com,791719,MCaffeine Caramel Eclairs Coffee Body Scrub,439,549,20,175 g,true,10 MINS,https://blinkit.com/prn/mcaffeine-caramel-eclairs-coffee-body-scrub/prid/791719\nmCaffeine,Bengaluru,560001,blinkit.com,1425746,MCaffeine Guava Tini De-Tan Body Scrub,412,549,25,175 g,true,10 MINS,https://blinkit.com/prn/mcaffeine-guava-tini-de-tan-body-scrub/prid/1425746\nmCaffeine,Bengaluru,560001,blinkit.com,568149,MCaffeine Blueberry Breeze Body Scrub,382,449,15,175 g,true,10 MINS,https://blinkit.com/prn/mcaffeine-blueberry-breeze-body-scrub/prid/568149\nmCaffeine,Bengaluru,560001,blinkit.com,541367,Chemist At Play Exfoliating Body Scrub,318,349,9,75 g,true,10 MINS,https://blinkit.com/prn/chemist-at-play-exfoliating-body-scrub/prid/541367\nmCaffeine,Bengaluru,560001,amazon.in,B07K4BFQK1,\"Exfoliating Coffee Body Scrub Powder Jar for Tan Removal&Soft-Smooth Skin|De-Tan Bathing Scrub With Coconut Oil,Removes Dirt&Dead Skin From Neck,Knees,Elbows&Arms| All Skin Types-100Gm\",337,449,25,100Gm,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B07K4BFQK1\nmCaffeine,Bengaluru,560001,amazon.in,B0H2Z2Y716,\"Dual Action Guava De-Tan Body Scrub with 5% Natural & Chemical Exfoliants | Glycolic, Lactic & Salicylic Acid | Reduces Tan & Brightens Skin | Fruity, Guava Fragrance - 175g\",384,219.43,0,175g,true,\"Wed, 4 Nov\",https://www.amazon.in/dp/B0H2Z2Y716\nmCaffeine,Bengaluru,560001,amazon.in,B0H2Z58L2L,\"2-in-1 By The Blues Exfoliating & Brightening Body Scrub | 6% Multi-Action Actives with Niacinamide, Walnut & Apricot | Glycerin for Hydration | Aqua-Fresh Fragrance - 175g\",384,219.43,0,175g,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0H2Z58L2L\nmCaffeine,Bengaluru,560001,amazon.in,B0C8HZCD6G,\"Exfoliating Body Scrub for Removing Tan & Dead Cells | Rough & Bumpy Texture, Tanned & Pigmented Areas | Smooth, Soft & Bright Care | Natural AHAs | Coffee | For Men & Women | 75g\",319,425.33,25,75g,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0C8HZCD6G\nmCaffeine,Bengaluru,560001,amazon.in,B08KQDKRQC,Tan Removal Kit with Face Scrub & Mask | Sunday Routine For Face Clean - Up | For Men & Women | Combo for All Skin Types | Pack of 2,693,346.5,0,1 unit,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B08KQDKRQC\nmCaffeine,Bengaluru,560001,amazon.in,B0DV5M5XK2,\"Brightening Raspberry Body Scrub | Tan Removal | AHAs - Lactic & Glycolic Acid, Niacinamide | Vitamin C Rich for Brighter, Soft Skin | Remove Dry, Dead Skin | Fruity Berries Aroma - 175g\",382,218.29,0,175g,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0DV5M5XK2\n";
+
+    function filterRows(mode) {
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const stock = row.getAttribute('data-stock');
+        if (mode === 'all') row.style.display = '';
+        else if (mode === 'oos') row.style.display = stock === 'oos' ? '' : 'none';
+        else if (mode === 'instock') row.style.display = stock === 'instock' ? '' : 'none';
+      });
+    }
+
+    function searchSkus() {
+      const q = document.getElementById('skuSearch').value.toLowerCase();
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const title = row.getAttribute('data-title') || '';
+        const platform = (row.getAttribute('data-platform') || '').toLowerCase();
+        row.style.display = (title.includes(q) || platform.includes(q)) ? '' : 'none';
+      });
+    }
+
+    function downloadCsv() {
+      const blob = new Blob([RAW_CSV], { type: 'text/csv;charset=utf-8;' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'mcaffeine-3city-audit.csv';
+      a.click();
+    }
+  </script>
+</body>
+</html>

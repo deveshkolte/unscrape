@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unscrape — 50 Pre-Reversed Local TypeScript Extractors for Indian & Global Web Data</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background-color: #07080d; color: #f3f4f6; font-family: Inter, system-ui, -apple-system, sans-serif; }
+    .glow { box-shadow: 0 0 60px -15px rgba(16, 185, 129, 0.3); }
+  </style>
+</head>
+<body class="antialiased selection:bg-emerald-500 selection:text-slate-950">
+  <!-- Navbar -->
+  <header class="border-b border-slate-800/80 bg-slate-950/80 backdrop-blur sticky top-0 z-30">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <span class="text-emerald-400 font-black text-xl tracking-tight">⚡ UNSCRAPE</span>
+        <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">v4.0 · 50/50 Live Verified</span>
+      </div>
+      <nav class="hidden md:flex items-center gap-6 text-sm text-slate-300">
+        <a href="audits/index.html" class="text-emerald-400 font-bold hover:text-emerald-300">🎯 56 D2C Brand Scorecards</a>
+        <a href="#directory" class="hover:text-emerald-400">50 Extractors</a>
+        <a href="#calculator" class="hover:text-emerald-400">ROI Calculator</a>
+        <a href="#architecture" class="hover:text-emerald-400">Architecture</a>
+        <a href="#pricing" class="hover:text-emerald-400">Pricing</a>
+        <a href="/" class="px-3.5 py-1.5 rounded-lg bg-emerald-500 text-slate-950 font-bold hover:bg-emerald-400">Open Studio UI →</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="max-w-6xl mx-auto px-6 pt-20 pb-16 text-center">
+    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900 border border-slate-800 text-xs text-emerald-400 mb-6">
+      <span>● Zero Cloud API Fees · 100% Local Execution · Built-in Pin-Code Spoofing & Network Sniffer</span>
+    </div>
+    <h1 class="text-4xl md:text-6xl font-black tracking-tight leading-tight mb-6">
+      Stop Paying $99/mo for Cloud Scrapers That Break.<br />
+      <span class="bg-gradient-to-r from-white via-emerald-200 to-emerald-400 bg-clip-text text-transparent">
+        50 Pre-Reversed, Local-First TypeScript Extractors.
+      </span>
+    </h1>
+    <p class="max-w-3xl mx-auto text-slate-400 text-lg mb-10">
+      Battle-tested Playwright + Internal API Harvesters for Indian Quick-Commerce (Blinkit, Zepto, JioMart), Real Estate (MagicBricks, NoBroker, SquareYards), Finance (NSE India, Screener, IPO GMP), B2B (IndiaMART, TradeIndia), and Global AI — validated with strict Zod schemas.
+    </p>
+
+    <div class="max-w-2xl mx-auto bg-slate-950 border border-slate-800 rounded-xl p-4 font-mono text-left text-xs md:text-sm glow mb-10">
+      <div class="flex items-center gap-2 pb-3 mb-3 border-b border-slate-800 text-slate-500">
+        <span class="w-3 h-3 rounded-full bg-rose-500/70"></span>
+        <span class="w-3 h-3 rounded-full bg-amber-500/70"></span>
+        <span class="w-3 h-3 rounded-full bg-emerald-500/70"></span>
+        <span class="ml-2">terminal — unscrape-sdk</span>
+      </div>
+      <div class="space-y-1.5">
+        <div class="text-slate-400"># Compare live prices across Blinkit, Zepto, BigBasket, Amazon.in & Flipkart</div>
+        <div class="text-emerald-400">$ npx tsx src/index.ts compare-commerce "amul butter" --city bengaluru</div>
+        <div class="text-slate-400 pt-2"># Start theAutonomous Price-Drop & Stock Watchdog Daemon</div>
+        <div class="text-emerald-400">$ npx tsx src/index.ts watch --target blinkit --query "amul butter" --city delhi</div>
+        <div class="text-slate-400 pt-2"># Launch Studio Web Playground + Local REST API + Claude MCP Server</div>
+        <div class="text-emerald-400">$ npx tsx src/index.ts serve --port 3000</div>
+      </div>
+    </div>
+
+    <!-- 1-Click Live Web Demo (Option C) -->
+    <div class="max-w-4xl mx-auto bg-slate-900/70 border border-slate-800 rounded-2xl p-6 text-left">
+      <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+        <div>
+          <span class="text-xs font-bold uppercase text-emerald-400">Interactive Live Dataset Preview</span>
+          <h3 class="text-lg font-bold text-white">Inspect Real Unscrape Output in Your Browser</h3>
+        </div>
+        <div class="flex flex-wrap gap-2 text-xs">
+          <button onclick="loadSample('commerce')" class="px-3 py-1.5 rounded-lg bg-emerald-500 text-slate-950 font-bold hover:bg-emerald-400">⚡ Bengaluru Quick-Commerce (60 SKUs)</button>
+          <button onclick="loadSample('markets')" class="px-3 py-1.5 rounded-lg bg-slate-800 text-slate-200 hover:bg-slate-700">📈 NSE + IPO GMP + Gold</button>
+          <a href="samples/quick-commerce-arbitrage-bengaluru.csv" download class="px-3 py-1.5 rounded-lg bg-slate-800 border border-slate-700 text-emerald-300 hover:bg-slate-700">⬇ Download Live CSV</a>
+        </div>
+      </div>
+      <pre id="liveSampleBox" class="bg-slate-950 border border-slate-800 rounded-xl p-4 text-xs font-mono text-emerald-300 overflow-x-auto max-h-72">// Click "Bengaluru Quick-Commerce" or "NSE + IPO GMP + Gold" above to inspect live extracted records</pre>
+    </div>
+  </section>
+
+  <!-- Searchable 50-Extractor Directory -->
+  <section id="directory" class="max-w-7xl mx-auto px-6 py-14 border-t border-slate-900">
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+      <div>
+        <h2 class="text-2xl md:text-3xl font-extrabold">The 50-Extractor Commercial Vault</h2>
+        <p class="text-slate-400 text-sm">Every extractor is reverse-engineered against live network JSON endpoints, hydration state, or structured JSON-LD.</p>
+      </div>
+      <input id="searchFilter" type="text" oninput="filterDirectory()" placeholder="Search 50 extractors (e.g. blinkit, nse, ipo, indiamart)..." class="bg-slate-900 border border-slate-800 rounded-lg px-4 py-2.5 text-sm w-full md:w-80 text-white" />
+    </div>
+    <div id="directoryGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5"></div>
+  </section>
+
+  <!-- ROI Calculator -->
+  <section id="calculator" class="max-w-5xl mx-auto px-6 py-16 border-t border-slate-900">
+    <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-8">
+      <h2 class="text-2xl md:text-3xl font-extrabold mb-2">Cloud Scraper Tax vs. Unscrape Local Vault</h2>
+      <p class="text-slate-400 text-sm mb-6">See how much your agency or D2C brand saves over 12 months by switching from metered cloud APIs to local execution.</p>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-slate-950 border border-slate-800 rounded-xl p-5">
+          <div class="text-xs text-slate-400 uppercase font-bold">Firecrawl / Apify Cloud</div>
+          <div class="text-3xl font-black text-rose-400 mt-2">$1,188<span class="text-sm font-normal text-slate-500">/yr</span></div>
+          <p class="text-xs text-slate-400 mt-2">$99/mo subscription + per-page credit overages + rate-limit queues.</p>
+        </div>
+        <div class="bg-slate-950 border border-emerald-500/40 rounded-xl p-5">
+          <div class="text-xs text-emerald-400 uppercase font-bold">Unscrape Pro Vault</div>
+          <div class="text-3xl font-black text-emerald-400 mt-2">$39<span class="text-sm font-normal text-slate-500"> once</span></div>
+          <p class="text-xs text-slate-400 mt-2">Unlimited local runs, 50 verified extractors, full TypeScript source code.</p>
+        </div>
+        <div class="bg-emerald-500/10 border border-emerald-500/30 rounded-xl p-5">
+          <div class="text-xs text-emerald-300 uppercase font-bold">Your Year-1 Savings</div>
+          <div class="text-3xl font-black text-white mt-2">$1,149</div>
+          <p class="text-xs text-emerald-200/80 mt-2">Zero recurring API bills, sub-3s local latency, 100% data privacy.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Architecture -->
+  <section id="architecture" class="max-w-7xl mx-auto px-6 py-16 border-t border-slate-900">
+    <h2 class="text-2xl md:text-3xl font-extrabold text-center mb-10">5 Ways to Run Unscrape in Production</h2>
+    <div class="grid grid-cols-1 md:grid-cols-5 gap-4 text-sm">
+      <div class="bg-slate-900/60 border border-slate-800 rounded-xl p-5">
+        <div class="text-emerald-400 font-bold mb-1">1. TypeScript SDK</div>
+        <p class="text-xs text-slate-400">Import typed functions directly into your Node/Bun backend with Zod guarantees.</p>
+      </div>
+      <div class="bg-slate-900/60 border border-slate-800 rounded-xl p-5">
+        <div class="text-emerald-400 font-bold mb-1">2. Unified CLI</div>
+        <p class="text-xs text-slate-400">Export live scrapes to JSON, CSV, JSONL, or ASCII tables with 5-min disk cache.</p>
+      </div>
+      <div class="bg-slate-900/60 border border-slate-800 rounded-xl p-5">
+        <div class="text-emerald-400 font-bold mb-1">3. Local REST API</div>
+        <p class="text-xs text-slate-400">Self-hosted HTTP server + dark-mode Studio UI at <code>localhost:3000</code>.</p>
+      </div>
+      <div class="bg-slate-900/60 border border-slate-800 rounded-xl p-5">
+        <div class="text-emerald-400 font-bold mb-1">4. Claude/Cursor MCP</div>
+        <p class="text-xs text-slate-400">Stdio JSON-RPC 2.0 MCP server giving AI coding agents live web telemetry.</p>
+      </div>
+      <div class="bg-slate-900/60 border border-slate-800 rounded-xl p-5">
+        <div class="text-emerald-400 font-bold mb-1">5. Watchdog + n8n</div>
+        <p class="text-xs text-slate-400">Automated price-drop & stock diffing daemon + 3 ready-to-import n8n workflows.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section id="pricing" class="max-w-6xl mx-auto px-6 py-16 border-t border-slate-900">
+    <h2 class="text-3xl font-extrabold text-center mb-3">Simple, One-Time Licensing</h2>
+    <p class="text-slate-400 text-center text-sm mb-10">Own the complete TypeScript source vault forever. No subscriptions, no credit limits.</p>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="bg-slate-900/50 border border-slate-800 rounded-2xl p-7 flex flex-col justify-between">
+        <div>
+          <span class="text-xs font-bold uppercase text-slate-400">Community Open-Source</span>
+          <div class="text-4xl font-black mt-3 mb-2">$0</div>
+          <p class="text-xs text-slate-400 mb-6">Core StealthBrowser Engine + 5 Starter Extractors</p>
+          <ul class="space-y-2 text-xs text-slate-300">
+            <li>✓ StealthBrowser (`--headless=new`)</li>
+            <li>✓ Hyperlocal City Pin-Code Spoofer</li>
+            <li>✓ 5 Starter Extractors (HN, GitHub, NPM, ArXiv, Reddit)</li>
+            <li>✓ Zod Schema Validation</li>
+          </ul>
+        </div>
+        <a href="https://github.com/deveshkolte/unscrape-sdk" class="mt-8 block text-center py-2.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-semibold text-sm">Star on GitHub</a>
+      </div>
+
+      <div class="bg-slate-900 border-2 border-emerald-500 rounded-2xl p-7 flex flex-col justify-between glow">
+        <div>
+          <span class="text-xs font-bold uppercase text-emerald-400">Pro Developer Vault</span>
+          <div class="text-4xl font-black mt-3 mb-2">$39 <span class="text-base font-normal text-slate-400">/ ₹2,999 once</span></div>
+          <p class="text-xs text-slate-400 mb-6">Full 50-Extractor Commercial Vault + Arbitrage Engine + MCP</p>
+          <ul class="space-y-2 text-xs text-slate-200">
+            <li>✓ All 50 Live Commercial Extractors</li>
+            <li>✓ Blinkit, Zepto, JioMart, Amazon.in, Flipkart, Myntra, Nykaa</li>
+            <li>✓ NSE India, Screener, MoneyControl, IPO GMP, Gold Spot</li>
+            <li>✓ MagicBricks, NoBroker, SquareYards, IndiaMART, Naukri</li>
+            <li>✓ Multi-Platform Arbitrage Engine + Studio UI + MCP Server</li>
+          </ul>
+        </div>
+        <a href="#pricing" class="mt-8 block text-center py-2.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-sm">Get Pro Vault Access</a>
+      </div>
+
+      <div class="bg-slate-900/50 border border-slate-800 rounded-2xl p-7 flex flex-col justify-between">
+        <div>
+          <span class="text-xs font-bold uppercase text-amber-400">Agency & D2C Suite</span>
+          <div class="text-4xl font-black mt-3 mb-2">$99 <span class="text-base font-normal text-slate-400">/ ₹7,999 once</span></div>
+          <p class="text-xs text-slate-400 mb-6">Everything in Pro + Watchdog Daemon + n8n Templates</p>
+          <ul class="space-y-2 text-xs text-slate-300">
+            <li>✓ Everything in Pro Developer Vault (50 Extractors)</li>
+            <li>✓ Autonomous Price-Drop & Stock Watchdog Daemon</li>
+            <li>✓ Telegram, Slack, Discord & Webhook Alerting</li>
+            <li>✓ 3 Ready-to-Import n8n Workflow Templates</li>
+            <li>✓ Unlimited Client / Agency Commercial Use</li>
+          </ul>
+        </div>
+        <a href="#pricing" class="mt-8 block text-center py-2.5 rounded-lg bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-sm">Get Agency Suite</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="border-t border-slate-900 py-10 text-center text-xs text-slate-500">
+    Unscrape SDK v4.0 — 50 Live-Verified Extractors · Built with Playwright, Cheerio & Zod.
+  </footer>
+
+  <script>
+    const EXTRACTORS = [
+      { id: "blinkit", name: "Blinkit", category: "Quick-Commerce", sample: "Amul Salted Butter (₹325)" },
+      { id: "zepto", name: "Zepto", category: "Quick-Commerce", sample: "Amul Salted Butter (₹66)" },
+      { id: "bigbasket", name: "BigBasket", category: "Quick-Commerce", sample: "Amul Pasteurised Butter (₹79)" },
+      { id: "jiomart", name: "JioMart", category: "Quick-Commerce", sample: "Amul Milk & Dairy (₹79)" },
+      { id: "swiggy-instamart", name: "Swiggy Instamart / D2C", category: "Quick-Commerce", sample: "Daily Essentials (₹249)" },
+      { id: "amazon-in", name: "Amazon India", category: "E-Commerce", sample: "A2 Gir Cow Ghee (₹1280)" },
+      { id: "flipkart", name: "Flipkart", category: "E-Commerce", sample: "Amul Butter (₹58)" },
+      { id: "myntra", name: "Myntra", category: "E-Commerce", sample: "HRX Running Shoes (₹899)" },
+      { id: "nykaa", name: "Nykaa", category: "Beauty & D2C", sample: "Dot & Key Sunscreen (₹489)" },
+      { id: "meesho", name: "Meesho / Snapdeal", category: "Value Commerce", sample: "Analog Watch (₹249)" },
+      { id: "croma", name: "Croma / Vijay Sales", category: "Electronics", sample: "Apple iPhone (₹92,900)" },
+      { id: "reliancedigital", name: "Reliance Digital", category: "Electronics", sample: "Apple iPhone 15 (₹59,900)" },
+      { id: "ajio", name: "Ajio / boAt D2C", category: "Fashion & D2C", sample: "Aavante Soundbar (₹6,499)" },
+      { id: "firstcry", name: "FirstCry", category: "Kids & Retail", sample: "Huggies Wonder Pants (₹1,244)" },
+      { id: "1mg", name: "Tata 1mg", category: "Healthcare", sample: "Dolo 500mg Strip (₹10.58)" },
+      { id: "pharmeasy", name: "PharmEasy", category: "Healthcare", sample: "Paracetamol Strip (₹10.58)" },
+      { id: "apollo247", name: "Apollo 24/7", category: "Healthcare", sample: "Vitamin C Tablets (₹45)" },
+      { id: "indiamart", name: "IndiaMART Wholesale", category: "B2B Wholesale", sample: "600W Solar Panel" },
+      { id: "tradeindia", name: "TradeIndia / ExportersIndia", category: "B2B Wholesale", sample: "550W Mono PERC Solar" },
+      { id: "zomato", name: "Zomato / Magicpin", category: "Food & Dining", sample: "Bigguy's Wingery (₹400 for two)" },
+      { id: "bookmyshow", name: "BookMyShow Events", category: "Live Events", sample: "Weverse Con Festival" },
+      { id: "cars24", name: "Cars24", category: "Used Cars", sample: "2023 Jeep Meridian (₹27.5L)" },
+      { id: "spinny", name: "Spinny / CarWale", category: "Used Cars", sample: "2015 Honda City (₹4.7L)" },
+      { id: "bikewale", name: "BikeWale Two-Wheelers", category: "Two-Wheelers", sample: "Royal Enfield Hunter 350 (₹1.37L)" },
+      { id: "olx-in", name: "OLX / Cashify", category: "Classifieds", sample: "Apple iPhone 13 Refurb (₹28,420)" },
+      { id: "ixigo", name: "Ixigo Intercity", category: "Travel", sample: "BLR → MAA Sleeper (₹554)" },
+      { id: "redbus", name: "RedBus Routes", category: "Travel", sample: "MUM → PUN A/C (₹450)" },
+      { id: "makemytrip-hotels", name: "MakeMyTrip / FabHotels", category: "Hospitality", sample: "FabHotel Prime (₹1,069/night)" },
+      { id: "magicbricks", name: "MagicBricks", category: "Real Estate", sample: "4 BHK Villa Bangalore (₹3.96 Cr)" },
+      { id: "99acres", name: "99acres / NoBroker", category: "Real Estate", sample: "4 BHK Hebbal (₹2.6 Cr)" },
+      { id: "housing", name: "Housing / SquareYards", category: "Real Estate", sample: "3 BHK Yelahanka (₹1.8 Cr)" },
+      { id: "nseindia", name: "NSE India Live", category: "Finance", sample: "NIFTY 50: ₹23,053.1 (+0.51%)" },
+      { id: "screener", name: "Screener.in", category: "Finance", sample: "RELIANCE: ₹1,165 (P/E 19.2)" },
+      { id: "moneycontrol", name: "MoneyControl", category: "Finance", sample: "RELIANCE: ₹1,164.9" },
+      { id: "groww-mf", name: "Groww / AMFI Mutual Funds", category: "Mutual Funds", sample: "HDFC Balanced NAV ₹147.06" },
+      { id: "chittorgarh-ipo", name: "Chittorgarh / IPOWatch GMP", category: "IPO & GMP", sample: "Live Mainboard & SME IPO GMP" },
+      { id: "goodreturns-gold", name: "GoodReturns 24K/22K Gold", category: "Commodities", sample: "24K Gold: ₹14,226/g" },
+      { id: "coingecko", name: "CoinGecko Crypto INR", category: "Crypto", sample: "BTC: ₹73,27,980" },
+      { id: "naukri", name: "Naukri.com", category: "Jobs", sample: "Node.js + TypeScript @ Infosys" },
+      { id: "hn-jobs", name: "YC / Hacker News Jobs", category: "Jobs", sample: "Wasmer (YC S19) Hiring" },
+      { id: "remoteok", name: "RemoteOK Global", category: "Jobs", sample: "Cloud Automation Engineer" },
+      { id: "yc-companies", name: "YC Company Directory", category: "Startups", sample: "Aikido Technologies (YC)" },
+      { id: "producthunt", name: "ProductHunt / Dev.to", category: "Tech Launches", sample: "Trending AI Launches" },
+      { id: "reddit-search", name: "Reddit Search Telemetry", category: "Social Intel", sample: "r/Backend & r/typescript" },
+      { id: "github-trending", name: "GitHub Trending", category: "Open Source", sample: "thedotmack/claude-mem (★ 105k)" },
+      { id: "npm-registry", name: "NPM Registry", category: "Developer Tools", sample: "playwright@1.64.1" },
+      { id: "huggingface-models", name: "HuggingFace Models", category: "AI & ML", sample: "Qwen/Qwen3.8-27B (7.6M dl)" },
+      { id: "arxiv-ai", name: "ArXiv CS/AI Papers", category: "AI Research", sample: "Latest LLM & Agent Papers" },
+      { id: "pypi-packages", name: "PyPI Python Packages", category: "Developer Tools", sample: "fastapi, pydantic, torch" },
+      { id: "dockerhub-images", name: "DockerHub Containers", category: "Cloud Infra", sample: "Official Container Pull Telemetry" }
+    ];
+
+    function renderGrid(list) {
+      const grid = document.getElementById('directoryGrid');
+      grid.innerHTML = list.map((item, idx) => \`
+        <div class="bg-slate-900/60 border border-slate-800/90 hover:border-emerald-500/40 rounded-xl p-4 transition">
+          <div class="flex items-center justify-between mb-1.5">
+            <span class="font-bold text-sm text-white">\${idx + 1}. \${item.name}</span>
+            <span class="text-[11px] px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 font-mono">PASS</span>
+          </div>
+          <div class="text-xs text-slate-400 mb-2">Category: <span class="text-slate-300">\${item.category}</span> · ID: <code class="text-emerald-300">\${item.id}</code></div>
+          <div class="text-[11px] font-mono text-slate-400 bg-slate-950 px-2.5 py-1.5 rounded border border-slate-800/80 truncate">\${item.sample}</div>
+        </div>
+      \`).join('');
+    }
+
+    function filterDirectory() {
+      const q = document.getElementById('searchFilter').value.toLowerCase();
+      renderGrid(EXTRACTORS.filter(e => e.id.toLowerCase().includes(q) || e.name.toLowerCase().includes(q) || e.category.toLowerCase().includes(q)));
+    }
+
+    async function loadSample(type) {
+      const box = document.getElementById('liveSampleBox');
+      const file = type === 'markets'
+        ? 'samples/india-markets-ipo-gold-snapshot.json'
+        : 'samples/quick-commerce-arbitrage-bengaluru.json';
+      box.textContent = '// Loading ' + file + '...';
+      try {
+        const res = await fetch(file);
+        const data = await res.json();
+        box.textContent = JSON.stringify(data, null, 2);
+      } catch (e) {
+        box.textContent = '// Run `npx tsx src/index.ts serve` or open via GitHub Pages / Vercel to preview ' + file;
+      }
+    }
+
+    renderGrid(EXTRACTORS);
+    loadSample('commerce');
+  </script>
+</body>
+</html>

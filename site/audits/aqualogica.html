@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aqualogica — 3-City Quick-Commerce Dark-Store Audit Scorecard | Unscrape Radar</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background-color: #07080d; color: #f3f4f6; font-family: Inter, system-ui, -apple-system, sans-serif; }
+  </style>
+</head>
+<body class="min-h-screen pb-24">
+  <!-- Top Bar -->
+  <header class="border-b border-slate-800 bg-slate-950/90 backdrop-blur sticky top-0 z-20">
+    <div class="max-w-7xl mx-auto px-6 py-3.5 flex items-center justify-between flex-wrap gap-3">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="text-emerald-400 font-black text-lg tracking-tight hover:text-emerald-300">⚡ UNSCRAPE RADAR</a>
+        <span class="text-xs text-slate-500">/</span>
+        <span class="text-sm font-bold text-white">Aqualogica Executive Scorecard</span>
+      </div>
+      <div class="flex items-center gap-2.5 text-xs">
+        <a href="index.html" class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700">← All 56 Brand Audits</a>
+        <button onclick="downloadCsv()" class="px-3.5 py-1.5 rounded-lg bg-emerald-500 text-slate-950 font-bold hover:bg-emerald-400">⬇ Download Raw CSV (38 SKUs)</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-6 pt-8">
+    <!-- Executive Header -->
+    <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 mb-8">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+        <div>
+          <div class="flex items-center gap-2.5 mb-2">
+            <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded bg-slate-800 text-emerald-400">Hydration Sunscreens</span>
+            <span class="text-xs text-slate-400 font-mono">Audited: 2026-10-30</span>
+          </div>
+          <h1 class="text-3xl md:text-4xl font-black text-white tracking-tight">Aqualogica — Hyperlocal Dark-Store Audit</h1>
+          <p class="text-slate-400 text-sm mt-1">
+            Live multi-platform inventory & MOP/MRP price variance scan across <strong>Bengaluru (560001)</strong>, <strong>Mumbai (400001)</strong>, and <strong>Delhi (110001)</strong>.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 shrink-0">
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">SKUs Audited</div>
+            <div class="text-2xl font-black text-white mt-1">38</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">OOS Leaks</div>
+            <div class="text-2xl font-black text-emerald-400 mt-1">0</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">Max Markdown</div>
+            <div class="text-2xl font-black text-amber-300 mt-1">80%</div>
+          </div>
+          <div class="border rounded-xl p-3.5 text-center bg-emerald-500/15 text-emerald-400 border-emerald-500/30">
+            <div class="text-[11px] uppercase font-bold opacity-80">Shelf Health</div>
+            <div class="text-2xl font-black mt-1">100%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="bg-emerald-950/30 border border-emerald-500/30 rounded-2xl p-5 mb-8 flex items-center justify-between flex-wrap gap-3">
+      <div>
+        <span class="px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 font-bold text-xs uppercase">✓ 100% In-Stock Snapshot</span>
+        <span class="text-sm text-slate-200 ml-2">All 38 audited dark-store listings across Bengaluru, Mumbai & Delhi were in stock during this scan. Max discount variance: <strong>80% below MRP</strong>.</span>
+      </div>
+    </div>
+
+    <!-- Filter Controls -->
+    <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+      <div class="flex items-center gap-2 text-xs">
+        <button onclick="filterRows('all')" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-semibold">All SKUs (38)</button>
+        <button onclick="filterRows('oos')" class="px-3 py-1.5 rounded-lg bg-rose-500/15 border border-rose-500/30 text-rose-300 hover:bg-rose-500/25 font-semibold">Out-of-Stock Only (0)</button>
+        <button onclick="filterRows('instock')" class="px-3 py-1.5 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 hover:bg-emerald-500/25 font-semibold">In-Stock (38)</button>
+      </div>
+      <div class="flex items-center gap-2">
+        <input id="skuSearch" type="text" oninput="searchSkus()" placeholder="Filter SKU title or platform..." class="bg-slate-900 border border-slate-800 rounded-lg px-3.5 py-1.5 text-xs text-white w-64" />
+      </div>
+    </div>
+
+    <!-- SKU Table -->
+    <div class="bg-slate-900/50 border border-slate-800 rounded-2xl overflow-x-auto">
+      <table class="w-full text-left text-xs">
+        <thead class="bg-slate-950/90 text-slate-400 uppercase border-b border-slate-800">
+          <tr>
+            <th class="px-4 py-3">SKU Title</th>
+            <th class="px-4 py-3">Platform</th>
+            <th class="px-4 py-3">City / Pin</th>
+            <th class="px-4 py-3">Pack Size</th>
+            <th class="px-4 py-3">Selling Price</th>
+            <th class="px-4 py-3">MRP</th>
+            <th class="px-4 py-3">Discount</th>
+            <th class="px-4 py-3">Stock Status</th>
+            <th class="px-4 py-3">ETA</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-800/60">
+          <tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="aqualogica glow+ dewy sunscreen gel spf 50 pa++++ with papaya &amp; vitamin c | for dry, sensitive, oily &amp; combination skin | uva/b &amp; blue light protection | travel friendly | for men &amp; women | 30g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Aqualogica Glow+ Dewy Sunscreen Gel SPF 50 PA++++ with Papaya &amp; Vitamin C | For Dry, Sensitive, Oily &amp; Combination Skin | UVA/B &amp; Blue Light Protection | Travel Friendly | For Men &amp; Women | 30g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">9.27/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹278</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹299</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">7% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="aqualogica all glow+ dewy sunscreen gel with papaya &amp; vitamin c|broad spectrum spf 50+ pa++++|uva &amp; blue light protection|anti-pollution factor (apf)|brightens skinifragrance-free &amp; no white cast-50 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Aqualogica All Glow+ Dewy Sunscreen Gel With Papaya &amp; Vitamin C|Broad Spectrum Spf 50+ Pa++++|Uva &amp; Blue Light Protection|Anti-Pollution Factor (Apf)|Brightens SkinIFragrance-Free &amp; No White Cast-50 G</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">7.58/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹379</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹449</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">16% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="aqualogica detan+ dewy sunscreen spf 50+ pa++++ with cherry tomato &amp; hyaluronic acid 50g | broad spectrum uva/b &amp; blue light protection | apf tech | removes tan | fragrance-free, no white cast | for detan &amp; even skin">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Aqualogica Detan+ Dewy Sunscreen SPF 50+ PA++++ with Cherry Tomato &amp; Hyaluronic Acid 50g | Broad Spectrum UVA/B &amp; Blue Light Protection | APF Tech | Removes Tan | Fragrance-Free, No White Cast | For Detan &amp; Even Skin</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">7.84/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹392</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹449</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">13% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="aqualogica radiance+ dewy sunscreen gel spf 50+ pa+++ | lightweight texture for oily, combination, acne prone skin | broad spectrum protection | no white cast, non greasy | for men &amp; women | 30g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Aqualogica Radiance+ Dewy Sunscreen Gel SPF 50+ PA+++ | Lightweight texture for oily, combination, acne prone skin | Broad spectrum protection | No white cast, Non greasy | For Men &amp; Women | 30g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">9.27/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹278</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹299</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">7% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="aqualogica radiance+ dewy sunscreen gel spf 50+ pa+++ | lightweight texture for oily, combination, acne prone skin | broad spectrum protection | no white cast, non greasy | for men &amp; women | 50g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Aqualogica Radiance+ Dewy Sunscreen Gel SPF 50+ PA+++ | Lightweight texture for oily, combination, acne prone skin | Broad spectrum protection | No white cast, Non greasy | For Men &amp; Women | 50g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">7.84/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹392</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹449</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">13% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="aqualogica illuminate+ dewy sunscreen gel spf 50+ pa++++ with wild berries &amp; alpha arbutin | broad spectrum spf 50+ pa++++ | uva/b &amp; blue light protection | evens skin tone | fragrance-free &amp; no white cast | for luminous &amp; sun protected skin | 50 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Aqualogica Illuminate+ Dewy Sunscreen Gel SPF 50+ PA++++ with Wild Berries &amp; Alpha Arbutin | Broad Spectrum SPF 50+ PA++++ | UVA/B &amp; Blue Light Protection | Evens Skin Tone | Fragrance-Free &amp; No White Cast | For Luminous &amp; Sun Protected Skin | 50 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">7.84/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹392</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹449</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">13% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="aqualogica glow+ dewy sunscreen gel spf 50 pa++++ with papaya &amp; vitamin c | for dry, sensitive, oily &amp; combination skin | uva/b &amp; blue light protection | travel friendly | for men &amp; women | 30g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Aqualogica Glow+ Dewy Sunscreen Gel SPF 50 PA++++ with Papaya &amp; Vitamin C | For Dry, Sensitive, Oily &amp; Combination Skin | UVA/B &amp; Blue Light Protection | Travel Friendly | For Men &amp; Women | 30g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">9.27/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹278</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹299</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">7% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="aqualogica all glow+ dewy sunscreen gel with papaya &amp; vitamin c|broad spectrum spf 50+ pa++++|uva &amp; blue light protection|anti-pollution factor (apf)|brightens skinifragrance-free &amp; no white cast-50 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Aqualogica All Glow+ Dewy Sunscreen Gel With Papaya &amp; Vitamin C|Broad Spectrum Spf 50+ Pa++++|Uva &amp; Blue Light Protection|Anti-Pollution Factor (Apf)|Brightens SkinIFragrance-Free &amp; No White Cast-50 G</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">7.58/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹379</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹449</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">16% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="aqualogica detan+ dewy sunscreen spf 50+ pa++++ with cherry tomato &amp; hyaluronic acid 50g | broad spectrum uva/b &amp; blue light protection | apf tech | removes tan | fragrance-free, no white cast | for detan &amp; even skin">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Aqualogica Detan+ Dewy Sunscreen SPF 50+ PA++++ with Cherry Tomato &amp; Hyaluronic Acid 50g | Broad Spectrum UVA/B &amp; Blue Light Protection | APF Tech | Removes Tan | Fragrance-Free, No White Cast | For Detan &amp; Even Skin</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">7.84/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹392</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹449</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">13% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="aqualogica radiance+ dewy sunscreen gel spf 50+ pa+++ | lightweight texture for oily, combination, acne prone skin | broad spectrum protection | no white cast, non greasy | for men &amp; women | 30g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Aqualogica Radiance+ Dewy Sunscreen Gel SPF 50+ PA+++ | Lightweight texture for oily, combination, acne prone skin | Broad spectrum protection | No white cast, Non greasy | For Men &amp; Women | 30g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">9.27/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹278</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹299</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">7% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="aqualogica radiance+ dewy sunscreen gel spf 50+ pa+++ | lightweight texture for oily, combination, acne prone skin | broad spectrum protection | no white cast, non greasy | for men &amp; women | 50g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Aqualogica Radiance+ Dewy Sunscreen Gel SPF 50+ PA+++ | Lightweight texture for oily, combination, acne prone skin | Broad spectrum protection | No white cast, Non greasy | For Men &amp; Women | 50g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">7.84/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹392</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹449</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">13% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="aqualogica illuminate+ dewy sunscreen gel spf 50+ pa++++ with wild berries &amp; alpha arbutin | broad spectrum spf 50+ pa++++ | uva/b &amp; blue light protection | evens skin tone | fragrance-free &amp; no white cast | for luminous &amp; sun protected skin | 50 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Aqualogica Illuminate+ Dewy Sunscreen Gel SPF 50+ PA++++ with Wild Berries &amp; Alpha Arbutin | Broad Spectrum SPF 50+ PA++++ | UVA/B &amp; Blue Light Protection | Evens Skin Tone | Fragrance-Free &amp; No White Cast | For Luminous &amp; Sun Protected Skin | 50 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">7.84/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹392</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹449</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">13% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="aqualogica glow+ dewy sunscreen gel spf 50 pa++++ with papaya &amp; vitamin c | for dry, sensitive, oily &amp; combination skin | uva/b &amp; blue light protection | travel friendly | for men &amp; women | 30g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Aqualogica Glow+ Dewy Sunscreen Gel SPF 50 PA++++ with Papaya &amp; Vitamin C | For Dry, Sensitive, Oily &amp; Combination Skin | UVA/B &amp; Blue Light Protection | Travel Friendly | For Men &amp; Women | 30g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">9.27/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹278</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹299</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">7% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="aqualogica all glow+ dewy sunscreen gel with papaya &amp; vitamin c|broad spectrum spf 50+ pa++++|uva &amp; blue light protection|anti-pollution factor (apf)|brightens skinifragrance-free &amp; no white cast-50 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Aqualogica All Glow+ Dewy Sunscreen Gel With Papaya &amp; Vitamin C|Broad Spectrum Spf 50+ Pa++++|Uva &amp; Blue Light Protection|Anti-Pollution Factor (Apf)|Brightens SkinIFragrance-Free &amp; No White Cast-50 G</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">7.58/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹379</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹449</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">16% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="aqualogica detan+ dewy sunscreen spf 50+ pa++++ with cherry tomato &amp; hyaluronic acid 50g | broad spectrum uva/b &amp; blue light protection | apf tech | removes tan | fragrance-free, no white cast | for detan &amp; even skin">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Aqualogica Detan+ Dewy Sunscreen SPF 50+ PA++++ with Cherry Tomato &amp; Hyaluronic Acid 50g | Broad Spectrum UVA/B &amp; Blue Light Protection | APF Tech | Removes Tan | Fragrance-Free, No White Cast | For Detan &amp; Even Skin</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">7.84/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹392</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹449</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">13% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="aqualogica radiance+ dewy sunscreen gel spf 50+ pa+++ | lightweight texture for oily, combination, acne prone skin | broad spectrum protection | no white cast, non greasy | for men &amp; women | 30g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Aqualogica Radiance+ Dewy Sunscreen Gel SPF 50+ PA+++ | Lightweight texture for oily, combination, acne prone skin | Broad spectrum protection | No white cast, Non greasy | For Men &amp; Women | 30g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">9.27/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹278</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹299</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">7% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="aqualogica radiance+ dewy sunscreen gel spf 50+ pa+++ | lightweight texture for oily, combination, acne prone skin | broad spectrum protection | no white cast, non greasy | for men &amp; women | 50g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Aqualogica Radiance+ Dewy Sunscreen Gel SPF 50+ PA+++ | Lightweight texture for oily, combination, acne prone skin | Broad spectrum protection | No white cast, Non greasy | For Men &amp; Women | 50g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">7.84/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹392</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹449</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">13% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="aqualogica illuminate+ dewy sunscreen gel spf 50+ pa++++ with wild berries &amp; alpha arbutin | broad spectrum spf 50+ pa++++ | uva/b &amp; blue light protection | evens skin tone | fragrance-free &amp; no white cast | for luminous &amp; sun protected skin | 50 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Aqualogica Illuminate+ Dewy Sunscreen Gel SPF 50+ PA++++ with Wild Berries &amp; Alpha Arbutin | Broad Spectrum SPF 50+ PA++++ | UVA/B &amp; Blue Light Protection | Evens Skin Tone | Fragrance-Free &amp; No White Cast | For Luminous &amp; Sun Protected Skin | 50 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">7.84/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹392</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹449</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">13% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="dot &amp; key sunscreen - spf 50+ pa++++ dragon fruit bounce sunscreen in-vivo tested">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dot &amp; Key Sunscreen - SPF 50+ PA++++ Dragon Fruit Bounce Sunscreen In-Vivo Tested</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹263</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹299</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">12% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="dot &amp; key sunscreen - spf 50 pa++++ watermelon cooling sunscreen, in-vivo tested with hyaluronic">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dot &amp; Key Sunscreen - SPF 50 PA++++ Watermelon cooling Sunscreen, In-Vivo Tested With Hyaluronic</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹387</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹445</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">13% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="aqualogica sunscreen - spf 50+ pa++++ glow+ dewy lightweight &amp; hydrating travel-friendly uva/b &amp; blue light protection">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Aqualogica Sunscreen - SPF 50+ PA++++ Glow+ Dewy Lightweight &amp; Hydrating Travel-Friendly UVA/B &amp; Blue Light Protection</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹265</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹299</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">11% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="aqualogica sunscreen - spf 50 pa++++ glow+ dewy sunscreen with spf 50 for uva/b &amp; blue light protection">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Aqualogica Sunscreen - SPF 50 PA++++ Glow+ Dewy Sunscreen with SPF 50 for UVA/B &amp; Blue Light Protection</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹367</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹449</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">18% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="aqualogica sunscreen - spf 50+ pa++++ illuminate+ dewy with wild berries &amp; alpha arbutin | fragrance-free">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Aqualogica Sunscreen - SPF 50+ PA++++ Illuminate+ Dewy with Wild Berries &amp; Alpha Arbutin | Fragrance-Free</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹342</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹449</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">24% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="aqualogica sunscreen - spf 50 pa+++ radiance+ dewy sunscreen with watermelon &amp; niacinamide| lightweight &amp; non-sticky">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Aqualogica Sunscreen - SPF 50 PA+++ Radiance+ Dewy Sunscreen with Watermelon &amp; Niacinamide| Lightweight &amp; Non-Sticky</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹243</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹299</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">19% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="aqualogica glow+ dewy sunscreen spf 50+ pa++++ with anti pollution factor (apf) | papaya &amp; vitamin c | tested on genz">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Aqualogica Glow+ Dewy Sunscreen SPF 50+ PA++++ with Anti Pollution Factor (APF) | Papaya &amp; Vitamin C | Tested On GenZ</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (50 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹399</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹449</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">11% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="foxtale glow sunscreen spf50 pa++++ in-vivo tested">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Foxtale Glow Sunscreen SPF50 PA++++ In-Vivo Tested</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (50 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹300</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹375</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="aqualogica glow+ dewy sunscreen spf 50+ pa++++ with anti pollution factor (apf) | papaya &amp; vitamin c | tested on genz">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Aqualogica Glow+ Dewy Sunscreen SPF 50+ PA++++ with Anti Pollution Factor (APF) | Papaya &amp; Vitamin C | Tested On GenZ</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (80 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹449</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹599</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">25% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="dot &amp; key vitamin c + e face sunscreen spf 50 pa+++ for glowing skin, 100% no white cast">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dot &amp; Key Vitamin C + E Face Sunscreen SPF 50 PA+++ For Glowing Skin, 100% No White Cast</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (50 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹387</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹445</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">13% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="aqualogica radiance+ dewy lightweight sunscreen gel spf 50+ pa+++ for oily &amp; acne-prone skin | tested on genz">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Aqualogica Radiance+ Dewy Lightweight Sunscreen Gel SPF 50+ PA+++ for Oily &amp; Acne-Prone Skin | Tested On GenZ</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (50 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹399</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹449</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">11% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="hyphen all i need sunscreen spf 50 pa ++++ | lightweight sun cream">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Hyphen All I Need Sunscreen SPF 50 PA ++++ | Lightweight Sun Cream</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (50 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹422</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹449</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">6% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="neutrogena ultra sheer dry touch spf 50+ sunblock sunscreen lotion">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Neutrogena Ultra Sheer Dry Touch SPF 50+ Sunblock Sunscreen Lotion</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">30 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹284</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹299</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="uv doux - silicone sunscreen gel">
+        <td class="px-4 py-3 font-medium text-white max-w-md">UV Doux - Silicone Sunscreen Gel</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (50 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹635</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹845</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">25% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="strawberry dew spf 50 sunscreen air light | spf 50 pa+++ in-vivo tested | broad spectrum | uva / uvb rays protection | with hyaluronic &amp; ceramide for hydration &amp; skin barrier | mess free &amp; no white cast |20g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Strawberry Dew SPF 50 Sunscreen Air Light | SPF 50 PA+++ In-Vivo Tested | Broad Spectrum | UVA / UVB Rays Protection | With Hyaluronic &amp; Ceramide for Hydration &amp; Skin Barrier | Mess Free &amp; No White Cast |20g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">20g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹499</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹2495</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">80% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="lakme sunscreen for bright skin, spf 50 pa++++, water light, niacinamide, in vivo tested, 50 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Lakme Sunscreen for Bright Skin, SPF 50 PA++++, Water Light, Niacinamide, in Vivo Tested, 50 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">50 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹194</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹388</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="lakmē water light gel in-vivo tested spf 50 pa++++ sunscreen with niacinamide for oily skin 50g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Lakmē Water Light Gel in-Vivo Tested SPF 50 PA++++ Sunscreen with Niacinamide for Oily Skin 50g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">50g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹202</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹404</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="strawberry dew tinted sunscreen in-vivo tested spf 50+ pa++++ with new-age uv filters, brightens &amp; protects skin, ultra-light, with niacinamide, natural finish, non-sticky|50ml|02-warm ivory">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Strawberry Dew Tinted Sunscreen In-Vivo Tested SPF 50+ PA++++ With New-Age UV Filters, Brightens &amp; Protects Skin, Ultra-light, With Niacinamide, Natural Finish, Non-Sticky|50ml|02-Warm Ivory</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">50ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹489</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹978</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="reflect care sunscreen spf 50 pa++++ for men-50g | hydrating formula">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Reflect Care Sunscreen SPF 50 PA++++ for Men-50g | Hydrating Formula</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">50g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹399</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹798</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Fri, 6 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="glow+ dewy gel sunscreen - 80 g | spf 50+ pa++++ | in-vivo tested | new-age filters | 12-hour* sun protection | tan protection | for bright &amp; hydrated skin | fragrance-free &amp; no white cast | c-hyaluron complex™ &amp; papaya | broad spectrum uva/b &amp; blue light protection | lightweight | for men &amp; women">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Glow+ Dewy Gel Sunscreen - 80 g | SPF 50+ PA++++ | In-Vivo Tested | New-age Filters | 12-Hour* Sun Protection | Tan Protection | For Bright &amp; Hydrated Skin | Fragrance-Free &amp; No White Cast | C-Hyaluron Complex™ &amp; Papaya | Broad Spectrum UVA/B &amp; Blue Light Protection | Lightweight | For Men &amp; Women</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">80 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹479</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹598.75</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Wed, 4 Nov</td>
+      </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- Sticky CTA Footer -->
+  <div class="fixed bottom-0 inset-x-0 bg-slate-950/95 border-t border-emerald-500/30 backdrop-blur px-6 py-3.5 z-30">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+      <div class="text-slate-200">
+        <span class="text-emerald-400 font-bold">⚡ Unscrape Radar:</span> Want real-time Slack/WhatsApp/Telegram alerts within 15 mins whenever <strong>Aqualogica</strong> SKUs go Out-of-Stock across 20 BLR/MUM/DEL dark-store pin codes?
+      </div>
+      <div class="flex items-center gap-2.5 shrink-0">
+        <a href="https://github.com/deveshkolte/unscrape" target="_blank" class="px-4 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold">Unlock Automated 20-Pin-Code Monitor →</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const RAW_CSV = "brand,city,pincode,platform,skuId,title,sellingPriceInr,mrpInr,discountPercent,unit,inStock,deliveryEta,url\nAqualogica,Bengaluru,560001,bigbasket.com/jiomart,50782372,\"Aqualogica Glow+ Dewy Sunscreen Gel SPF 50 PA++++ with Papaya & Vitamin C | For Dry, Sensitive, Oily & Combination Skin | UVA/B & Blue Light Protection | Travel Friendly | For Men & Women | 30g\",278,299,7,9.27/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/aqualogica-glow-dewy-sunscreen-gel-spf-50-pa-with-papaya-vitamin-c-for-dry-sensitive-oily-combination-skin-uva-b-blue-light-protection-travel-friendly-for-men-women-30g-mj75az-50782372/50782372\nAqualogica,Bengaluru,560001,bigbasket.com/jiomart,50881157,Aqualogica All Glow+ Dewy Sunscreen Gel With Papaya & Vitamin C|Broad Spectrum Spf 50+ Pa++++|Uva & Blue Light Protection|Anti-Pollution Factor (Apf)|Brightens SkinIFragrance-Free & No White Cast-50 G,379,449,16,7.58/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/aqualogica-all-glow-dewy-sunscreen-gel-with-papaya-vitamin-c-broad-spectrum-spf-50-pa-uva-blue-light-protection-anti-pollution-factor-apf-brightens-skinifragrance-free-no-white-cast-50-g-mj76et-50881157/50881157\nAqualogica,Bengaluru,560001,bigbasket.com/jiomart,50756480,\"Aqualogica Detan+ Dewy Sunscreen SPF 50+ PA++++ with Cherry Tomato & Hyaluronic Acid 50g | Broad Spectrum UVA/B & Blue Light Protection | APF Tech | Removes Tan | Fragrance-Free, No White Cast | For Detan & Even Skin\",392,449,13,7.84/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/aqualogica-detan-dewy-sunscreen-spf-50-pa-with-cherry-tomato-hyaluronic-acid-50g-broad-spectrum-uva-b-blue-light-protection-apf-tech-removes-tan-fragrance-free-no-white-cast-for-detan-even-skin-mj755o-50756480/50756480\nAqualogica,Bengaluru,560001,bigbasket.com/jiomart,50879732,\"Aqualogica Radiance+ Dewy Sunscreen Gel SPF 50+ PA+++ | Lightweight texture for oily, combination, acne prone skin | Broad spectrum protection | No white cast, Non greasy | For Men & Women | 30g\",278,299,7,9.27/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/aqualogica-radiance-dewy-sunscreen-gel-spf-50-pa-lightweight-texture-for-oily-combination-acne-prone-skin-broad-spectrum-protection-no-white-cast-non-greasy-for-men-women-30g-mj76e5-50879732/50879732\nAqualogica,Bengaluru,560001,bigbasket.com/jiomart,50763325,\"Aqualogica Radiance+ Dewy Sunscreen Gel SPF 50+ PA+++ | Lightweight texture for oily, combination, acne prone skin | Broad spectrum protection | No white cast, Non greasy | For Men & Women | 50g\",392,449,13,7.84/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/aqualogica-radiance-dewy-sunscreen-gel-spf-50-pa-lightweight-texture-for-oily-combination-acne-prone-skin-broad-spectrum-protection-no-white-cast-non-greasy-for-men-women-50g-mj756y-50763325/50763325\nAqualogica,Bengaluru,560001,bigbasket.com/jiomart,50759754,Aqualogica Illuminate+ Dewy Sunscreen Gel SPF 50+ PA++++ with Wild Berries & Alpha Arbutin | Broad Spectrum SPF 50+ PA++++ | UVA/B & Blue Light Protection | Evens Skin Tone | Fragrance-Free & No White Cast | For Luminous & Sun Protected Skin | 50 g,392,449,13,7.84/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/aqualogica-illuminate-dewy-sunscreen-gel-spf-50-pa-with-wild-berries-alpha-arbutin-broad-spectrum-spf-50-pa-uva-b-blue-light-protection-evens-skin-tone-fragrance-free-no-white-cast-for-luminous-sun-protected-skin-50-g-mj7567-50759754/50759754\nAqualogica,Mumbai,400001,bigbasket.com/jiomart,50782372,\"Aqualogica Glow+ Dewy Sunscreen Gel SPF 50 PA++++ with Papaya & Vitamin C | For Dry, Sensitive, Oily & Combination Skin | UVA/B & Blue Light Protection | Travel Friendly | For Men & Women | 30g\",278,299,7,9.27/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/aqualogica-glow-dewy-sunscreen-gel-spf-50-pa-with-papaya-vitamin-c-for-dry-sensitive-oily-combination-skin-uva-b-blue-light-protection-travel-friendly-for-men-women-30g-mj75az-50782372/50782372\nAqualogica,Mumbai,400001,bigbasket.com/jiomart,50881157,Aqualogica All Glow+ Dewy Sunscreen Gel With Papaya & Vitamin C|Broad Spectrum Spf 50+ Pa++++|Uva & Blue Light Protection|Anti-Pollution Factor (Apf)|Brightens SkinIFragrance-Free & No White Cast-50 G,379,449,16,7.58/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/aqualogica-all-glow-dewy-sunscreen-gel-with-papaya-vitamin-c-broad-spectrum-spf-50-pa-uva-blue-light-protection-anti-pollution-factor-apf-brightens-skinifragrance-free-no-white-cast-50-g-mj76et-50881157/50881157\nAqualogica,Mumbai,400001,bigbasket.com/jiomart,50756480,\"Aqualogica Detan+ Dewy Sunscreen SPF 50+ PA++++ with Cherry Tomato & Hyaluronic Acid 50g | Broad Spectrum UVA/B & Blue Light Protection | APF Tech | Removes Tan | Fragrance-Free, No White Cast | For Detan & Even Skin\",392,449,13,7.84/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/aqualogica-detan-dewy-sunscreen-spf-50-pa-with-cherry-tomato-hyaluronic-acid-50g-broad-spectrum-uva-b-blue-light-protection-apf-tech-removes-tan-fragrance-free-no-white-cast-for-detan-even-skin-mj755o-50756480/50756480\nAqualogica,Mumbai,400001,bigbasket.com/jiomart,50879732,\"Aqualogica Radiance+ Dewy Sunscreen Gel SPF 50+ PA+++ | Lightweight texture for oily, combination, acne prone skin | Broad spectrum protection | No white cast, Non greasy | For Men & Women | 30g\",278,299,7,9.27/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/aqualogica-radiance-dewy-sunscreen-gel-spf-50-pa-lightweight-texture-for-oily-combination-acne-prone-skin-broad-spectrum-protection-no-white-cast-non-greasy-for-men-women-30g-mj76e5-50879732/50879732\nAqualogica,Mumbai,400001,bigbasket.com/jiomart,50763325,\"Aqualogica Radiance+ Dewy Sunscreen Gel SPF 50+ PA+++ | Lightweight texture for oily, combination, acne prone skin | Broad spectrum protection | No white cast, Non greasy | For Men & Women | 50g\",392,449,13,7.84/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/aqualogica-radiance-dewy-sunscreen-gel-spf-50-pa-lightweight-texture-for-oily-combination-acne-prone-skin-broad-spectrum-protection-no-white-cast-non-greasy-for-men-women-50g-mj756y-50763325/50763325\nAqualogica,Mumbai,400001,bigbasket.com/jiomart,50759754,Aqualogica Illuminate+ Dewy Sunscreen Gel SPF 50+ PA++++ with Wild Berries & Alpha Arbutin | Broad Spectrum SPF 50+ PA++++ | UVA/B & Blue Light Protection | Evens Skin Tone | Fragrance-Free & No White Cast | For Luminous & Sun Protected Skin | 50 g,392,449,13,7.84/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/aqualogica-illuminate-dewy-sunscreen-gel-spf-50-pa-with-wild-berries-alpha-arbutin-broad-spectrum-spf-50-pa-uva-b-blue-light-protection-evens-skin-tone-fragrance-free-no-white-cast-for-luminous-sun-protected-skin-50-g-mj7567-50759754/50759754\nAqualogica,Delhi,110001,bigbasket.com/jiomart,50782372,\"Aqualogica Glow+ Dewy Sunscreen Gel SPF 50 PA++++ with Papaya & Vitamin C | For Dry, Sensitive, Oily & Combination Skin | UVA/B & Blue Light Protection | Travel Friendly | For Men & Women | 30g\",278,299,7,9.27/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/aqualogica-glow-dewy-sunscreen-gel-spf-50-pa-with-papaya-vitamin-c-for-dry-sensitive-oily-combination-skin-uva-b-blue-light-protection-travel-friendly-for-men-women-30g-mj75az-50782372/50782372\nAqualogica,Delhi,110001,bigbasket.com/jiomart,50881157,Aqualogica All Glow+ Dewy Sunscreen Gel With Papaya & Vitamin C|Broad Spectrum Spf 50+ Pa++++|Uva & Blue Light Protection|Anti-Pollution Factor (Apf)|Brightens SkinIFragrance-Free & No White Cast-50 G,379,449,16,7.58/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/aqualogica-all-glow-dewy-sunscreen-gel-with-papaya-vitamin-c-broad-spectrum-spf-50-pa-uva-blue-light-protection-anti-pollution-factor-apf-brightens-skinifragrance-free-no-white-cast-50-g-mj76et-50881157/50881157\nAqualogica,Delhi,110001,bigbasket.com/jiomart,50756480,\"Aqualogica Detan+ Dewy Sunscreen SPF 50+ PA++++ with Cherry Tomato & Hyaluronic Acid 50g | Broad Spectrum UVA/B & Blue Light Protection | APF Tech | Removes Tan | Fragrance-Free, No White Cast | For Detan & Even Skin\",392,449,13,7.84/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/aqualogica-detan-dewy-sunscreen-spf-50-pa-with-cherry-tomato-hyaluronic-acid-50g-broad-spectrum-uva-b-blue-light-protection-apf-tech-removes-tan-fragrance-free-no-white-cast-for-detan-even-skin-mj755o-50756480/50756480\nAqualogica,Delhi,110001,bigbasket.com/jiomart,50879732,\"Aqualogica Radiance+ Dewy Sunscreen Gel SPF 50+ PA+++ | Lightweight texture for oily, combination, acne prone skin | Broad spectrum protection | No white cast, Non greasy | For Men & Women | 30g\",278,299,7,9.27/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/aqualogica-radiance-dewy-sunscreen-gel-spf-50-pa-lightweight-texture-for-oily-combination-acne-prone-skin-broad-spectrum-protection-no-white-cast-non-greasy-for-men-women-30g-mj76e5-50879732/50879732\nAqualogica,Delhi,110001,bigbasket.com/jiomart,50763325,\"Aqualogica Radiance+ Dewy Sunscreen Gel SPF 50+ PA+++ | Lightweight texture for oily, combination, acne prone skin | Broad spectrum protection | No white cast, Non greasy | For Men & Women | 50g\",392,449,13,7.84/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/aqualogica-radiance-dewy-sunscreen-gel-spf-50-pa-lightweight-texture-for-oily-combination-acne-prone-skin-broad-spectrum-protection-no-white-cast-non-greasy-for-men-women-50g-mj756y-50763325/50763325\nAqualogica,Delhi,110001,bigbasket.com/jiomart,50759754,Aqualogica Illuminate+ Dewy Sunscreen Gel SPF 50+ PA++++ with Wild Berries & Alpha Arbutin | Broad Spectrum SPF 50+ PA++++ | UVA/B & Blue Light Protection | Evens Skin Tone | Fragrance-Free & No White Cast | For Luminous & Sun Protected Skin | 50 g,392,449,13,7.84/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/aqualogica-illuminate-dewy-sunscreen-gel-spf-50-pa-with-wild-berries-alpha-arbutin-broad-spectrum-spf-50-pa-uva-b-blue-light-protection-evens-skin-tone-fragrance-free-no-white-cast-for-luminous-sun-protected-skin-50-g-mj7567-50759754/50759754\nAqualogica,Bengaluru,560001,flipkart.com,SNRHR8UGQVGPFWMD,Dot & Key Sunscreen - SPF 50+ PA++++ Dragon Fruit Bounce Sunscreen In-Vivo Tested,263,299,12,1 unit,true,15 MINS,https://www.flipkart.com/dot-key-sunscreen-spf-50-pa-dragon-fruit-bounce-in-vivo-tested/p/itm50ab10221b55d?pid=SNRHR8UGQVGPFWMD&lid=LSTSNRHR8UGQVGPFWMDHQGYKA&marketplace=FLIPKART&q=aqualogica+sunscreen&store=g9b%2Fema%2F5la%2Fxrh&srno=s_1_1&otracker=search&fm=organic&iid=en_D5gybwraRAmZpZR0NTK3bN00QTNBxUNCosf6yme-dt_XQbuNMAP7eh_PE1ioEabpgPn11zSe4YYScl8KrV3UVFbBbHUtAIcO3H6AGyIEr4vJg2hRNxGZhznflBb5_Kdw&ppt=None&ppn=None&ssid=zshtg7nef40000001793387332597&qH=0a93a395b5dbad27&ov_redirect=true&ov_redirect=true\nAqualogica,Bengaluru,560001,flipkart.com,SNRGH4YBDDVGMJ9N,\"Dot & Key Sunscreen - SPF 50 PA++++ Watermelon cooling Sunscreen, In-Vivo Tested With Hyaluronic\",387,445,13,1 unit,true,15 MINS,https://www.flipkart.com/dot-key-sunscreen-spf-50-pa-watermelon-cooling-sunscreen-in-vivo-tested-hyaluronic/p/itm1aa93a315ff03?pid=SNRGH4YBDDVGMJ9N&lid=LSTSNRGH4YBDDVGMJ9NBAYMPQ&marketplace=FLIPKART&q=aqualogica+sunscreen&store=g9b%2Fema%2F5la%2Fxrh&srno=s_1_2&otracker=search&fm=organic&iid=en_D5gybwraRAmZpZR0NTK3bN00QTNBxUNCosf6yme-dt9MRziCu5CVZIzIR6DsWAtWwIcPiZZ00Px-rWzSwq_E4oHBehcFrvSwsTmA0CX2IoHJg2hRNxGZhznflBb5_Kdw&ppt=None&ppn=None&ssid=zshtg7nef40000001793387332597&qH=0a93a395b5dbad27&ov_redirect=true&ov_redirect=true\nAqualogica,Bengaluru,560001,flipkart.com,SNRHYY5FZBAV594R,Aqualogica Sunscreen - SPF 50+ PA++++ Glow+ Dewy Lightweight & Hydrating Travel-Friendly UVA/B & Blue Light Protection,265,299,11,1 unit,true,15 MINS,https://www.flipkart.com/aqualogica-sunscreen-spf-50-pa-glow-dewy-lightweight-hydrating-travel-friendly-uva-b-blue-light-protection/p/itm91cd525411103?pid=SNRHYY5FZBAV594R&lid=LSTSNRHYY5FZBAV594REURSWN&marketplace=FLIPKART&q=aqualogica+sunscreen&store=g9b%2Fema%2F5la%2Fxrh&srno=s_1_3&otracker=search&fm=organic&iid=05571817-fcba-49dc-98cc-ae1faa84f202.SNRHYY5FZBAV594R.SEARCH&ppt=None&ppn=None&ssid=zshtg7nef40000001793387332597&qH=0a93a395b5dbad27&ov_redirect=true&ov_redirect=true\nAqualogica,Bengaluru,560001,flipkart.com,SNRGCG2ZCRWQFHUY,Aqualogica Sunscreen - SPF 50 PA++++ Glow+ Dewy Sunscreen with SPF 50 for UVA/B & Blue Light Protection,367,449,18,1 unit,true,15 MINS,https://www.flipkart.com/aqualogica-sunscreen-spf-50-pa-glow-dewy-uva-b-blue-light-protection/p/itm10498a64f4bfa?pid=SNRGCG2ZCRWQFHUY&lid=LSTSNRGCG2ZCRWQFHUY7OQIJ2&marketplace=FLIPKART&q=aqualogica+sunscreen&store=g9b%2Fema%2F5la%2Fxrh&srno=s_1_4&otracker=search&fm=organic&iid=05571817-fcba-49dc-98cc-ae1faa84f202.SNRGCG2ZCRWQFHUY.SEARCH&ppt=None&ppn=None&ssid=zshtg7nef40000001793387332597&qH=0a93a395b5dbad27&ov_redirect=true&ov_redirect=true\nAqualogica,Bengaluru,560001,flipkart.com,SNRGVVUHH5K6SBYT,Aqualogica Sunscreen - SPF 50+ PA++++ Illuminate+ Dewy with Wild Berries & Alpha Arbutin | Fragrance-Free,342,449,24,1 unit,true,15 MINS,https://www.flipkart.com/aqualogica-sunscreen-spf-50-pa-illuminate-dewy-wild-berries-alpha-arbutin-fragrance-free/p/itm5235dcd5b5b21?pid=SNRGVVUHH5K6SBYT&lid=LSTSNRGVVUHH5K6SBYTWX5Z9K&marketplace=FLIPKART&q=aqualogica+sunscreen&store=g9b%2Fema%2F5la%2Fxrh&srno=s_1_5&otracker=search&fm=organic&iid=05571817-fcba-49dc-98cc-ae1faa84f202.SNRGVVUHH5K6SBYT.SEARCH&ppt=None&ppn=None&ssid=zshtg7nef40000001793387332597&qH=0a93a395b5dbad27&ov_redirect=true&ov_redirect=true\nAqualogica,Bengaluru,560001,flipkart.com,SNRHYAU49GQXBKJA,Aqualogica Sunscreen - SPF 50 PA+++ Radiance+ Dewy Sunscreen with Watermelon & Niacinamide| Lightweight & Non-Sticky,243,299,19,1 unit,true,15 MINS,https://www.flipkart.com/aqualogica-sunscreen-spf-50-pa-radiance-dewy-watermelon-niacinamide-lightweight-non-sticky/p/itm58797e494df50?pid=SNRHYAU49GQXBKJA&lid=LSTSNRHYAU49GQXBKJASJWE0W&marketplace=FLIPKART&q=aqualogica+sunscreen&store=g9b%2Fema%2F5la%2Fxrh&srno=s_1_6&otracker=search&fm=organic&iid=05571817-fcba-49dc-98cc-ae1faa84f202.SNRHYAU49GQXBKJA.SEARCH&ppt=None&ppn=None&ssid=zshtg7nef40000001793387332597&qH=0a93a395b5dbad27&ov_redirect=true&ov_redirect=true\nAqualogica,Bengaluru,560001,zeptonow.com,9ad59d4f-eaac-5741-a4ec-58cd6d71f70e,Aqualogica Glow+ Dewy Sunscreen SPF 50+ PA++++ with Anti Pollution Factor (APF) | Papaya & Vitamin C | Tested On GenZ,399,449,11,1 pc (50 g),true,10 MINS,https://www.zepto.com/pn/aqualogica-glow-dewy-sunscreen-spf-50-pa-with-anti-pollution-factor-apf-papaya-vitamin-c-tested-on-genz/pvid/1d29cb46-97ad-451d-9679-a5c8810d138a\nAqualogica,Bengaluru,560001,zeptonow.com,c4199c12-0e1b-5314-8e4b-b5cf98d4cf92,Foxtale Glow Sunscreen SPF50 PA++++ In-Vivo Tested,300,375,20,1 pc (50 ml),true,10 MINS,https://www.zepto.com/pn/foxtale-glow-sunscreen-spf50-pa-in-vivo-tested/pvid/d9ad7dd7-344e-4d55-8dce-4b78e17e8a56\nAqualogica,Bengaluru,560001,zeptonow.com,08bd72e6-3d5d-5495-84d4-37126599110e,Aqualogica Glow+ Dewy Sunscreen SPF 50+ PA++++ with Anti Pollution Factor (APF) | Papaya & Vitamin C | Tested On GenZ,449,599,25,1 pc (80 g),true,10 MINS,https://www.zepto.com/pn/aqualogica-glow-dewy-sunscreen-spf-50-pa-with-anti-pollution-factor-apf-papaya-vitamin-c-tested-on-genz/pvid/20beff8c-65db-47ea-af01-7cb27ea37f40\nAqualogica,Bengaluru,560001,zeptonow.com,668d0cf8-47f5-507d-93e2-421b505a1f54,\"Dot & Key Vitamin C + E Face Sunscreen SPF 50 PA+++ For Glowing Skin, 100% No White Cast\",387,445,13,1 pc (50 g),true,10 MINS,https://www.zepto.com/pn/dot-key-vitamin-c-e-face-sunscreen-spf-50-pa-for-glowing-skin-100-no-white-cast/pvid/f815ae04-2bbf-4c33-91fe-57db3c9eb735\nAqualogica,Bengaluru,560001,zeptonow.com,1f473f30-9809-58e0-a21d-36d4d0aa5c4b,Aqualogica Radiance+ Dewy Lightweight Sunscreen Gel SPF 50+ PA+++ for Oily & Acne-Prone Skin | Tested On GenZ,399,449,11,1 pc (50 g),true,10 MINS,https://www.zepto.com/pn/aqualogica-radiance-dewy-lightweight-sunscreen-gel-spf-50-pa-for-oily-acne-prone-skin-tested-on-genz/pvid/319cbab1-e594-41f2-9cba-b872108af740\nAqualogica,Bengaluru,560001,zeptonow.com,6083654b-f7b8-5801-a9a0-24c8e06e787c,Hyphen All I Need Sunscreen SPF 50 PA ++++ | Lightweight Sun Cream,422,449,6,1 pc (50 ml),true,10 MINS,https://www.zepto.com/pn/hyphen-all-i-need-sunscreen-spf-50-pa-lightweight-sun-cream/pvid/c3f1dd6f-8193-4e09-ac41-f4cd14f190dd\nAqualogica,Bengaluru,560001,zeptonow.com,49cee313-0252-5ec4-b56d-0f95318fc570,Neutrogena Ultra Sheer Dry Touch SPF 50+ Sunblock Sunscreen Lotion,284,299,5,30 g,true,10 MINS,https://www.zepto.com/pn/neutrogena-ultra-sheer-dry-touch-spf-50-sunblock-sunscreen-lotion/pvid/5fc5c9b5-4657-4411-be5e-98e78350899f\nAqualogica,Bengaluru,560001,zeptonow.com,8cbf4f5b-4713-5223-9b21-5248298aeceb,UV Doux - Silicone Sunscreen Gel,635,845,25,1 pc (50 g),true,10 MINS,https://www.zepto.com/pn/uv-doux-silicone-sunscreen-gel/pvid/445f9fce-3683-4f44-b81d-454e3ed980ed\nAqualogica,Bengaluru,560001,amazon.in,B0CDX9LJM2,Strawberry Dew SPF 50 Sunscreen Air Light | SPF 50 PA+++ In-Vivo Tested | Broad Spectrum | UVA / UVB Rays Protection | With Hyaluronic & Ceramide for Hydration & Skin Barrier | Mess Free & No White Cast |20g,499,2495,80,20g,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0CDX9LJM2\nAqualogica,Bengaluru,560001,amazon.in,B06WRQQXF5,\"Lakme Sunscreen for Bright Skin, SPF 50 PA++++, Water Light, Niacinamide, in Vivo Tested, 50 ml\",194,388,50,50 ml,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B06WRQQXF5\nAqualogica,Bengaluru,560001,amazon.in,B0744R95BT,Lakmē Water Light Gel in-Vivo Tested SPF 50 PA++++ Sunscreen with Niacinamide for Oily Skin 50g,202,404,50,50g,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0744R95BT\nAqualogica,Bengaluru,560001,amazon.in,B0DFWFDDD1,\"Strawberry Dew Tinted Sunscreen In-Vivo Tested SPF 50+ PA++++ With New-Age UV Filters, Brightens & Protects Skin, Ultra-light, With Niacinamide, Natural Finish, Non-Sticky|50ml|02-Warm Ivory\",489,978,50,50ml,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0DFWFDDD1\nAqualogica,Bengaluru,560001,amazon.in,B0G4CJTH2G,Reflect Care Sunscreen SPF 50 PA++++ for Men-50g | Hydrating Formula,399,798,50,50g,true,\"Fri, 6 Nov\",https://www.amazon.in/dp/B0G4CJTH2G\nAqualogica,Bengaluru,560001,amazon.in,B0BY8THNP2,Glow+ Dewy Gel Sunscreen - 80 g | SPF 50+ PA++++ | In-Vivo Tested | New-age Filters | 12-Hour* Sun Protection | Tan Protection | For Bright & Hydrated Skin | Fragrance-Free & No White Cast | C-Hyaluron Complex™ & Papaya | Broad Spectrum UVA/B & Blue Light Protection | Lightweight | For Men & Women,479,598.75,20,80 g,true,\"Wed, 4 Nov\",https://www.amazon.in/dp/B0BY8THNP2\n";
+
+    function filterRows(mode) {
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const stock = row.getAttribute('data-stock');
+        if (mode === 'all') row.style.display = '';
+        else if (mode === 'oos') row.style.display = stock === 'oos' ? '' : 'none';
+        else if (mode === 'instock') row.style.display = stock === 'instock' ? '' : 'none';
+      });
+    }
+
+    function searchSkus() {
+      const q = document.getElementById('skuSearch').value.toLowerCase();
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const title = row.getAttribute('data-title') || '';
+        const platform = (row.getAttribute('data-platform') || '').toLowerCase();
+        row.style.display = (title.includes(q) || platform.includes(q)) ? '' : 'none';
+      });
+    }
+
+    function downloadCsv() {
+      const blob = new Blob([RAW_CSV], { type: 'text/csv;charset=utf-8;' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'aqualogica-3city-audit.csv';
+      a.click();
+    }
+  </script>
+</body>
+</html>

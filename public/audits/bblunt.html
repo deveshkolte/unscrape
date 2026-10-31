@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BBlunt — 3-City Quick-Commerce Dark-Store Audit Scorecard | Unscrape Radar</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background-color: #07080d; color: #f3f4f6; font-family: Inter, system-ui, -apple-system, sans-serif; }
+  </style>
+</head>
+<body class="min-h-screen pb-24">
+  <!-- Top Bar -->
+  <header class="border-b border-slate-800 bg-slate-950/90 backdrop-blur sticky top-0 z-20">
+    <div class="max-w-7xl mx-auto px-6 py-3.5 flex items-center justify-between flex-wrap gap-3">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="text-emerald-400 font-black text-lg tracking-tight hover:text-emerald-300">⚡ UNSCRAPE RADAR</a>
+        <span class="text-xs text-slate-500">/</span>
+        <span class="text-sm font-bold text-white">BBlunt Executive Scorecard</span>
+      </div>
+      <div class="flex items-center gap-2.5 text-xs">
+        <a href="index.html" class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700">← All 56 Brand Audits</a>
+        <button onclick="downloadCsv()" class="px-3.5 py-1.5 rounded-lg bg-emerald-500 text-slate-950 font-bold hover:bg-emerald-400">⬇ Download Raw CSV (38 SKUs)</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-6 pt-8">
+    <!-- Executive Header -->
+    <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 mb-8">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+        <div>
+          <div class="flex items-center gap-2.5 mb-2">
+            <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded bg-slate-800 text-emerald-400">Salon Haircare</span>
+            <span class="text-xs text-slate-400 font-mono">Audited: 2026-10-30</span>
+          </div>
+          <h1 class="text-3xl md:text-4xl font-black text-white tracking-tight">BBlunt — Hyperlocal Dark-Store Audit</h1>
+          <p class="text-slate-400 text-sm mt-1">
+            Live multi-platform inventory & MOP/MRP price variance scan across <strong>Bengaluru (560001)</strong>, <strong>Mumbai (400001)</strong>, and <strong>Delhi (110001)</strong>.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 shrink-0">
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">SKUs Audited</div>
+            <div class="text-2xl font-black text-white mt-1">38</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">OOS Leaks</div>
+            <div class="text-2xl font-black text-rose-400 mt-1">1</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">Max Markdown</div>
+            <div class="text-2xl font-black text-amber-300 mt-1">70%</div>
+          </div>
+          <div class="border rounded-xl p-3.5 text-center bg-amber-500/15 text-amber-300 border-amber-500/30">
+            <div class="text-[11px] uppercase font-bold opacity-80">Shelf Health</div>
+            <div class="text-2xl font-black mt-1">97%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="bg-rose-950/50 border border-rose-500/40 rounded-2xl p-6 mb-8">
+      <div class="flex items-center justify-between flex-wrap gap-3 mb-4">
+        <div class="flex items-center gap-3">
+          <span class="px-3 py-1 rounded-full bg-rose-500 text-slate-950 font-black text-xs uppercase tracking-wider">🚨 REVENUE LEAK DETECTED</span>
+          <h2 class="text-lg font-bold text-white">1 Out-of-Stock Dark-Store Listing(s) Caught Live</h2>
+        </div>
+        <span class="text-xs font-mono text-rose-300">Immediate Shelf Conversion Loss</span>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+        
+          <div class="bg-slate-950/90 border border-rose-500/30 rounded-xl p-3.5 flex items-center justify-between gap-3">
+            <div>
+              <div class="text-sm font-bold text-white">BBlunt Hot Shot Finish Hair Spray for Radiant Shine</div>
+              <div class="text-xs text-slate-400 mt-1">
+                Platform: <span class="text-rose-300 font-mono">blinkit.com</span> ·
+                City: <span class="text-slate-200">Bengaluru (560001)</span> ·
+                Pack: <span class="text-slate-300">200 ml</span>
+              </div>
+            </div>
+            <div class="text-right shrink-0">
+              <div class="text-sm font-extrabold text-rose-400">OUT OF STOCK</div>
+              <div class="text-xs text-slate-400">₹599</div>
+            </div>
+          </div>
+      </div>
+    </div>
+
+    <!-- Filter Controls -->
+    <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+      <div class="flex items-center gap-2 text-xs">
+        <button onclick="filterRows('all')" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-semibold">All SKUs (38)</button>
+        <button onclick="filterRows('oos')" class="px-3 py-1.5 rounded-lg bg-rose-500/15 border border-rose-500/30 text-rose-300 hover:bg-rose-500/25 font-semibold">Out-of-Stock Only (1)</button>
+        <button onclick="filterRows('instock')" class="px-3 py-1.5 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 hover:bg-emerald-500/25 font-semibold">In-Stock (37)</button>
+      </div>
+      <div class="flex items-center gap-2">
+        <input id="skuSearch" type="text" oninput="searchSkus()" placeholder="Filter SKU title or platform..." class="bg-slate-900 border border-slate-800 rounded-lg px-3.5 py-1.5 text-xs text-white w-64" />
+      </div>
+    </div>
+
+    <!-- SKU Table -->
+    <div class="bg-slate-900/50 border border-slate-800 rounded-2xl overflow-x-auto">
+      <table class="w-full text-left text-xs">
+        <thead class="bg-slate-950/90 text-slate-400 uppercase border-b border-slate-800">
+          <tr>
+            <th class="px-4 py-3">SKU Title</th>
+            <th class="px-4 py-3">Platform</th>
+            <th class="px-4 py-3">City / Pin</th>
+            <th class="px-4 py-3">Pack Size</th>
+            <th class="px-4 py-3">Selling Price</th>
+            <th class="px-4 py-3">MRP</th>
+            <th class="px-4 py-3">Discount</th>
+            <th class="px-4 py-3">Stock Status</th>
+            <th class="px-4 py-3">ETA</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-800/60">
+          <tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="qlerix premium empowering blowout heat protectant spray for smooth shine and silky hair hair spray 200 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">QLERIX Premium Empowering Blowout Heat Protectant Spray for Smooth Shine and Silky Hair Hair Spray 200 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1.65/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹329</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹699</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">53% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="blue nectar hair spray tonic with almond rosemary oil for smooth styling hair serum (8 herbs, 100ml)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Blue Nectar Hair Spray Tonic with Almond Rosemary Oil for smooth styling Hair Serum (8 herbs, 100ml)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">5.55/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹555</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹625</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">11% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="beauty now enzo ozk ultra shine hair spray for men &amp; women | 24 hours strong hold | long lasting, non-greasy, flexible styling | odour fragrance hair spray 420ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Beauty now ENZO OZK Ultra Shine Hair Spray for Men &amp; Women | 24 Hours Strong Hold | Long Lasting, Non-Greasy, Flexible Styling | Odour Fragrance Hair Spray 420ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.64/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹269</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">46% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="biotique ocean kelp anti hair fall shampoo 340 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Biotique Ocean Kelp Anti Hair Fall Shampoo 340 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">340 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹177</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹355</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="l'oreal paris casting creme gloss hair color, ebony black 20 g + 20 ml + 5 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">L'Oreal Paris Casting Creme Gloss Hair Color, Ebony Black 20 g + 20 ml + 5 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">255.00/N</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹255</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹269</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="pilgrim korean black rice and rosemary water spray with biotin for strong &amp; nourishedhair">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pilgrim Korean Black Rice and Rosemary Water Spray With Biotin For Strong &amp; NourishedHair</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1.92/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹192</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹225</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="qlerix premium empowering blowout heat protectant spray for smooth shine and silky hair hair spray 200 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">QLERIX Premium Empowering Blowout Heat Protectant Spray for Smooth Shine and Silky Hair Hair Spray 200 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1.65/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹329</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹699</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">53% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="blue nectar hair spray tonic with almond rosemary oil for smooth styling hair serum (8 herbs, 100ml)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Blue Nectar Hair Spray Tonic with Almond Rosemary Oil for smooth styling Hair Serum (8 herbs, 100ml)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">5.55/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹555</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹625</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">11% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="beauty now enzo ozk ultra shine hair spray for men &amp; women | 24 hours strong hold | long lasting, non-greasy, flexible styling | odour fragrance hair spray 420ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Beauty now ENZO OZK Ultra Shine Hair Spray for Men &amp; Women | 24 Hours Strong Hold | Long Lasting, Non-Greasy, Flexible Styling | Odour Fragrance Hair Spray 420ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.64/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹269</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">46% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="biotique ocean kelp anti hair fall shampoo 340 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Biotique Ocean Kelp Anti Hair Fall Shampoo 340 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">340 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹177</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹355</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="l'oreal paris casting creme gloss hair color, ebony black 20 g + 20 ml + 5 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">L'Oreal Paris Casting Creme Gloss Hair Color, Ebony Black 20 g + 20 ml + 5 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">255.00/N</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹255</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹269</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="pilgrim korean black rice and rosemary water spray with biotin for strong &amp; nourishedhair">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pilgrim Korean Black Rice and Rosemary Water Spray With Biotin For Strong &amp; NourishedHair</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1.92/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹192</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹225</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="qlerix premium empowering blowout heat protectant spray for smooth shine and silky hair hair spray 200 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">QLERIX Premium Empowering Blowout Heat Protectant Spray for Smooth Shine and Silky Hair Hair Spray 200 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1.65/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹329</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹699</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">53% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="blue nectar hair spray tonic with almond rosemary oil for smooth styling hair serum (8 herbs, 100ml)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Blue Nectar Hair Spray Tonic with Almond Rosemary Oil for smooth styling Hair Serum (8 herbs, 100ml)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">5.55/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹555</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹625</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">11% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="beauty now enzo ozk ultra shine hair spray for men &amp; women | 24 hours strong hold | long lasting, non-greasy, flexible styling | odour fragrance hair spray 420ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Beauty now ENZO OZK Ultra Shine Hair Spray for Men &amp; Women | 24 Hours Strong Hold | Long Lasting, Non-Greasy, Flexible Styling | Odour Fragrance Hair Spray 420ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.64/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹269</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">46% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="biotique ocean kelp anti hair fall shampoo 340 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Biotique Ocean Kelp Anti Hair Fall Shampoo 340 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">340 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹177</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹355</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="l'oreal paris casting creme gloss hair color, ebony black 20 g + 20 ml + 5 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">L'Oreal Paris Casting Creme Gloss Hair Color, Ebony Black 20 g + 20 ml + 5 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">255.00/N</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹255</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹269</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="pilgrim korean black rice and rosemary water spray with biotin for strong &amp; nourishedhair">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pilgrim Korean Black Rice and Rosemary Water Spray With Biotin For Strong &amp; NourishedHair</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1.92/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹192</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹225</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="schwarzkopf taft power caffeine hair spray">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Schwarzkopf Taft Power Caffeine Hair Spray</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">75 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹247</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹290</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="bblunt x tarini instant smooth anti-frizz hair spray">
+        <td class="px-4 py-3 font-medium text-white max-w-md">BBlunt x Tarini Instant Smooth Anti-Frizz Hair Spray</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">100 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹908</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹999</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">9% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="oos" data-platform="blinkit.com" data-title="bblunt hot shot finish hair spray for radiant shine">
+        <td class="px-4 py-3 font-medium text-white max-w-md">BBlunt Hot Shot Finish Hair Spray for Radiant Shine</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">200 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹599</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹599</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-rose-500/20 text-rose-400 border border-rose-500/30 font-mono text-[11px] font-bold">OUT OF STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="arata texturizing styling hair spray (matte finish)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Arata Texturizing Styling Hair Spray (Matte Finish)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">50 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹332</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹349</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="schwarzkopf taft power hair spray">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Schwarzkopf Taft Power Hair Spray</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">250 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹450</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹749</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">40% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="schwarzkopf taft ultimate hair spray">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Schwarzkopf Taft Ultimate Hair Spray</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">250 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹450</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹749</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">40% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="streax heat protect hair spray">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Streax Heat Protect Hair Spray</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">100 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹282</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹320</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">12% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="schwarzkopf professional osis+ flatliner heat protection hair spray">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Schwarzkopf Professional OSiS+ Flatliner Heat Protection Hair Spray</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">200 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1092</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1200</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">9% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="bblunt hot shot hold spray for instant &amp; firm hold - 300 ml hair spray">
+        <td class="px-4 py-3 font-medium text-white max-w-md">BBlunt Hot Shot Hold Spray for Instant &amp; Firm Hold - 300 ml Hair Spray</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">300 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹468</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹599</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">22% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="bblunt hot shot heat protection mist with grapeseed oil &amp; provitamin b5 - 150 ml hair spray">
+        <td class="px-4 py-3 font-medium text-white max-w-md">BBlunt Hot Shot Heat Protection Mist with Grapeseed Oil &amp; Provitamin B5 - 150 ml Hair Spray</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">150 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹423</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="bblunt hot shot finish spray for radiant shine - 200 ml hair spray">
+        <td class="px-4 py-3 font-medium text-white max-w-md">BBlunt Hot Shot Finish Spray For Radiant Shine - 200 ml Hair Spray</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">200 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹468</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹599</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">22% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="bblunt hot shot heat protection mist with grapeseed oil &amp; provitamin b5 hair spray">
+        <td class="px-4 py-3 font-medium text-white max-w-md">BBlunt Hot Shot Heat Protection Mist with Grapeseed Oil &amp; Provitamin B5 Hair Spray</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹640</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹998</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">36% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="colorstock hair identifier spray | for beard support hair spray">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Colorstock Hair Identifier Spray | For Beard Support Hair Spray</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹280</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹799</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">65% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="bioelentra rosemary root revival hair spray">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bioelentra Rosemary Root Revival Hair Spray</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹209</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹699</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">70% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="hot shot heat protection hair mist | designed for indian hair | prevents damage | upto 230° celsius protection | hair spray for men &amp; women | 150 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Hot Shot Heat Protection Hair Mist | Designed for Indian Hair | Prevents Damage | Upto 230° Celsius Protection | Hair Spray for Men &amp; Women | 150 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">150 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹377</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹251.33</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Tue, 3 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="eimi mistify me strong hair spray | hold for up to 24 hrs, anti-frizz &amp; lightweight glossy finish | uv &amp; heat protection spray | 300ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">EIMI Mistify Me Strong Hair Spray | Hold For up to 24 hrs, Anti-Frizz &amp; Lightweight Glossy Finish | UV &amp; Heat Protection Spray | 300ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">300ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹525</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹175</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Wed, 4 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="schwarzkopf power hair spray with caffeine formula for strengthening hair hold 5, 72hr hold protection from uv rays, wind and humidity, no stickiness, easy to brush out, salon like finish- 250ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Schwarzkopf Power Hair Spray With Caffeine Formula For Strengthening Hair Hold 5, 72Hr Hold Protection From UV Rays, Wind And Humidity, No Stickiness, Easy To Brush Out, Salon Like Finish- 250Ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">250Ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹450</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹180</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Tue, 3 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="enzo premium hair spray – 420ml | curl enhancing, long-lasting flexible hold | all-day shine &amp; weatherproof styling | no greasy residue | suitable for all hair types | pack of 1">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Enzo Premium Hair Spray – 420ML | Curl Enhancing, Long-Lasting Flexible Hold | All-Day Shine &amp; Weatherproof Styling | No Greasy Residue | Suitable for All Hair Types | Pack of 1</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">420ML</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹180</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹42.86</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Thu, 5 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="set &amp; keep hair spray extreme hold 400ml + solid matte 250ml | quick drying, long lasting, non-sticky | natural shine and matte finish | uv protection | easy wash off, no flakes">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Set &amp; Keep Hair Spray Extreme Hold 400ml + Solid Matte 250ml | Quick Drying, Long Lasting, Non-Sticky | Natural Shine and Matte Finish | UV Protection | Easy Wash Off, No Flakes</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">400ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹399</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹61.38</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Tue, 3 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="hot shot hold spray for instant &amp; firm hold - 300 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Hot Shot Hold Spray for Instant &amp; Firm Hold - 300 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">300 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹353</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹117.67</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Wed, 4 Nov</td>
+      </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- Sticky CTA Footer -->
+  <div class="fixed bottom-0 inset-x-0 bg-slate-950/95 border-t border-emerald-500/30 backdrop-blur px-6 py-3.5 z-30">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+      <div class="text-slate-200">
+        <span class="text-emerald-400 font-bold">⚡ Unscrape Radar:</span> Want real-time Slack/WhatsApp/Telegram alerts within 15 mins whenever <strong>BBlunt</strong> SKUs go Out-of-Stock across 20 BLR/MUM/DEL dark-store pin codes?
+      </div>
+      <div class="flex items-center gap-2.5 shrink-0">
+        <a href="https://github.com/deveshkolte/unscrape" target="_blank" class="px-4 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold">Unlock Automated 20-Pin-Code Monitor →</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const RAW_CSV = "brand,city,pincode,platform,skuId,title,sellingPriceInr,mrpInr,discountPercent,unit,inStock,deliveryEta,url\nBBlunt,Bengaluru,560001,bigbasket.com/jiomart,49756437,QLERIX Premium Empowering Blowout Heat Protectant Spray for Smooth Shine and Silky Hair Hair Spray 200 ml,329,699,53,1.65/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/qlerix-premium-empowering-blowout-heat-protectant-spray-for-smooth-shine-and-silky-hair-hair-spray-mj64e1-49756437/49756437\nBBlunt,Bengaluru,560001,bigbasket.com/jiomart,50493846,\"Blue Nectar Hair Spray Tonic with Almond Rosemary Oil for smooth styling Hair Serum (8 herbs, 100ml)\",555,625,11,5.55/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/blue-nectar-hair-spray-tonic-with-almond-rosemary-oil-for-smooth-styling-hair-serum-8-herbs-100ml-mj73lg-50493846/50493846\nBBlunt,Bengaluru,560001,bigbasket.com/jiomart,158186379,\"Beauty now ENZO OZK Ultra Shine Hair Spray for Men & Women | 24 Hours Strong Hold | Long Lasting, Non-Greasy, Flexible Styling | Odour Fragrance Hair Spray 420ml\",269,499,46,0.64/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/beauty-now-enzo-ozk-ultra-shine-hair-spray-for-men-women-24-hours-strong-hold-long-lasting-non-greasy-flexible-styling-odour-fragrance-hair-spray-420ml-mue4dp-158186379/158186379\nBBlunt,Bengaluru,560001,bigbasket.com/jiomart,7530227,Biotique Ocean Kelp Anti Hair Fall Shampoo 340 ml,177,355,50,340 ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/biotique-ocean-kelp-anti-hair-fall-shampoo-340-ml-mffn4h-7530227/7530227\nBBlunt,Bengaluru,560001,bigbasket.com/jiomart,7507972,\"L'Oreal Paris Casting Creme Gloss Hair Color, Ebony Black 20 g + 20 ml + 5 g\",255,269,5,255.00/N,true,15-30 MINS,https://www.jiomart.com/p/groceries/loreal-paris-casting-creme-gloss-ammonia-free-hair-colour-ebony-black-200-21-g-24-ml-mffmu1-7507972/7507972\nBBlunt,Bengaluru,560001,bigbasket.com/jiomart,147116544,Pilgrim Korean Black Rice and Rosemary Water Spray With Biotin For Strong & NourishedHair,192,225,15,1.92/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/pilgrim-korean-black-rice-and-rosemary-water-spray-with-biotin-for-strong-nourishedhair-mtu1l4-147116544/147116544\nBBlunt,Mumbai,400001,bigbasket.com/jiomart,49756437,QLERIX Premium Empowering Blowout Heat Protectant Spray for Smooth Shine and Silky Hair Hair Spray 200 ml,329,699,53,1.65/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/qlerix-premium-empowering-blowout-heat-protectant-spray-for-smooth-shine-and-silky-hair-hair-spray-mj64e1-49756437/49756437\nBBlunt,Mumbai,400001,bigbasket.com/jiomart,50493846,\"Blue Nectar Hair Spray Tonic with Almond Rosemary Oil for smooth styling Hair Serum (8 herbs, 100ml)\",555,625,11,5.55/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/blue-nectar-hair-spray-tonic-with-almond-rosemary-oil-for-smooth-styling-hair-serum-8-herbs-100ml-mj73lg-50493846/50493846\nBBlunt,Mumbai,400001,bigbasket.com/jiomart,158186379,\"Beauty now ENZO OZK Ultra Shine Hair Spray for Men & Women | 24 Hours Strong Hold | Long Lasting, Non-Greasy, Flexible Styling | Odour Fragrance Hair Spray 420ml\",269,499,46,0.64/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/beauty-now-enzo-ozk-ultra-shine-hair-spray-for-men-women-24-hours-strong-hold-long-lasting-non-greasy-flexible-styling-odour-fragrance-hair-spray-420ml-mue4dp-158186379/158186379\nBBlunt,Mumbai,400001,bigbasket.com/jiomart,7530227,Biotique Ocean Kelp Anti Hair Fall Shampoo 340 ml,177,355,50,340 ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/biotique-ocean-kelp-anti-hair-fall-shampoo-340-ml-mffn4h-7530227/7530227\nBBlunt,Mumbai,400001,bigbasket.com/jiomart,7507972,\"L'Oreal Paris Casting Creme Gloss Hair Color, Ebony Black 20 g + 20 ml + 5 g\",255,269,5,255.00/N,true,15-30 MINS,https://www.jiomart.com/p/groceries/loreal-paris-casting-creme-gloss-ammonia-free-hair-colour-ebony-black-200-21-g-24-ml-mffmu1-7507972/7507972\nBBlunt,Mumbai,400001,bigbasket.com/jiomart,147116544,Pilgrim Korean Black Rice and Rosemary Water Spray With Biotin For Strong & NourishedHair,192,225,15,1.92/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/pilgrim-korean-black-rice-and-rosemary-water-spray-with-biotin-for-strong-nourishedhair-mtu1l4-147116544/147116544\nBBlunt,Delhi,110001,bigbasket.com/jiomart,49756437,QLERIX Premium Empowering Blowout Heat Protectant Spray for Smooth Shine and Silky Hair Hair Spray 200 ml,329,699,53,1.65/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/qlerix-premium-empowering-blowout-heat-protectant-spray-for-smooth-shine-and-silky-hair-hair-spray-mj64e1-49756437/49756437\nBBlunt,Delhi,110001,bigbasket.com/jiomart,50493846,\"Blue Nectar Hair Spray Tonic with Almond Rosemary Oil for smooth styling Hair Serum (8 herbs, 100ml)\",555,625,11,5.55/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/blue-nectar-hair-spray-tonic-with-almond-rosemary-oil-for-smooth-styling-hair-serum-8-herbs-100ml-mj73lg-50493846/50493846\nBBlunt,Delhi,110001,bigbasket.com/jiomart,158186379,\"Beauty now ENZO OZK Ultra Shine Hair Spray for Men & Women | 24 Hours Strong Hold | Long Lasting, Non-Greasy, Flexible Styling | Odour Fragrance Hair Spray 420ml\",269,499,46,0.64/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/beauty-now-enzo-ozk-ultra-shine-hair-spray-for-men-women-24-hours-strong-hold-long-lasting-non-greasy-flexible-styling-odour-fragrance-hair-spray-420ml-mue4dp-158186379/158186379\nBBlunt,Delhi,110001,bigbasket.com/jiomart,7530227,Biotique Ocean Kelp Anti Hair Fall Shampoo 340 ml,177,355,50,340 ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/biotique-ocean-kelp-anti-hair-fall-shampoo-340-ml-mffn4h-7530227/7530227\nBBlunt,Delhi,110001,bigbasket.com/jiomart,7507972,\"L'Oreal Paris Casting Creme Gloss Hair Color, Ebony Black 20 g + 20 ml + 5 g\",255,269,5,255.00/N,true,15-30 MINS,https://www.jiomart.com/p/groceries/loreal-paris-casting-creme-gloss-ammonia-free-hair-colour-ebony-black-200-21-g-24-ml-mffmu1-7507972/7507972\nBBlunt,Delhi,110001,bigbasket.com/jiomart,147116544,Pilgrim Korean Black Rice and Rosemary Water Spray With Biotin For Strong & NourishedHair,192,225,15,1.92/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/pilgrim-korean-black-rice-and-rosemary-water-spray-with-biotin-for-strong-nourishedhair-mtu1l4-147116544/147116544\nBBlunt,Bengaluru,560001,blinkit.com,1402319,Schwarzkopf Taft Power Caffeine Hair Spray,247,290,15,75 ml,true,10 MINS,https://blinkit.com/prn/schwarzkopf-taft-power-caffeine-hair-spray/prid/1402319\nBBlunt,Bengaluru,560001,blinkit.com,755072,BBlunt x Tarini Instant Smooth Anti-Frizz Hair Spray,908,999,9,100 ml,true,10 MINS,https://blinkit.com/prn/bblunt-x-tarini-instant-smooth-anti-frizz-hair-spray/prid/755072\nBBlunt,Bengaluru,560001,blinkit.com,567811,BBlunt Hot Shot Finish Hair Spray for Radiant Shine,599,599,0,200 ml,false,10 MINS,https://blinkit.com/prn/bblunt-hot-shot-finish-hair-spray-for-radiant-shine/prid/567811\nBBlunt,Bengaluru,560001,blinkit.com,538985,Arata Texturizing Styling Hair Spray (Matte Finish),332,349,5,50 ml,true,10 MINS,https://blinkit.com/prn/arata-texturizing-styling-hair-spray-matte-finish/prid/538985\nBBlunt,Bengaluru,560001,blinkit.com,546197,Schwarzkopf Taft Power Hair Spray,450,749,40,250 ml,true,10 MINS,https://blinkit.com/prn/schwarzkopf-taft-power-hair-spray/prid/546197\nBBlunt,Bengaluru,560001,blinkit.com,546196,Schwarzkopf Taft Ultimate Hair Spray,450,749,40,250 ml,true,10 MINS,https://blinkit.com/prn/schwarzkopf-taft-ultimate-hair-spray/prid/546196\nBBlunt,Bengaluru,560001,blinkit.com,559548,Streax Heat Protect Hair Spray,282,320,12,100 ml,true,10 MINS,https://blinkit.com/prn/streax-heat-protect-hair-spray/prid/559548\nBBlunt,Bengaluru,560001,blinkit.com,716877,Schwarzkopf Professional OSiS+ Flatliner Heat Protection Hair Spray,1092,1200,9,200 ml,true,10 MINS,https://blinkit.com/prn/schwarzkopf-professional-osis-flatliner-heat-protection-hair-spray/prid/716877\nBBlunt,Bengaluru,560001,flipkart.com,HSYGHUD6JMUAHVNH,BBlunt Hot Shot Hold Spray for Instant & Firm Hold - 300 ml Hair Spray,468,599,22,300 ml,true,15 MINS,https://www.flipkart.com/bblunt-hot-shot-hold-spray-instant-firm-300-ml-hair/p/itm140c5232c4cf2?pid=HSYGHUD6JMUAHVNH&lid=LSTHSYGHUD6JMUAHVNH4VXKMS&marketplace=FLIPKART&q=bblunt+hair+spray&store=search.flipkart.com&srno=s_1_1&otracker=search&fm=organic&iid=a10d1388-8016-41e6-a18e-c4629fef82a4.HSYGHUD6JMUAHVNH.SEARCH&ppt=sp&ppn=sp&ssid=owvdkvc8y80000001793387364946&qH=fac63dd150f2c67f&ov_redirect=true&ov_redirect=true\nBBlunt,Bengaluru,560001,flipkart.com,HSYGHV9FXZVH6UWP,BBlunt Hot Shot Heat Protection Mist with Grapeseed Oil & Provitamin B5 - 150 ml Hair Spray,423,499,15,150 ml,true,15 MINS,https://www.flipkart.com/bblunt-hot-shot-heat-protection-mist-grapeseed-oil-provitamin-b5-150-ml-hair-spray/p/itm5f2ff44749532?pid=HSYGHV9FXZVH6UWP&lid=LSTHSYGHV9FXZVH6UWPDA1JKU&marketplace=FLIPKART&q=bblunt+hair+spray&store=search.flipkart.com&srno=s_1_2&otracker=search&fm=organic&iid=a10d1388-8016-41e6-a18e-c4629fef82a4.HSYGHV9FXZVH6UWP.SEARCH&ppt=sp&ppn=sp&ssid=owvdkvc8y80000001793387364946&qH=fac63dd150f2c67f&ov_redirect=true&ov_redirect=true\nBBlunt,Bengaluru,560001,flipkart.com,HSYGGHH2SGMC6GJX,BBlunt Hot Shot Finish Spray For Radiant Shine - 200 ml Hair Spray,468,599,22,200 ml,true,15 MINS,https://www.flipkart.com/bblunt-hot-shot-finish-spray-radiant-shine-200-ml-hair/p/itmfc300cc9b937d?pid=HSYGGHH2SGMC6GJX&lid=LSTHSYGGHH2SGMC6GJXN4QH59&marketplace=FLIPKART&q=bblunt+hair+spray&store=search.flipkart.com&srno=s_1_3&otracker=search&fm=organic&iid=a10d1388-8016-41e6-a18e-c4629fef82a4.HSYGGHH2SGMC6GJX.SEARCH&ppt=sp&ppn=sp&ssid=owvdkvc8y80000001793387364946&qH=fac63dd150f2c67f&ov_redirect=true&ov_redirect=true\nBBlunt,Bengaluru,560001,flipkart.com,HSYH35XCYZ3XZ4F5,BBlunt Hot Shot Heat Protection Mist with Grapeseed Oil & Provitamin B5 Hair Spray,640,998,36,1 unit,true,15 MINS,https://www.flipkart.com/bblunt-hot-shot-heat-protection-mist-grapeseed-oil-provitamin-b5-hair-spray/p/itmfef9de221bbdc?pid=HSYH35XCYZ3XZ4F5&lid=LSTHSYH35XCYZ3XZ4F58YMQSO&marketplace=FLIPKART&q=bblunt+hair+spray&store=search.flipkart.com&srno=s_1_4&otracker=search&fm=organic&iid=a10d1388-8016-41e6-a18e-c4629fef82a4.HSYH35XCYZ3XZ4F5.SEARCH&ppt=sp&ppn=sp&ssid=owvdkvc8y80000001793387364946&qH=fac63dd150f2c67f&ov_redirect=true&ov_redirect=true\nBBlunt,Bengaluru,560001,flipkart.com,HSYHK394SQ6JUHDF,Colorstock Hair Identifier Spray | For Beard Support Hair Spray,280,799,65,1 unit,true,15 MINS,https://www.flipkart.com/colorstock-hair-identifier-spray-beard-support/p/itm6e21f1124a0b5?pid=HSYHK394SQ6JUHDF&lid=LSTHSYHK394SQ6JUHDFEIKWN5&marketplace=FLIPKART&q=bblunt+hair+spray&store=search.flipkart.com&srno=s_1_5&otracker=search&fm=organic&iid=a10d1388-8016-41e6-a18e-c4629fef82a4.HSYHK394SQ6JUHDF.SEARCH&ppt=sp&ppn=sp&ssid=owvdkvc8y80000001793387364946&qH=fac63dd150f2c67f&ov_redirect=true&ov_redirect=true\nBBlunt,Bengaluru,560001,flipkart.com,HTTHRRGEPQCEHJ8Y,Bioelentra Rosemary Root Revival Hair Spray,209,699,70,1 unit,true,15 MINS,https://www.flipkart.com/bioelentra-rosemary-root-revival-hair-spray/p/itm01649adff22dd?pid=HTTHRRGEPQCEHJ8Y&lid=LSTHTTHRRGEPQCEHJ8Y68KLER&marketplace=FLIPKART&q=bblunt+hair+spray&store=search.flipkart.com&srno=s_1_6&otracker=search&fm=organic&iid=a10d1388-8016-41e6-a18e-c4629fef82a4.HTTHRRGEPQCEHJ8Y.SEARCH&ppt=sp&ppn=sp&ssid=owvdkvc8y80000001793387364946&qH=fac63dd150f2c67f&ov_redirect=true&ov_redirect=true\nBBlunt,Bengaluru,560001,amazon.in,B07W458135,Hot Shot Heat Protection Hair Mist | Designed for Indian Hair | Prevents Damage | Upto 230° Celsius Protection | Hair Spray for Men & Women | 150 ml,377,251.33,0,150 ml,true,\"Tue, 3 Nov\",https://www.amazon.in/dp/B07W458135\nBBlunt,Bengaluru,560001,amazon.in,B07CPZFCH6,\"EIMI Mistify Me Strong Hair Spray | Hold For up to 24 hrs, Anti-Frizz & Lightweight Glossy Finish | UV & Heat Protection Spray | 300ml\",525,175,0,300ml,true,\"Wed, 4 Nov\",https://www.amazon.in/dp/B07CPZFCH6\nBBlunt,Bengaluru,560001,amazon.in,B01GTS0EJS,\"Schwarzkopf Power Hair Spray With Caffeine Formula For Strengthening Hair Hold 5, 72Hr Hold Protection From UV Rays, Wind And Humidity, No Stickiness, Easy To Brush Out, Salon Like Finish- 250Ml\",450,180,0,250Ml,true,\"Tue, 3 Nov\",https://www.amazon.in/dp/B01GTS0EJS\nBBlunt,Bengaluru,560001,amazon.in,B09VSSC7XB,\"Enzo Premium Hair Spray – 420ML | Curl Enhancing, Long-Lasting Flexible Hold | All-Day Shine & Weatherproof Styling | No Greasy Residue | Suitable for All Hair Types | Pack of 1\",180,42.86,0,420ML,true,\"Thu, 5 Nov\",https://www.amazon.in/dp/B09VSSC7XB\nBBlunt,Bengaluru,560001,amazon.in,B0FNN82DMQ,\"Set & Keep Hair Spray Extreme Hold 400ml + Solid Matte 250ml | Quick Drying, Long Lasting, Non-Sticky | Natural Shine and Matte Finish | UV Protection | Easy Wash Off, No Flakes\",399,61.38,0,400ml,true,\"Tue, 3 Nov\",https://www.amazon.in/dp/B0FNN82DMQ\nBBlunt,Bengaluru,560001,amazon.in,B0BGJ8YC4T,Hot Shot Hold Spray for Instant & Firm Hold - 300 ml,353,117.67,0,300 ml,true,\"Wed, 4 Nov\",https://www.amazon.in/dp/B0BGJ8YC4T\n";
+
+    function filterRows(mode) {
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const stock = row.getAttribute('data-stock');
+        if (mode === 'all') row.style.display = '';
+        else if (mode === 'oos') row.style.display = stock === 'oos' ? '' : 'none';
+        else if (mode === 'instock') row.style.display = stock === 'instock' ? '' : 'none';
+      });
+    }
+
+    function searchSkus() {
+      const q = document.getElementById('skuSearch').value.toLowerCase();
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const title = row.getAttribute('data-title') || '';
+        const platform = (row.getAttribute('data-platform') || '').toLowerCase();
+        row.style.display = (title.includes(q) || platform.includes(q)) ? '' : 'none';
+      });
+    }
+
+    function downloadCsv() {
+      const blob = new Blob([RAW_CSV], { type: 'text/csv;charset=utf-8;' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'bblunt-3city-audit.csv';
+      a.click();
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wellbeing Nutrition — 3-City Quick-Commerce Dark-Store Audit Scorecard | Unscrape Radar</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background-color: #07080d; color: #f3f4f6; font-family: Inter, system-ui, -apple-system, sans-serif; }
+  </style>
+</head>
+<body class="min-h-screen pb-24">
+  <!-- Top Bar -->
+  <header class="border-b border-slate-800 bg-slate-950/90 backdrop-blur sticky top-0 z-20">
+    <div class="max-w-7xl mx-auto px-6 py-3.5 flex items-center justify-between flex-wrap gap-3">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="text-emerald-400 font-black text-lg tracking-tight hover:text-emerald-300">⚡ UNSCRAPE RADAR</a>
+        <span class="text-xs text-slate-500">/</span>
+        <span class="text-sm font-bold text-white">Wellbeing Nutrition Executive Scorecard</span>
+      </div>
+      <div class="flex items-center gap-2.5 text-xs">
+        <a href="index.html" class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700">← All 56 Brand Audits</a>
+        <button onclick="downloadCsv()" class="px-3.5 py-1.5 rounded-lg bg-emerald-500 text-slate-950 font-bold hover:bg-emerald-400">⬇ Download Raw CSV (38 SKUs)</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-6 pt-8">
+    <!-- Executive Header -->
+    <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 mb-8">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+        <div>
+          <div class="flex items-center gap-2.5 mb-2">
+            <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded bg-slate-800 text-emerald-400">Melts &amp; Effervescents</span>
+            <span class="text-xs text-slate-400 font-mono">Audited: 2026-10-30</span>
+          </div>
+          <h1 class="text-3xl md:text-4xl font-black text-white tracking-tight">Wellbeing Nutrition — Hyperlocal Dark-Store Audit</h1>
+          <p class="text-slate-400 text-sm mt-1">
+            Live multi-platform inventory & MOP/MRP price variance scan across <strong>Bengaluru (560001)</strong>, <strong>Mumbai (400001)</strong>, and <strong>Delhi (110001)</strong>.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 shrink-0">
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">SKUs Audited</div>
+            <div class="text-2xl font-black text-white mt-1">38</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">OOS Leaks</div>
+            <div class="text-2xl font-black text-emerald-400 mt-1">0</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">Max Markdown</div>
+            <div class="text-2xl font-black text-amber-300 mt-1">57%</div>
+          </div>
+          <div class="border rounded-xl p-3.5 text-center bg-emerald-500/15 text-emerald-400 border-emerald-500/30">
+            <div class="text-[11px] uppercase font-bold opacity-80">Shelf Health</div>
+            <div class="text-2xl font-black mt-1">100%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="bg-emerald-950/30 border border-emerald-500/30 rounded-2xl p-5 mb-8 flex items-center justify-between flex-wrap gap-3">
+      <div>
+        <span class="px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 font-bold text-xs uppercase">✓ 100% In-Stock Snapshot</span>
+        <span class="text-sm text-slate-200 ml-2">All 38 audited dark-store listings across Bengaluru, Mumbai & Delhi were in stock during this scan. Max discount variance: <strong>57% below MRP</strong>.</span>
+      </div>
+    </div>
+
+    <!-- Filter Controls -->
+    <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+      <div class="flex items-center gap-2 text-xs">
+        <button onclick="filterRows('all')" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-semibold">All SKUs (38)</button>
+        <button onclick="filterRows('oos')" class="px-3 py-1.5 rounded-lg bg-rose-500/15 border border-rose-500/30 text-rose-300 hover:bg-rose-500/25 font-semibold">Out-of-Stock Only (0)</button>
+        <button onclick="filterRows('instock')" class="px-3 py-1.5 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 hover:bg-emerald-500/25 font-semibold">In-Stock (38)</button>
+      </div>
+      <div class="flex items-center gap-2">
+        <input id="skuSearch" type="text" oninput="searchSkus()" placeholder="Filter SKU title or platform..." class="bg-slate-900 border border-slate-800 rounded-lg px-3.5 py-1.5 text-xs text-white w-64" />
+      </div>
+    </div>
+
+    <!-- SKU Table -->
+    <div class="bg-slate-900/50 border border-slate-800 rounded-2xl overflow-x-auto">
+      <table class="w-full text-left text-xs">
+        <thead class="bg-slate-950/90 text-slate-400 uppercase border-b border-slate-800">
+          <tr>
+            <th class="px-4 py-3">SKU Title</th>
+            <th class="px-4 py-3">Platform</th>
+            <th class="px-4 py-3">City / Pin</th>
+            <th class="px-4 py-3">Pack Size</th>
+            <th class="px-4 py-3">Selling Price</th>
+            <th class="px-4 py-3">MRP</th>
+            <th class="px-4 py-3">Discount</th>
+            <th class="px-4 py-3">Stock Status</th>
+            <th class="px-4 py-3">ETA</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-800/60">
+          <tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="vedanum coconut milk hydrating,smoothening and moisturizing nutrients melt and pour soap base 500 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">VEDANUM Coconut Milk Hydrating,Smoothening and Moisturizing Nutrients Melt and Pour Soap Base 500 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.66/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹331.55</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">34% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="whip &amp; wick french lavender wax melts | soothing lavender &amp; herbal aroma | 100% natural soy wax | flameless &amp; long-lasting fragrance | gift &amp; home decor | 180g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Whip &amp; Wick French Lavender Wax Melts | Soothing Lavender &amp; Herbal Aroma | 100% Natural Soy Wax | Flameless &amp; Long-Lasting Fragrance | Gift &amp; Home Decor | 180g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹469</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹640</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">27% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="swarneo melatonin 10mg mouth melts | non-habit forming | no water needed | 10 sachets | supports better sleep, restores sleep cycle, soothes &amp; relaxes | blueberry flavor">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Swarneo Melatonin 10mg Mouth Melts | Non-Habit Forming | No Water Needed | 10 Sachets | Supports Better Sleep, Restores Sleep Cycle, Soothes &amp; Relaxes | Blueberry Flavor</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹299</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹399</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">25% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="vedanum natural honey melt and pour soap base with almond oil 1 kg">
+        <td class="px-4 py-3 font-medium text-white max-w-md">VEDANUM Natural Honey Melt and Pour Soap Base with Almond Oil 1 kg</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">426.55/kg</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹426.55</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹999</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">57% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bellesa deep tissue neck shoulder massager with heat shiatsu kneading relief for pain stress">
+        <td class="px-4 py-3 font-medium text-white max-w-md">BELLESA Deep Tissue Neck Shoulder Massager with Heat Shiatsu Kneading Relief for Pain Stress</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹8999</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹9999</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">10% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="whip &amp; wick  blueberry wax melts | fruity &amp; creamy scent | 100% natural soy wax | long-lasting fragrance | flameless home fragrance | 350 - 400 hrs burn time | 180g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Whip &amp; Wick  Blueberry Wax Melts | Fruity &amp; Creamy Scent | 100% Natural Soy Wax | Long-Lasting Fragrance | Flameless Home Fragrance | 350 - 400 hrs burn time | 180g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹469</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹640</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">27% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="vedanum coconut milk hydrating,smoothening and moisturizing nutrients melt and pour soap base 500 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">VEDANUM Coconut Milk Hydrating,Smoothening and Moisturizing Nutrients Melt and Pour Soap Base 500 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.66/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹331.55</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">34% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="whip &amp; wick french lavender wax melts | soothing lavender &amp; herbal aroma | 100% natural soy wax | flameless &amp; long-lasting fragrance | gift &amp; home decor | 180g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Whip &amp; Wick French Lavender Wax Melts | Soothing Lavender &amp; Herbal Aroma | 100% Natural Soy Wax | Flameless &amp; Long-Lasting Fragrance | Gift &amp; Home Decor | 180g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹469</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹640</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">27% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="swarneo melatonin 10mg mouth melts | non-habit forming | no water needed | 10 sachets | supports better sleep, restores sleep cycle, soothes &amp; relaxes | blueberry flavor">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Swarneo Melatonin 10mg Mouth Melts | Non-Habit Forming | No Water Needed | 10 Sachets | Supports Better Sleep, Restores Sleep Cycle, Soothes &amp; Relaxes | Blueberry Flavor</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹299</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹399</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">25% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="vedanum natural honey melt and pour soap base with almond oil 1 kg">
+        <td class="px-4 py-3 font-medium text-white max-w-md">VEDANUM Natural Honey Melt and Pour Soap Base with Almond Oil 1 kg</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">426.55/kg</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹426.55</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹999</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">57% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bellesa deep tissue neck shoulder massager with heat shiatsu kneading relief for pain stress">
+        <td class="px-4 py-3 font-medium text-white max-w-md">BELLESA Deep Tissue Neck Shoulder Massager with Heat Shiatsu Kneading Relief for Pain Stress</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹8999</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹9999</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">10% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="whip &amp; wick  blueberry wax melts | fruity &amp; creamy scent | 100% natural soy wax | long-lasting fragrance | flameless home fragrance | 350 - 400 hrs burn time | 180g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Whip &amp; Wick  Blueberry Wax Melts | Fruity &amp; Creamy Scent | 100% Natural Soy Wax | Long-Lasting Fragrance | Flameless Home Fragrance | 350 - 400 hrs burn time | 180g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹469</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹640</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">27% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="vedanum coconut milk hydrating,smoothening and moisturizing nutrients melt and pour soap base 500 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">VEDANUM Coconut Milk Hydrating,Smoothening and Moisturizing Nutrients Melt and Pour Soap Base 500 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.66/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹331.55</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">34% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="whip &amp; wick french lavender wax melts | soothing lavender &amp; herbal aroma | 100% natural soy wax | flameless &amp; long-lasting fragrance | gift &amp; home decor | 180g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Whip &amp; Wick French Lavender Wax Melts | Soothing Lavender &amp; Herbal Aroma | 100% Natural Soy Wax | Flameless &amp; Long-Lasting Fragrance | Gift &amp; Home Decor | 180g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹469</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹640</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">27% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="swarneo melatonin 10mg mouth melts | non-habit forming | no water needed | 10 sachets | supports better sleep, restores sleep cycle, soothes &amp; relaxes | blueberry flavor">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Swarneo Melatonin 10mg Mouth Melts | Non-Habit Forming | No Water Needed | 10 Sachets | Supports Better Sleep, Restores Sleep Cycle, Soothes &amp; Relaxes | Blueberry Flavor</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹299</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹399</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">25% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="vedanum natural honey melt and pour soap base with almond oil 1 kg">
+        <td class="px-4 py-3 font-medium text-white max-w-md">VEDANUM Natural Honey Melt and Pour Soap Base with Almond Oil 1 kg</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">426.55/kg</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹426.55</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹999</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">57% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bellesa deep tissue neck shoulder massager with heat shiatsu kneading relief for pain stress">
+        <td class="px-4 py-3 font-medium text-white max-w-md">BELLESA Deep Tissue Neck Shoulder Massager with Heat Shiatsu Kneading Relief for Pain Stress</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹8999</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹9999</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">10% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="whip &amp; wick  blueberry wax melts | fruity &amp; creamy scent | 100% natural soy wax | long-lasting fragrance | flameless home fragrance | 350 - 400 hrs burn time | 180g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Whip &amp; Wick  Blueberry Wax Melts | Fruity &amp; Creamy Scent | 100% Natural Soy Wax | Long-Lasting Fragrance | Flameless Home Fragrance | 350 - 400 hrs burn time | 180g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹469</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹640</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">27% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="wellbeing nutrition melts healthy gut|plant based probiotic 10b cfu, digestive enzyme -oral strips">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Wellbeing Nutrition Melts Healthy Gut|Plant Based Probiotic 10B CFU, Digestive Enzyme -Oral Strips</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹569</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹599</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="wellbeing nutrition melts healthy hair plant based biotin 4000mcg+ for hair growth &amp; nourishment">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Wellbeing Nutrition Melts Healthy Hair Plant Based Biotin 4000mcg+ For Hair Growth &amp; Nourishment</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹599</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">-</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="wellbeing nutrition organic daily fiber for weightloss &amp; blood sugar control">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Wellbeing Nutrition Organic Daily Fiber For Weightloss &amp; Blood Sugar Control</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹809</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹899</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">10% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="wellbeing nutrition plant based multivitamin with 100% rda of vitamin a,vitamin c -oral strips">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Wellbeing Nutrition Plant Based Multivitamin with 100% RDA of Vitamin A,Vitamin C -Oral Strips</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹599</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">-</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="wellbeing nutrition melts healthy hair with plant based biotin 4000mcg+ for hair nutrition">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Wellbeing Nutrition Melts Healthy Hair with Plant Based Biotin 4000mcg+ for Hair Nutrition</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1138</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1198</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="wellbeing nutrition vitamin b-complex methylated tablets for energy, immunity &amp; nerve support">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Wellbeing Nutrition Vitamin B-Complex Methylated Tablets for Energy, Immunity &amp; Nerve Support</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹809</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹899</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">10% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="plix deep sleep melatonin mini mints">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Plix Deep Sleep Melatonin Mini Mints</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">30 tabs</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹330</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹355</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">7% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="wellbeing nutrition melts into multivitamin oral strips">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Wellbeing Nutrition Melts into Multivitamin Oral Strips</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">30 pcs</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹599</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹599</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="wellbeing nutrition vitamin b12 melts for energy and cognitive health">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Wellbeing Nutrition Vitamin B12 Melts for Energy and Cognitive Health</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">30 pcs</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹649</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹649</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="wellbeing nutrition vitamin d melts with k2 oral strips">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Wellbeing Nutrition Vitamin D Melts with K2 Oral Strips</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">30 pcs</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹649</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹649</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="wellbeing nutrition throat melts oral strips for cough">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Wellbeing Nutrition Throat Melts Oral Strips for Cough</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">30 pcs</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹599</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹599</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="wellbeing nutrition melatonin melting oral strips (honey lemon)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Wellbeing Nutrition Melatonin Melting Oral Strips (Honey Lemon)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">30 strips</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹649</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹649</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="wellbeing nutrition glutathione effervescent tablets">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Wellbeing Nutrition Glutathione Effervescent Tablets</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">15 tabs</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹675</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹899</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">25% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="wellbeing nutrition slow 4x strength omega 3">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Wellbeing Nutrition Slow 4x Strength Omega 3</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">60 pcs</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1260</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1399</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">10% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="melts restful sleep aid | plant-based melatonin 10mg for better sleep with chamomile, tagara, l-theanine | non-addictive sleep-aid, safe, natural, 30 oral strips">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Melts Restful Sleep Aid | Plant-Based Melatonin 10mg for Better Sleep with Chamomile, Tagara, L-Theanine | Non-Addictive Sleep-Aid, Safe, Natural, 30 Oral Strips</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹599</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹19.97</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Tue, 3 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="melts healthy hair | pure biotin 10,000mcg, keratin, zinc, folic acid for stronger, shinier hair, strength &amp; thickness, 30 oral strips">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Melts Healthy Hair | Pure Biotin 10,000mcg, Keratin, Zinc, Folic Acid for Stronger, Shinier Hair, Strength &amp; Thickness, 30 Oral Strips</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹599</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹19.97</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Wed, 11 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="melts calm &amp; relaxation | pure ashwagandha ksm66, l-theanine, magnesium, saffron &amp; chamomile | natural stress &amp; anxiety relief, uplift mood &amp; reduce cortisol, 30 oral strips">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Melts Calm &amp; Relaxation | Pure Ashwagandha KSM66, L-theanine, Magnesium, Saffron &amp; Chamomile | Natural Stress &amp; Anxiety Relief, Uplift Mood &amp; Reduce Cortisol, 30 Oral Strips</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹599</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹19.97</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Tue, 3 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="melts natural vitamin d3 600iu + k2 as mk7 with resveratrol, vitamin a | for calcium absorption immunity, heart, bone, cellular protection, 30 oral strips">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Melts Natural Vitamin D3 600IU + K2 as MK7 with Resveratrol, Vitamin A | For Calcium Absorption Immunity, Heart, Bone, Cellular Protection, 30 Oral Strips</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹598</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹19.93</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Tue, 3 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="melts healthy gut | 10b cfu probiotics, digestive enzymes, fos | for indigestion, gas, acidity and bloating, gut health, 30 oral strips">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Melts Healthy Gut | 10B CFU Probiotics, Digestive Enzymes, FOS | For Indigestion, Gas, Acidity and Bloating, Gut Health, 30 Oral Strips</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹599</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹19.97</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Tue, 3 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="melts vegan vitamin b12, folate, brahmi &amp; curcumin | for memory, brain, heart &amp; nervous system support | b12 supplement for men &amp; women, 30 oral strips">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Melts Vegan Vitamin B12, Folate, Brahmi &amp; Curcumin | For Memory, Brain, Heart &amp; Nervous System Support | B12 supplement for Men &amp; Women, 30 Oral Strips</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹649</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹21.63</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Tue, 3 Nov</td>
+      </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- Sticky CTA Footer -->
+  <div class="fixed bottom-0 inset-x-0 bg-slate-950/95 border-t border-emerald-500/30 backdrop-blur px-6 py-3.5 z-30">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+      <div class="text-slate-200">
+        <span class="text-emerald-400 font-bold">⚡ Unscrape Radar:</span> Want real-time Slack/WhatsApp/Telegram alerts within 15 mins whenever <strong>Wellbeing Nutrition</strong> SKUs go Out-of-Stock across 20 BLR/MUM/DEL dark-store pin codes?
+      </div>
+      <div class="flex items-center gap-2.5 shrink-0">
+        <a href="https://github.com/deveshkolte/unscrape" target="_blank" class="px-4 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold">Unlock Automated 20-Pin-Code Monitor →</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const RAW_CSV = "brand,city,pincode,platform,skuId,title,sellingPriceInr,mrpInr,discountPercent,unit,inStock,deliveryEta,url\nWellbeing Nutrition,Bengaluru,560001,bigbasket.com/jiomart,50366866,\"VEDANUM Coconut Milk Hydrating,Smoothening and Moisturizing Nutrients Melt and Pour Soap Base 500 g\",331.55,499,34,0.66/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/vedanum-coconut-milk-hydrating-smoothening-and-moisturizing-nutrients-melt-and-pour-soap-base-500-g-mj731b-50366866/50366866\nWellbeing Nutrition,Bengaluru,560001,bigbasket.com/jiomart,139707430,Whip & Wick French Lavender Wax Melts | Soothing Lavender & Herbal Aroma | 100% Natural Soy Wax | Flameless & Long-Lasting Fragrance | Gift & Home Decor | 180g,469,640,27,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/whip-wick-french-lavender-wax-melts-soothing-lavender-herbal-aroma-100-natural-soy-wax-flameless-long-lasting-fragrance-gift-home-decor-180g-msh477-139707430/139707430\nWellbeing Nutrition,Bengaluru,560001,bigbasket.com/jiomart,21776302,\"Swarneo Melatonin 10mg Mouth Melts | Non-Habit Forming | No Water Needed | 10 Sachets | Supports Better Sleep, Restores Sleep Cycle, Soothes & Relaxes | Blueberry Flavor\",299,399,25,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/swarneo-melatonin-10mg-mouth-melts-non-habit-forming-no-water-needed-10-sachets-supports-better-sleep-restores-sleep-cycle-soothes-relaxes-blueberry-flavor-mib1wl-21776302/21776302\nWellbeing Nutrition,Bengaluru,560001,bigbasket.com/jiomart,50256813,VEDANUM Natural Honey Melt and Pour Soap Base with Almond Oil 1 kg,426.55,999,57,426.55/kg,true,15-30 MINS,https://www.jiomart.com/p/groceries/vedanum-natural-honey-melt-and-pour-soap-base-with-almond-oil-1-kg-mj72is-50256813/50256813\nWellbeing Nutrition,Bengaluru,560001,bigbasket.com/jiomart,53169390,BELLESA Deep Tissue Neck Shoulder Massager with Heat Shiatsu Kneading Relief for Pain Stress,8999,9999,10,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/bellesa-deep-tissue-neck-shoulder-massager-with-heat-shiatsu-kneading-relief-for-pain-stress-mj7fkr-53169390/53169390\nWellbeing Nutrition,Bengaluru,560001,bigbasket.com/jiomart,139707621,Whip & Wick  Blueberry Wax Melts | Fruity & Creamy Scent | 100% Natural Soy Wax | Long-Lasting Fragrance | Flameless Home Fragrance | 350 - 400 hrs burn time | 180g,469,640,27,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/whip-wick-blueberry-wax-melts-fruity-creamy-scent-100-natural-soy-wax-long-lasting-fragrance-flameless-home-fragrance-350-400-hrs-burn-time-180g-msh58b-139707621/139707621\nWellbeing Nutrition,Mumbai,400001,bigbasket.com/jiomart,50366866,\"VEDANUM Coconut Milk Hydrating,Smoothening and Moisturizing Nutrients Melt and Pour Soap Base 500 g\",331.55,499,34,0.66/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/vedanum-coconut-milk-hydrating-smoothening-and-moisturizing-nutrients-melt-and-pour-soap-base-500-g-mj731b-50366866/50366866\nWellbeing Nutrition,Mumbai,400001,bigbasket.com/jiomart,139707430,Whip & Wick French Lavender Wax Melts | Soothing Lavender & Herbal Aroma | 100% Natural Soy Wax | Flameless & Long-Lasting Fragrance | Gift & Home Decor | 180g,469,640,27,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/whip-wick-french-lavender-wax-melts-soothing-lavender-herbal-aroma-100-natural-soy-wax-flameless-long-lasting-fragrance-gift-home-decor-180g-msh477-139707430/139707430\nWellbeing Nutrition,Mumbai,400001,bigbasket.com/jiomart,21776302,\"Swarneo Melatonin 10mg Mouth Melts | Non-Habit Forming | No Water Needed | 10 Sachets | Supports Better Sleep, Restores Sleep Cycle, Soothes & Relaxes | Blueberry Flavor\",299,399,25,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/swarneo-melatonin-10mg-mouth-melts-non-habit-forming-no-water-needed-10-sachets-supports-better-sleep-restores-sleep-cycle-soothes-relaxes-blueberry-flavor-mib1wl-21776302/21776302\nWellbeing Nutrition,Mumbai,400001,bigbasket.com/jiomart,50256813,VEDANUM Natural Honey Melt and Pour Soap Base with Almond Oil 1 kg,426.55,999,57,426.55/kg,true,15-30 MINS,https://www.jiomart.com/p/groceries/vedanum-natural-honey-melt-and-pour-soap-base-with-almond-oil-1-kg-mj72is-50256813/50256813\nWellbeing Nutrition,Mumbai,400001,bigbasket.com/jiomart,53169390,BELLESA Deep Tissue Neck Shoulder Massager with Heat Shiatsu Kneading Relief for Pain Stress,8999,9999,10,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/bellesa-deep-tissue-neck-shoulder-massager-with-heat-shiatsu-kneading-relief-for-pain-stress-mj7fkr-53169390/53169390\nWellbeing Nutrition,Mumbai,400001,bigbasket.com/jiomart,139707621,Whip & Wick  Blueberry Wax Melts | Fruity & Creamy Scent | 100% Natural Soy Wax | Long-Lasting Fragrance | Flameless Home Fragrance | 350 - 400 hrs burn time | 180g,469,640,27,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/whip-wick-blueberry-wax-melts-fruity-creamy-scent-100-natural-soy-wax-long-lasting-fragrance-flameless-home-fragrance-350-400-hrs-burn-time-180g-msh58b-139707621/139707621\nWellbeing Nutrition,Delhi,110001,bigbasket.com/jiomart,50366866,\"VEDANUM Coconut Milk Hydrating,Smoothening and Moisturizing Nutrients Melt and Pour Soap Base 500 g\",331.55,499,34,0.66/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/vedanum-coconut-milk-hydrating-smoothening-and-moisturizing-nutrients-melt-and-pour-soap-base-500-g-mj731b-50366866/50366866\nWellbeing Nutrition,Delhi,110001,bigbasket.com/jiomart,139707430,Whip & Wick French Lavender Wax Melts | Soothing Lavender & Herbal Aroma | 100% Natural Soy Wax | Flameless & Long-Lasting Fragrance | Gift & Home Decor | 180g,469,640,27,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/whip-wick-french-lavender-wax-melts-soothing-lavender-herbal-aroma-100-natural-soy-wax-flameless-long-lasting-fragrance-gift-home-decor-180g-msh477-139707430/139707430\nWellbeing Nutrition,Delhi,110001,bigbasket.com/jiomart,21776302,\"Swarneo Melatonin 10mg Mouth Melts | Non-Habit Forming | No Water Needed | 10 Sachets | Supports Better Sleep, Restores Sleep Cycle, Soothes & Relaxes | Blueberry Flavor\",299,399,25,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/swarneo-melatonin-10mg-mouth-melts-non-habit-forming-no-water-needed-10-sachets-supports-better-sleep-restores-sleep-cycle-soothes-relaxes-blueberry-flavor-mib1wl-21776302/21776302\nWellbeing Nutrition,Delhi,110001,bigbasket.com/jiomart,50256813,VEDANUM Natural Honey Melt and Pour Soap Base with Almond Oil 1 kg,426.55,999,57,426.55/kg,true,15-30 MINS,https://www.jiomart.com/p/groceries/vedanum-natural-honey-melt-and-pour-soap-base-with-almond-oil-1-kg-mj72is-50256813/50256813\nWellbeing Nutrition,Delhi,110001,bigbasket.com/jiomart,53169390,BELLESA Deep Tissue Neck Shoulder Massager with Heat Shiatsu Kneading Relief for Pain Stress,8999,9999,10,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/bellesa-deep-tissue-neck-shoulder-massager-with-heat-shiatsu-kneading-relief-for-pain-stress-mj7fkr-53169390/53169390\nWellbeing Nutrition,Delhi,110001,bigbasket.com/jiomart,139707621,Whip & Wick  Blueberry Wax Melts | Fruity & Creamy Scent | 100% Natural Soy Wax | Long-Lasting Fragrance | Flameless Home Fragrance | 350 - 400 hrs burn time | 180g,469,640,27,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/whip-wick-blueberry-wax-melts-fruity-creamy-scent-100-natural-soy-wax-long-lasting-fragrance-flameless-home-fragrance-350-400-hrs-burn-time-180g-msh58b-139707621/139707621\nWellbeing Nutrition,Bengaluru,560001,flipkart.com,VSLG74QEFHKYHHWX,\"Wellbeing Nutrition Melts Healthy Gut|Plant Based Probiotic 10B CFU, Digestive Enzyme -Oral Strips\",569,599,5,1 unit,true,15 MINS,https://www.flipkart.com/wellbeing-nutrition-melts-healthy-gut-plant-based-probiotic-10b-cfu-digestive-enzyme-oral-strips/p/itm1826421114ec9?pid=VSLG74QEFHKYHHWX&lid=LSTVSLG74QEFHKYHHWX87KOAG&marketplace=FLIPKART&q=wellbeing+nutrition+melts&store=hlc%2Fetg%2Fqtw&srno=s_1_1&otracker=search&fm=organic&iid=en_5GW5tBircUfK9_FF_55_Av95DNP4q_9idy2eKUOcciCU8QZoVibHizLWieULtdREbrLn8taTfNE4i_ag2kdbzYDdGwn-BVCFzSpiibkd9cKdQoUVeQxsPBAw2x_995lY&ppt=None&ppn=None&ssid=t7fhmrdlxs0000001793387293289&qH=17ac89dd65749e26&ov_redirect=true&ov_redirect=true\nWellbeing Nutrition,Bengaluru,560001,flipkart.com,VSLGGEYMVYD9JGVM,Wellbeing Nutrition Melts Healthy Hair Plant Based Biotin 4000mcg+ For Hair Growth & Nourishment,599,,0,1 unit,true,15 MINS,https://www.flipkart.com/wellbeing-nutrition-melts-healthy-hair-plant-based-biotin-4000mcg-growth-nourishment/p/itme011c9681fb6e?pid=VSLGGEYMVYD9JGVM&lid=LSTVSLGGEYMVYD9JGVMD26QWE&marketplace=FLIPKART&q=wellbeing+nutrition+melts&store=hlc%2Fetg%2Fqtw&srno=s_1_2&otracker=search&fm=organic&iid=1678ff3c-6ae6-40b9-885c-c97d9a825d75.VSLGGEYMVYD9JGVM.SEARCH&ppt=None&ppn=None&ssid=t7fhmrdlxs0000001793387293289&qH=17ac89dd65749e26&ov_redirect=true&ov_redirect=true\nWellbeing Nutrition,Bengaluru,560001,flipkart.com,VSLGG5GFBTXKQY7S,Wellbeing Nutrition Organic Daily Fiber For Weightloss & Blood Sugar Control,809,899,10,1 unit,true,15 MINS,https://www.flipkart.com/wellbeing-nutrition-organic-daily-fiber-weightloss-blood-sugar-control/p/itm78eb6760a08f1?pid=VSLGG5GFBTXKQY7S&lid=LSTVSLGG5GFBTXKQY7SY1XWBD&marketplace=FLIPKART&q=wellbeing+nutrition+melts&store=hlc%2Fetg%2Fqtw&srno=s_1_3&otracker=search&fm=organic&iid=1678ff3c-6ae6-40b9-885c-c97d9a825d75.VSLGG5GFBTXKQY7S.SEARCH&ppt=None&ppn=None&ssid=t7fhmrdlxs0000001793387293289&qH=17ac89dd65749e26&ov_redirect=true&ov_redirect=true\nWellbeing Nutrition,Bengaluru,560001,flipkart.com,VSLG74QEW6RZGM3T,\"Wellbeing Nutrition Plant Based Multivitamin with 100% RDA of Vitamin A,Vitamin C -Oral Strips\",599,,0,1 unit,true,15 MINS,https://www.flipkart.com/wellbeing-nutrition-plant-based-multivitamin-100-rda-vitamin-a-vitamin-c-oral-strips/p/itmeb35cf8844240?pid=VSLG74QEW6RZGM3T&lid=LSTVSLG74QEW6RZGM3TACVDOR&marketplace=FLIPKART&q=wellbeing+nutrition+melts&store=hlc%2Fetg%2Fqtw&srno=s_1_4&otracker=search&fm=organic&iid=1678ff3c-6ae6-40b9-885c-c97d9a825d75.VSLG74QEW6RZGM3T.SEARCH&ppt=None&ppn=None&ssid=t7fhmrdlxs0000001793387293289&qH=17ac89dd65749e26&ov_redirect=true&ov_redirect=true\nWellbeing Nutrition,Bengaluru,560001,flipkart.com,VSLG74QF3ZHXZHZK,Wellbeing Nutrition Melts Healthy Hair with Plant Based Biotin 4000mcg+ for Hair Nutrition,1138,1198,5,1 unit,true,15 MINS,https://www.flipkart.com/wellbeing-nutrition-melts-healthy-hair-plant-based-biotin-4000mcg/p/itmf4f3a21852604?pid=VSLG74QF3ZHXZHZK&lid=LSTVSLG74QF3ZHXZHZK0INBCC&marketplace=FLIPKART&q=wellbeing+nutrition+melts&store=hlc%2Fetg%2Fqtw&srno=s_1_6&otracker=search&fm=organic&iid=1678ff3c-6ae6-40b9-885c-c97d9a825d75.VSLG74QF3ZHXZHZK.SEARCH&ppt=None&ppn=None&ssid=t7fhmrdlxs0000001793387293289&qH=17ac89dd65749e26&ov_redirect=true&ov_redirect=true\nWellbeing Nutrition,Bengaluru,560001,flipkart.com,VSLHG85FBAJXB5QU,\"Wellbeing Nutrition Vitamin B-Complex Methylated Tablets for Energy, Immunity & Nerve Support\",809,899,10,1 unit,true,15 MINS,https://www.flipkart.com/wellbeing-nutrition-vitamin-b-complex-methylated-tablets-energy-immunity-nerve-support/p/itm567a0fc604ebd?pid=VSLHG85FBAJXB5QU&lid=LSTVSLHG85FBAJXB5QUQYZDEX&marketplace=FLIPKART&q=wellbeing+nutrition+melts&store=hlc%2Fetg%2Fqtw&srno=s_1_7&otracker=search&fm=organic&iid=1678ff3c-6ae6-40b9-885c-c97d9a825d75.VSLHG85FBAJXB5QU.SEARCH&ppt=None&ppn=None&ssid=t7fhmrdlxs0000001793387293289&qH=17ac89dd65749e26&ov_redirect=true&ov_redirect=true\nWellbeing Nutrition,Bengaluru,560001,blinkit.com,587985,Plix Deep Sleep Melatonin Mini Mints,330,355,7,30 tabs,true,10 MINS,https://blinkit.com/prn/plix-deep-sleep-melatonin-mini-mints/prid/587985\nWellbeing Nutrition,Bengaluru,560001,blinkit.com,483575,Wellbeing Nutrition Melts into Multivitamin Oral Strips,599,599,0,30 pcs,true,10 MINS,https://blinkit.com/prn/wellbeing-nutrition-melts-into-multivitamin-oral-strips/prid/483575\nWellbeing Nutrition,Bengaluru,560001,blinkit.com,483552,Wellbeing Nutrition Vitamin B12 Melts for Energy and Cognitive Health,649,649,0,30 pcs,true,10 MINS,https://blinkit.com/prn/wellbeing-nutrition-vitamin-b12-melts-for-energy-and-cognitive-health/prid/483552\nWellbeing Nutrition,Bengaluru,560001,blinkit.com,483558,Wellbeing Nutrition Vitamin D Melts with K2 Oral Strips,649,649,0,30 pcs,true,10 MINS,https://blinkit.com/prn/wellbeing-nutrition-vitamin-d-melts-with-k2-oral-strips/prid/483558\nWellbeing Nutrition,Bengaluru,560001,blinkit.com,499611,Wellbeing Nutrition Throat Melts Oral Strips for Cough,599,599,0,30 pcs,true,10 MINS,https://blinkit.com/prn/wellbeing-nutrition-throat-melts-oral-strips-for-cough/prid/499611\nWellbeing Nutrition,Bengaluru,560001,blinkit.com,786327,Wellbeing Nutrition Melatonin Melting Oral Strips (Honey Lemon),649,649,0,30 strips,true,10 MINS,https://blinkit.com/prn/wellbeing-nutrition-melatonin-melting-oral-strips-honey-lemon/prid/786327\nWellbeing Nutrition,Bengaluru,560001,blinkit.com,540603,Wellbeing Nutrition Glutathione Effervescent Tablets,675,899,25,15 tabs,true,10 MINS,https://blinkit.com/prn/wellbeing-nutrition-glutathione-effervescent-tablets/prid/540603\nWellbeing Nutrition,Bengaluru,560001,blinkit.com,726728,Wellbeing Nutrition Slow 4x Strength Omega 3,1260,1399,10,60 pcs,true,10 MINS,https://blinkit.com/prn/wellbeing-nutrition-slow-4x-strength-omega-3/prid/726728\nWellbeing Nutrition,Bengaluru,560001,amazon.in,B095KQV93L,\"Melts Restful Sleep Aid | Plant-Based Melatonin 10mg for Better Sleep with Chamomile, Tagara, L-Theanine | Non-Addictive Sleep-Aid, Safe, Natural, 30 Oral Strips\",599,19.97,0,1 unit,true,\"Tue, 3 Nov\",https://www.amazon.in/dp/B095KQV93L\nWellbeing Nutrition,Bengaluru,560001,amazon.in,B09FK4YGPH,\"Melts Healthy Hair | Pure Biotin 10,000mcg, Keratin, Zinc, Folic Acid for Stronger, Shinier Hair, Strength & Thickness, 30 Oral Strips\",599,19.97,0,1 unit,true,\"Wed, 11 Nov\",https://www.amazon.in/dp/B09FK4YGPH\nWellbeing Nutrition,Bengaluru,560001,amazon.in,B0B6G7TW2P,\"Melts Calm & Relaxation | Pure Ashwagandha KSM66, L-theanine, Magnesium, Saffron & Chamomile | Natural Stress & Anxiety Relief, Uplift Mood & Reduce Cortisol, 30 Oral Strips\",599,19.97,0,1 unit,true,\"Tue, 3 Nov\",https://www.amazon.in/dp/B0B6G7TW2P\nWellbeing Nutrition,Bengaluru,560001,amazon.in,B095S82KLD,\"Melts Natural Vitamin D3 600IU + K2 as MK7 with Resveratrol, Vitamin A | For Calcium Absorption Immunity, Heart, Bone, Cellular Protection, 30 Oral Strips\",598,19.93,0,1 unit,true,\"Tue, 3 Nov\",https://www.amazon.in/dp/B095S82KLD\nWellbeing Nutrition,Bengaluru,560001,amazon.in,B09FFKCC5H,\"Melts Healthy Gut | 10B CFU Probiotics, Digestive Enzymes, FOS | For Indigestion, Gas, Acidity and Bloating, Gut Health, 30 Oral Strips\",599,19.97,0,1 unit,true,\"Tue, 3 Nov\",https://www.amazon.in/dp/B09FFKCC5H\nWellbeing Nutrition,Bengaluru,560001,amazon.in,B095LQW7KB,\"Melts Vegan Vitamin B12, Folate, Brahmi & Curcumin | For Memory, Brain, Heart & Nervous System Support | B12 supplement for Men & Women, 30 Oral Strips\",649,21.63,0,1 unit,true,\"Tue, 3 Nov\",https://www.amazon.in/dp/B095LQW7KB\n";
+
+    function filterRows(mode) {
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const stock = row.getAttribute('data-stock');
+        if (mode === 'all') row.style.display = '';
+        else if (mode === 'oos') row.style.display = stock === 'oos' ? '' : 'none';
+        else if (mode === 'instock') row.style.display = stock === 'instock' ? '' : 'none';
+      });
+    }
+
+    function searchSkus() {
+      const q = document.getElementById('skuSearch').value.toLowerCase();
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const title = row.getAttribute('data-title') || '';
+        const platform = (row.getAttribute('data-platform') || '').toLowerCase();
+        row.style.display = (title.includes(q) || platform.includes(q)) ? '' : 'none';
+      });
+    }
+
+    function downloadCsv() {
+      const blob = new Blob([RAW_CSV], { type: 'text/csv;charset=utf-8;' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'wellbeing-nutrition-3city-audit.csv';
+      a.click();
+    }
+  </script>
+</body>
+</html>

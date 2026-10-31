@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Beco — 3-City Quick-Commerce Dark-Store Audit Scorecard | Unscrape Radar</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background-color: #07080d; color: #f3f4f6; font-family: Inter, system-ui, -apple-system, sans-serif; }
+  </style>
+</head>
+<body class="min-h-screen pb-24">
+  <!-- Top Bar -->
+  <header class="border-b border-slate-800 bg-slate-950/90 backdrop-blur sticky top-0 z-20">
+    <div class="max-w-7xl mx-auto px-6 py-3.5 flex items-center justify-between flex-wrap gap-3">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="text-emerald-400 font-black text-lg tracking-tight hover:text-emerald-300">⚡ UNSCRAPE RADAR</a>
+        <span class="text-xs text-slate-500">/</span>
+        <span class="text-sm font-bold text-white">Beco Executive Scorecard</span>
+      </div>
+      <div class="flex items-center gap-2.5 text-xs">
+        <a href="index.html" class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700">← All 56 Brand Audits</a>
+        <button onclick="downloadCsv()" class="px-3.5 py-1.5 rounded-lg bg-emerald-500 text-slate-950 font-bold hover:bg-emerald-400">⬇ Download Raw CSV (38 SKUs)</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-6 pt-8">
+    <!-- Executive Header -->
+    <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 mb-8">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+        <div>
+          <div class="flex items-center gap-2.5 mb-2">
+            <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded bg-slate-800 text-emerald-400">Eco-Friendly Home &amp; Tissue</span>
+            <span class="text-xs text-slate-400 font-mono">Audited: 2026-10-30</span>
+          </div>
+          <h1 class="text-3xl md:text-4xl font-black text-white tracking-tight">Beco — Hyperlocal Dark-Store Audit</h1>
+          <p class="text-slate-400 text-sm mt-1">
+            Live multi-platform inventory & MOP/MRP price variance scan across <strong>Bengaluru (560001)</strong>, <strong>Mumbai (400001)</strong>, and <strong>Delhi (110001)</strong>.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 shrink-0">
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">SKUs Audited</div>
+            <div class="text-2xl font-black text-white mt-1">38</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">OOS Leaks</div>
+            <div class="text-2xl font-black text-emerald-400 mt-1">0</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">Max Markdown</div>
+            <div class="text-2xl font-black text-amber-300 mt-1">64%</div>
+          </div>
+          <div class="border rounded-xl p-3.5 text-center bg-emerald-500/15 text-emerald-400 border-emerald-500/30">
+            <div class="text-[11px] uppercase font-bold opacity-80">Shelf Health</div>
+            <div class="text-2xl font-black mt-1">100%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="bg-emerald-950/30 border border-emerald-500/30 rounded-2xl p-5 mb-8 flex items-center justify-between flex-wrap gap-3">
+      <div>
+        <span class="px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 font-bold text-xs uppercase">✓ 100% In-Stock Snapshot</span>
+        <span class="text-sm text-slate-200 ml-2">All 38 audited dark-store listings across Bengaluru, Mumbai & Delhi were in stock during this scan. Max discount variance: <strong>64% below MRP</strong>.</span>
+      </div>
+    </div>
+
+    <!-- Filter Controls -->
+    <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+      <div class="flex items-center gap-2 text-xs">
+        <button onclick="filterRows('all')" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-semibold">All SKUs (38)</button>
+        <button onclick="filterRows('oos')" class="px-3 py-1.5 rounded-lg bg-rose-500/15 border border-rose-500/30 text-rose-300 hover:bg-rose-500/25 font-semibold">Out-of-Stock Only (0)</button>
+        <button onclick="filterRows('instock')" class="px-3 py-1.5 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 hover:bg-emerald-500/25 font-semibold">In-Stock (38)</button>
+      </div>
+      <div class="flex items-center gap-2">
+        <input id="skuSearch" type="text" oninput="searchSkus()" placeholder="Filter SKU title or platform..." class="bg-slate-900 border border-slate-800 rounded-lg px-3.5 py-1.5 text-xs text-white w-64" />
+      </div>
+    </div>
+
+    <!-- SKU Table -->
+    <div class="bg-slate-900/50 border border-slate-800 rounded-2xl overflow-x-auto">
+      <table class="w-full text-left text-xs">
+        <thead class="bg-slate-950/90 text-slate-400 uppercase border-b border-slate-800">
+          <tr>
+            <th class="px-4 py-3">SKU Title</th>
+            <th class="px-4 py-3">Platform</th>
+            <th class="px-4 py-3">City / Pin</th>
+            <th class="px-4 py-3">Pack Size</th>
+            <th class="px-4 py-3">Selling Price</th>
+            <th class="px-4 py-3">MRP</th>
+            <th class="px-4 py-3">Discount</th>
+            <th class="px-4 py-3">Stock Status</th>
+            <th class="px-4 py-3">ETA</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-800/60">
+          <tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="ecofira bamboo facial tissue packet | 100 pulls x 6 packet |buy 3 get 3 free | super soft | skin friendly &amp; highly absorbent | face tissue | car tissue | 100% natural &amp; ecofriendly | 2 ply - 600 pulls">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Ecofira Bamboo Facial Tissue Packet | 100 pulls x 6 packet |Buy 3 get 3 free | Super Soft | Skin Friendly &amp; Highly Absorbent | Face Tissue | Car Tissue | 100% Natural &amp; Ecofriendly | 2 ply - 600 pulls</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">240.00/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹240</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹270</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">11% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="benko reusable bamboo kitchen towel roll, 22 sheets | highly absorbent cleaning wipes, up to 2200 washes | multipurpose kitchen cleaning cloth | kitchen tissue paper roll for home cleaning">
+        <td class="px-4 py-3 font-medium text-white max-w-md">BENKO Reusable Bamboo Kitchen Towel Roll, 22 Sheets | Highly Absorbent Cleaning Wipes, Up to 2200 Washes | Multipurpose Kitchen Cleaning Cloth | Kitchen Tissue Paper Roll for Home Cleaning</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹199</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹439</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">55% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bamorolife bamboo toilet paper roll | pack of 2 | 2 ply | 300 pulls per roll | soft, strong &amp; eco-friendly">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bamorolife Bamboo Toilet Paper Roll | Pack of 2 | 2 Ply | 300 Pulls Per Roll | Soft, Strong &amp; Eco-Friendly</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹219</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹297</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">26% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="white knight 2 ply kitchen towel roll (100 sheets)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">White Knight 2 Ply Kitchen Towel Roll (100 Sheets)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1.00/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹100</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹150</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">33% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="black &amp; white 2 ply kitchen towel 60 sheets (pack of 4)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Black &amp; White 2 ply Kitchen Towel 60 sheets (Pack of 4)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">4.25/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹255</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹255</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="home one disposable kitchen tissue paper 2 n roll 60 pulls">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Home One Disposable Kitchen Tissue Paper 2 N Roll 60 Pulls</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1.42/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹85</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹170</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="ecofira bamboo facial tissue packet | 100 pulls x 6 packet |buy 3 get 3 free | super soft | skin friendly &amp; highly absorbent | face tissue | car tissue | 100% natural &amp; ecofriendly | 2 ply - 600 pulls">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Ecofira Bamboo Facial Tissue Packet | 100 pulls x 6 packet |Buy 3 get 3 free | Super Soft | Skin Friendly &amp; Highly Absorbent | Face Tissue | Car Tissue | 100% Natural &amp; Ecofriendly | 2 ply - 600 pulls</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">240.00/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹240</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹270</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">11% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="benko reusable bamboo kitchen towel roll, 22 sheets | highly absorbent cleaning wipes, up to 2200 washes | multipurpose kitchen cleaning cloth | kitchen tissue paper roll for home cleaning">
+        <td class="px-4 py-3 font-medium text-white max-w-md">BENKO Reusable Bamboo Kitchen Towel Roll, 22 Sheets | Highly Absorbent Cleaning Wipes, Up to 2200 Washes | Multipurpose Kitchen Cleaning Cloth | Kitchen Tissue Paper Roll for Home Cleaning</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹199</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹439</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">55% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bamorolife bamboo toilet paper roll | pack of 2 | 2 ply | 300 pulls per roll | soft, strong &amp; eco-friendly">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bamorolife Bamboo Toilet Paper Roll | Pack of 2 | 2 Ply | 300 Pulls Per Roll | Soft, Strong &amp; Eco-Friendly</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹219</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹297</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">26% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="white knight 2 ply kitchen towel roll (100 sheets)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">White Knight 2 Ply Kitchen Towel Roll (100 Sheets)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1.00/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹100</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹150</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">33% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="black &amp; white 2 ply kitchen towel 60 sheets (pack of 4)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Black &amp; White 2 ply Kitchen Towel 60 sheets (Pack of 4)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">4.25/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹255</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹255</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="home one disposable kitchen tissue paper 2 n roll 60 pulls">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Home One Disposable Kitchen Tissue Paper 2 N Roll 60 Pulls</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1.42/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹85</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹170</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="ecofira bamboo facial tissue packet | 100 pulls x 6 packet |buy 3 get 3 free | super soft | skin friendly &amp; highly absorbent | face tissue | car tissue | 100% natural &amp; ecofriendly | 2 ply - 600 pulls">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Ecofira Bamboo Facial Tissue Packet | 100 pulls x 6 packet |Buy 3 get 3 free | Super Soft | Skin Friendly &amp; Highly Absorbent | Face Tissue | Car Tissue | 100% Natural &amp; Ecofriendly | 2 ply - 600 pulls</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">240.00/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹240</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹270</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">11% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="benko reusable bamboo kitchen towel roll, 22 sheets | highly absorbent cleaning wipes, up to 2200 washes | multipurpose kitchen cleaning cloth | kitchen tissue paper roll for home cleaning">
+        <td class="px-4 py-3 font-medium text-white max-w-md">BENKO Reusable Bamboo Kitchen Towel Roll, 22 Sheets | Highly Absorbent Cleaning Wipes, Up to 2200 Washes | Multipurpose Kitchen Cleaning Cloth | Kitchen Tissue Paper Roll for Home Cleaning</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹199</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹439</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">55% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bamorolife bamboo toilet paper roll | pack of 2 | 2 ply | 300 pulls per roll | soft, strong &amp; eco-friendly">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bamorolife Bamboo Toilet Paper Roll | Pack of 2 | 2 Ply | 300 Pulls Per Roll | Soft, Strong &amp; Eco-Friendly</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹219</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹297</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">26% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="white knight 2 ply kitchen towel roll (100 sheets)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">White Knight 2 Ply Kitchen Towel Roll (100 Sheets)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1.00/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹100</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹150</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">33% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="black &amp; white 2 ply kitchen towel 60 sheets (pack of 4)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Black &amp; White 2 ply Kitchen Towel 60 sheets (Pack of 4)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">4.25/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹255</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹255</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="home one disposable kitchen tissue paper 2 n roll 60 pulls">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Home One Disposable Kitchen Tissue Paper 2 N Roll 60 Pulls</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1.42/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹85</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹170</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="beco bamboo reusable kitchen towel|reusable upto 4000 times|100% natural ecofriendly">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Beco Bamboo Reusable Kitchen Towel|Reusable upto 4000 times|100% Natural Ecofriendly</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹336</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹700</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">52% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="beco bambooee tissue white paper napkins">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Beco Bambooee Tissue White Paper Napkins</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹105</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">-</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="beco eco friendly - tissue roll/ toilet tissue paper (3 ply) - 8 rolls ( 220 pulls per roll ) - made from bamboo">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Beco Eco Friendly - Tissue Roll/ Toilet Tissue Paper (3 Ply) - 8 Rolls ( 220 Pulls Per Roll ) - Made from Bamboo</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹499</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">-</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="beco bamboo tissue roll">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Beco Bamboo Tissue Roll</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹275</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">-</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="beco reusable kitchen towel (20 sheets x 100 times each-2000 wipes), made from bamboo">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Beco Reusable Kitchen Towel (20 sheets x 100 times each-2000 wipes), Made from Bamboo</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹177</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹350</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">49% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="benko reusable kitchen towel (100 times each-2200 wipes), made from bamboo">
+        <td class="px-4 py-3 font-medium text-white max-w-md">BENKO Reusable Kitchen Towel (100 times each-2200 wipes), Made from Bamboo</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹160</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹439</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">64% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="origami so soft 4 in 1 face tissue box">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Origami So Soft 4 in 1 Face Tissue Box</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">4 x 90 pulls</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹279</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹299</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">7% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="beco super soft bamboo face tissue paper - buy 3 get 3 free">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Beco Super Soft Bamboo Face Tissue Paper - Buy 3 Get 3 Free</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">6 x 100 pulls</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹213</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹270</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">21% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="beco bamboo toilet roll">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Beco Bamboo Toilet Roll</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">6 x 160 pulls</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹168</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹245</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">31% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="beco bamboo natural face tissue box">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Beco Bamboo Natural Face Tissue Box</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">200 pulls</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹129</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹180</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">28% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="origami luxuria face tissue box">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Origami Luxuria Face Tissue Box</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">100 pulls</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹139</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹150</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">7% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="beco bamboo natural face tissue box">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Beco Bamboo Natural Face Tissue Box</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">100 pulls</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹85</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹105</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">19% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="beco reusable kitchen towel roll">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Beco Reusable Kitchen Towel Roll</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">20 pulls</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹200</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹350</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">43% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="beco bamboo serving napkins">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Beco Bamboo Serving Napkins</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">50 pulls</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹99</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹105</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">6% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="reusable kitchen towel roll-2000 times washable|soft &amp; highly absorbent|better alternative to dishcloth, kitchen tissue paper roll/paper towel| eco bamboo wipes for home cleaning|20 sheets">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Reusable Kitchen Towel Roll-2000 Times Washable|Soft &amp; Highly Absorbent|Better Alternative to Dishcloth, Kitchen Tissue Paper Roll/Paper Towel| Eco Bamboo Wipes for Home Cleaning|20 Sheets</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹177</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹8.85</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Tue, 3 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="bamboo 3-ply toilet paper roll 160 pulls each pack of 12, natural, unbleached and eco-friendly tissue papers">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bamboo 3-Ply Toilet Paper Roll 160 Pulls Each Pack of 12, Natural, Unbleached and Eco-Friendly Tissue Papers</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹319</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹26.58</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="2-ply bamboo tissue napkins (150 pulls) | 50 pulls x 3 pack | facial tissue | car tissue box | 100% natural, biodegradable &amp; eco-friendly | soft, strong &amp; highly absorbent paper napkins">
+        <td class="px-4 py-3 font-medium text-white max-w-md">2-Ply Bamboo Tissue Napkins (150 Pulls) | 50 Pulls x 3 Pack | Facial Tissue | Car Tissue Box | 100% Natural, Biodegradable &amp; Eco-Friendly | Soft, Strong &amp; Highly Absorbent Paper Napkins</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">3 Pack</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹169</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1.13</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Fri, 6 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="bamboo tissue paper box - 300 sheets | super soft 2-ply car tissue box | facial tissue - 100 pulls x 3 packs | 100% natural, eco-friendly, biodegradable, and gentle on skin">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bamboo Tissue Paper Box - 300 Sheets | Super Soft 2-Ply Car Tissue Box | Facial Tissue - 100 Pulls x 3 Packs | 100% Natural, Eco-Friendly, Biodegradable, and Gentle on Skin</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹231</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹0.77</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Tue, 3 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="2 ply facial tissue flat box, 200 pulls, pack of 6 (total 1,200 sheets) (60060)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">2 ply Facial Tissue Flat Box, 200 Pulls, Pack of 6 (Total 1,200 Sheets) (60060)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹498</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1044</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">52% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="bamboo super soft facial tissue 100 pulls (pack of 6), 600 pulls 2 ply 100% natural and ecofriendly">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bamboo Super Soft Facial Tissue 100 Pulls (Pack of 6), 600 Pulls 2 ply 100% Natural and Ecofriendly</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹229</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹0.38</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- Sticky CTA Footer -->
+  <div class="fixed bottom-0 inset-x-0 bg-slate-950/95 border-t border-emerald-500/30 backdrop-blur px-6 py-3.5 z-30">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+      <div class="text-slate-200">
+        <span class="text-emerald-400 font-bold">⚡ Unscrape Radar:</span> Want real-time Slack/WhatsApp/Telegram alerts within 15 mins whenever <strong>Beco</strong> SKUs go Out-of-Stock across 20 BLR/MUM/DEL dark-store pin codes?
+      </div>
+      <div class="flex items-center gap-2.5 shrink-0">
+        <a href="https://github.com/deveshkolte/unscrape" target="_blank" class="px-4 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold">Unlock Automated 20-Pin-Code Monitor →</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const RAW_CSV = "brand,city,pincode,platform,skuId,title,sellingPriceInr,mrpInr,discountPercent,unit,inStock,deliveryEta,url\nBeco,Bengaluru,560001,bigbasket.com/jiomart,109669994,Ecofira Bamboo Facial Tissue Packet | 100 pulls x 6 packet |Buy 3 get 3 free | Super Soft | Skin Friendly & Highly Absorbent | Face Tissue | Car Tissue | 100% Natural & Ecofriendly | 2 ply - 600 pulls,240,270,11,240.00/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/ecofira-bamboo-facial-tissue-packet-100-pulls-x-6-packet-buy-3-get-3-free-super-soft-skin-friendly-highly-absorbent-face-tissue-car-tissue-100-natural-ecofriendly-2-ply-600-pulls-mqgjln-109669994/109669994\nBeco,Bengaluru,560001,bigbasket.com/jiomart,156112257,\"BENKO Reusable Bamboo Kitchen Towel Roll, 22 Sheets | Highly Absorbent Cleaning Wipes, Up to 2200 Washes | Multipurpose Kitchen Cleaning Cloth | Kitchen Tissue Paper Roll for Home Cleaning\",199,439,55,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/benko-reusable-bamboo-kitchen-towel-roll-22-sheets-highly-absorbent-cleaning-wipes-up-to-2200-washes-multipurpose-kitchen-cleaning-cloth-kitchen-tissue-paper-roll-for-home-cleaning-mu75ld-156112257/156112257\nBeco,Bengaluru,560001,bigbasket.com/jiomart,139954793,\"Bamorolife Bamboo Toilet Paper Roll | Pack of 2 | 2 Ply | 300 Pulls Per Roll | Soft, Strong & Eco-Friendly\",219,297,26,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/bamorolife-bamboo-toilet-paper-roll-pack-of-4-2-ply-300-pulls-per-roll-soft-strong-eco-friendly-mshw24-139954793/139954793\nBeco,Bengaluru,560001,bigbasket.com/jiomart,7548981,White Knight 2 Ply Kitchen Towel Roll (100 Sheets),100,150,33,1.00/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/white-knight-2-ply-kitchen-towel-roll-100-sheets-mffndm-7548981/7548981\nBeco,Bengaluru,560001,bigbasket.com/jiomart,7502311,Black & White 2 ply Kitchen Towel 60 sheets (Pack of 4),255,255,0,4.25/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/black-white-2-ply-kitchen-towel-60-sheets-pack-of-4-mffmri-7502311/7502311\nBeco,Bengaluru,560001,bigbasket.com/jiomart,7507216,Home One Disposable Kitchen Tissue Paper 2 N Roll 60 Pulls,85,170,50,1.42/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/home-one-disposable-kitchen-tissue-paper-2-n-roll-60-pulls-mffmto-7507216/7507216\nBeco,Mumbai,400001,bigbasket.com/jiomart,109669994,Ecofira Bamboo Facial Tissue Packet | 100 pulls x 6 packet |Buy 3 get 3 free | Super Soft | Skin Friendly & Highly Absorbent | Face Tissue | Car Tissue | 100% Natural & Ecofriendly | 2 ply - 600 pulls,240,270,11,240.00/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/ecofira-bamboo-facial-tissue-packet-100-pulls-x-6-packet-buy-3-get-3-free-super-soft-skin-friendly-highly-absorbent-face-tissue-car-tissue-100-natural-ecofriendly-2-ply-600-pulls-mqgjln-109669994/109669994\nBeco,Mumbai,400001,bigbasket.com/jiomart,156112257,\"BENKO Reusable Bamboo Kitchen Towel Roll, 22 Sheets | Highly Absorbent Cleaning Wipes, Up to 2200 Washes | Multipurpose Kitchen Cleaning Cloth | Kitchen Tissue Paper Roll for Home Cleaning\",199,439,55,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/benko-reusable-bamboo-kitchen-towel-roll-22-sheets-highly-absorbent-cleaning-wipes-up-to-2200-washes-multipurpose-kitchen-cleaning-cloth-kitchen-tissue-paper-roll-for-home-cleaning-mu75ld-156112257/156112257\nBeco,Mumbai,400001,bigbasket.com/jiomart,139954793,\"Bamorolife Bamboo Toilet Paper Roll | Pack of 2 | 2 Ply | 300 Pulls Per Roll | Soft, Strong & Eco-Friendly\",219,297,26,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/bamorolife-bamboo-toilet-paper-roll-pack-of-4-2-ply-300-pulls-per-roll-soft-strong-eco-friendly-mshw24-139954793/139954793\nBeco,Mumbai,400001,bigbasket.com/jiomart,7548981,White Knight 2 Ply Kitchen Towel Roll (100 Sheets),100,150,33,1.00/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/white-knight-2-ply-kitchen-towel-roll-100-sheets-mffndm-7548981/7548981\nBeco,Mumbai,400001,bigbasket.com/jiomart,7502311,Black & White 2 ply Kitchen Towel 60 sheets (Pack of 4),255,255,0,4.25/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/black-white-2-ply-kitchen-towel-60-sheets-pack-of-4-mffmri-7502311/7502311\nBeco,Mumbai,400001,bigbasket.com/jiomart,7507216,Home One Disposable Kitchen Tissue Paper 2 N Roll 60 Pulls,85,170,50,1.42/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/home-one-disposable-kitchen-tissue-paper-2-n-roll-60-pulls-mffmto-7507216/7507216\nBeco,Delhi,110001,bigbasket.com/jiomart,109669994,Ecofira Bamboo Facial Tissue Packet | 100 pulls x 6 packet |Buy 3 get 3 free | Super Soft | Skin Friendly & Highly Absorbent | Face Tissue | Car Tissue | 100% Natural & Ecofriendly | 2 ply - 600 pulls,240,270,11,240.00/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/ecofira-bamboo-facial-tissue-packet-100-pulls-x-6-packet-buy-3-get-3-free-super-soft-skin-friendly-highly-absorbent-face-tissue-car-tissue-100-natural-ecofriendly-2-ply-600-pulls-mqgjln-109669994/109669994\nBeco,Delhi,110001,bigbasket.com/jiomart,156112257,\"BENKO Reusable Bamboo Kitchen Towel Roll, 22 Sheets | Highly Absorbent Cleaning Wipes, Up to 2200 Washes | Multipurpose Kitchen Cleaning Cloth | Kitchen Tissue Paper Roll for Home Cleaning\",199,439,55,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/benko-reusable-bamboo-kitchen-towel-roll-22-sheets-highly-absorbent-cleaning-wipes-up-to-2200-washes-multipurpose-kitchen-cleaning-cloth-kitchen-tissue-paper-roll-for-home-cleaning-mu75ld-156112257/156112257\nBeco,Delhi,110001,bigbasket.com/jiomart,139954793,\"Bamorolife Bamboo Toilet Paper Roll | Pack of 2 | 2 Ply | 300 Pulls Per Roll | Soft, Strong & Eco-Friendly\",219,297,26,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/bamorolife-bamboo-toilet-paper-roll-pack-of-4-2-ply-300-pulls-per-roll-soft-strong-eco-friendly-mshw24-139954793/139954793\nBeco,Delhi,110001,bigbasket.com/jiomart,7548981,White Knight 2 Ply Kitchen Towel Roll (100 Sheets),100,150,33,1.00/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/white-knight-2-ply-kitchen-towel-roll-100-sheets-mffndm-7548981/7548981\nBeco,Delhi,110001,bigbasket.com/jiomart,7502311,Black & White 2 ply Kitchen Towel 60 sheets (Pack of 4),255,255,0,4.25/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/black-white-2-ply-kitchen-towel-60-sheets-pack-of-4-mffmri-7502311/7502311\nBeco,Delhi,110001,bigbasket.com/jiomart,7507216,Home One Disposable Kitchen Tissue Paper 2 N Roll 60 Pulls,85,170,50,1.42/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/home-one-disposable-kitchen-tissue-paper-2-n-roll-60-pulls-mffmto-7507216/7507216\nBeco,Bengaluru,560001,flipkart.com,KNRGVNVGESRD9FRY,Beco Bamboo Reusable Kitchen Towel|Reusable upto 4000 times|100% Natural Ecofriendly,336,700,52,1 unit,true,15 MINS,https://www.flipkart.com/beco-bamboo-reusable-kitchen-towel-reusable-upto-4000-times-100-natural-ecofriendly/p/itm455058b296873?pid=KNRGVNVGESRD9FRY&lid=LSTKNRGVNVGESRD9FRY9DWRYJ&marketplace=FLIPKART&q=beco+tissue&store=search.flipkart.com&srno=s_1_1&otracker=search&fm=organic&iid=en_EaF2I1cxtvG17Y0LqAHUznFEW1L-QwKabGZi_L8SJf9lf2oQEkdricvxT8R7-GGA2bv98I2FunKgzv9zJ8-35V4S2GnJgUEiF9SQwuMLsHG1n3Bv0D4tCay9KPplalvn&ppt=sp&ppn=sp&ssid=08wveh43n40000001793387396265&qH=456249f6f77cf9cd&ov_redirect=true&ov_redirect=true\nBeco,Bengaluru,560001,flipkart.com,NAPG3SKUGP6XG8NF,Beco Bambooee Tissue White Paper Napkins,105,,0,1 unit,true,15 MINS,https://www.flipkart.com/beco-bambooee-tissue-white-paper-napkins/p/itmb19c4fa58fa0a?pid=NAPG3SKUGP6XG8NF&lid=LSTNAPG3SKUGP6XG8NFMPIMGR&marketplace=FLIPKART&q=beco+tissue&store=search.flipkart.com&srno=s_1_2&otracker=search&fm=organic&iid=d77491da-f69a-47b2-aae1-387904bea6e4.NAPG3SKUGP6XG8NF.SEARCH&ppt=sp&ppn=sp&ssid=08wveh43n40000001793387396265&qH=456249f6f77cf9cd&ov_redirect=true&ov_redirect=true\nBeco,Bengaluru,560001,flipkart.com,KNRG3SKZZ5Y3ZVXZ,Beco Eco Friendly - Tissue Roll/ Toilet Tissue Paper (3 Ply) - 8 Rolls ( 220 Pulls Per Roll ) - Made from Bamboo,499,,0,1 unit,true,15 MINS,https://www.flipkart.com/beco-eco-friendly-tissue-roll-toilet-paper-3-ply-8-rolls-220-pulls-per-roll-made-bamboo/p/itm3b6c1777e0e64?pid=KNRG3SKZZ5Y3ZVXZ&lid=LSTKNRG3SKZZ5Y3ZVXZVGHVMH&marketplace=FLIPKART&q=beco+tissue&store=search.flipkart.com&srno=s_1_3&otracker=search&fm=organic&iid=d77491da-f69a-47b2-aae1-387904bea6e4.KNRG3SKZZ5Y3ZVXZ.SEARCH&ppt=sp&ppn=sp&ssid=08wveh43n40000001793387396265&qH=456249f6f77cf9cd&ov_redirect=true&ov_redirect=true\nBeco,Bengaluru,560001,flipkart.com,KNRG3SKZAWAAVRGS,Beco Bamboo Tissue Roll,275,,0,1 unit,true,15 MINS,https://www.flipkart.com/beco-bamboo-tissue-roll/p/itmefb47fce51755?pid=KNRG3SKZAWAAVRGS&lid=LSTKNRG3SKZAWAAVRGSOXGXCA&marketplace=FLIPKART&q=beco+tissue&store=search.flipkart.com&srno=s_1_4&otracker=search&fm=organic&iid=d77491da-f69a-47b2-aae1-387904bea6e4.KNRG3SKZAWAAVRGS.SEARCH&ppt=sp&ppn=sp&ssid=08wveh43n40000001793387396265&qH=456249f6f77cf9cd&ov_redirect=true&ov_redirect=true\nBeco,Bengaluru,560001,flipkart.com,KNRGVNUTCTCMBCEZ,\"Beco Reusable Kitchen Towel (20 sheets x 100 times each-2000 wipes), Made from Bamboo\",177,350,49,1 unit,true,15 MINS,https://www.flipkart.com/beco-reusable-kitchen-towel-20-sheets-x-100-times-each-2000-wipes-made-bamboo/p/itm36538432b2bc7?pid=KNRGVNUTCTCMBCEZ&lid=LSTKNRGVNUTCTCMBCEZRCGAML&marketplace=FLIPKART&q=beco+tissue&store=search.flipkart.com&srno=s_1_6&otracker=search&fm=organic&iid=en_EaF2I1cxtvG17Y0LqAHUznFEW1L-QwKabGZi_L8SJf-Cm6j4RZpNhyQb2EBNQ5j5cSXWeQad9YOxG21dVFwloV25_znb8JyQMhrS_RB34q4mOL_130Tpbp99PLyYp9WE&ppt=sp&ppn=sp&ssid=08wveh43n40000001793387396265&qH=456249f6f77cf9cd&ov_redirect=true&ov_redirect=true\nBeco,Bengaluru,560001,flipkart.com,KNRHPSGF5XSY4WKG,\"BENKO Reusable Kitchen Towel (100 times each-2200 wipes), Made from Bamboo\",160,439,64,1 unit,true,15 MINS,https://www.flipkart.com/benko-reusable-kitchen-towel-100-times-each-2200-wipes-made-bamboo/p/itm6db421efbc7bc?pid=KNRHPSGF5XSY4WKG&lid=LSTKNRHPSGF5XSY4WKGNA0YMY&marketplace=FLIPKART&q=beco+tissue&store=search.flipkart.com&srno=s_1_7&otracker=search&fm=organic&iid=d77491da-f69a-47b2-aae1-387904bea6e4.KNRHPSGF5XSY4WKG.SEARCH&ppt=sp&ppn=sp&ssid=08wveh43n40000001793387396265&qH=456249f6f77cf9cd&ov_redirect=true&ov_redirect=true\nBeco,Bengaluru,560001,blinkit.com,1373530,Origami So Soft 4 in 1 Face Tissue Box,279,299,7,4 x 90 pulls,true,10 MINS,https://blinkit.com/prn/origami-so-soft-4-in-1-face-tissue-box/prid/1373530\nBeco,Bengaluru,560001,blinkit.com,533296,Beco Super Soft Bamboo Face Tissue Paper - Buy 3 Get 3 Free,213,270,21,6 x 100 pulls,true,10 MINS,https://blinkit.com/prn/beco-super-soft-bamboo-face-tissue-paper-buy-3-get-3-free/prid/533296\nBeco,Bengaluru,560001,blinkit.com,532076,Beco Bamboo Toilet Roll,168,245,31,6 x 160 pulls,true,10 MINS,https://blinkit.com/prn/beco-bamboo-toilet-roll/prid/532076\nBeco,Bengaluru,560001,blinkit.com,481733,Beco Bamboo Natural Face Tissue Box,129,180,28,200 pulls,true,10 MINS,https://blinkit.com/prn/beco-bamboo-natural-face-tissue-box/prid/481733\nBeco,Bengaluru,560001,blinkit.com,775712,Origami Luxuria Face Tissue Box,139,150,7,100 pulls,true,10 MINS,https://blinkit.com/prn/origami-luxuria-face-tissue-box/prid/775712\nBeco,Bengaluru,560001,blinkit.com,481732,Beco Bamboo Natural Face Tissue Box,85,105,19,100 pulls,true,10 MINS,https://blinkit.com/prn/beco-bamboo-natural-face-tissue-box/prid/481732\nBeco,Bengaluru,560001,blinkit.com,481728,Beco Reusable Kitchen Towel Roll,200,350,43,20 pulls,true,10 MINS,https://blinkit.com/prn/beco-reusable-kitchen-towel-roll/prid/481728\nBeco,Bengaluru,560001,blinkit.com,481729,Beco Bamboo Serving Napkins,99,105,6,50 pulls,true,10 MINS,https://blinkit.com/prn/beco-bamboo-serving-napkins/prid/481729\nBeco,Bengaluru,560001,amazon.in,B07PJQX981,\"Reusable Kitchen Towel Roll-2000 Times Washable|Soft & Highly Absorbent|Better Alternative to Dishcloth, Kitchen Tissue Paper Roll/Paper Towel| Eco Bamboo Wipes for Home Cleaning|20 Sheets\",177,8.85,0,1 unit,true,\"Tue, 3 Nov\",https://www.amazon.in/dp/B07PJQX981\nBeco,Bengaluru,560001,amazon.in,B0CG69LRL8,\"Bamboo 3-Ply Toilet Paper Roll 160 Pulls Each Pack of 12, Natural, Unbleached and Eco-Friendly Tissue Papers\",319,26.58,0,1 unit,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0CG69LRL8\nBeco,Bengaluru,560001,amazon.in,B0DX24RXZP,\"2-Ply Bamboo Tissue Napkins (150 Pulls) | 50 Pulls x 3 Pack | Facial Tissue | Car Tissue Box | 100% Natural, Biodegradable & Eco-Friendly | Soft, Strong & Highly Absorbent Paper Napkins\",169,1.13,0,3 Pack,true,\"Fri, 6 Nov\",https://www.amazon.in/dp/B0DX24RXZP\nBeco,Bengaluru,560001,amazon.in,B0DX26LPC9,\"Bamboo Tissue Paper Box - 300 Sheets | Super Soft 2-Ply Car Tissue Box | Facial Tissue - 100 Pulls x 3 Packs | 100% Natural, Eco-Friendly, Biodegradable, and Gentle on Skin\",231,0.77,0,1 unit,true,\"Tue, 3 Nov\",https://www.amazon.in/dp/B0DX26LPC9\nBeco,Bengaluru,560001,amazon.in,B0B5XYW646,\"2 ply Facial Tissue Flat Box, 200 Pulls, Pack of 6 (Total 1,200 Sheets) (60060)\",498,1044,52,1 unit,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0B5XYW646\nBeco,Bengaluru,560001,amazon.in,B0CB1HQT1S,\"Bamboo Super Soft Facial Tissue 100 Pulls (Pack of 6), 600 Pulls 2 ply 100% Natural and Ecofriendly\",229,0.38,0,1 unit,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0CB1HQT1S\n";
+
+    function filterRows(mode) {
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const stock = row.getAttribute('data-stock');
+        if (mode === 'all') row.style.display = '';
+        else if (mode === 'oos') row.style.display = stock === 'oos' ? '' : 'none';
+        else if (mode === 'instock') row.style.display = stock === 'instock' ? '' : 'none';
+      });
+    }
+
+    function searchSkus() {
+      const q = document.getElementById('skuSearch').value.toLowerCase();
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const title = row.getAttribute('data-title') || '';
+        const platform = (row.getAttribute('data-platform') || '').toLowerCase();
+        row.style.display = (title.includes(q) || platform.includes(q)) ? '' : 'none';
+      });
+    }
+
+    function downloadCsv() {
+      const blob = new Blob([RAW_CSV], { type: 'text/csv;charset=utf-8;' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'beco-3city-audit.csv';
+      a.click();
+    }
+  </script>
+</body>
+</html>

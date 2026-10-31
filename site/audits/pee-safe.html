@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pee Safe — 3-City Quick-Commerce Dark-Store Audit Scorecard | Unscrape Radar</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background-color: #07080d; color: #f3f4f6; font-family: Inter, system-ui, -apple-system, sans-serif; }
+  </style>
+</head>
+<body class="min-h-screen pb-24">
+  <!-- Top Bar -->
+  <header class="border-b border-slate-800 bg-slate-950/90 backdrop-blur sticky top-0 z-20">
+    <div class="max-w-7xl mx-auto px-6 py-3.5 flex items-center justify-between flex-wrap gap-3">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="text-emerald-400 font-black text-lg tracking-tight hover:text-emerald-300">⚡ UNSCRAPE RADAR</a>
+        <span class="text-xs text-slate-500">/</span>
+        <span class="text-sm font-bold text-white">Pee Safe Executive Scorecard</span>
+      </div>
+      <div class="flex items-center gap-2.5 text-xs">
+        <a href="index.html" class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700">← All 56 Brand Audits</a>
+        <button onclick="downloadCsv()" class="px-3.5 py-1.5 rounded-lg bg-emerald-500 text-slate-950 font-bold hover:bg-emerald-400">⬇ Download Raw CSV (38 SKUs)</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-6 pt-8">
+    <!-- Executive Header -->
+    <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 mb-8">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+        <div>
+          <div class="flex items-center gap-2.5 mb-2">
+            <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded bg-slate-800 text-emerald-400">Hygiene &amp; Personal Care</span>
+            <span class="text-xs text-slate-400 font-mono">Audited: 2026-10-30</span>
+          </div>
+          <h1 class="text-3xl md:text-4xl font-black text-white tracking-tight">Pee Safe — Hyperlocal Dark-Store Audit</h1>
+          <p class="text-slate-400 text-sm mt-1">
+            Live multi-platform inventory & MOP/MRP price variance scan across <strong>Bengaluru (560001)</strong>, <strong>Mumbai (400001)</strong>, and <strong>Delhi (110001)</strong>.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 shrink-0">
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">SKUs Audited</div>
+            <div class="text-2xl font-black text-white mt-1">38</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">OOS Leaks</div>
+            <div class="text-2xl font-black text-emerald-400 mt-1">0</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">Max Markdown</div>
+            <div class="text-2xl font-black text-amber-300 mt-1">90%</div>
+          </div>
+          <div class="border rounded-xl p-3.5 text-center bg-emerald-500/15 text-emerald-400 border-emerald-500/30">
+            <div class="text-[11px] uppercase font-bold opacity-80">Shelf Health</div>
+            <div class="text-2xl font-black mt-1">100%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="bg-emerald-950/30 border border-emerald-500/30 rounded-2xl p-5 mb-8 flex items-center justify-between flex-wrap gap-3">
+      <div>
+        <span class="px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 font-bold text-xs uppercase">✓ 100% In-Stock Snapshot</span>
+        <span class="text-sm text-slate-200 ml-2">All 38 audited dark-store listings across Bengaluru, Mumbai & Delhi were in stock during this scan. Max discount variance: <strong>90% below MRP</strong>.</span>
+      </div>
+    </div>
+
+    <!-- Filter Controls -->
+    <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+      <div class="flex items-center gap-2 text-xs">
+        <button onclick="filterRows('all')" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-semibold">All SKUs (38)</button>
+        <button onclick="filterRows('oos')" class="px-3 py-1.5 rounded-lg bg-rose-500/15 border border-rose-500/30 text-rose-300 hover:bg-rose-500/25 font-semibold">Out-of-Stock Only (0)</button>
+        <button onclick="filterRows('instock')" class="px-3 py-1.5 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 hover:bg-emerald-500/25 font-semibold">In-Stock (38)</button>
+      </div>
+      <div class="flex items-center gap-2">
+        <input id="skuSearch" type="text" oninput="searchSkus()" placeholder="Filter SKU title or platform..." class="bg-slate-900 border border-slate-800 rounded-lg px-3.5 py-1.5 text-xs text-white w-64" />
+      </div>
+    </div>
+
+    <!-- SKU Table -->
+    <div class="bg-slate-900/50 border border-slate-800 rounded-2xl overflow-x-auto">
+      <table class="w-full text-left text-xs">
+        <thead class="bg-slate-950/90 text-slate-400 uppercase border-b border-slate-800">
+          <tr>
+            <th class="px-4 py-3">SKU Title</th>
+            <th class="px-4 py-3">Platform</th>
+            <th class="px-4 py-3">City / Pin</th>
+            <th class="px-4 py-3">Pack Size</th>
+            <th class="px-4 py-3">Selling Price</th>
+            <th class="px-4 py-3">MRP</th>
+            <th class="px-4 py-3">Discount</th>
+            <th class="px-4 py-3">Stock Status</th>
+            <th class="px-4 py-3">ETA</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-800/60">
+          <tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="blueoxy urine buster | urine destroyer stain &amp; odor remover | dog organic stain remover | odor neutralizer | enzymatic cleaner | urine smell remover | pet safe | ecological formulation | 500 ml | rtu spray | qty 1">
+        <td class="px-4 py-3 font-medium text-white max-w-md">BLUEOXY Urine Buster | Urine Destroyer Stain &amp; Odor Remover | Dog Organic Stain Remover | Odor Neutralizer | Enzymatic Cleaner | Urine Smell Remover | Pet Safe | Ecological Formulation | 500 ML | RTU Spray | QTY 1</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹475</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹675</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">30% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bscly puppy dog potty spray | potty training spray lime &amp; mint - 500ml | eliminate marking | effective training aid for puppies and dogs | odor control | tick protection | safe for pets">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bscly Puppy Dog Potty Spray | Potty Training Spray Lime &amp; Mint - 500ml | Eliminate Marking | Effective Training Aid for Puppies and Dogs | Odor Control | Tick Protection | Safe for Pets</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹499</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹999</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="blueoxy urine buster |urine destroyer stain &amp; odor remover |dog organic stain remover|odor neutralizer |enzymatic cleaner| urine smell remover|pet safe| ecological formulation|500 ml|rtu spray | qty 1">
+        <td class="px-4 py-3 font-medium text-white max-w-md">BLUEOXY Urine Buster |Urine Destroyer Stain &amp; Odor Remover |Dog Organic Stain Remover|Odor Neutralizer |Enzymatic Cleaner| Urine Smell Remover|Pet Safe| Ecological Formulation|500 ML|RTU Spray | QTY 1</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.86/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹428</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹675</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">37% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="herbal home natural eco-friendly solution for pet potty &amp; urine training spray deodorizer(500ml)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Herbal Home Natural Eco-Friendly Solution for Pet Potty &amp; Urine Training Spray Deodorizer(500ML)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹276</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹599</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">54% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="pupcide neem &amp; lemongrass organic odour control spray for dogs of all breeds | eliminates urine smell and bad odour | moisturizes coat | vegan &amp; cruelty-free 200 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">PUPCIDE Neem &amp; Lemongrass Organic Odour Control Spray for Dogs of All Breeds | Eliminates Urine Smell and Bad Odour | Moisturizes Coat | Vegan &amp; Cruelty-Free 200 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹149</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹399</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">63% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="wonder fillhi tech new formula anti poop &amp; pee spray combo (pack of 2) to repel dog cats etc to poop in front of house, gate, stairs, house parking etc(120 ml) (pack of 2)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Wonder Fillhi Tech New Formula Anti Poop &amp; Pee Spray Combo (Pack Of 2) To Repel Dog Cats Etc To Poop In Front Of House, Gate, Stairs, House Parking Etc(120 Ml) (Pack Of 2)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹600</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹900</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">33% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="blueoxy urine buster | urine destroyer stain &amp; odor remover | dog organic stain remover | odor neutralizer | enzymatic cleaner | urine smell remover | pet safe | ecological formulation | 500 ml | rtu spray | qty 1">
+        <td class="px-4 py-3 font-medium text-white max-w-md">BLUEOXY Urine Buster | Urine Destroyer Stain &amp; Odor Remover | Dog Organic Stain Remover | Odor Neutralizer | Enzymatic Cleaner | Urine Smell Remover | Pet Safe | Ecological Formulation | 500 ML | RTU Spray | QTY 1</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹475</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹675</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">30% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bscly puppy dog potty spray | potty training spray lime &amp; mint - 500ml | eliminate marking | effective training aid for puppies and dogs | odor control | tick protection | safe for pets">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bscly Puppy Dog Potty Spray | Potty Training Spray Lime &amp; Mint - 500ml | Eliminate Marking | Effective Training Aid for Puppies and Dogs | Odor Control | Tick Protection | Safe for Pets</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹499</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹999</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="blueoxy urine buster |urine destroyer stain &amp; odor remover |dog organic stain remover|odor neutralizer |enzymatic cleaner| urine smell remover|pet safe| ecological formulation|500 ml|rtu spray | qty 1">
+        <td class="px-4 py-3 font-medium text-white max-w-md">BLUEOXY Urine Buster |Urine Destroyer Stain &amp; Odor Remover |Dog Organic Stain Remover|Odor Neutralizer |Enzymatic Cleaner| Urine Smell Remover|Pet Safe| Ecological Formulation|500 ML|RTU Spray | QTY 1</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.86/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹428</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹675</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">37% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="herbal home natural eco-friendly solution for pet potty &amp; urine training spray deodorizer(500ml)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Herbal Home Natural Eco-Friendly Solution for Pet Potty &amp; Urine Training Spray Deodorizer(500ML)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹276</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹599</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">54% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="pupcide neem &amp; lemongrass organic odour control spray for dogs of all breeds | eliminates urine smell and bad odour | moisturizes coat | vegan &amp; cruelty-free 200 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">PUPCIDE Neem &amp; Lemongrass Organic Odour Control Spray for Dogs of All Breeds | Eliminates Urine Smell and Bad Odour | Moisturizes Coat | Vegan &amp; Cruelty-Free 200 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹149</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹399</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">63% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="wonder fillhi tech new formula anti poop &amp; pee spray combo (pack of 2) to repel dog cats etc to poop in front of house, gate, stairs, house parking etc(120 ml) (pack of 2)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Wonder Fillhi Tech New Formula Anti Poop &amp; Pee Spray Combo (Pack Of 2) To Repel Dog Cats Etc To Poop In Front Of House, Gate, Stairs, House Parking Etc(120 Ml) (Pack Of 2)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹600</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹900</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">33% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="blueoxy urine buster | urine destroyer stain &amp; odor remover | dog organic stain remover | odor neutralizer | enzymatic cleaner | urine smell remover | pet safe | ecological formulation | 500 ml | rtu spray | qty 1">
+        <td class="px-4 py-3 font-medium text-white max-w-md">BLUEOXY Urine Buster | Urine Destroyer Stain &amp; Odor Remover | Dog Organic Stain Remover | Odor Neutralizer | Enzymatic Cleaner | Urine Smell Remover | Pet Safe | Ecological Formulation | 500 ML | RTU Spray | QTY 1</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹475</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹675</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">30% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bscly puppy dog potty spray | potty training spray lime &amp; mint - 500ml | eliminate marking | effective training aid for puppies and dogs | odor control | tick protection | safe for pets">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bscly Puppy Dog Potty Spray | Potty Training Spray Lime &amp; Mint - 500ml | Eliminate Marking | Effective Training Aid for Puppies and Dogs | Odor Control | Tick Protection | Safe for Pets</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹499</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹999</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="blueoxy urine buster |urine destroyer stain &amp; odor remover |dog organic stain remover|odor neutralizer |enzymatic cleaner| urine smell remover|pet safe| ecological formulation|500 ml|rtu spray | qty 1">
+        <td class="px-4 py-3 font-medium text-white max-w-md">BLUEOXY Urine Buster |Urine Destroyer Stain &amp; Odor Remover |Dog Organic Stain Remover|Odor Neutralizer |Enzymatic Cleaner| Urine Smell Remover|Pet Safe| Ecological Formulation|500 ML|RTU Spray | QTY 1</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.86/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹428</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹675</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">37% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="herbal home natural eco-friendly solution for pet potty &amp; urine training spray deodorizer(500ml)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Herbal Home Natural Eco-Friendly Solution for Pet Potty &amp; Urine Training Spray Deodorizer(500ML)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹276</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹599</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">54% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="pupcide neem &amp; lemongrass organic odour control spray for dogs of all breeds | eliminates urine smell and bad odour | moisturizes coat | vegan &amp; cruelty-free 200 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">PUPCIDE Neem &amp; Lemongrass Organic Odour Control Spray for Dogs of All Breeds | Eliminates Urine Smell and Bad Odour | Moisturizes Coat | Vegan &amp; Cruelty-Free 200 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹149</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹399</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">63% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="wonder fillhi tech new formula anti poop &amp; pee spray combo (pack of 2) to repel dog cats etc to poop in front of house, gate, stairs, house parking etc(120 ml) (pack of 2)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Wonder Fillhi Tech New Formula Anti Poop &amp; Pee Spray Combo (Pack Of 2) To Repel Dog Cats Etc To Poop In Front Of House, Gate, Stairs, House Parking Etc(120 Ml) (Pack Of 2)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹600</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹900</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">33% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="pee safe toilet seat sanitizer spray lavender spray toilet cleaner">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pee Safe Toilet Seat Sanitizer Spray Lavender Spray Toilet Cleaner</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹209</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹240</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">13% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="pee safe toilet seat sanitizer spray mint 50 ml pack of 2 regular spray toilet cleaner">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pee Safe Toilet Seat Sanitizer Spray Mint 50 ml pack of 2 Regular Spray Toilet Cleaner</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">50 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹209</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹240</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">13% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="pee safe toilet seat sanitizer spray lavender lavender spray toilet cleaner">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pee Safe Toilet Seat Sanitizer Spray Lavender Lavender Spray Toilet Cleaner</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹120</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">-</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="pee safe toilet seat sanitizer spray (floral) pomegranate spray toilet cleaner">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pee Safe Toilet Seat Sanitizer Spray (Floral) Pomegranate Spray Toilet Cleaner</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹299</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹360</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">17% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="pee safe toilet seat sanitizer spray lavender spray toilet cleaner">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pee Safe Toilet Seat Sanitizer Spray Lavender Spray Toilet Cleaner</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹299</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹375</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="pee safe toilet seat sanitizer spray mint 50 ml pack of 3 regular spray toilet cleaner">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pee Safe Toilet Seat Sanitizer Spray mint 50 ml pack of 3 Regular Spray Toilet Cleaner</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">50 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹299</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹349</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">14% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="pee safe disposable urination device">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pee Safe Disposable Urination Device</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">12 pcs</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹159</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹165</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">4% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="pee safe toilet seat sanitizer spray (mint)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pee Safe Toilet Seat Sanitizer Spray (Mint)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">75 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹198</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹199</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">1% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="pee safe toilet seat sanitizer spray (floral)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pee Safe Toilet Seat Sanitizer Spray (Floral)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">75 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹198</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹199</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">1% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="pee safe toilet seat sanitizer spray (lavender)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pee Safe Toilet Seat Sanitizer Spray (Lavender)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">75 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹198</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹199</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">1% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="pee safe toilet seat sanitizer spray (citrus)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pee Safe Toilet Seat Sanitizer Spray (Citrus)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">75 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹198</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹199</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">1% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="furr hair removal spray">
+        <td class="px-4 py-3 font-medium text-white max-w-md">FURR Hair Removal Spray</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">200 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹249</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹349</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">29% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="evereve pee secure toilet sanitizer spray">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Evereve Pee Secure Toilet Sanitizer Spray</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">2 x 100 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹199</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹359</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">45% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="pee safe anti chafing stick">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pee Safe Anti Chafing Stick</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">75 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹399</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹467</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="pee safe toilet seat sanitizer spray (citrus, mint, lavender - pack of 3) | reduces the risk of uti &amp; other infections | protects from 99.9% germs in 10 seconds &amp; travel friendly | anti odour | 75 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pee Safe Toilet Seat Sanitizer Spray (Citrus, Mint, Lavender - Pack of 3) | Reduces the Risk Of UTI &amp; Other Infections | Protects From 99.9% Germs In 10 Seconds &amp; Travel Friendly | Anti Odour | 75 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">75 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹399</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1773.33</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">77% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Thu, 5 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="pee safe toilet seat sanitizer spray | mint 75ml (pack of 3)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pee Safe Toilet Seat Sanitizer Spray | Mint 75ml (Pack of 3)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">75ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹425</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1888.89</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">78% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Thu, 5 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="pee safe toilet seat sanitizer | lavender 50ml (pack of 3)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pee Safe Toilet Seat Sanitizer | Lavender 50ml (Pack of 3)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">50ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹303</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹2020</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">85% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Wed, 4 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="pee safe toilet seat sanitizer | floral 75ml (pack of 3)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pee Safe Toilet Seat Sanitizer | Floral 75ml (Pack of 3)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">75ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹425</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1888.89</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">78% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="peesafe pee safe toilet seat sanitizer spray (75ml - pack of 2) - floral | reduces the risk of uti &amp; other infections | kills 99.9% germs &amp; travel friendly">
+        <td class="px-4 py-3 font-medium text-white max-w-md">PEESAFE Pee Safe Toilet Seat Sanitizer Spray (75ml - Pack Of 2) - Floral | Reduces The Risk Of UTI &amp; Other Infections | Kills 99.9% Germs &amp; Travel Friendly</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">75ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹299</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1993.33</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">85% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="pee safe toilet seat sanitizer | lavender 50ml - pack of 2">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pee Safe Toilet Seat Sanitizer | Lavender 50ml - Pack of 2</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">50ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹189</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1890</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">90% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- Sticky CTA Footer -->
+  <div class="fixed bottom-0 inset-x-0 bg-slate-950/95 border-t border-emerald-500/30 backdrop-blur px-6 py-3.5 z-30">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+      <div class="text-slate-200">
+        <span class="text-emerald-400 font-bold">⚡ Unscrape Radar:</span> Want real-time Slack/WhatsApp/Telegram alerts within 15 mins whenever <strong>Pee Safe</strong> SKUs go Out-of-Stock across 20 BLR/MUM/DEL dark-store pin codes?
+      </div>
+      <div class="flex items-center gap-2.5 shrink-0">
+        <a href="https://github.com/deveshkolte/unscrape" target="_blank" class="px-4 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold">Unlock Automated 20-Pin-Code Monitor →</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const RAW_CSV = "brand,city,pincode,platform,skuId,title,sellingPriceInr,mrpInr,discountPercent,unit,inStock,deliveryEta,url\nPee Safe,Bengaluru,560001,bigbasket.com/jiomart,50736041,BLUEOXY Urine Buster | Urine Destroyer Stain & Odor Remover | Dog Organic Stain Remover | Odor Neutralizer | Enzymatic Cleaner | Urine Smell Remover | Pet Safe | Ecological Formulation | 500 ML | RTU Spray | QTY 1,475,675,30,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/blueoxy-urine-buster-urine-destroyer-stain-odor-remover-dog-organic-stain-remover-odor-neutralizer-enzymatic-cleaner-urine-smell-remover-pet-safe-ecological-formulation-500-ml-rtu-spray-qty-1-mj751d-50736041/50736041\nPee Safe,Bengaluru,560001,bigbasket.com/jiomart,50627113,Bscly Puppy Dog Potty Spray | Potty Training Spray Lime & Mint - 500ml | Eliminate Marking | Effective Training Aid for Puppies and Dogs | Odor Control | Tick Protection | Safe for Pets,499,999,50,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/bscly-puppy-dog-potty-spray-potty-training-spray-lime-mint-500ml-eliminate-marking-effective-training-aid-for-puppies-and-dogs-odor-control-tick-protection-safe-for-pets-mj74eg-50627113/50627113\nPee Safe,Bengaluru,560001,bigbasket.com/jiomart,50013092,BLUEOXY Urine Buster |Urine Destroyer Stain & Odor Remover |Dog Organic Stain Remover|Odor Neutralizer |Enzymatic Cleaner| Urine Smell Remover|Pet Safe| Ecological Formulation|500 ML|RTU Spray | QTY 1,428,675,37,0.86/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/blueoxy-urine-buster-urine-destroyer-stain-odor-remover-dog-organic-stain-remover-odor-neutralizer-enzymatic-cleaner-urine-smell-remover-pet-safe-ecological-formulation-500-ml-rtu-spray-qty-1-mj71g8-50013092/50013092\nPee Safe,Bengaluru,560001,bigbasket.com/jiomart,68490578,Herbal Home Natural Eco-Friendly Solution for Pet Potty & Urine Training Spray Deodorizer(500ML),276,599,54,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/herbal-home-natural-eco-friendly-solution-for-pet-potty-urine-training-spray-deodorizer-500-ml-mjk2zb-68490578/68490578\nPee Safe,Bengaluru,560001,bigbasket.com/jiomart,68894023,PUPCIDE Neem & Lemongrass Organic Odour Control Spray for Dogs of All Breeds | Eliminates Urine Smell and Bad Odour | Moisturizes Coat | Vegan & Cruelty-Free 200 ml,149,399,63,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/pupcide-neem-lemongrass-organic-odour-control-spray-for-dogs-of-all-breeds-eliminates-urine-smell-and-bad-odour-moisturizes-coat-vegan-cruelty-free-200-ml-mjk6dw-68894023/68894023\nPee Safe,Bengaluru,560001,bigbasket.com/jiomart,54596298,\"Wonder Fillhi Tech New Formula Anti Poop & Pee Spray Combo (Pack Of 2) To Repel Dog Cats Etc To Poop In Front Of House, Gate, Stairs, House Parking Etc(120 Ml) (Pack Of 2)\",600,900,33,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/wonder-fillhi-tech-new-formula-anti-poop-pee-spray-combo-pack-of-2-to-repel-dog-cats-etc-to-poop-in-front-of-house-gate-stairs-house-parking-etc-120-ml-pack-of-2-mj7mqz-54596298/54596298\nPee Safe,Mumbai,400001,bigbasket.com/jiomart,50736041,BLUEOXY Urine Buster | Urine Destroyer Stain & Odor Remover | Dog Organic Stain Remover | Odor Neutralizer | Enzymatic Cleaner | Urine Smell Remover | Pet Safe | Ecological Formulation | 500 ML | RTU Spray | QTY 1,475,675,30,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/blueoxy-urine-buster-urine-destroyer-stain-odor-remover-dog-organic-stain-remover-odor-neutralizer-enzymatic-cleaner-urine-smell-remover-pet-safe-ecological-formulation-500-ml-rtu-spray-qty-1-mj751d-50736041/50736041\nPee Safe,Mumbai,400001,bigbasket.com/jiomart,50627113,Bscly Puppy Dog Potty Spray | Potty Training Spray Lime & Mint - 500ml | Eliminate Marking | Effective Training Aid for Puppies and Dogs | Odor Control | Tick Protection | Safe for Pets,499,999,50,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/bscly-puppy-dog-potty-spray-potty-training-spray-lime-mint-500ml-eliminate-marking-effective-training-aid-for-puppies-and-dogs-odor-control-tick-protection-safe-for-pets-mj74eg-50627113/50627113\nPee Safe,Mumbai,400001,bigbasket.com/jiomart,50013092,BLUEOXY Urine Buster |Urine Destroyer Stain & Odor Remover |Dog Organic Stain Remover|Odor Neutralizer |Enzymatic Cleaner| Urine Smell Remover|Pet Safe| Ecological Formulation|500 ML|RTU Spray | QTY 1,428,675,37,0.86/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/blueoxy-urine-buster-urine-destroyer-stain-odor-remover-dog-organic-stain-remover-odor-neutralizer-enzymatic-cleaner-urine-smell-remover-pet-safe-ecological-formulation-500-ml-rtu-spray-qty-1-mj71g8-50013092/50013092\nPee Safe,Mumbai,400001,bigbasket.com/jiomart,68490578,Herbal Home Natural Eco-Friendly Solution for Pet Potty & Urine Training Spray Deodorizer(500ML),276,599,54,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/herbal-home-natural-eco-friendly-solution-for-pet-potty-urine-training-spray-deodorizer-500-ml-mjk2zb-68490578/68490578\nPee Safe,Mumbai,400001,bigbasket.com/jiomart,68894023,PUPCIDE Neem & Lemongrass Organic Odour Control Spray for Dogs of All Breeds | Eliminates Urine Smell and Bad Odour | Moisturizes Coat | Vegan & Cruelty-Free 200 ml,149,399,63,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/pupcide-neem-lemongrass-organic-odour-control-spray-for-dogs-of-all-breeds-eliminates-urine-smell-and-bad-odour-moisturizes-coat-vegan-cruelty-free-200-ml-mjk6dw-68894023/68894023\nPee Safe,Mumbai,400001,bigbasket.com/jiomart,54596298,\"Wonder Fillhi Tech New Formula Anti Poop & Pee Spray Combo (Pack Of 2) To Repel Dog Cats Etc To Poop In Front Of House, Gate, Stairs, House Parking Etc(120 Ml) (Pack Of 2)\",600,900,33,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/wonder-fillhi-tech-new-formula-anti-poop-pee-spray-combo-pack-of-2-to-repel-dog-cats-etc-to-poop-in-front-of-house-gate-stairs-house-parking-etc-120-ml-pack-of-2-mj7mqz-54596298/54596298\nPee Safe,Delhi,110001,bigbasket.com/jiomart,50736041,BLUEOXY Urine Buster | Urine Destroyer Stain & Odor Remover | Dog Organic Stain Remover | Odor Neutralizer | Enzymatic Cleaner | Urine Smell Remover | Pet Safe | Ecological Formulation | 500 ML | RTU Spray | QTY 1,475,675,30,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/blueoxy-urine-buster-urine-destroyer-stain-odor-remover-dog-organic-stain-remover-odor-neutralizer-enzymatic-cleaner-urine-smell-remover-pet-safe-ecological-formulation-500-ml-rtu-spray-qty-1-mj751d-50736041/50736041\nPee Safe,Delhi,110001,bigbasket.com/jiomart,50627113,Bscly Puppy Dog Potty Spray | Potty Training Spray Lime & Mint - 500ml | Eliminate Marking | Effective Training Aid for Puppies and Dogs | Odor Control | Tick Protection | Safe for Pets,499,999,50,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/bscly-puppy-dog-potty-spray-potty-training-spray-lime-mint-500ml-eliminate-marking-effective-training-aid-for-puppies-and-dogs-odor-control-tick-protection-safe-for-pets-mj74eg-50627113/50627113\nPee Safe,Delhi,110001,bigbasket.com/jiomart,50013092,BLUEOXY Urine Buster |Urine Destroyer Stain & Odor Remover |Dog Organic Stain Remover|Odor Neutralizer |Enzymatic Cleaner| Urine Smell Remover|Pet Safe| Ecological Formulation|500 ML|RTU Spray | QTY 1,428,675,37,0.86/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/blueoxy-urine-buster-urine-destroyer-stain-odor-remover-dog-organic-stain-remover-odor-neutralizer-enzymatic-cleaner-urine-smell-remover-pet-safe-ecological-formulation-500-ml-rtu-spray-qty-1-mj71g8-50013092/50013092\nPee Safe,Delhi,110001,bigbasket.com/jiomart,68490578,Herbal Home Natural Eco-Friendly Solution for Pet Potty & Urine Training Spray Deodorizer(500ML),276,599,54,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/herbal-home-natural-eco-friendly-solution-for-pet-potty-urine-training-spray-deodorizer-500-ml-mjk2zb-68490578/68490578\nPee Safe,Delhi,110001,bigbasket.com/jiomart,68894023,PUPCIDE Neem & Lemongrass Organic Odour Control Spray for Dogs of All Breeds | Eliminates Urine Smell and Bad Odour | Moisturizes Coat | Vegan & Cruelty-Free 200 ml,149,399,63,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/pupcide-neem-lemongrass-organic-odour-control-spray-for-dogs-of-all-breeds-eliminates-urine-smell-and-bad-odour-moisturizes-coat-vegan-cruelty-free-200-ml-mjk6dw-68894023/68894023\nPee Safe,Delhi,110001,bigbasket.com/jiomart,54596298,\"Wonder Fillhi Tech New Formula Anti Poop & Pee Spray Combo (Pack Of 2) To Repel Dog Cats Etc To Poop In Front Of House, Gate, Stairs, House Parking Etc(120 Ml) (Pack Of 2)\",600,900,33,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/wonder-fillhi-tech-new-formula-anti-poop-pee-spray-combo-pack-of-2-to-repel-dog-cats-etc-to-poop-in-front-of-house-gate-stairs-house-parking-etc-120-ml-pack-of-2-mj7mqz-54596298/54596298\nPee Safe,Bengaluru,560001,flipkart.com,TCNGBNFRNY4XZVPG,Pee Safe Toilet Seat Sanitizer Spray Lavender Spray Toilet Cleaner,209,240,13,1 unit,true,15 MINS,https://www.flipkart.com/pee-safe-toilet-seat-sanitizer-spray-lavender-cleaner/p/itme217996a176d5?pid=TCNGBNFRNY4XZVPG&lid=LSTTCNGBNFRNY4XZVPGQWYBOA&marketplace=FLIPKART&q=pee+safe+spray&store=rja%2Fplv%2Ftrq&srno=s_1_4&otracker=search&fm=organic&iid=7b2e5434-6dc0-4123-a5ad-d7486a117721.TCNGBNFRNY4XZVPG.SEARCH&ppt=sp&ppn=sp&ssid=3si1qwb18g0000001793387391071&qH=e387d3d829514e45&ov_redirect=true&ov_redirect=true\nPee Safe,Bengaluru,560001,flipkart.com,TCNF94B5WZQYHYNK,Pee Safe Toilet Seat Sanitizer Spray Mint 50 ml pack of 2 Regular Spray Toilet Cleaner,209,240,13,50 ml,true,15 MINS,https://www.flipkart.com/pee-safe-toilet-seat-sanitizer-spray-mint-50-ml-pack-2-regular-cleaner/p/itmf94engafmu7kt?pid=TCNF94B5WZQYHYNK&lid=LSTTCNF94B5WZQYHYNKNCZR82&marketplace=FLIPKART&q=pee+safe+spray&store=rja%2Fplv%2Ftrq&srno=s_1_2&otracker=search&fm=organic&iid=en_ONlwlsCHeWUOvyOlMW-wGyciD-9MUnKnb9vyet6kqaTtCjd7fF9FcuA3T9kE-pSUFcsUsiPmPr8qQ6JbIWGKD66pPmNTijw-pG9jmZH9lvVL850qNPNUTCh-r7wPrHJ_&ppt=sp&ppn=sp&ssid=3si1qwb18g0000001793387391071&qH=e387d3d829514e45&ov_redirect=true&ov_redirect=true\nPee Safe,Bengaluru,560001,flipkart.com,TCNG3VSU6SMGF7V3,Pee Safe Toilet Seat Sanitizer Spray Lavender Lavender Spray Toilet Cleaner,120,,0,1 unit,true,15 MINS,https://www.flipkart.com/pee-safe-toilet-seat-sanitizer-spray-lavender-cleaner/p/itm8f21f0372797e?pid=TCNG3VSU6SMGF7V3&lid=LSTTCNG3VSU6SMGF7V3JHY3DQ&marketplace=FLIPKART&q=pee+safe+spray&store=rja%2Fplv%2Ftrq&spotlightTagId=default_TrendingId_rja%2Fplv%2Ftrq&srno=s_1_3&otracker=search&fm=organic&iid=7b2e5434-6dc0-4123-a5ad-d7486a117721.TCNG3VSU6SMGF7V3.SEARCH&ppt=sp&ppn=sp&ssid=3si1qwb18g0000001793387391071&qH=e387d3d829514e45&ov_redirect=true&ov_redirect=true\nPee Safe,Bengaluru,560001,flipkart.com,CBKF6SXYGJWHQYXH,Pee Safe Toilet Seat Sanitizer Spray (Floral) Pomegranate Spray Toilet Cleaner,299,360,17,1 unit,true,15 MINS,https://www.flipkart.com/pee-safe-toilet-seat-sanitizer-spray-floral-pomegranate-cleaner/p/itm8bb7e50c26d4c?pid=CBKF6SXYGJWHQYXH&lid=LSTCBKF6SXYGJWHQYXHPSGBI0&marketplace=FLIPKART&q=pee+safe+spray&store=rja%2Fplv%2Ftrq&srno=s_1_7&otracker=search&fm=organic&iid=7b2e5434-6dc0-4123-a5ad-d7486a117721.CBKF6SXYGJWHQYXH.SEARCH&ppt=sp&ppn=sp&ssid=3si1qwb18g0000001793387391071&qH=e387d3d829514e45&ov_redirect=true&ov_redirect=true\nPee Safe,Bengaluru,560001,flipkart.com,CBKF6HZARSNHF2YH,Pee Safe Toilet Seat Sanitizer Spray Lavender Spray Toilet Cleaner,299,375,20,1 unit,true,15 MINS,https://www.flipkart.com/pee-safe-toilet-seat-sanitizer-spray-lavender-cleaner/p/itme217996a176d5?pid=CBKF6HZARSNHF2YH&lid=LSTCBKF6HZARSNHF2YHPXASZH&marketplace=FLIPKART&q=pee+safe+spray&store=rja%2Fplv%2Ftrq&srno=s_1_8&otracker=search&fm=organic&iid=7b2e5434-6dc0-4123-a5ad-d7486a117721.CBKF6HZARSNHF2YH.SEARCH&ppt=sp&ppn=sp&ssid=3si1qwb18g0000001793387391071&qH=e387d3d829514e45&ov_redirect=true&ov_redirect=true\nPee Safe,Bengaluru,560001,flipkart.com,TCNF94CKVSKG2SGZ,Pee Safe Toilet Seat Sanitizer Spray mint 50 ml pack of 3 Regular Spray Toilet Cleaner,299,349,14,50 ml,true,15 MINS,https://www.flipkart.com/pee-safe-toilet-seat-sanitizer-spray-mint-50-ml-pack-3-regular-cleaner/p/itmf94fz59adav2x?pid=TCNF94CKVSKG2SGZ&lid=LSTTCNF94CKVSKG2SGZZOLWJT&marketplace=FLIPKART&q=pee+safe+spray&store=rja%2Fplv%2Ftrq&srno=s_1_9&otracker=search&fm=organic&iid=7b2e5434-6dc0-4123-a5ad-d7486a117721.TCNF94CKVSKG2SGZ.SEARCH&ppt=sp&ppn=sp&ssid=3si1qwb18g0000001793387391071&qH=e387d3d829514e45&ov_redirect=true&ov_redirect=true\nPee Safe,Bengaluru,560001,blinkit.com,738376,Pee Safe Disposable Urination Device,159,165,4,12 pcs,true,10 MINS,https://blinkit.com/prn/pee-safe-disposable-urination-device/prid/738376\nPee Safe,Bengaluru,560001,blinkit.com,423143,Pee Safe Toilet Seat Sanitizer Spray (Mint),198,199,1,75 ml,true,10 MINS,https://blinkit.com/prn/pee-safe-toilet-seat-sanitizer-spray-mint/prid/423143\nPee Safe,Bengaluru,560001,blinkit.com,423147,Pee Safe Toilet Seat Sanitizer Spray (Floral),198,199,1,75 ml,true,10 MINS,https://blinkit.com/prn/pee-safe-toilet-seat-sanitizer-spray-floral/prid/423147\nPee Safe,Bengaluru,560001,blinkit.com,480334,Pee Safe Toilet Seat Sanitizer Spray (Lavender),198,199,1,75 ml,true,10 MINS,https://blinkit.com/prn/pee-safe-toilet-seat-sanitizer-spray-lavender/prid/480334\nPee Safe,Bengaluru,560001,blinkit.com,737849,Pee Safe Toilet Seat Sanitizer Spray (Citrus),198,199,1,75 ml,true,10 MINS,https://blinkit.com/prn/pee-safe-toilet-seat-sanitizer-spray-citrus/prid/737849\nPee Safe,Bengaluru,560001,blinkit.com,546720,FURR Hair Removal Spray,249,349,29,200 ml,true,10 MINS,https://blinkit.com/prn/furr-hair-removal-spray/prid/546720\nPee Safe,Bengaluru,560001,blinkit.com,786292,Evereve Pee Secure Toilet Sanitizer Spray,199,359,45,2 x 100 ml,true,10 MINS,https://blinkit.com/prn/evereve-pee-secure-toilet-sanitizer-spray/prid/786292\nPee Safe,Bengaluru,560001,blinkit.com,1387659,Pee Safe Anti Chafing Stick,399,467,15,75 g,true,10 MINS,https://blinkit.com/prn/pee-safe-anti-chafing-stick/prid/1387659\nPee Safe,Bengaluru,560001,amazon.in,B07KMBLDPN,\"Pee Safe Toilet Seat Sanitizer Spray (Citrus, Mint, Lavender - Pack of 3) | Reduces the Risk Of UTI & Other Infections | Protects From 99.9% Germs In 10 Seconds & Travel Friendly | Anti Odour | 75 ml\",399,1773.33,77,75 ml,true,\"Thu, 5 Nov\",https://www.amazon.in/dp/B07KMBLDPN\nPee Safe,Bengaluru,560001,amazon.in,B01175322O,Pee Safe Toilet Seat Sanitizer Spray | Mint 75ml (Pack of 3),425,1888.89,78,75ml,true,\"Thu, 5 Nov\",https://www.amazon.in/dp/B01175322O\nPee Safe,Bengaluru,560001,amazon.in,B07D6P56MQ,Pee Safe Toilet Seat Sanitizer | Lavender 50ml (Pack of 3),303,2020,85,50ml,true,\"Wed, 4 Nov\",https://www.amazon.in/dp/B07D6P56MQ\nPee Safe,Bengaluru,560001,amazon.in,B07F14K2DL,Pee Safe Toilet Seat Sanitizer | Floral 75ml (Pack of 3),425,1888.89,78,75ml,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B07F14K2DL\nPee Safe,Bengaluru,560001,amazon.in,B07D6Q17FR,PEESAFE Pee Safe Toilet Seat Sanitizer Spray (75ml - Pack Of 2) - Floral | Reduces The Risk Of UTI & Other Infections | Kills 99.9% Germs & Travel Friendly,299,1993.33,85,75ml,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B07D6Q17FR\nPee Safe,Bengaluru,560001,amazon.in,B07DYYQ57Y,Pee Safe Toilet Seat Sanitizer | Lavender 50ml - Pack of 2,189,1890,90,50ml,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B07DYYQ57Y\n";
+
+    function filterRows(mode) {
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const stock = row.getAttribute('data-stock');
+        if (mode === 'all') row.style.display = '';
+        else if (mode === 'oos') row.style.display = stock === 'oos' ? '' : 'none';
+        else if (mode === 'instock') row.style.display = stock === 'instock' ? '' : 'none';
+      });
+    }
+
+    function searchSkus() {
+      const q = document.getElementById('skuSearch').value.toLowerCase();
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const title = row.getAttribute('data-title') || '';
+        const platform = (row.getAttribute('data-platform') || '').toLowerCase();
+        row.style.display = (title.includes(q) || platform.includes(q)) ? '' : 'none';
+      });
+    }
+
+    function downloadCsv() {
+      const blob = new Blob([RAW_CSV], { type: 'text/csv;charset=utf-8;' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'pee-safe-3city-audit.csv';
+      a.click();
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pintola — 3-City Quick-Commerce Dark-Store Audit Scorecard | Unscrape Radar</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background-color: #07080d; color: #f3f4f6; font-family: Inter, system-ui, -apple-system, sans-serif; }
+  </style>
+</head>
+<body class="min-h-screen pb-24">
+  <!-- Top Bar -->
+  <header class="border-b border-slate-800 bg-slate-950/90 backdrop-blur sticky top-0 z-20">
+    <div class="max-w-7xl mx-auto px-6 py-3.5 flex items-center justify-between flex-wrap gap-3">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="text-emerald-400 font-black text-lg tracking-tight hover:text-emerald-300">⚡ UNSCRAPE RADAR</a>
+        <span class="text-xs text-slate-500">/</span>
+        <span class="text-sm font-bold text-white">Pintola Executive Scorecard</span>
+      </div>
+      <div class="flex items-center gap-2.5 text-xs">
+        <a href="index.html" class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700">← All 56 Brand Audits</a>
+        <button onclick="downloadCsv()" class="px-3.5 py-1.5 rounded-lg bg-emerald-500 text-slate-950 font-bold hover:bg-emerald-400">⬇ Download Raw CSV (38 SKUs)</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-6 pt-8">
+    <!-- Executive Header -->
+    <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 mb-8">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+        <div>
+          <div class="flex items-center gap-2.5 mb-2">
+            <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded bg-slate-800 text-emerald-400">Peanut Butter &amp; Spreads</span>
+            <span class="text-xs text-slate-400 font-mono">Audited: 2026-10-30</span>
+          </div>
+          <h1 class="text-3xl md:text-4xl font-black text-white tracking-tight">Pintola — Hyperlocal Dark-Store Audit</h1>
+          <p class="text-slate-400 text-sm mt-1">
+            Live multi-platform inventory & MOP/MRP price variance scan across <strong>Bengaluru (560001)</strong>, <strong>Mumbai (400001)</strong>, and <strong>Delhi (110001)</strong>.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 shrink-0">
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">SKUs Audited</div>
+            <div class="text-2xl font-black text-white mt-1">38</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">OOS Leaks</div>
+            <div class="text-2xl font-black text-emerald-400 mt-1">0</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">Max Markdown</div>
+            <div class="text-2xl font-black text-amber-300 mt-1">45%</div>
+          </div>
+          <div class="border rounded-xl p-3.5 text-center bg-emerald-500/15 text-emerald-400 border-emerald-500/30">
+            <div class="text-[11px] uppercase font-bold opacity-80">Shelf Health</div>
+            <div class="text-2xl font-black mt-1">100%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="bg-emerald-950/30 border border-emerald-500/30 rounded-2xl p-5 mb-8 flex items-center justify-between flex-wrap gap-3">
+      <div>
+        <span class="px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 font-bold text-xs uppercase">✓ 100% In-Stock Snapshot</span>
+        <span class="text-sm text-slate-200 ml-2">All 38 audited dark-store listings across Bengaluru, Mumbai & Delhi were in stock during this scan. Max discount variance: <strong>45% below MRP</strong>.</span>
+      </div>
+    </div>
+
+    <!-- Filter Controls -->
+    <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+      <div class="flex items-center gap-2 text-xs">
+        <button onclick="filterRows('all')" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-semibold">All SKUs (38)</button>
+        <button onclick="filterRows('oos')" class="px-3 py-1.5 rounded-lg bg-rose-500/15 border border-rose-500/30 text-rose-300 hover:bg-rose-500/25 font-semibold">Out-of-Stock Only (0)</button>
+        <button onclick="filterRows('instock')" class="px-3 py-1.5 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 hover:bg-emerald-500/25 font-semibold">In-Stock (38)</button>
+      </div>
+      <div class="flex items-center gap-2">
+        <input id="skuSearch" type="text" oninput="searchSkus()" placeholder="Filter SKU title or platform..." class="bg-slate-900 border border-slate-800 rounded-lg px-3.5 py-1.5 text-xs text-white w-64" />
+      </div>
+    </div>
+
+    <!-- SKU Table -->
+    <div class="bg-slate-900/50 border border-slate-800 rounded-2xl overflow-x-auto">
+      <table class="w-full text-left text-xs">
+        <thead class="bg-slate-950/90 text-slate-400 uppercase border-b border-slate-800">
+          <tr>
+            <th class="px-4 py-3">SKU Title</th>
+            <th class="px-4 py-3">Platform</th>
+            <th class="px-4 py-3">City / Pin</th>
+            <th class="px-4 py-3">Pack Size</th>
+            <th class="px-4 py-3">Selling Price</th>
+            <th class="px-4 py-3">MRP</th>
+            <th class="px-4 py-3">Discount</th>
+            <th class="px-4 py-3">Stock Status</th>
+            <th class="px-4 py-3">ETA</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-800/60">
+          <tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="pintola high protein dark chocolate peanut butter (crunchy, 510g) 30g protein,whey protein, high fiber, crispy, gluten free, zero trans fat &amp; unsalted chocolate flavour nut butter, premium roasted nuts">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pintola HIGH Protein DARK Chocolate Peanut Butter (Crunchy, 510g) 30g Protein,Whey Protein, High Fiber, Crispy, Gluten Free, Zero Trans Fat &amp; Unsalted Chocolate flavour Nut butter, Premium Roasted Nuts</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.63/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹320</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹375</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="pintola peanut butter chocolate flavour crunchy 1kg - 18.6g protein &amp; 5.2g dietary fiber, made with premium roasted nuts &amp; cocoa, gluten free, zero cholesterol &amp; trans fat, vit e &amp; b3, dark chocolate">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pintola Peanut Butter Chocolate Flavour Crunchy 1kg - 18.6g Protein &amp; 5.2g Dietary Fiber, Made with Premium Roasted Nuts &amp; Cocoa, Gluten Free, Zero Cholesterol &amp; Trans Fat, Vit E &amp; B3, Dark Chocolate</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">399.00/kg</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹399</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹475</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">16% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="pintola peanut butter chocolate flavour crunchy 350g - 18.6g protein &amp; 5.2g dietary fiber, made with premium roasted nuts &amp; cocoa, gluten free, zero cholesterol &amp; trans fat, vit e &amp; b3, dark chocolate">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pintola Peanut Butter Chocolate Flavour Crunchy 350g - 18.6g Protein &amp; 5.2g Dietary Fiber, Made with Premium Roasted Nuts &amp; Cocoa, Gluten Free, Zero Cholesterol &amp; Trans Fat, Vit E &amp; B3, Dark Chocolate</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.44/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹153</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹180</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="pintola peanut butter chocolate flavour crunchy 500gm">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pintola Peanut Butter Chocolate Flavour Crunchy 500gm</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.44/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹220</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹249</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">12% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="pintola peanut butter all natural crunchy peanut butter 1kg | unsweetened | 30g protein | vegan peanut butter, 100% pure roasted peanuts | non gmo | high in protein spread, gluten &amp; cholesterol free, nut butter">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pintola Peanut Butter All Natural Crunchy Peanut Butter 1kg | Unsweetened | 30g Protein | Vegan Peanut Butter, 100% Pure Roasted Peanuts | Non Gmo | High in Protein Spread, Gluten &amp; Cholesterol Free, Nut Butter</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">375.00/kg</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹375</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹430</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">13% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="pintola peanut butter all natural crunchy peanut butter | unsweetened | 30g protein | non gmo | gluten free | vegan | cholesterol free (350g)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pintola Peanut Butter All Natural Crunchy Peanut Butter | Unsweetened | 30g Protein | Non GMO | Gluten Free | Vegan | Cholesterol Free (350g)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.43/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹149</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹170</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">12% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="pintola high protein dark chocolate peanut butter (crunchy, 510g) 30g protein,whey protein, high fiber, crispy, gluten free, zero trans fat &amp; unsalted chocolate flavour nut butter, premium roasted nuts">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pintola HIGH Protein DARK Chocolate Peanut Butter (Crunchy, 510g) 30g Protein,Whey Protein, High Fiber, Crispy, Gluten Free, Zero Trans Fat &amp; Unsalted Chocolate flavour Nut butter, Premium Roasted Nuts</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.63/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹320</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹375</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="pintola peanut butter chocolate flavour crunchy 1kg - 18.6g protein &amp; 5.2g dietary fiber, made with premium roasted nuts &amp; cocoa, gluten free, zero cholesterol &amp; trans fat, vit e &amp; b3, dark chocolate">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pintola Peanut Butter Chocolate Flavour Crunchy 1kg - 18.6g Protein &amp; 5.2g Dietary Fiber, Made with Premium Roasted Nuts &amp; Cocoa, Gluten Free, Zero Cholesterol &amp; Trans Fat, Vit E &amp; B3, Dark Chocolate</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">399.00/kg</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹399</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹475</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">16% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="pintola peanut butter chocolate flavour crunchy 350g - 18.6g protein &amp; 5.2g dietary fiber, made with premium roasted nuts &amp; cocoa, gluten free, zero cholesterol &amp; trans fat, vit e &amp; b3, dark chocolate">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pintola Peanut Butter Chocolate Flavour Crunchy 350g - 18.6g Protein &amp; 5.2g Dietary Fiber, Made with Premium Roasted Nuts &amp; Cocoa, Gluten Free, Zero Cholesterol &amp; Trans Fat, Vit E &amp; B3, Dark Chocolate</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.44/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹153</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹180</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="pintola peanut butter chocolate flavour crunchy 500gm">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pintola Peanut Butter Chocolate Flavour Crunchy 500gm</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.44/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹220</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹249</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">12% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="pintola peanut butter all natural crunchy peanut butter 1kg | unsweetened | 30g protein | vegan peanut butter, 100% pure roasted peanuts | non gmo | high in protein spread, gluten &amp; cholesterol free, nut butter">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pintola Peanut Butter All Natural Crunchy Peanut Butter 1kg | Unsweetened | 30g Protein | Vegan Peanut Butter, 100% Pure Roasted Peanuts | Non Gmo | High in Protein Spread, Gluten &amp; Cholesterol Free, Nut Butter</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">375.00/kg</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹375</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹430</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">13% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="pintola peanut butter all natural crunchy peanut butter | unsweetened | 30g protein | non gmo | gluten free | vegan | cholesterol free (350g)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pintola Peanut Butter All Natural Crunchy Peanut Butter | Unsweetened | 30g Protein | Non GMO | Gluten Free | Vegan | Cholesterol Free (350g)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.43/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹149</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹170</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">12% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="pintola high protein dark chocolate peanut butter (crunchy, 510g) 30g protein,whey protein, high fiber, crispy, gluten free, zero trans fat &amp; unsalted chocolate flavour nut butter, premium roasted nuts">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pintola HIGH Protein DARK Chocolate Peanut Butter (Crunchy, 510g) 30g Protein,Whey Protein, High Fiber, Crispy, Gluten Free, Zero Trans Fat &amp; Unsalted Chocolate flavour Nut butter, Premium Roasted Nuts</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.63/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹320</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹375</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="pintola peanut butter chocolate flavour crunchy 1kg - 18.6g protein &amp; 5.2g dietary fiber, made with premium roasted nuts &amp; cocoa, gluten free, zero cholesterol &amp; trans fat, vit e &amp; b3, dark chocolate">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pintola Peanut Butter Chocolate Flavour Crunchy 1kg - 18.6g Protein &amp; 5.2g Dietary Fiber, Made with Premium Roasted Nuts &amp; Cocoa, Gluten Free, Zero Cholesterol &amp; Trans Fat, Vit E &amp; B3, Dark Chocolate</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">399.00/kg</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹399</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹475</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">16% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="pintola peanut butter chocolate flavour crunchy 350g - 18.6g protein &amp; 5.2g dietary fiber, made with premium roasted nuts &amp; cocoa, gluten free, zero cholesterol &amp; trans fat, vit e &amp; b3, dark chocolate">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pintola Peanut Butter Chocolate Flavour Crunchy 350g - 18.6g Protein &amp; 5.2g Dietary Fiber, Made with Premium Roasted Nuts &amp; Cocoa, Gluten Free, Zero Cholesterol &amp; Trans Fat, Vit E &amp; B3, Dark Chocolate</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.44/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹153</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹180</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="pintola peanut butter chocolate flavour crunchy 500gm">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pintola Peanut Butter Chocolate Flavour Crunchy 500gm</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.44/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹220</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹249</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">12% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="pintola peanut butter all natural crunchy peanut butter 1kg | unsweetened | 30g protein | vegan peanut butter, 100% pure roasted peanuts | non gmo | high in protein spread, gluten &amp; cholesterol free, nut butter">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pintola Peanut Butter All Natural Crunchy Peanut Butter 1kg | Unsweetened | 30g Protein | Vegan Peanut Butter, 100% Pure Roasted Peanuts | Non Gmo | High in Protein Spread, Gluten &amp; Cholesterol Free, Nut Butter</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">375.00/kg</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹375</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹430</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">13% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="pintola peanut butter all natural crunchy peanut butter | unsweetened | 30g protein | non gmo | gluten free | vegan | cholesterol free (350g)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pintola Peanut Butter All Natural Crunchy Peanut Butter | Unsweetened | 30g Protein | Non GMO | Gluten Free | Vegan | Cholesterol Free (350g)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.43/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹149</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹170</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">12% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="myfitness chocolate peanut butter (crunchy)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">MYFITNESS Chocolate Peanut Butter (Crunchy)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹248</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹319</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">22% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="myfitness 29g high protein dark chocolate peanut butter crispy with added whey">
+        <td class="px-4 py-3 font-medium text-white max-w-md">MYFITNESS 29g High Protein Dark Chocolate Peanut Butter Crispy with Added Whey</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">29g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹303</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹399</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">24% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="nuvio health organic jaggery crunchy peanut butter">
+        <td class="px-4 py-3 font-medium text-white max-w-md">NUVIO HEALTH ORGANIC JAGGERY CRUNCHY PEANUT BUTTER</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹330</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹350</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">6% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="raiville's afghan smoothie peanut butter | raisin blend with smooth crunch spread">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Raiville's Afghan Smoothie Peanut Butter | Raisin Blend with Smooth Crunch Spread</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹393</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹699</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">44% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="vfit crunchy dark chocolate organic high protein peanut butter">
+        <td class="px-4 py-3 font-medium text-white max-w-md">VFIT Crunchy Dark Chocolate Organic High Protein Peanut Butter</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹548</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹999</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">45% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="raiville's vanilla flavour crispy peanut butter crunchy spread">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Raiville's Vanilla Flavour Crispy Peanut Butter Crunchy Spread</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹437</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹649</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">33% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="pintola dark chocolate crunchy peanut butter">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pintola Dark Chocolate Crunchy Peanut Butter</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (350 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹168</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹180</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">7% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="pintola all natural peanut butter - crunchy">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pintola All Natural Peanut Butter - Crunchy</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (350 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹156</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹170</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">8% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="myfitness 26g high protein chocolate peanut butter spread - crunchy">
+        <td class="px-4 py-3 font-medium text-white max-w-md">MyFitness 26g High Protein Chocolate Peanut Butter Spread - Crunchy</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (510 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹281</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹319</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">12% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="pintola dark chocolate creamy peanut butter">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pintola Dark Chocolate Creamy Peanut Butter</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (350 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹169</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹180</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">6% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="pintola all natural peanut butter crunchy">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pintola All Natural Peanut Butter Crunchy</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (1 kg)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹400</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹430</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">7% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="pintola high protein dark chocolate peanut butter - crunchy">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pintola High Protein Dark Chocolate Peanut Butter - Crunchy</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (510 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹349</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹375</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">7% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="myfitness all natural peanut butter crunchy spread | no sugar, high protein">
+        <td class="px-4 py-3 font-medium text-white max-w-md">MyFitness All Natural Peanut Butter Crunchy Spread | No Sugar, High Protein</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (510 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹281</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹319</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">12% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="myfitness chocolate peanut butter crispy spread | high protein">
+        <td class="px-4 py-3 font-medium text-white max-w-md">MyFitness Chocolate Peanut Butter Crispy Spread | High Protein</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (1.2 kg)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹624</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹669</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">7% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="high protein peanut butter chocolate flavour crunchy 1kg, added whey protein, 30g protein 6.2g fiber, dark chocolate peanut butter spread, nut butter bread snacks">
+        <td class="px-4 py-3 font-medium text-white max-w-md">High Protein Peanut Butter Chocolate Flavour Crunchy 1kg, Added WHEY Protein, 30g Protein 6.2g Fiber, Dark Chocolate Peanut Butter Spread, Nut Butter Bread Snacks</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1kg</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹489</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹48.9</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="all natural peanut butter creamy 350g | smooth | unsweetened | 30g protein | vegan peanut butter, nut butter, high in protein spread, 100% roasted peanuts butter">
+        <td class="px-4 py-3 font-medium text-white max-w-md">All Natural Peanut Butter Creamy 350g | Smooth | Unsweetened | 30g Protein | Vegan Peanut Butter, Nut Butter, High in Protein Spread, 100% Roasted peanuts butter</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">350g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹146</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹41.71</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Tue, 3 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="peanut butter chocolate flavour crunchy 1kg - 24g protein &amp; 7.9g dietary fiber, made with premium roasted nuts &amp; cocoa, dark chocolate">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Peanut Butter Chocolate Flavour Crunchy 1kg - 24g Protein &amp; 7.9g Dietary Fiber, Made with Premium Roasted Nuts &amp; Cocoa, Dark Chocolate</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1kg</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹399</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹39.9</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="all natural peanut butter crunchy 510g | 31g protein &amp; 8.3g fiber| 100% roasted peanuts| nut butter spread | no added sugar &amp; salt | no palm oil | zero cholesterol | unsweetened peanut butter">
+        <td class="px-4 py-3 font-medium text-white max-w-md">All Natural Peanut Butter Crunchy 510g | 31g Protein &amp; 8.3g Fiber| 100% Roasted Peanuts| Nut Butter Spread | No Added Sugar &amp; Salt | No Palm Oil | Zero Cholesterol | Unsweetened Peanut Butter</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">510g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹255</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹50</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="peanut butter dark chocolate crunchy | high protein 26g, rich cocoa &amp; roasted peanuts | healthy spread for kids &amp; adults (1kg)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Peanut Butter Dark Chocolate Crunchy | High Protein 26g, Rich Cocoa &amp; Roasted Peanuts | Healthy Spread for Kids &amp; Adults (1kg)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">26g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹487</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹48.7</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Thu, 5 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="all natural peanut butter crunchy 1kg | unsweetened | 30g protein, nut butter, high in protein spread, 100% pure roasted peanuts butter">
+        <td class="px-4 py-3 font-medium text-white max-w-md">All Natural Peanut Butter Crunchy 1kg | Unsweetened | 30g Protein, Nut Butter, High in Protein Spread, 100% Pure Roasted peanuts butter</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1kg</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹331</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹33.1</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- Sticky CTA Footer -->
+  <div class="fixed bottom-0 inset-x-0 bg-slate-950/95 border-t border-emerald-500/30 backdrop-blur px-6 py-3.5 z-30">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+      <div class="text-slate-200">
+        <span class="text-emerald-400 font-bold">⚡ Unscrape Radar:</span> Want real-time Slack/WhatsApp/Telegram alerts within 15 mins whenever <strong>Pintola</strong> SKUs go Out-of-Stock across 20 BLR/MUM/DEL dark-store pin codes?
+      </div>
+      <div class="flex items-center gap-2.5 shrink-0">
+        <a href="https://github.com/deveshkolte/unscrape" target="_blank" class="px-4 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold">Unlock Automated 20-Pin-Code Monitor →</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const RAW_CSV = "brand,city,pincode,platform,skuId,title,sellingPriceInr,mrpInr,discountPercent,unit,inStock,deliveryEta,url\nPintola,Bengaluru,560001,bigbasket.com/jiomart,19282285,\"Pintola HIGH Protein DARK Chocolate Peanut Butter (Crunchy, 510g) 30g Protein,Whey Protein, High Fiber, Crispy, Gluten Free, Zero Trans Fat & Unsalted Chocolate flavour Nut butter, Premium Roasted Nuts\",320,375,15,0.63/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/pintola-peanut-butter-high-protein-dark-chocolate-crunchy-510g-30g-proteinwhey-protein-high-fiber-crispy-gluten-free-zero-trans-fat-unsalted-chocolate-flavour-nut-butter-premium-roasted-nut-mi8ses-19282285/19282285\nPintola,Bengaluru,560001,bigbasket.com/jiomart,19281972,\"Pintola Peanut Butter Chocolate Flavour Crunchy 1kg - 18.6g Protein & 5.2g Dietary Fiber, Made with Premium Roasted Nuts & Cocoa, Gluten Free, Zero Cholesterol & Trans Fat, Vit E & B3, Dark Chocolate\",399,475,16,399.00/kg,true,15-30 MINS,https://www.jiomart.com/p/groceries/pintola-peanut-butter-chocolate-flavour-crunchy-peanut-butter-1kg-186g-protein-52g-dietary-fiber-made-with-premium-roasted-nuts-cocoa-gluten-free-zero-cholesterol-trans-fat-vit-e-b3-dark-chocolate-mi8se7-19281972/19281972\nPintola,Bengaluru,560001,bigbasket.com/jiomart,19282558,\"Pintola Peanut Butter Chocolate Flavour Crunchy 350g - 18.6g Protein & 5.2g Dietary Fiber, Made with Premium Roasted Nuts & Cocoa, Gluten Free, Zero Cholesterol & Trans Fat, Vit E & B3, Dark Chocolate\",153,180,15,0.44/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/pintola-peanut-butter-chocolate-flavour-crunchy-peanut-butter-350g-186g-protein-52g-dietary-fiber-made-with-premium-roasted-nuts-cocoa-gluten-free-zero-cholesterol-trans-fat-vit-e-b3-dark-chocolate-mi8sfc-19282558/19282558\nPintola,Bengaluru,560001,bigbasket.com/jiomart,35839184,Pintola Peanut Butter Chocolate Flavour Crunchy 500gm,220,249,12,0.44/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/pintola-peanut-butter-chocolate-flavour-crunchy-500gm-mixh22-35839184/35839184\nPintola,Bengaluru,560001,bigbasket.com/jiomart,31613419,\"Pintola Peanut Butter All Natural Crunchy Peanut Butter 1kg | Unsweetened | 30g Protein | Vegan Peanut Butter, 100% Pure Roasted Peanuts | Non Gmo | High in Protein Spread, Gluten & Cholesterol Free, Nut Butter\",375,430,13,375.00/kg,true,15-30 MINS,https://www.jiomart.com/p/groceries/pintola-peanut-butter-all-natural-crunchy-peanut-butter-1kg-unsweetened-30g-protein-vegan-peanut-butter-100-pure-roasted-peanuts-non-gmo-high-in-protein-spread-gluten-cholesterol-free-nut-butter-mimxqe-31613419/31613419\nPintola,Bengaluru,560001,bigbasket.com/jiomart,19284977,Pintola Peanut Butter All Natural Crunchy Peanut Butter | Unsweetened | 30g Protein | Non GMO | Gluten Free | Vegan | Cholesterol Free (350g),149,170,12,0.43/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/pintola-peanut-butter-all-natural-crunchy-peanut-butter-unsweetened-30g-protein-non-gmo-gluten-free-vegan-cholesterol-free-350g-mi8sjf-19284977/19284977\nPintola,Mumbai,400001,bigbasket.com/jiomart,19282285,\"Pintola HIGH Protein DARK Chocolate Peanut Butter (Crunchy, 510g) 30g Protein,Whey Protein, High Fiber, Crispy, Gluten Free, Zero Trans Fat & Unsalted Chocolate flavour Nut butter, Premium Roasted Nuts\",320,375,15,0.63/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/pintola-peanut-butter-high-protein-dark-chocolate-crunchy-510g-30g-proteinwhey-protein-high-fiber-crispy-gluten-free-zero-trans-fat-unsalted-chocolate-flavour-nut-butter-premium-roasted-nut-mi8ses-19282285/19282285\nPintola,Mumbai,400001,bigbasket.com/jiomart,19281972,\"Pintola Peanut Butter Chocolate Flavour Crunchy 1kg - 18.6g Protein & 5.2g Dietary Fiber, Made with Premium Roasted Nuts & Cocoa, Gluten Free, Zero Cholesterol & Trans Fat, Vit E & B3, Dark Chocolate\",399,475,16,399.00/kg,true,15-30 MINS,https://www.jiomart.com/p/groceries/pintola-peanut-butter-chocolate-flavour-crunchy-peanut-butter-1kg-186g-protein-52g-dietary-fiber-made-with-premium-roasted-nuts-cocoa-gluten-free-zero-cholesterol-trans-fat-vit-e-b3-dark-chocolate-mi8se7-19281972/19281972\nPintola,Mumbai,400001,bigbasket.com/jiomart,19282558,\"Pintola Peanut Butter Chocolate Flavour Crunchy 350g - 18.6g Protein & 5.2g Dietary Fiber, Made with Premium Roasted Nuts & Cocoa, Gluten Free, Zero Cholesterol & Trans Fat, Vit E & B3, Dark Chocolate\",153,180,15,0.44/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/pintola-peanut-butter-chocolate-flavour-crunchy-peanut-butter-350g-186g-protein-52g-dietary-fiber-made-with-premium-roasted-nuts-cocoa-gluten-free-zero-cholesterol-trans-fat-vit-e-b3-dark-chocolate-mi8sfc-19282558/19282558\nPintola,Mumbai,400001,bigbasket.com/jiomart,35839184,Pintola Peanut Butter Chocolate Flavour Crunchy 500gm,220,249,12,0.44/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/pintola-peanut-butter-chocolate-flavour-crunchy-500gm-mixh22-35839184/35839184\nPintola,Mumbai,400001,bigbasket.com/jiomart,31613419,\"Pintola Peanut Butter All Natural Crunchy Peanut Butter 1kg | Unsweetened | 30g Protein | Vegan Peanut Butter, 100% Pure Roasted Peanuts | Non Gmo | High in Protein Spread, Gluten & Cholesterol Free, Nut Butter\",375,430,13,375.00/kg,true,15-30 MINS,https://www.jiomart.com/p/groceries/pintola-peanut-butter-all-natural-crunchy-peanut-butter-1kg-unsweetened-30g-protein-vegan-peanut-butter-100-pure-roasted-peanuts-non-gmo-high-in-protein-spread-gluten-cholesterol-free-nut-butter-mimxqe-31613419/31613419\nPintola,Mumbai,400001,bigbasket.com/jiomart,19284977,Pintola Peanut Butter All Natural Crunchy Peanut Butter | Unsweetened | 30g Protein | Non GMO | Gluten Free | Vegan | Cholesterol Free (350g),149,170,12,0.43/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/pintola-peanut-butter-all-natural-crunchy-peanut-butter-unsweetened-30g-protein-non-gmo-gluten-free-vegan-cholesterol-free-350g-mi8sjf-19284977/19284977\nPintola,Delhi,110001,bigbasket.com/jiomart,19282285,\"Pintola HIGH Protein DARK Chocolate Peanut Butter (Crunchy, 510g) 30g Protein,Whey Protein, High Fiber, Crispy, Gluten Free, Zero Trans Fat & Unsalted Chocolate flavour Nut butter, Premium Roasted Nuts\",320,375,15,0.63/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/pintola-peanut-butter-high-protein-dark-chocolate-crunchy-510g-30g-proteinwhey-protein-high-fiber-crispy-gluten-free-zero-trans-fat-unsalted-chocolate-flavour-nut-butter-premium-roasted-nut-mi8ses-19282285/19282285\nPintola,Delhi,110001,bigbasket.com/jiomart,19281972,\"Pintola Peanut Butter Chocolate Flavour Crunchy 1kg - 18.6g Protein & 5.2g Dietary Fiber, Made with Premium Roasted Nuts & Cocoa, Gluten Free, Zero Cholesterol & Trans Fat, Vit E & B3, Dark Chocolate\",399,475,16,399.00/kg,true,15-30 MINS,https://www.jiomart.com/p/groceries/pintola-peanut-butter-chocolate-flavour-crunchy-peanut-butter-1kg-186g-protein-52g-dietary-fiber-made-with-premium-roasted-nuts-cocoa-gluten-free-zero-cholesterol-trans-fat-vit-e-b3-dark-chocolate-mi8se7-19281972/19281972\nPintola,Delhi,110001,bigbasket.com/jiomart,19282558,\"Pintola Peanut Butter Chocolate Flavour Crunchy 350g - 18.6g Protein & 5.2g Dietary Fiber, Made with Premium Roasted Nuts & Cocoa, Gluten Free, Zero Cholesterol & Trans Fat, Vit E & B3, Dark Chocolate\",153,180,15,0.44/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/pintola-peanut-butter-chocolate-flavour-crunchy-peanut-butter-350g-186g-protein-52g-dietary-fiber-made-with-premium-roasted-nuts-cocoa-gluten-free-zero-cholesterol-trans-fat-vit-e-b3-dark-chocolate-mi8sfc-19282558/19282558\nPintola,Delhi,110001,bigbasket.com/jiomart,35839184,Pintola Peanut Butter Chocolate Flavour Crunchy 500gm,220,249,12,0.44/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/pintola-peanut-butter-chocolate-flavour-crunchy-500gm-mixh22-35839184/35839184\nPintola,Delhi,110001,bigbasket.com/jiomart,31613419,\"Pintola Peanut Butter All Natural Crunchy Peanut Butter 1kg | Unsweetened | 30g Protein | Vegan Peanut Butter, 100% Pure Roasted Peanuts | Non Gmo | High in Protein Spread, Gluten & Cholesterol Free, Nut Butter\",375,430,13,375.00/kg,true,15-30 MINS,https://www.jiomart.com/p/groceries/pintola-peanut-butter-all-natural-crunchy-peanut-butter-1kg-unsweetened-30g-protein-vegan-peanut-butter-100-pure-roasted-peanuts-non-gmo-high-in-protein-spread-gluten-cholesterol-free-nut-butter-mimxqe-31613419/31613419\nPintola,Delhi,110001,bigbasket.com/jiomart,19284977,Pintola Peanut Butter All Natural Crunchy Peanut Butter | Unsweetened | 30g Protein | Non GMO | Gluten Free | Vegan | Cholesterol Free (350g),149,170,12,0.43/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/pintola-peanut-butter-all-natural-crunchy-peanut-butter-unsweetened-30g-protein-non-gmo-gluten-free-vegan-cholesterol-free-350g-mi8sjf-19284977/19284977\nPintola,Bengaluru,560001,flipkart.com,JASGYW3MHCX7H5P4,MYFITNESS Chocolate Peanut Butter (Crunchy),248,319,22,1 unit,true,15 MINS,https://www.flipkart.com/myfitness-chocolate-peanut-butter-crunchy/p/itmaed3d4132479a?pid=JASGYW3MHCX7H5P4&lid=LSTJASGYW3MHCX7H5P4GGE2SF&marketplace=FLIPKART&q=pintola+peanut+butter&store=eat%2Fxhv&srno=s_1_1&otracker=search&fm=organic&iid=en_pxVtRPqp_4BuT2JzQyNKVTRpRk5mJ8JKWCZE4RvH6LCrzF2tAquA0kYKrvp4j5OMLYDne492FUR1fLYDqwfzm9kM21H_9V1bg-GdpzDJFrAPcJAQjTVdCOJvrTaCWrgY&ppt=None&ppn=None&ssid=paadpvj4n40000001793387265582&qH=ecb35f900087e57d&ov_redirect=true&ov_redirect=true\nPintola,Bengaluru,560001,flipkart.com,JASGKGN9R7ZBHZAQ,MYFITNESS 29g High Protein Dark Chocolate Peanut Butter Crispy with Added Whey,303,399,24,29g,true,15 MINS,https://www.flipkart.com/myfitness-29g-high-protein-dark-chocolate-peanut-butter-crispy-added-whey/p/itm99be2a92260be?pid=JASGKGN9R7ZBHZAQ&lid=LSTJASGKGN9R7ZBHZAQZDGWEH&marketplace=FLIPKART&q=pintola+peanut+butter&store=eat%2Fxhv&srno=s_1_2&otracker=search&fm=organic&iid=en_pxVtRPqp_4BuT2JzQyNKVTRpRk5mJ8JKWCZE4RvH6LA7rbP8bIKQBLSL2_wJmmiQ3z1GOs7KMKL0vcV5iALXjb3d0X9XnmboH8_KXZ3BGD4PcJAQjTVdCOJvrTaCWrgY&ppt=None&ppn=None&ssid=paadpvj4n40000001793387265582&qH=ecb35f900087e57d&ov_redirect=true&ov_redirect=true\nPintola,Bengaluru,560001,flipkart.com,JASHHMHPNW3CFGQM,NUVIO HEALTH ORGANIC JAGGERY CRUNCHY PEANUT BUTTER,330,350,6,1 unit,true,15 MINS,https://www.flipkart.com/nuvio-health-organic-jaggery-crunchy-peanut-butter/p/itm0c68c0dbfaaef?pid=JASHHMHPNW3CFGQM&lid=LSTJASHHMHPNW3CFGQMXILCLC&marketplace=FLIPKART&q=pintola+peanut+butter&store=eat%2Fxhv&srno=s_1_3&otracker=search&fm=organic&iid=08601628-8715-4b43-8a2e-4348a74a0edd.JASHHMHPNW3CFGQM.SEARCH&ppt=None&ppn=None&ssid=paadpvj4n40000001793387265582&qH=ecb35f900087e57d&ov_redirect=true&ov_redirect=true\nPintola,Bengaluru,560001,flipkart.com,JASHMGJQSEZ328GJ,Raiville's Afghan Smoothie Peanut Butter | Raisin Blend with Smooth Crunch Spread,393,699,44,1 unit,true,15 MINS,https://www.flipkart.com/raiville-s-afghan-smoothie-peanut-butter-raisin-blend-smooth-crunch-spread/p/itm65d255ae044e5?pid=JASHMGJQSEZ328GJ&lid=LSTJASHMGJQSEZ328GJD20JEE&marketplace=FLIPKART&q=pintola+peanut+butter&store=eat%2Fxhv&srno=s_1_4&otracker=search&fm=organic&iid=08601628-8715-4b43-8a2e-4348a74a0edd.JASHMGJQSEZ328GJ.SEARCH&ppt=None&ppn=None&ssid=paadpvj4n40000001793387265582&qH=ecb35f900087e57d&ov_redirect=true&ov_redirect=true\nPintola,Bengaluru,560001,flipkart.com,JASHRN4VX4E8QX9G,VFIT Crunchy Dark Chocolate Organic High Protein Peanut Butter,548,999,45,1 unit,true,15 MINS,https://www.flipkart.com/vfit-crunchy-dark-chocolate-organic-high-protein-peanut-butter/p/itm84d8cb39dffab?pid=JASHRN4VX4E8QX9G&lid=LSTJASHRN4VX4E8QX9GC4UM8X&marketplace=FLIPKART&q=pintola+peanut+butter&store=eat%2Fxhv&srno=s_1_5&otracker=search&fm=organic&iid=08601628-8715-4b43-8a2e-4348a74a0edd.JASHRN4VX4E8QX9G.SEARCH&ppt=None&ppn=None&ssid=paadpvj4n40000001793387265582&qH=ecb35f900087e57d&ov_redirect=true&ov_redirect=true\nPintola,Bengaluru,560001,flipkart.com,JASHMGJRH7A2AFBD,Raiville's Vanilla Flavour Crispy Peanut Butter Crunchy Spread,437,649,33,1 unit,true,15 MINS,https://www.flipkart.com/raiville-s-vanilla-flavour-crispy-peanut-butter-crunchy-spread/p/itm8b5b94a1f86bd?pid=JASHMGJRH7A2AFBD&lid=LSTJASHMGJRH7A2AFBD4W48X8&marketplace=FLIPKART&q=pintola+peanut+butter&store=eat%2Fxhv&srno=s_1_6&otracker=search&fm=organic&iid=08601628-8715-4b43-8a2e-4348a74a0edd.JASHMGJRH7A2AFBD.SEARCH&ppt=None&ppn=None&ssid=paadpvj4n40000001793387265582&qH=ecb35f900087e57d&ov_redirect=true&ov_redirect=true\nPintola,Bengaluru,560001,zeptonow.com,e9e73c6e-6968-50fb-b3c8-ad717739fb74,Pintola Dark Chocolate Crunchy Peanut Butter,168,180,7,1 pc (350 g),true,10 MINS,https://www.zepto.com/pn/pintola-dark-chocolate-crunchy-peanut-butter/pvid/eff08452-16c9-48f7-aba0-8544d345427d\nPintola,Bengaluru,560001,zeptonow.com,51b8961e-c521-542a-b3e4-357ced890b63,Pintola All Natural Peanut Butter - Crunchy,156,170,8,1 pc (350 g),true,10 MINS,https://www.zepto.com/pn/pintola-all-natural-peanut-butter-crunchy/pvid/a2b3f4dd-5c83-472b-801c-158e2845231d\nPintola,Bengaluru,560001,zeptonow.com,53efa958-06e0-5ab1-b52a-e59263f40560,MyFitness 26g High Protein Chocolate Peanut Butter Spread - Crunchy,281,319,12,1 pc (510 g),true,10 MINS,https://www.zepto.com/pn/myfitness-26g-high-protein-chocolate-peanut-butter-spread-crunchy/pvid/817d73c9-f7b9-4dd7-8d29-2c4e61dc24c6\nPintola,Bengaluru,560001,zeptonow.com,b87a956e-63ec-5c34-8cf8-2de989f97c3a,Pintola Dark Chocolate Creamy Peanut Butter,169,180,6,1 pc (350 g),true,10 MINS,https://www.zepto.com/pn/pintola-dark-chocolate-creamy-peanut-butter/pvid/98106945-1dac-43c8-bd62-c5a48e977622\nPintola,Bengaluru,560001,zeptonow.com,72b7bc3e-1220-53b6-a9e9-4762c303d5ab,Pintola All Natural Peanut Butter Crunchy,400,430,7,1 pc (1 kg),true,10 MINS,https://www.zepto.com/pn/pintola-all-natural-peanut-butter-crunchy/pvid/58b1451e-7330-4886-a914-724616c8d9ca\nPintola,Bengaluru,560001,zeptonow.com,f3a87a74-f6c6-5ea3-b101-a335d05b4373,Pintola High Protein Dark Chocolate Peanut Butter - Crunchy,349,375,7,1 pc (510 g),true,10 MINS,https://www.zepto.com/pn/pintola-high-protein-dark-chocolate-peanut-butter-crunchy/pvid/c6559fec-bdd4-426d-8373-39332f8da872\nPintola,Bengaluru,560001,zeptonow.com,ec2e88a5-a0fd-58fa-a03a-da643f9828bb,\"MyFitness All Natural Peanut Butter Crunchy Spread | No Sugar, High Protein\",281,319,12,1 pack (510 g),true,10 MINS,https://www.zepto.com/pn/myfitness-all-natural-peanut-butter-crunchy-spread-no-sugar-high-protein/pvid/03f6de2b-5c1b-4398-962a-a6f3e96d0ec9\nPintola,Bengaluru,560001,zeptonow.com,832b9a3f-88e9-505c-b7d8-edc7ffad6e94,MyFitness Chocolate Peanut Butter Crispy Spread | High Protein,624,669,7,1 pc (1.2 kg),true,10 MINS,https://www.zepto.com/pn/myfitness-chocolate-peanut-butter-crispy-spread-high-protein/pvid/32ede2f2-2f80-4a19-a571-f1e373e86516\nPintola,Bengaluru,560001,amazon.in,B08R3CLJ8H,\"High Protein Peanut Butter Chocolate Flavour Crunchy 1kg, Added WHEY Protein, 30g Protein 6.2g Fiber, Dark Chocolate Peanut Butter Spread, Nut Butter Bread Snacks\",489,48.9,0,1kg,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B08R3CLJ8H\nPintola,Bengaluru,560001,amazon.in,B01N9ZNOWQ,\"All Natural Peanut Butter Creamy 350g | Smooth | Unsweetened | 30g Protein | Vegan Peanut Butter, Nut Butter, High in Protein Spread, 100% Roasted peanuts butter\",146,41.71,0,350g,true,\"Tue, 3 Nov\",https://www.amazon.in/dp/B01N9ZNOWQ\nPintola,Bengaluru,560001,amazon.in,B0776PQGTW,\"Peanut Butter Chocolate Flavour Crunchy 1kg - 24g Protein & 7.9g Dietary Fiber, Made with Premium Roasted Nuts & Cocoa, Dark Chocolate\",399,39.9,0,1kg,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0776PQGTW\nPintola,Bengaluru,560001,amazon.in,B0CGSDDFGF,All Natural Peanut Butter Crunchy 510g | 31g Protein & 8.3g Fiber| 100% Roasted Peanuts| Nut Butter Spread | No Added Sugar & Salt | No Palm Oil | Zero Cholesterol | Unsweetened Peanut Butter,255,50,0,510g,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0CGSDDFGF\nPintola,Bengaluru,560001,amazon.in,B0FP5NSZ57,\"Peanut Butter Dark Chocolate Crunchy | High Protein 26g, Rich Cocoa & Roasted Peanuts | Healthy Spread for Kids & Adults (1kg)\",487,48.7,0,26g,true,\"Thu, 5 Nov\",https://www.amazon.in/dp/B0FP5NSZ57\nPintola,Bengaluru,560001,amazon.in,B06XFSSDNH,\"All Natural Peanut Butter Crunchy 1kg | Unsweetened | 30g Protein, Nut Butter, High in Protein Spread, 100% Pure Roasted peanuts butter\",331,33.1,0,1kg,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B06XFSSDNH\n";
+
+    function filterRows(mode) {
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const stock = row.getAttribute('data-stock');
+        if (mode === 'all') row.style.display = '';
+        else if (mode === 'oos') row.style.display = stock === 'oos' ? '' : 'none';
+        else if (mode === 'instock') row.style.display = stock === 'instock' ? '' : 'none';
+      });
+    }
+
+    function searchSkus() {
+      const q = document.getElementById('skuSearch').value.toLowerCase();
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const title = row.getAttribute('data-title') || '';
+        const platform = (row.getAttribute('data-platform') || '').toLowerCase();
+        row.style.display = (title.includes(q) || platform.includes(q)) ? '' : 'none';
+      });
+    }
+
+    function downloadCsv() {
+      const blob = new Blob([RAW_CSV], { type: 'text/csv;charset=utf-8;' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'pintola-3city-audit.csv';
+      a.click();
+    }
+  </script>
+</body>
+</html>

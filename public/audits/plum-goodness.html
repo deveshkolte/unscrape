@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Plum Goodness — 3-City Quick-Commerce Dark-Store Audit Scorecard | Unscrape Radar</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background-color: #07080d; color: #f3f4f6; font-family: Inter, system-ui, -apple-system, sans-serif; }
+  </style>
+</head>
+<body class="min-h-screen pb-24">
+  <!-- Top Bar -->
+  <header class="border-b border-slate-800 bg-slate-950/90 backdrop-blur sticky top-0 z-20">
+    <div class="max-w-7xl mx-auto px-6 py-3.5 flex items-center justify-between flex-wrap gap-3">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="text-emerald-400 font-black text-lg tracking-tight hover:text-emerald-300">⚡ UNSCRAPE RADAR</a>
+        <span class="text-xs text-slate-500">/</span>
+        <span class="text-sm font-bold text-white">Plum Goodness Executive Scorecard</span>
+      </div>
+      <div class="flex items-center gap-2.5 text-xs">
+        <a href="index.html" class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700">← All 56 Brand Audits</a>
+        <button onclick="downloadCsv()" class="px-3.5 py-1.5 rounded-lg bg-emerald-500 text-slate-950 font-bold hover:bg-emerald-400">⬇ Download Raw CSV (46 SKUs)</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-6 pt-8">
+    <!-- Executive Header -->
+    <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 mb-8">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+        <div>
+          <div class="flex items-center gap-2.5 mb-2">
+            <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded bg-slate-800 text-emerald-400">Vegan Skincare</span>
+            <span class="text-xs text-slate-400 font-mono">Audited: 2026-10-30</span>
+          </div>
+          <h1 class="text-3xl md:text-4xl font-black text-white tracking-tight">Plum Goodness — Hyperlocal Dark-Store Audit</h1>
+          <p class="text-slate-400 text-sm mt-1">
+            Live multi-platform inventory & MOP/MRP price variance scan across <strong>Bengaluru (560001)</strong>, <strong>Mumbai (400001)</strong>, and <strong>Delhi (110001)</strong>.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 shrink-0">
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">SKUs Audited</div>
+            <div class="text-2xl font-black text-white mt-1">46</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">OOS Leaks</div>
+            <div class="text-2xl font-black text-emerald-400 mt-1">0</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">Max Markdown</div>
+            <div class="text-2xl font-black text-amber-300 mt-1">70%</div>
+          </div>
+          <div class="border rounded-xl p-3.5 text-center bg-emerald-500/15 text-emerald-400 border-emerald-500/30">
+            <div class="text-[11px] uppercase font-bold opacity-80">Shelf Health</div>
+            <div class="text-2xl font-black mt-1">100%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="bg-emerald-950/30 border border-emerald-500/30 rounded-2xl p-5 mb-8 flex items-center justify-between flex-wrap gap-3">
+      <div>
+        <span class="px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 font-bold text-xs uppercase">✓ 100% In-Stock Snapshot</span>
+        <span class="text-sm text-slate-200 ml-2">All 46 audited dark-store listings across Bengaluru, Mumbai & Delhi were in stock during this scan. Max discount variance: <strong>70% below MRP</strong>.</span>
+      </div>
+    </div>
+
+    <!-- Filter Controls -->
+    <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+      <div class="flex items-center gap-2 text-xs">
+        <button onclick="filterRows('all')" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-semibold">All SKUs (46)</button>
+        <button onclick="filterRows('oos')" class="px-3 py-1.5 rounded-lg bg-rose-500/15 border border-rose-500/30 text-rose-300 hover:bg-rose-500/25 font-semibold">Out-of-Stock Only (0)</button>
+        <button onclick="filterRows('instock')" class="px-3 py-1.5 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 hover:bg-emerald-500/25 font-semibold">In-Stock (46)</button>
+      </div>
+      <div class="flex items-center gap-2">
+        <input id="skuSearch" type="text" oninput="searchSkus()" placeholder="Filter SKU title or platform..." class="bg-slate-900 border border-slate-800 rounded-lg px-3.5 py-1.5 text-xs text-white w-64" />
+      </div>
+    </div>
+
+    <!-- SKU Table -->
+    <div class="bg-slate-900/50 border border-slate-800 rounded-2xl overflow-x-auto">
+      <table class="w-full text-left text-xs">
+        <thead class="bg-slate-950/90 text-slate-400 uppercase border-b border-slate-800">
+          <tr>
+            <th class="px-4 py-3">SKU Title</th>
+            <th class="px-4 py-3">Platform</th>
+            <th class="px-4 py-3">City / Pin</th>
+            <th class="px-4 py-3">Pack Size</th>
+            <th class="px-4 py-3">Selling Price</th>
+            <th class="px-4 py-3">MRP</th>
+            <th class="px-4 py-3">Discount</th>
+            <th class="px-4 py-3">Stock Status</th>
+            <th class="px-4 py-3">ETA</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-800/60">
+          <tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="plum rice water &amp; 10% niacinamide serum 15ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Plum Rice Water &amp; 10% Niacinamide Serum 15ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹275</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹349</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">21% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="plum 2% niacinamide &amp; rice water hybrid face sunscreen with spf 50 pa+++ | protects &amp; brightens skin | no white cast | reduces blemishes | non-greasy | uva &amp; uvb protection | all skin types | 100% vegan | 15 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Plum 2% Niacinamide &amp; Rice Water Hybrid Face Sunscreen with SPF 50 PA+++ | Protects &amp; Brightens Skin | No White Cast | Reduces Blemishes | Non-Greasy | UVA &amp; UVB Protection | All Skin Types | 100% Vegan | 15 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹147</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹149</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">1% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="plum thinkderma 2% niacinamide &amp; rice water clear moisture gel cream | all-day non-greasy moisturizer | fades blemishes &amp; brightens skin | 15g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Plum thinkDERMA 2% Niacinamide &amp; Rice Water Clear Moisture Gel Cream | All-Day Non-Greasy Moisturizer | Fades Blemishes &amp; Brightens Skin | 15g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹155</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹175</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">11% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="plum rice water &amp; niacinamide 3% toner | 150ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Plum Rice Water &amp; Niacinamide 3% Toner | 150ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹389</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹440</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">12% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="plum rice water &amp; 10% niacinamide serum 30ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Plum Rice Water &amp; 10% Niacinamide Serum 30ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹571</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹659</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">13% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="plum rice water &amp; 3% niacinamide sheer-tinted sunscreen | suitable for most indian skin tones | spf 50 pa++++| sheer finish | non-oily | women | fragrance-free | 100% vegan | 50gm">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Plum Rice water &amp; 3% niacinamide sheer-tinted sunscreen | Suitable for most Indian skin tones | SPF 50 PA++++| Sheer finish | Non-oily | Women | Fragrance-free | 100% vegan | 50gm</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹421</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">16% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="plum rice water &amp; 10% niacinamide serum 15ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Plum Rice Water &amp; 10% Niacinamide Serum 15ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹275</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹349</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">21% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="plum 2% niacinamide &amp; rice water hybrid face sunscreen with spf 50 pa+++ | protects &amp; brightens skin | no white cast | reduces blemishes | non-greasy | uva &amp; uvb protection | all skin types | 100% vegan | 15 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Plum 2% Niacinamide &amp; Rice Water Hybrid Face Sunscreen with SPF 50 PA+++ | Protects &amp; Brightens Skin | No White Cast | Reduces Blemishes | Non-Greasy | UVA &amp; UVB Protection | All Skin Types | 100% Vegan | 15 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹147</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹149</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">1% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="plum thinkderma 2% niacinamide &amp; rice water clear moisture gel cream | all-day non-greasy moisturizer | fades blemishes &amp; brightens skin | 15g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Plum thinkDERMA 2% Niacinamide &amp; Rice Water Clear Moisture Gel Cream | All-Day Non-Greasy Moisturizer | Fades Blemishes &amp; Brightens Skin | 15g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹155</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹175</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">11% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="plum rice water &amp; niacinamide 3% toner | 150ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Plum Rice Water &amp; Niacinamide 3% Toner | 150ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹389</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹440</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">12% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="plum rice water &amp; 10% niacinamide serum 30ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Plum Rice Water &amp; 10% Niacinamide Serum 30ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹571</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹659</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">13% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="plum rice water &amp; 3% niacinamide sheer-tinted sunscreen | suitable for most indian skin tones | spf 50 pa++++| sheer finish | non-oily | women | fragrance-free | 100% vegan | 50gm">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Plum Rice water &amp; 3% niacinamide sheer-tinted sunscreen | Suitable for most Indian skin tones | SPF 50 PA++++| Sheer finish | Non-oily | Women | Fragrance-free | 100% vegan | 50gm</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹421</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">16% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="plum rice water &amp; 10% niacinamide serum 15ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Plum Rice Water &amp; 10% Niacinamide Serum 15ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹275</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹349</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">21% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="plum 2% niacinamide &amp; rice water hybrid face sunscreen with spf 50 pa+++ | protects &amp; brightens skin | no white cast | reduces blemishes | non-greasy | uva &amp; uvb protection | all skin types | 100% vegan | 15 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Plum 2% Niacinamide &amp; Rice Water Hybrid Face Sunscreen with SPF 50 PA+++ | Protects &amp; Brightens Skin | No White Cast | Reduces Blemishes | Non-Greasy | UVA &amp; UVB Protection | All Skin Types | 100% Vegan | 15 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹147</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹149</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">1% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="plum thinkderma 2% niacinamide &amp; rice water clear moisture gel cream | all-day non-greasy moisturizer | fades blemishes &amp; brightens skin | 15g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Plum thinkDERMA 2% Niacinamide &amp; Rice Water Clear Moisture Gel Cream | All-Day Non-Greasy Moisturizer | Fades Blemishes &amp; Brightens Skin | 15g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹155</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹175</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">11% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="plum rice water &amp; niacinamide 3% toner | 150ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Plum Rice Water &amp; Niacinamide 3% Toner | 150ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹389</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹440</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">12% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="plum rice water &amp; 10% niacinamide serum 30ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Plum Rice Water &amp; 10% Niacinamide Serum 30ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹571</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹659</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">13% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="plum rice water &amp; 3% niacinamide sheer-tinted sunscreen | suitable for most indian skin tones | spf 50 pa++++| sheer finish | non-oily | women | fragrance-free | 100% vegan | 50gm">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Plum Rice water &amp; 3% niacinamide sheer-tinted sunscreen | Suitable for most Indian skin tones | SPF 50 PA++++| Sheer finish | Non-oily | Women | Fragrance-free | 100% vegan | 50gm</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹421</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">16% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="plum 10% niacinamide brightening serum with rice water|brightens skin from 1st use|all skin types">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Plum 10% Niacinamide Brightening Serum with Rice Water|Brightens Skin from 1st Use|All Skin Types</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹296</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹349</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="plum 10% niacinamide brightening face serum with rice water|brightens skin from 1st use|for all skin types">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Plum 10% Niacinamide Brightening Face Serum with Rice Water|Brightens Skin from 1st Use|For All Skin Types</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹211</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹249</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="plum 2% niacinamide with rice water for bright, soft skin | gentle, non-drying |men and women  face wash">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Plum 2% Niacinamide With Rice Water For Bright, Soft Skin | Gentle, Non-drying |Men and Women  Face Wash</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹267</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹299</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">11% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="plum 3% niacinamide &amp; rice water alcohol-free toner, tightens pores, brightens skin men &amp; women">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Plum 3% Niacinamide &amp; Rice Water Alcohol-Free Toner, Tightens Pores, Brightens Skin Men &amp; Women</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹374</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹440</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="plum 2% niacinamide &amp; rice water gel cream moisturizer | oil-free | brightens skin">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Plum 2% Niacinamide &amp; Rice Water Gel Cream Moisturizer | Oil-free | Brightens skin</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹296</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹349</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="plum 2% niacinamide with rice water for bright, soft skin | non-drying, gentle| men and women  face wash">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Plum 2% Niacinamide With Rice Water For Bright, Soft Skin | Non-drying, Gentle| Men and Women  Face Wash</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹169</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹199</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="plum 10% niacinamide brightening face serum with rice water - clarity boost">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Plum 10% Niacinamide Brightening Face Serum with Rice Water - Clarity Boost</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">15 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹297</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹349</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="plum 2% niacinamide &amp; rice water simply bright face wash">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Plum 2% Niacinamide &amp; Rice Water Simply Bright Face Wash</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">50 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹149</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹149</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="plum 2% niacinamide &amp; rice water simply bright face wash">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Plum 2% Niacinamide &amp; Rice Water Simply Bright Face Wash</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">100 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹268</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹315</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="plum 2% niacinamide &amp; rice water simply bright face wash">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Plum 2% Niacinamide &amp; Rice Water Simply Bright Face Wash</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">150 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹336</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹395</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="plum rice water &amp; 2% niacinamide face moisturizing gel">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Plum Rice Water &amp; 2% Niacinamide Face Moisturizing Gel</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">25 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹297</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹349</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="plum rice water &amp; 2% niacinamide face moisturizing gel">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Plum Rice Water &amp; 2% Niacinamide Face Moisturizing Gel</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">50 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹467</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹549</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="plum 3% niacinamide &amp; rice water toner">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Plum 3% Niacinamide &amp; Rice Water Toner</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">80 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹255</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹299</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="novology dermat acne spot corrector gel for pimples">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Novology Dermat Acne Spot Corrector Gel for Pimples</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">30 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹595</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹700</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="plum 10% niacinamide face serum with rice water">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Plum 10% Niacinamide Face Serum With Rice Water</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (15 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹314</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹349</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">10% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="plum simply bright 2% niacinamide face wash with rice water brightens skin | helps fade blemishes">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Plum Simply Bright 2% Niacinamide Face Wash With Rice Water Brightens Skin | Helps Fade Blemishes</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (50 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹129</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹199</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">35% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="plum rice water &amp; niacinamide 2% clear moisture gel cream">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Plum Rice Water &amp; Niacinamide 2% Clear Moisture Gel Cream</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (50 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹494</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹549</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">10% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="plum rice water &amp; 10% niacinamide serum">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Plum Rice Water &amp; 10% Niacinamide Serum</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (30 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹593</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹659</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">10% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="plum simply bright 2% niacinamide face wash with rice water">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Plum Simply Bright 2% Niacinamide Face Wash With Rice Water</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (100 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹284</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹315</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">10% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="uv doux - silicone sunscreen gel">
+        <td class="px-4 py-3 font-medium text-white max-w-md">UV Doux - Silicone Sunscreen Gel</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (100 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1277</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1490</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">14% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="cerave smoothing cleanser | dry, rough &amp; bumpy skin | face wash with salicylic acid &amp; ceramides">
+        <td class="px-4 py-3 font-medium text-white max-w-md">CeraVe Smoothing Cleanser | Dry, Rough &amp; Bumpy Skin | Face Wash With Salicylic Acid &amp; Ceramides</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (236 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1162</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1250</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">7% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="uv doux - silicone sunscreen gel">
+        <td class="px-4 py-3 font-medium text-white max-w-md">UV Doux - Silicone Sunscreen Gel</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (50 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹635</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹845</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">25% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="hydrating light moisturiser, 50ml | 12hr hydration | with niacinamide, pro-vitamin b5, glycerin &amp; borage seed oil | lightweight, non-greasy formula | for soft, smooth skin">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Hydrating Light Moisturiser, 50ml | 12hr Hydration | with Niacinamide, Pro-Vitamin B5, Glycerin &amp; Borage Seed Oil | Lightweight, Non-Greasy Formula | for Soft, Smooth Skin</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">50ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹189</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹378</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="natural moisturizing factors + ha, lightweight hydrator for skin barrier support &amp; hydration, 30ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Natural Moisturizing Factors + HA, Lightweight Hydrator for Skin Barrier Support &amp; Hydration, 30ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">30ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹700</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹2333.33</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">70% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="hyaluronic acid 2% + b5 (with ceramides), multi-depth hydration serum for plumper, smoother skin, 60ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Hyaluronic Acid 2% + B5 (with Ceramides), Multi-Depth Hydration Serum for Plumper, Smoother Skin, 60ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">60ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1800</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹30</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="gulabari rose toner | 5% niacinamide &amp; 95% rose water for deep hydration and glowing skin | controls oil, reduces dark spots appearance and minimizes pores - alcohol &amp; paraben-free | 100ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Gulabari Rose Toner | 5% Niacinamide &amp; 95% Rose Water for Deep Hydration and Glowing Skin | Controls Oil, Reduces Dark Spots appearance and Minimizes Pores - Alcohol &amp; Paraben-Free | 100ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">100ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹149</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹149</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="luminous even glow face serum | for glowing skin, skin brightening &amp; refined pores | niacinamide, thiamidol &amp; vitamin c serum | anti-dark spots | with aloe extracts | 3d glow in 3 days | 30ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Luminous Even Glow Face Serum | For Glowing Skin, Skin Brightening &amp; Refined Pores | Niacinamide, Thiamidol &amp; Vitamin C Serum | Anti-Dark Spots | With Aloe Extracts | 3D Glow in 3 Days | 30ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">30ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹372</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹12.4</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="10% niacinamide serum with rice water for oily skin | provides clear, glowing &amp; brightening skin | for acne prone, combination, oily &amp; sensitive skin | oil control &amp; anti acne face serum for women &amp; men | 30ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">10% Niacinamide Serum with Rice Water for oily skin | Provides Clear, Glowing &amp; Brightening Skin | for Acne Prone, Combination, Oily &amp; Sensitive Skin | Oil Control &amp; Anti Acne Face Serum for Women &amp; Men | 30ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">30ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹560</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹18.67</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- Sticky CTA Footer -->
+  <div class="fixed bottom-0 inset-x-0 bg-slate-950/95 border-t border-emerald-500/30 backdrop-blur px-6 py-3.5 z-30">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+      <div class="text-slate-200">
+        <span class="text-emerald-400 font-bold">⚡ Unscrape Radar:</span> Want real-time Slack/WhatsApp/Telegram alerts within 15 mins whenever <strong>Plum Goodness</strong> SKUs go Out-of-Stock across 20 BLR/MUM/DEL dark-store pin codes?
+      </div>
+      <div class="flex items-center gap-2.5 shrink-0">
+        <a href="https://github.com/deveshkolte/unscrape" target="_blank" class="px-4 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold">Unlock Automated 20-Pin-Code Monitor →</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const RAW_CSV = "brand,city,pincode,platform,skuId,title,sellingPriceInr,mrpInr,discountPercent,unit,inStock,deliveryEta,url\nPlum Goodness,Bengaluru,560001,bigbasket.com/jiomart,19350498,Plum Rice Water & 10% Niacinamide Serum 15ml,275,349,21,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/plum-rice-water-10-niacinamide-serum-15ml-mi8v28-19350498/19350498\nPlum Goodness,Bengaluru,560001,bigbasket.com/jiomart,49829780,Plum 2% Niacinamide & Rice Water Hybrid Face Sunscreen with SPF 50 PA+++ | Protects & Brightens Skin | No White Cast | Reduces Blemishes | Non-Greasy | UVA & UVB Protection | All Skin Types | 100% Vegan | 15 g,147,149,1,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/plum-2-niacinamide-rice-water-hybrid-face-sunscreen-with-spf-50-pa-protects-brightens-skin-no-white-cast-reduces-blemishes-non-greasy-uva-uvb-protection-all-skin-types-100-vegan-15-g-mj6zwj-49829780/49829780\nPlum Goodness,Bengaluru,560001,bigbasket.com/jiomart,19305892,Plum thinkDERMA 2% Niacinamide & Rice Water Clear Moisture Gel Cream | All-Day Non-Greasy Moisturizer | Fades Blemishes & Brightens Skin | 15g,155,175,11,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/plum-thinkderma-2-niacinamide-rice-water-clear-moisture-gel-cream-all-day-non-greasy-moisturizer-fades-blemishes-brightens-skin-15g-mi8thh-19305892/19305892\nPlum Goodness,Bengaluru,560001,bigbasket.com/jiomart,19348083,Plum Rice Water & Niacinamide 3% Toner | 150ml,389,440,12,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/plum-rice-water-niacinamide-3-toner-150ml-mi8uw1-19348083/19348083\nPlum Goodness,Bengaluru,560001,bigbasket.com/jiomart,19643104,Plum Rice Water & 10% Niacinamide Serum 30ml,571,659,13,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/plum-rice-water-10-niacinamide-serum-30ml-mi94wl-19643104/19643104\nPlum Goodness,Bengaluru,560001,bigbasket.com/jiomart,19964406,Plum Rice water & 3% niacinamide sheer-tinted sunscreen | Suitable for most Indian skin tones | SPF 50 PA++++| Sheer finish | Non-oily | Women | Fragrance-free | 100% vegan | 50gm,421,499,16,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/plum-rice-water-3-niacinamide-sheer-tinted-sunscreen-suitable-for-most-indian-skin-tones-spf-50-pa-sheer-finish-non-oily-women-fragrance-free-100-vegan-50gm-mi9fr3-19964406/19964406\nPlum Goodness,Mumbai,400001,bigbasket.com/jiomart,19350498,Plum Rice Water & 10% Niacinamide Serum 15ml,275,349,21,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/plum-rice-water-10-niacinamide-serum-15ml-mi8v28-19350498/19350498\nPlum Goodness,Mumbai,400001,bigbasket.com/jiomart,49829780,Plum 2% Niacinamide & Rice Water Hybrid Face Sunscreen with SPF 50 PA+++ | Protects & Brightens Skin | No White Cast | Reduces Blemishes | Non-Greasy | UVA & UVB Protection | All Skin Types | 100% Vegan | 15 g,147,149,1,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/plum-2-niacinamide-rice-water-hybrid-face-sunscreen-with-spf-50-pa-protects-brightens-skin-no-white-cast-reduces-blemishes-non-greasy-uva-uvb-protection-all-skin-types-100-vegan-15-g-mj6zwj-49829780/49829780\nPlum Goodness,Mumbai,400001,bigbasket.com/jiomart,19305892,Plum thinkDERMA 2% Niacinamide & Rice Water Clear Moisture Gel Cream | All-Day Non-Greasy Moisturizer | Fades Blemishes & Brightens Skin | 15g,155,175,11,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/plum-thinkderma-2-niacinamide-rice-water-clear-moisture-gel-cream-all-day-non-greasy-moisturizer-fades-blemishes-brightens-skin-15g-mi8thh-19305892/19305892\nPlum Goodness,Mumbai,400001,bigbasket.com/jiomart,19348083,Plum Rice Water & Niacinamide 3% Toner | 150ml,389,440,12,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/plum-rice-water-niacinamide-3-toner-150ml-mi8uw1-19348083/19348083\nPlum Goodness,Mumbai,400001,bigbasket.com/jiomart,19643104,Plum Rice Water & 10% Niacinamide Serum 30ml,571,659,13,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/plum-rice-water-10-niacinamide-serum-30ml-mi94wl-19643104/19643104\nPlum Goodness,Mumbai,400001,bigbasket.com/jiomart,19964406,Plum Rice water & 3% niacinamide sheer-tinted sunscreen | Suitable for most Indian skin tones | SPF 50 PA++++| Sheer finish | Non-oily | Women | Fragrance-free | 100% vegan | 50gm,421,499,16,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/plum-rice-water-3-niacinamide-sheer-tinted-sunscreen-suitable-for-most-indian-skin-tones-spf-50-pa-sheer-finish-non-oily-women-fragrance-free-100-vegan-50gm-mi9fr3-19964406/19964406\nPlum Goodness,Delhi,110001,bigbasket.com/jiomart,19350498,Plum Rice Water & 10% Niacinamide Serum 15ml,275,349,21,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/plum-rice-water-10-niacinamide-serum-15ml-mi8v28-19350498/19350498\nPlum Goodness,Delhi,110001,bigbasket.com/jiomart,49829780,Plum 2% Niacinamide & Rice Water Hybrid Face Sunscreen with SPF 50 PA+++ | Protects & Brightens Skin | No White Cast | Reduces Blemishes | Non-Greasy | UVA & UVB Protection | All Skin Types | 100% Vegan | 15 g,147,149,1,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/plum-2-niacinamide-rice-water-hybrid-face-sunscreen-with-spf-50-pa-protects-brightens-skin-no-white-cast-reduces-blemishes-non-greasy-uva-uvb-protection-all-skin-types-100-vegan-15-g-mj6zwj-49829780/49829780\nPlum Goodness,Delhi,110001,bigbasket.com/jiomart,19305892,Plum thinkDERMA 2% Niacinamide & Rice Water Clear Moisture Gel Cream | All-Day Non-Greasy Moisturizer | Fades Blemishes & Brightens Skin | 15g,155,175,11,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/plum-thinkderma-2-niacinamide-rice-water-clear-moisture-gel-cream-all-day-non-greasy-moisturizer-fades-blemishes-brightens-skin-15g-mi8thh-19305892/19305892\nPlum Goodness,Delhi,110001,bigbasket.com/jiomart,19348083,Plum Rice Water & Niacinamide 3% Toner | 150ml,389,440,12,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/plum-rice-water-niacinamide-3-toner-150ml-mi8uw1-19348083/19348083\nPlum Goodness,Delhi,110001,bigbasket.com/jiomart,19643104,Plum Rice Water & 10% Niacinamide Serum 30ml,571,659,13,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/plum-rice-water-10-niacinamide-serum-30ml-mi94wl-19643104/19643104\nPlum Goodness,Delhi,110001,bigbasket.com/jiomart,19964406,Plum Rice water & 3% niacinamide sheer-tinted sunscreen | Suitable for most Indian skin tones | SPF 50 PA++++| Sheer finish | Non-oily | Women | Fragrance-free | 100% vegan | 50gm,421,499,16,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/plum-rice-water-3-niacinamide-sheer-tinted-sunscreen-suitable-for-most-indian-skin-tones-spf-50-pa-sheer-finish-non-oily-women-fragrance-free-100-vegan-50gm-mi9fr3-19964406/19964406\nPlum Goodness,Bengaluru,560001,flipkart.com,FRNG4SAPZGHDVFRZ,Plum 10% Niacinamide Brightening Serum with Rice Water|Brightens Skin from 1st Use|All Skin Types,296,349,15,1 unit,true,15 MINS,https://www.flipkart.com/plum-10-niacinamide-brightening-serum-rice-water-brightens-skin-1st-use-all-types/p/itmac3b12f39bb7d?pid=FRNG4SAPZGHDVFRZ&lid=LSTFRNG4SAPZGHDVFRZTBOOVF&marketplace=FLIPKART&q=plum+niacinamide&store=g9b%2Fema%2F5la&srno=s_1_2&otracker=search&fm=organic&iid=8e978f71-bc9a-4028-80c1-91ce59cb1f4a.FRNG4SAPZGHDVFRZ.SEARCH&ppt=sp&ppn=sp&ssid=wsorzj72zk0000001793387215719&qH=aa6bcedd84a8889f&ov_redirect=true&ov_redirect=true\nPlum Goodness,Bengaluru,560001,flipkart.com,FRNGQ6CWXHFSFYZX,Plum 10% Niacinamide Brightening Face Serum with Rice Water|Brightens Skin from 1st Use|For All Skin Types,211,249,15,1 unit,true,15 MINS,https://www.flipkart.com/plum-10-niacinamide-brightening-face-serum-rice-water-brightens-skin-1st-use-for-all-types/p/itm1b64e102a419e?pid=FRNGQ6CWXHFSFYZX&lid=LSTFRNGQ6CWXHFSFYZXOC5W1K&marketplace=FLIPKART&q=plum+niacinamide&store=g9b%2Fema%2F5la&srno=s_1_3&otracker=search&fm=organic&iid=8e978f71-bc9a-4028-80c1-91ce59cb1f4a.FRNGQ6CWXHFSFYZX.SEARCH&ppt=sp&ppn=sp&ssid=wsorzj72zk0000001793387215719&qH=aa6bcedd84a8889f&ov_redirect=true&ov_redirect=true\nPlum Goodness,Bengaluru,560001,flipkart.com,FCWH3G39KWFYZEQG,\"Plum 2% Niacinamide With Rice Water For Bright, Soft Skin | Gentle, Non-drying |Men and Women  Face Wash\",267,299,11,1 unit,true,15 MINS,https://www.flipkart.com/plum-2-niacinamide-rice-water-bright-soft-skin-gentle-non-drying-men-women-face-wash/p/itmc20b9a7284be2?pid=FCWH3G39KWFYZEQG&lid=LSTFCWH3G39KWFYZEQGEXWSME&marketplace=FLIPKART&q=plum+niacinamide&store=g9b%2Fema%2F5la&srno=s_1_4&otracker=search&fm=organic&iid=8e978f71-bc9a-4028-80c1-91ce59cb1f4a.FCWH3G39KWFYZEQG.SEARCH&ppt=sp&ppn=sp&ssid=wsorzj72zk0000001793387215719&qH=aa6bcedd84a8889f&ov_redirect=true&ov_redirect=true\nPlum Goodness,Bengaluru,560001,flipkart.com,TNRGAES4PZRFZYHG,\"Plum 3% Niacinamide & Rice Water Alcohol-Free Toner, Tightens Pores, Brightens Skin Men & Women\",374,440,15,1 unit,true,15 MINS,https://www.flipkart.com/plum-3-niacinamide-rice-water-alcohol-free-toner-tightens-pores-brightens-skin-men-women/p/itm9cda56d23d988?pid=TNRGAES4PZRFZYHG&lid=LSTTNRGAES4PZRFZYHGZKNXPR&marketplace=FLIPKART&q=plum+niacinamide&store=g9b%2Fema%2F5la&spotlightTagId=default_BestsellerId_g9b%2Fema%2F5la&srno=s_1_5&otracker=search&fm=organic&iid=8e978f71-bc9a-4028-80c1-91ce59cb1f4a.TNRGAES4PZRFZYHG.SEARCH&ppt=sp&ppn=sp&ssid=wsorzj72zk0000001793387215719&qH=aa6bcedd84a8889f&ov_redirect=true&ov_redirect=true\nPlum Goodness,Bengaluru,560001,flipkart.com,MSCHEGH9B8TED9HP,Plum 2% Niacinamide & Rice Water Gel Cream Moisturizer | Oil-free | Brightens skin,296,349,15,1 unit,true,15 MINS,https://www.flipkart.com/plum-2-niacinamide-rice-water-gel-cream-moisturizer-oil-free-brightens-skin/p/itmf52bba8ebe816?pid=MSCHEGH9B8TED9HP&lid=LSTMSCHEGH9B8TED9HPPLIYKQ&marketplace=FLIPKART&q=plum+niacinamide&store=g9b%2Fema%2F5la&srno=s_1_6&otracker=search&fm=organic&iid=8e978f71-bc9a-4028-80c1-91ce59cb1f4a.MSCHEGH9B8TED9HP.SEARCH&ppt=sp&ppn=sp&ssid=wsorzj72zk0000001793387215719&qH=aa6bcedd84a8889f&ov_redirect=true&ov_redirect=true\nPlum Goodness,Bengaluru,560001,flipkart.com,FCWHHE886Q67TS2J,\"Plum 2% Niacinamide With Rice Water For Bright, Soft Skin | Non-drying, Gentle| Men and Women  Face Wash\",169,199,15,1 unit,true,15 MINS,https://www.flipkart.com/plum-2-niacinamide-rice-water-bright-soft-skin-non-drying-gentle-men-women-face-wash/p/itma89623bb6dd9a?pid=FCWHHE886Q67TS2J&lid=LSTFCWHHE886Q67TS2JEHWJIL&marketplace=FLIPKART&q=plum+niacinamide&store=g9b%2Fema%2F5la&srno=s_1_7&otracker=search&fm=organic&iid=8e978f71-bc9a-4028-80c1-91ce59cb1f4a.FCWHHE886Q67TS2J.SEARCH&ppt=sp&ppn=sp&ssid=wsorzj72zk0000001793387215719&qH=aa6bcedd84a8889f&ov_redirect=true&ov_redirect=true\nPlum Goodness,Bengaluru,560001,blinkit.com,496847,Plum 10% Niacinamide Brightening Face Serum with Rice Water - Clarity Boost,297,349,15,15 ml,true,10 MINS,https://blinkit.com/prn/plum-10-niacinamide-brightening-face-serum-with-rice-water-clarity-boost/prid/496847\nPlum Goodness,Bengaluru,560001,blinkit.com,769285,Plum 2% Niacinamide & Rice Water Simply Bright Face Wash,149,149,0,50 ml,true,10 MINS,https://blinkit.com/prn/plum-2-niacinamide-rice-water-simply-bright-face-wash/prid/769285\nPlum Goodness,Bengaluru,560001,blinkit.com,579490,Plum 2% Niacinamide & Rice Water Simply Bright Face Wash,268,315,15,100 ml,true,10 MINS,https://blinkit.com/prn/plum-2-niacinamide-rice-water-simply-bright-face-wash/prid/579490\nPlum Goodness,Bengaluru,560001,blinkit.com,659555,Plum 2% Niacinamide & Rice Water Simply Bright Face Wash,336,395,15,150 ml,true,10 MINS,https://blinkit.com/prn/plum-2-niacinamide-rice-water-simply-bright-face-wash/prid/659555\nPlum Goodness,Bengaluru,560001,blinkit.com,696655,Plum Rice Water & 2% Niacinamide Face Moisturizing Gel,297,349,15,25 g,true,10 MINS,https://blinkit.com/prn/plum-rice-water-2-niacinamide-face-moisturizing-gel/prid/696655\nPlum Goodness,Bengaluru,560001,blinkit.com,538010,Plum Rice Water & 2% Niacinamide Face Moisturizing Gel,467,549,15,50 g,true,10 MINS,https://blinkit.com/prn/plum-rice-water-2-niacinamide-face-moisturizing-gel/prid/538010\nPlum Goodness,Bengaluru,560001,blinkit.com,778837,Plum 3% Niacinamide & Rice Water Toner,255,299,15,80 ml,true,10 MINS,https://blinkit.com/prn/plum-3-niacinamide-rice-water-toner/prid/778837\nPlum Goodness,Bengaluru,560001,blinkit.com,626384,Novology Dermat Acne Spot Corrector Gel for Pimples,595,700,15,30 g,true,10 MINS,https://blinkit.com/prn/novology-dermat-acne-spot-corrector-gel-for-pimples/prid/626384\nPlum Goodness,Bengaluru,560001,zeptonow.com,3d05a011-0288-5d72-a0b3-61281f036f47,Plum 10% Niacinamide Face Serum With Rice Water,314,349,10,1 pc (15 ml),true,10 MINS,https://www.zepto.com/pn/plum-10-niacinamide-face-serum-with-rice-water/pvid/00661076-f01c-42bb-982f-6e54d351eb3c\nPlum Goodness,Bengaluru,560001,zeptonow.com,330dc029-6bca-5fd3-8df7-44b724637de9,Plum Simply Bright 2% Niacinamide Face Wash With Rice Water Brightens Skin | Helps Fade Blemishes,129,199,35,1 pc (50 ml),true,10 MINS,https://www.zepto.com/pn/plum-simply-bright-2-niacinamide-face-wash-with-rice-water-brightens-skin-helps-fade-blemishes/pvid/59c234b9-c275-468c-9e84-720a8d504659\nPlum Goodness,Bengaluru,560001,zeptonow.com,83bd7d5f-8890-5a3f-8354-8ae091a3dc42,Plum Rice Water & Niacinamide 2% Clear Moisture Gel Cream,494,549,10,1 pc (50 g),true,10 MINS,https://www.zepto.com/pn/plum-rice-water-niacinamide-2-clear-moisture-gel-cream/pvid/616346d2-0770-45e6-912f-3b5ec5f6bddd\nPlum Goodness,Bengaluru,560001,zeptonow.com,6352575f-0400-516c-9ef5-dcdf0a24f49f,Plum Rice Water & 10% Niacinamide Serum,593,659,10,1 pc (30 ml),true,10 MINS,https://www.zepto.com/pn/plum-rice-water-10-niacinamide-serum/pvid/d81b05fc-20d9-4800-b185-15c0edd57e98\nPlum Goodness,Bengaluru,560001,zeptonow.com,74f84ed0-618d-5d15-a2b3-5167b6828950,Plum Simply Bright 2% Niacinamide Face Wash With Rice Water,284,315,10,1 pc (100 ml),true,10 MINS,https://www.zepto.com/pn/plum-simply-bright-2-niacinamide-face-wash-with-rice-water/pvid/5ad98779-fa41-45f6-8405-09c60a0f8675\nPlum Goodness,Bengaluru,560001,zeptonow.com,64867386-4056-5ce9-9b79-bc1a7b098e06,UV Doux - Silicone Sunscreen Gel,1277,1490,14,1 pc (100 g),true,10 MINS,https://www.zepto.com/pn/uv-doux-silicone-sunscreen-gel/pvid/8b709f0a-9598-4083-b8da-6b7f0ec6a092\nPlum Goodness,Bengaluru,560001,zeptonow.com,2c0b8ec2-7a76-57a4-98fe-01ba0e4b2fd7,\"CeraVe Smoothing Cleanser | Dry, Rough & Bumpy Skin | Face Wash With Salicylic Acid & Ceramides\",1162,1250,7,1 pc (236 ml),true,10 MINS,https://www.zepto.com/pn/cerave-smoothing-cleanser-dry-rough-bumpy-skin-face-wash-with-salicylic-acid-ceramides/pvid/76910315-883a-4add-9ab9-a31a239d7d54\nPlum Goodness,Bengaluru,560001,zeptonow.com,8cbf4f5b-4713-5223-9b21-5248298aeceb,UV Doux - Silicone Sunscreen Gel,635,845,25,1 pc (50 g),true,10 MINS,https://www.zepto.com/pn/uv-doux-silicone-sunscreen-gel/pvid/445f9fce-3683-4f44-b81d-454e3ed980ed\nPlum Goodness,Bengaluru,560001,amazon.in,B0F4QZ7K7C,\"Hydrating Light Moisturiser, 50ml | 12hr Hydration | with Niacinamide, Pro-Vitamin B5, Glycerin & Borage Seed Oil | Lightweight, Non-Greasy Formula | for Soft, Smooth Skin\",189,378,50,50ml,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0F4QZ7K7C\nPlum Goodness,Bengaluru,560001,amazon.in,B0711DTHY2,\"Natural Moisturizing Factors + HA, Lightweight Hydrator for Skin Barrier Support & Hydration, 30ml\",700,2333.33,70,30ml,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0711DTHY2\nPlum Goodness,Bengaluru,560001,amazon.in,B0G1Z5KMZF,\"Hyaluronic Acid 2% + B5 (with Ceramides), Multi-Depth Hydration Serum for Plumper, Smoother Skin, 60ml\",1800,30,0,60ml,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0G1Z5KMZF\nPlum Goodness,Bengaluru,560001,amazon.in,B0HJ8MQR8L,\"Gulabari Rose Toner | 5% Niacinamide & 95% Rose Water for Deep Hydration and Glowing Skin | Controls Oil, Reduces Dark Spots appearance and Minimizes Pores - Alcohol & Paraben-Free | 100ml\",149,149,0,100ml,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0HJ8MQR8L\nPlum Goodness,Bengaluru,560001,amazon.in,B0F99FRTNC,\"Luminous Even Glow Face Serum | For Glowing Skin, Skin Brightening & Refined Pores | Niacinamide, Thiamidol & Vitamin C Serum | Anti-Dark Spots | With Aloe Extracts | 3D Glow in 3 Days | 30ml\",372,12.4,0,30ml,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0F99FRTNC\nPlum Goodness,Bengaluru,560001,amazon.in,B097RBPTRH,\"10% Niacinamide Serum with Rice Water for oily skin | Provides Clear, Glowing & Brightening Skin | for Acne Prone, Combination, Oily & Sensitive Skin | Oil Control & Anti Acne Face Serum for Women & Men | 30ml\",560,18.67,0,30ml,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B097RBPTRH\n";
+
+    function filterRows(mode) {
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const stock = row.getAttribute('data-stock');
+        if (mode === 'all') row.style.display = '';
+        else if (mode === 'oos') row.style.display = stock === 'oos' ? '' : 'none';
+        else if (mode === 'instock') row.style.display = stock === 'instock' ? '' : 'none';
+      });
+    }
+
+    function searchSkus() {
+      const q = document.getElementById('skuSearch').value.toLowerCase();
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const title = row.getAttribute('data-title') || '';
+        const platform = (row.getAttribute('data-platform') || '').toLowerCase();
+        row.style.display = (title.includes(q) || platform.includes(q)) ? '' : 'none';
+      });
+    }
+
+    function downloadCsv() {
+      const blob = new Blob([RAW_CSV], { type: 'text/csv;charset=utf-8;' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'plum-goodness-3city-audit.csv';
+      a.click();
+    }
+  </script>
+</body>
+</html>

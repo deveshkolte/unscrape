@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dot &amp; Key — 3-City Quick-Commerce Dark-Store Audit Scorecard | Unscrape Radar</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background-color: #07080d; color: #f3f4f6; font-family: Inter, system-ui, -apple-system, sans-serif; }
+  </style>
+</head>
+<body class="min-h-screen pb-24">
+  <!-- Top Bar -->
+  <header class="border-b border-slate-800 bg-slate-950/90 backdrop-blur sticky top-0 z-20">
+    <div class="max-w-7xl mx-auto px-6 py-3.5 flex items-center justify-between flex-wrap gap-3">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="text-emerald-400 font-black text-lg tracking-tight hover:text-emerald-300">⚡ UNSCRAPE RADAR</a>
+        <span class="text-xs text-slate-500">/</span>
+        <span class="text-sm font-bold text-white">Dot &amp; Key Executive Scorecard</span>
+      </div>
+      <div class="flex items-center gap-2.5 text-xs">
+        <a href="index.html" class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700">← All 56 Brand Audits</a>
+        <button onclick="downloadCsv()" class="px-3.5 py-1.5 rounded-lg bg-emerald-500 text-slate-950 font-bold hover:bg-emerald-400">⬇ Download Raw CSV (66 SKUs)</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-6 pt-8">
+    <!-- Executive Header -->
+    <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 mb-8">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+        <div>
+          <div class="flex items-center gap-2.5 mb-2">
+            <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded bg-slate-800 text-emerald-400">D2C Skincare</span>
+            <span class="text-xs text-slate-400 font-mono">Audited: 2026-10-30</span>
+          </div>
+          <h1 class="text-3xl md:text-4xl font-black text-white tracking-tight">Dot &amp; Key — Hyperlocal Dark-Store Audit</h1>
+          <p class="text-slate-400 text-sm mt-1">
+            Live multi-platform inventory & MOP/MRP price variance scan across <strong>Bengaluru (560001)</strong>, <strong>Mumbai (400001)</strong>, and <strong>Delhi (110001)</strong>.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 shrink-0">
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">SKUs Audited</div>
+            <div class="text-2xl font-black text-white mt-1">66</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">OOS Leaks</div>
+            <div class="text-2xl font-black text-rose-400 mt-1">3</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">Max Markdown</div>
+            <div class="text-2xl font-black text-amber-300 mt-1">55%</div>
+          </div>
+          <div class="border rounded-xl p-3.5 text-center bg-amber-500/15 text-amber-300 border-amber-500/30">
+            <div class="text-[11px] uppercase font-bold opacity-80">Shelf Health</div>
+            <div class="text-2xl font-black mt-1">95%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="bg-rose-950/50 border border-rose-500/40 rounded-2xl p-6 mb-8">
+      <div class="flex items-center justify-between flex-wrap gap-3 mb-4">
+        <div class="flex items-center gap-3">
+          <span class="px-3 py-1 rounded-full bg-rose-500 text-slate-950 font-black text-xs uppercase tracking-wider">🚨 REVENUE LEAK DETECTED</span>
+          <h2 class="text-lg font-bold text-white">3 Out-of-Stock Dark-Store Listing(s) Caught Live</h2>
+        </div>
+        <span class="text-xs font-mono text-rose-300">Immediate Shelf Conversion Loss</span>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+        
+          <div class="bg-slate-950/90 border border-rose-500/30 rounded-xl p-3.5 flex items-center justify-between gap-3">
+            <div>
+              <div class="text-sm font-bold text-white">Dot &amp; Key Watermelon Cooling Sunscreen (SPF 50+ PA++++)</div>
+              <div class="text-xs text-slate-400 mt-1">
+                Platform: <span class="text-rose-300 font-mono">blinkit.com</span> ·
+                City: <span class="text-slate-200">Bengaluru (560001)</span> ·
+                Pack: <span class="text-slate-300">80 g</span>
+              </div>
+            </div>
+            <div class="text-right shrink-0">
+              <div class="text-sm font-extrabold text-rose-400">OUT OF STOCK</div>
+              <div class="text-xs text-slate-400">₹500</div>
+            </div>
+          </div>
+          <div class="bg-slate-950/90 border border-rose-500/30 rounded-xl p-3.5 flex items-center justify-between gap-3">
+            <div>
+              <div class="text-sm font-bold text-white">Dot &amp; Key Watermelon Cooling Sunscreen (SPF 50+ PA++++) - Pack of 2</div>
+              <div class="text-xs text-slate-400 mt-1">
+                Platform: <span class="text-rose-300 font-mono">blinkit.com</span> ·
+                City: <span class="text-slate-200">Delhi (110001)</span> ·
+                Pack: <span class="text-slate-300">2 x 30 g</span>
+              </div>
+            </div>
+            <div class="text-right shrink-0">
+              <div class="text-sm font-extrabold text-rose-400">OUT OF STOCK</div>
+              <div class="text-xs text-slate-400">₹509</div>
+            </div>
+          </div>
+          <div class="bg-slate-950/90 border border-rose-500/30 rounded-xl p-3.5 flex items-center justify-between gap-3">
+            <div>
+              <div class="text-sm font-bold text-white">Dot &amp; Key Watermelon Cooling Sunscreen (SPF 50+ PA++++) - Pack of 2</div>
+              <div class="text-xs text-slate-400 mt-1">
+                Platform: <span class="text-rose-300 font-mono">blinkit.com</span> ·
+                City: <span class="text-slate-200">Delhi (110001)</span> ·
+                Pack: <span class="text-slate-300">2 x 50 g</span>
+              </div>
+            </div>
+            <div class="text-right shrink-0">
+              <div class="text-sm font-extrabold text-rose-400">OUT OF STOCK</div>
+              <div class="text-xs text-slate-400">₹748</div>
+            </div>
+          </div>
+      </div>
+    </div>
+
+    <!-- Filter Controls -->
+    <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+      <div class="flex items-center gap-2 text-xs">
+        <button onclick="filterRows('all')" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-semibold">All SKUs (66)</button>
+        <button onclick="filterRows('oos')" class="px-3 py-1.5 rounded-lg bg-rose-500/15 border border-rose-500/30 text-rose-300 hover:bg-rose-500/25 font-semibold">Out-of-Stock Only (3)</button>
+        <button onclick="filterRows('instock')" class="px-3 py-1.5 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 hover:bg-emerald-500/25 font-semibold">In-Stock (63)</button>
+      </div>
+      <div class="flex items-center gap-2">
+        <input id="skuSearch" type="text" oninput="searchSkus()" placeholder="Filter SKU title or platform..." class="bg-slate-900 border border-slate-800 rounded-lg px-3.5 py-1.5 text-xs text-white w-64" />
+      </div>
+    </div>
+
+    <!-- SKU Table -->
+    <div class="bg-slate-900/50 border border-slate-800 rounded-2xl overflow-x-auto">
+      <table class="w-full text-left text-xs">
+        <thead class="bg-slate-950/90 text-slate-400 uppercase border-b border-slate-800">
+          <tr>
+            <th class="px-4 py-3">SKU Title</th>
+            <th class="px-4 py-3">Platform</th>
+            <th class="px-4 py-3">City / Pin</th>
+            <th class="px-4 py-3">Pack Size</th>
+            <th class="px-4 py-3">Selling Price</th>
+            <th class="px-4 py-3">MRP</th>
+            <th class="px-4 py-3">Discount</th>
+            <th class="px-4 py-3">Stock Status</th>
+            <th class="px-4 py-3">ETA</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-800/60">
+          <tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="wishcare niacinamide oil-balance fluid sunscreen (spf 50 pa++++)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">WishCare Niacinamide Oil-Balance Fluid Sunscreen (SPF 50 PA++++)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">30 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹298</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹349</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">8 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="dot &amp; key watermelon cooling sunscreen (spf 50+ pa++++)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dot &amp; Key Watermelon Cooling Sunscreen (SPF 50+ PA++++)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">30 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹264</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹299</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">12% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">8 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="dot &amp; key watermelon cooling sunscreen (spf 50+ pa++++)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dot &amp; Key Watermelon Cooling Sunscreen (SPF 50+ PA++++)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">50 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹388</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹445</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">13% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">8 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="dot &amp; key watermelon cooling sunscreen (spf 50+ pa++++) - pack of 2">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dot &amp; Key Watermelon Cooling Sunscreen (SPF 50+ PA++++) - Pack of 2</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">2 x 30 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹509</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹598</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">8 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="dot &amp; key watermelon cooling sunscreen (spf 50+ pa++++) - pack of 2">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dot &amp; Key Watermelon Cooling Sunscreen (SPF 50+ PA++++) - Pack of 2</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">2 x 50 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹748</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹890</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">16% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">8 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="oos" data-platform="blinkit.com" data-title="dot &amp; key watermelon cooling sunscreen (spf 50+ pa++++)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dot &amp; Key Watermelon Cooling Sunscreen (SPF 50+ PA++++)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">80 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹500</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹595</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">16% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-rose-500/20 text-rose-400 border border-rose-500/30 font-mono text-[11px] font-bold">OUT OF STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">8 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="dot &amp; key vitamin c + e super bright sunscreen spf 50+ pa++++">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dot &amp; Key Vitamin C + E Super Bright Sunscreen SPF 50+ PA++++</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (30 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹263</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹299</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">12% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="dot &amp; key vitamin c + e face sunscreen spf 50 pa+++ for glowing skin, 100% no white cast">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dot &amp; Key Vitamin C + E Face Sunscreen SPF 50 PA+++ For Glowing Skin, 100% No White Cast</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (50 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹387</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹445</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">13% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="dot &amp; key cica niacinamide face sunscreen spf 50 pa+++ uv protection for oily and acne prone ski">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dot &amp; Key Cica Niacinamide Face Sunscreen SPF 50 PA+++ Uv Protection For Oily And Acne Prone Ski</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">50 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹387</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹445</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">13% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="dot &amp; key watermelon hyaluronic cooling sunscreen spf 50 pa+++">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dot &amp; Key Watermelon Hyaluronic Cooling Sunscreen SPF 50 PA+++</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (50 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹387</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹445</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">13% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="dot &amp; key dragon fruit bounce sunscreen in-vivo tested spf 50+ pa++++">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dot &amp; Key Dragon Fruit Bounce Sunscreen In-Vivo Tested SPF 50+ PA++++</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (50 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹387</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹445</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">13% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="dot &amp; key strawberry dew tinted sunscreen spf 50+ pa++++ - 01 porcelain">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dot &amp; Key Strawberry Dew Tinted Sunscreen SPF 50+ PA++++ - 01 Porcelain</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (50 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹489</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹549</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">11% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="dot &amp; key sunscreen spf 50 pa+++  with vitamin c + e | for even toned &amp; glowing skin | no white cast, waterlight i uva/b  &amp; blue light protection i better vitamin d absorption i for women &amp; men | 50gm">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dot &amp; Key Sunscreen SPF 50 PA+++  with Vitamin C + E | for Even Toned &amp; Glowing Skin | No White Cast, WaterLight I UVA/B  &amp; Blue Light Protection I Better Vitamin D absorption I for Women &amp; Men | 50gm</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">387.00/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹387</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹445</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">13% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="dot &amp; key watermelon hyaluronic cooling  sunscreen spf 50 pa+++|for moisturized skin| uv + blue light protection| lightweight | no white cast | boosts vitamin d absorption i quick absorbing | 50g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dot &amp; Key Watermelon Hyaluronic Cooling  Sunscreen SPF 50 PA+++|for Moisturized Skin| UV + Blue Light Protection| Lightweight | No White Cast | Boosts Vitamin D Absorption I Quick Absorbing | 50g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">7.74/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹387</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹445</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">13% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="dot &amp; key vitamin c + e super bright sunscreen spf 50 | water-light, uva/uvb &amp; blue light protection | for even toned &amp; glowing skin | with liquid spf 50+++ | no white cast, | for all skin types | 80g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dot &amp; Key Vitamin C + E Super Bright Sunscreen SPF 50 | Water-Light, UVA/UVB &amp; Blue Light Protection | For Even Toned &amp; Glowing Skin | With Liquid SPF 50+++ | No White Cast, | For All Skin Types | 80g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">6.24/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹499</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹595</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">16% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="dot &amp; key cica niacinamide face sunscreen spf 50 pa+++, uv protection for oily, and acne prone skin. 50g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dot &amp; Key CICA Niacinamide Face Sunscreen SPF 50 PA+++, UV Protection for Oily, and Acne Prone Skin. 50g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">7.74/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹387</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹445</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">13% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="dot &amp; key blueberry hydrate barrier repair sunscreen spf 50+, pa++++ | for dry &amp; sensitive skin | non - greasy finish | no white cast | uv &amp; blue light protection | broad spectrum | for women &amp; men | 50g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dot &amp; Key Blueberry Hydrate Barrier Repair Sunscreen SPF 50+, PA++++ | For Dry &amp; Sensitive Skin | Non - Greasy Finish | No White Cast | UV &amp; Blue Light Protection | Broad Spectrum | For Women &amp; Men | 50g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">6.45/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹387</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹445</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">13% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="dot &amp; key strawberry dew spf 50 sunscreen stick on-the-go | spf 50 pa+++, broad spectrum | uva / uvb rays protection | with hyaluronic &amp; ceramide for hydration &amp; skin barrier | mess free &amp; no white cast |20g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dot &amp; Key Strawberry Dew SPF 50 Sunscreen Stick On-the-Go | SPF 50 PA+++, Broad Spectrum | UVA / UVB Rays Protection | With Hyaluronic &amp; Ceramide for Hydration &amp; Skin Barrier | Mess Free &amp; No White Cast |20g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">28.25/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹565</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹595</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="vitamin c + e super bright sunscreen in-vivo tested spf 50+ pa++++ with new-age uv filters, water-light fluid, boosts glow, reduces dullness &amp; dark spots, checks tanning, no white cast | 80g,pack of 1">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Vitamin C + E Super Bright Sunscreen In-Vivo Tested SPF 50+ PA++++ With New-Age UV Filters, Water-Light Fluid, Boosts Glow, Reduces Dullness &amp; Dark Spots, Checks Tanning, No White Cast | 80G,Pack Of 1</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">80G</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹499</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹623.75</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="watermelon cooling sunscreen, in-vivo tested spf 50+ pa++++, with new-age uv filters, instantly cools skin, controls excess oil, broad spectrum protection, no white cast, no white cast | 80g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Watermelon Cooling Sunscreen, In-Vivo Tested SPF 50+ PA++++, With New-Age UV Filters, Instantly Cools skin, Controls Excess Oil, Broad Spectrum Protection, No White Cast, No White Cast | 80g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">80g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹499</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹623.75</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="blueberry hydrate barrier repair sunscreen in-vivo tested spf 50+ pa++++ | with ceramides &amp; hyaluronic, hydrates &amp; protects skin | repairs damaged skin, lightweight, non-sticky, non-greasy | 80g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Blueberry Hydrate Barrier Repair Sunscreen In-Vivo Tested SPF 50+ PA++++ | With Ceramides &amp; Hyaluronic, Hydrates &amp; Protects Skin | Repairs Damaged Skin, Lightweight, Non-Sticky, Non-Greasy | 80g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">80g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹470</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹587.5</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Tue, 10 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="dragon fruit bounce sunscreen in-vivo tested spf 50+ pa++++, with new-age uv filters, lightweight, cushion-gel texture, fast-absorbing, niacinamide infused, broad spectrum protection || 50g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dragon Fruit Bounce Sunscreen In-Vivo Tested SPF 50+ PA++++, With New-Age UV Filters, Lightweight, Cushion-Gel Texture, Fast-Absorbing, Niacinamide Infused, Broad Spectrum Protection || 50g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">50g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹387</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹774</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="strawberry dew tinted sunscreen in-vivo tested spf 50+ pa++++ with new-age uv filters, brightens &amp; protects skin, ultra-light, with niacinamide, natural finish, non-sticky|50ml|03-sand">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Strawberry Dew Tinted Sunscreen In-Vivo Tested SPF 50+ PA++++ With New-Age UV Filters, Brightens &amp; Protects Skin, Ultra-light, With Niacinamide, Natural Finish, Non-Sticky|50ml|03-Sand</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">50ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹479</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹958</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="blueberry hydrate barrier repair sunscreen in-vivo tested spf 50+ pa++++ all with ceramides &amp; hyaluronic, protects skin repairs damaged skin, lightweight, non-sticky, non-greasy 50g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Blueberry Hydrate Barrier Repair Sunscreen In-Vivo Tested SPF 50+ PA++++ All With Ceramides &amp; Hyaluronic, Protects Skin Repairs Damaged Skin, Lightweight, Non-Sticky, Non-Greasy 50g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">50g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹387</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹774</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="dermatouch sunscreen - spf 50 pa++++ c-defense uv glow fluid lightweight sunscreen for anti aging &amp; dullness">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dermatouch Sunscreen - SPF 50 PA++++ C-Defense UV Glow Fluid Lightweight Sunscreen for Anti Aging &amp; Dullness</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹135</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹249</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">46% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Standard</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="dermatouch sunscreen - spf 50 pa++++ bright &amp; even skin tone sunscreen gel cream for tanning &amp; uneven skin tone">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dermatouch Sunscreen - SPF 50 PA++++ Bright &amp; Even Skin Tone Sunscreen Gel Cream for Tanning &amp; Uneven Skin Tone</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹158</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹349</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">55% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Standard</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="dot &amp; key sunscreen - spf 50 pa++++ vitamin c + e super bright sunscreen, in-vivo tested or all skin">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dot &amp; Key Sunscreen - SPF 50 PA++++ Vitamin C + E Super Bright Sunscreen, In-Vivo Tested or All Skin</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹263</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹299</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">12% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Standard</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="dot &amp; key sunscreen - spf 50 pa++++ watermelon cooling sunscreen, in-vivo tested with hyaluronic">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dot &amp; Key Sunscreen - SPF 50 PA++++ Watermelon cooling Sunscreen, In-Vivo Tested With Hyaluronic</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹263</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹299</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">12% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Standard</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="dot &amp; key sunscreen - spf 50 pa++++ blueberry hydrate barrier repair,in-vivo tested, with ceramides">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dot &amp; Key Sunscreen - SPF 50 PA++++ Blueberry Hydrate Barrier Repair,In-Vivo Tested, with Ceramides</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹263</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹299</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">12% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Standard</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="dot &amp; key sunscreen - spf 50 pa++++ vitamin c + e super bright sunscreen, in-vivo tested for all skin">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dot &amp; Key Sunscreen - SPF 50 PA++++ Vitamin C + E Super Bright Sunscreen, In-Vivo Tested for All Skin</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹387</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹445</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">13% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Standard</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="wishcare niacinamide oil-balance fluid sunscreen (spf 50 pa++++)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">WishCare Niacinamide Oil-Balance Fluid Sunscreen (SPF 50 PA++++)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">30 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹298</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹349</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">13 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="dot &amp; key watermelon cooling sunscreen (spf 50+ pa++++)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dot &amp; Key Watermelon Cooling Sunscreen (SPF 50+ PA++++)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">30 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹264</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹299</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">12% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">13 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="dot &amp; key watermelon cooling sunscreen (spf 50+ pa++++) - pack of 2">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dot &amp; Key Watermelon Cooling Sunscreen (SPF 50+ PA++++) - Pack of 2</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">2 x 30 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹509</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹598</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">13 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="dot &amp; key watermelon cooling sunscreen (spf 50+ pa++++) - pack of 2">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dot &amp; Key Watermelon Cooling Sunscreen (SPF 50+ PA++++) - Pack of 2</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">2 x 50 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹748</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹890</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">16% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">13 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="dot &amp; key watermelon cooling sunscreen (spf 50+ pa++++)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dot &amp; Key Watermelon Cooling Sunscreen (SPF 50+ PA++++)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">50 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹388</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹445</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">13% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">13 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="dot &amp; key watermelon cooling sunscreen (spf 50+ pa++++)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dot &amp; Key Watermelon Cooling Sunscreen (SPF 50+ PA++++)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">80 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹500</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹595</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">16% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">13 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="dot &amp; key vitamin c + e super bright sunscreen spf 50+ pa++++">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dot &amp; Key Vitamin C + E Super Bright Sunscreen SPF 50+ PA++++</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (30 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹263</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹299</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">12% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="dot &amp; key vitamin c + e face sunscreen spf 50 pa+++ for glowing skin, 100% no white cast">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dot &amp; Key Vitamin C + E Face Sunscreen SPF 50 PA+++ For Glowing Skin, 100% No White Cast</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (50 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹387</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹445</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">13% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="dot &amp; key cica niacinamide face sunscreen spf 50 pa+++ uv protection for oily and acne prone ski">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dot &amp; Key Cica Niacinamide Face Sunscreen SPF 50 PA+++ Uv Protection For Oily And Acne Prone Ski</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">50 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹387</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹445</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">13% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="dot &amp; key watermelon hyaluronic cooling sunscreen spf 50 pa+++">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dot &amp; Key Watermelon Hyaluronic Cooling Sunscreen SPF 50 PA+++</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (50 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹387</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹445</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">13% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="dot &amp; key dragon fruit bounce sunscreen in-vivo tested spf 50+ pa++++">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dot &amp; Key Dragon Fruit Bounce Sunscreen In-Vivo Tested SPF 50+ PA++++</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (50 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹387</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹445</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">13% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="dot &amp; key strawberry dew tinted sunscreen spf 50+ pa++++ - 01 porcelain">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dot &amp; Key Strawberry Dew Tinted Sunscreen SPF 50+ PA++++ - 01 Porcelain</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (50 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹489</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹549</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">11% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="dot &amp; key sunscreen spf 50 pa+++  with vitamin c + e | for even toned &amp; glowing skin | no white cast, waterlight i uva/b  &amp; blue light protection i better vitamin d absorption i for women &amp; men | 50gm">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dot &amp; Key Sunscreen SPF 50 PA+++  with Vitamin C + E | for Even Toned &amp; Glowing Skin | No White Cast, WaterLight I UVA/B  &amp; Blue Light Protection I Better Vitamin D absorption I for Women &amp; Men | 50gm</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">387.00/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹387</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹445</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">13% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="dot &amp; key watermelon hyaluronic cooling  sunscreen spf 50 pa+++|for moisturized skin| uv + blue light protection| lightweight | no white cast | boosts vitamin d absorption i quick absorbing | 50g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dot &amp; Key Watermelon Hyaluronic Cooling  Sunscreen SPF 50 PA+++|for Moisturized Skin| UV + Blue Light Protection| Lightweight | No White Cast | Boosts Vitamin D Absorption I Quick Absorbing | 50g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">7.74/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹387</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹445</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">13% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="dot &amp; key vitamin c + e super bright sunscreen spf 50 | water-light, uva/uvb &amp; blue light protection | for even toned &amp; glowing skin | with liquid spf 50+++ | no white cast, | for all skin types | 80g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dot &amp; Key Vitamin C + E Super Bright Sunscreen SPF 50 | Water-Light, UVA/UVB &amp; Blue Light Protection | For Even Toned &amp; Glowing Skin | With Liquid SPF 50+++ | No White Cast, | For All Skin Types | 80g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">6.24/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹499</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹595</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">16% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="dot &amp; key cica niacinamide face sunscreen spf 50 pa+++, uv protection for oily, and acne prone skin. 50g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dot &amp; Key CICA Niacinamide Face Sunscreen SPF 50 PA+++, UV Protection for Oily, and Acne Prone Skin. 50g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">7.74/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹387</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹445</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">13% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="dot &amp; key blueberry hydrate barrier repair sunscreen spf 50+, pa++++ | for dry &amp; sensitive skin | non - greasy finish | no white cast | uv &amp; blue light protection | broad spectrum | for women &amp; men | 50g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dot &amp; Key Blueberry Hydrate Barrier Repair Sunscreen SPF 50+, PA++++ | For Dry &amp; Sensitive Skin | Non - Greasy Finish | No White Cast | UV &amp; Blue Light Protection | Broad Spectrum | For Women &amp; Men | 50g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">6.45/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹387</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹445</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">13% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="dot &amp; key strawberry dew spf 50 sunscreen stick on-the-go | spf 50 pa+++, broad spectrum | uva / uvb rays protection | with hyaluronic &amp; ceramide for hydration &amp; skin barrier | mess free &amp; no white cast |20g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dot &amp; Key Strawberry Dew SPF 50 Sunscreen Stick On-the-Go | SPF 50 PA+++, Broad Spectrum | UVA / UVB Rays Protection | With Hyaluronic &amp; Ceramide for Hydration &amp; Skin Barrier | Mess Free &amp; No White Cast |20g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">28.25/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹565</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹595</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="dot &amp; key watermelon cooling sunscreen (spf 50+ pa++++)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dot &amp; Key Watermelon Cooling Sunscreen (SPF 50+ PA++++)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">30 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹264</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹299</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">12% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="dot &amp; key watermelon cooling sunscreen (spf 50+ pa++++)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dot &amp; Key Watermelon Cooling Sunscreen (SPF 50+ PA++++)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">50 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹388</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹445</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">13% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="oos" data-platform="blinkit.com" data-title="dot &amp; key watermelon cooling sunscreen (spf 50+ pa++++) - pack of 2">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dot &amp; Key Watermelon Cooling Sunscreen (SPF 50+ PA++++) - Pack of 2</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">2 x 30 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹509</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹598</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-rose-500/20 text-rose-400 border border-rose-500/30 font-mono text-[11px] font-bold">OUT OF STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="oos" data-platform="blinkit.com" data-title="dot &amp; key watermelon cooling sunscreen (spf 50+ pa++++) - pack of 2">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dot &amp; Key Watermelon Cooling Sunscreen (SPF 50+ PA++++) - Pack of 2</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">2 x 50 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹748</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹890</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">16% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-rose-500/20 text-rose-400 border border-rose-500/30 font-mono text-[11px] font-bold">OUT OF STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="dot &amp; key vitamin c + e super bright sunscreen (spf 50+ pa++++)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dot &amp; Key Vitamin C + E Super Bright Sunscreen (SPF 50+ PA++++)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">30 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹264</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹299</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">12% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="dot &amp; key vitamin c + e super bright sunscreen (spf 50+ pa++++)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dot &amp; Key Vitamin C + E Super Bright Sunscreen (SPF 50+ PA++++)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">50 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹431</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹495</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">13% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="dot &amp; key vitamin c + e super bright sunscreen spf 50+ pa++++">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dot &amp; Key Vitamin C + E Super Bright Sunscreen SPF 50+ PA++++</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (30 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹263</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹299</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">12% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="dot &amp; key vitamin c + e face sunscreen spf 50 pa+++ for glowing skin, 100% no white cast">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dot &amp; Key Vitamin C + E Face Sunscreen SPF 50 PA+++ For Glowing Skin, 100% No White Cast</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (50 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹387</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹445</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">13% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="dot &amp; key cica niacinamide face sunscreen spf 50 pa+++ uv protection for oily and acne prone ski">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dot &amp; Key Cica Niacinamide Face Sunscreen SPF 50 PA+++ Uv Protection For Oily And Acne Prone Ski</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">50 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹387</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹445</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">13% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="dot &amp; key watermelon hyaluronic cooling sunscreen spf 50 pa+++">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dot &amp; Key Watermelon Hyaluronic Cooling Sunscreen SPF 50 PA+++</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (50 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹387</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹445</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">13% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="dot &amp; key dragon fruit bounce sunscreen in-vivo tested spf 50+ pa++++">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dot &amp; Key Dragon Fruit Bounce Sunscreen In-Vivo Tested SPF 50+ PA++++</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (50 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹387</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹445</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">13% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="dot &amp; key strawberry dew tinted sunscreen spf 50+ pa++++ - 01 porcelain">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dot &amp; Key Strawberry Dew Tinted Sunscreen SPF 50+ PA++++ - 01 Porcelain</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (50 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹489</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹549</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">11% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="dot &amp; key sunscreen spf 50 pa+++  with vitamin c + e | for even toned &amp; glowing skin | no white cast, waterlight i uva/b  &amp; blue light protection i better vitamin d absorption i for women &amp; men | 50gm">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dot &amp; Key Sunscreen SPF 50 PA+++  with Vitamin C + E | for Even Toned &amp; Glowing Skin | No White Cast, WaterLight I UVA/B  &amp; Blue Light Protection I Better Vitamin D absorption I for Women &amp; Men | 50gm</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">387.00/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹387</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹445</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">13% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="dot &amp; key watermelon hyaluronic cooling  sunscreen spf 50 pa+++|for moisturized skin| uv + blue light protection| lightweight | no white cast | boosts vitamin d absorption i quick absorbing | 50g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dot &amp; Key Watermelon Hyaluronic Cooling  Sunscreen SPF 50 PA+++|for Moisturized Skin| UV + Blue Light Protection| Lightweight | No White Cast | Boosts Vitamin D Absorption I Quick Absorbing | 50g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">7.74/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹387</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹445</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">13% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="dot &amp; key vitamin c + e super bright sunscreen spf 50 | water-light, uva/uvb &amp; blue light protection | for even toned &amp; glowing skin | with liquid spf 50+++ | no white cast, | for all skin types | 80g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dot &amp; Key Vitamin C + E Super Bright Sunscreen SPF 50 | Water-Light, UVA/UVB &amp; Blue Light Protection | For Even Toned &amp; Glowing Skin | With Liquid SPF 50+++ | No White Cast, | For All Skin Types | 80g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">6.24/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹499</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹595</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">16% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="dot &amp; key cica niacinamide face sunscreen spf 50 pa+++, uv protection for oily, and acne prone skin. 50g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dot &amp; Key CICA Niacinamide Face Sunscreen SPF 50 PA+++, UV Protection for Oily, and Acne Prone Skin. 50g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">7.74/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹387</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹445</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">13% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="dot &amp; key blueberry hydrate barrier repair sunscreen spf 50+, pa++++ | for dry &amp; sensitive skin | non - greasy finish | no white cast | uv &amp; blue light protection | broad spectrum | for women &amp; men | 50g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dot &amp; Key Blueberry Hydrate Barrier Repair Sunscreen SPF 50+, PA++++ | For Dry &amp; Sensitive Skin | Non - Greasy Finish | No White Cast | UV &amp; Blue Light Protection | Broad Spectrum | For Women &amp; Men | 50g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">6.45/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹387</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹445</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">13% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="dot &amp; key strawberry dew spf 50 sunscreen stick on-the-go | spf 50 pa+++, broad spectrum | uva / uvb rays protection | with hyaluronic &amp; ceramide for hydration &amp; skin barrier | mess free &amp; no white cast |20g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dot &amp; Key Strawberry Dew SPF 50 Sunscreen Stick On-the-Go | SPF 50 PA+++, Broad Spectrum | UVA / UVB Rays Protection | With Hyaluronic &amp; Ceramide for Hydration &amp; Skin Barrier | Mess Free &amp; No White Cast |20g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">28.25/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹565</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹595</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- Sticky CTA Footer -->
+  <div class="fixed bottom-0 inset-x-0 bg-slate-950/95 border-t border-emerald-500/30 backdrop-blur px-6 py-3.5 z-30">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+      <div class="text-slate-200">
+        <span class="text-emerald-400 font-bold">⚡ Unscrape Radar:</span> Want real-time Slack/WhatsApp/Telegram alerts within 15 mins whenever <strong>Dot &amp; Key</strong> SKUs go Out-of-Stock across 20 BLR/MUM/DEL dark-store pin codes?
+      </div>
+      <div class="flex items-center gap-2.5 shrink-0">
+        <a href="https://github.com/deveshkolte/unscrape" target="_blank" class="px-4 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold">Unlock Automated 20-Pin-Code Monitor →</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const RAW_CSV = "brand,city,pincode,platform,skuId,title,sellingPriceInr,mrpInr,discountPercent,unit,inStock,deliveryEta,url\nDot & Key,Bengaluru,560001,blinkit.com,762742,WishCare Niacinamide Oil-Balance Fluid Sunscreen (SPF 50 PA++++),298,349,15,30 ml,true,8 MINS,https://blinkit.com/prn/wishcare-niacinamide-oil-balance-fluid-sunscreen-spf-50-pa/prid/762742\nDot & Key,Bengaluru,560001,blinkit.com,607921,Dot & Key Watermelon Cooling Sunscreen (SPF 50+ PA++++),264,299,12,30 g,true,8 MINS,https://blinkit.com/prn/dot-key-watermelon-cooling-sunscreen-spf-50-pa/prid/607921\nDot & Key,Bengaluru,560001,blinkit.com,507411,Dot & Key Watermelon Cooling Sunscreen (SPF 50+ PA++++),388,445,13,50 g,true,8 MINS,https://blinkit.com/prn/dot-key-watermelon-cooling-sunscreen-spf-50-pa/prid/507411\nDot & Key,Bengaluru,560001,blinkit.com,614560,Dot & Key Watermelon Cooling Sunscreen (SPF 50+ PA++++) - Pack of 2,509,598,15,2 x 30 g,true,8 MINS,https://blinkit.com/prn/dot-key-watermelon-cooling-sunscreen-spf-50-pa-pack-of-2/prid/614560\nDot & Key,Bengaluru,560001,blinkit.com,549684,Dot & Key Watermelon Cooling Sunscreen (SPF 50+ PA++++) - Pack of 2,748,890,16,2 x 50 g,true,8 MINS,https://blinkit.com/prn/dot-key-watermelon-cooling-sunscreen-spf-50-pa-pack-of-2/prid/549684\nDot & Key,Bengaluru,560001,blinkit.com,549138,Dot & Key Watermelon Cooling Sunscreen (SPF 50+ PA++++),500,595,16,80 g,false,8 MINS,https://blinkit.com/prn/dot-key-watermelon-cooling-sunscreen-spf-50-pa/prid/549138\nDot & Key,Bengaluru,560001,zeptonow.com,865ee0a6-ee88-5133-a539-9c9378bac8fc,Dot & Key Vitamin C + E Super Bright Sunscreen SPF 50+ PA++++,263,299,12,1 pc (30 g),true,10 MINS,https://www.zepto.com/pn/dot-key-vitamin-c-e-super-bright-sunscreen-spf-50-pa/pvid/936d5ab3-60b3-4e0e-b97c-85ddcf393135\nDot & Key,Bengaluru,560001,zeptonow.com,668d0cf8-47f5-507d-93e2-421b505a1f54,\"Dot & Key Vitamin C + E Face Sunscreen SPF 50 PA+++ For Glowing Skin, 100% No White Cast\",387,445,13,1 pc (50 g),true,10 MINS,https://www.zepto.com/pn/dot-key-vitamin-c-e-face-sunscreen-spf-50-pa-for-glowing-skin-100-no-white-cast/pvid/f815ae04-2bbf-4c33-91fe-57db3c9eb735\nDot & Key,Bengaluru,560001,zeptonow.com,2a1720ee-941b-534c-b58d-6580ebd9ab0c,Dot & Key Cica Niacinamide Face Sunscreen SPF 50 PA+++ Uv Protection For Oily And Acne Prone Ski,387,445,13,50 g,true,10 MINS,https://www.zepto.com/pn/dot-key-cica-niacinamide-face-sunscreen-spf-50-pa-uv-protection-for-oily-and-acne-prone-ski/pvid/44654f71-088e-4e3a-84fe-8bfbdefc771b\nDot & Key,Bengaluru,560001,zeptonow.com,d0fa727e-0bea-589e-b6f1-26011fac5655,Dot & Key Watermelon Hyaluronic Cooling Sunscreen SPF 50 PA+++,387,445,13,1 pc (50 g),true,10 MINS,https://www.zepto.com/pn/dot-key-watermelon-hyaluronic-cooling-sunscreen-spf-50-pa/pvid/6a47f086-d281-4dac-a7ee-8220a29d5341\nDot & Key,Bengaluru,560001,zeptonow.com,95b66a8f-9f81-5455-856a-7722f81854c7,Dot & Key Dragon Fruit Bounce Sunscreen In-Vivo Tested SPF 50+ PA++++,387,445,13,1 pc (50 g),true,10 MINS,https://www.zepto.com/pn/dot-key-dragon-fruit-bounce-sunscreen-in-vivo-tested-spf-50-pa/pvid/cfc10a0a-ea4a-4d2d-b6b3-cd6243341acc\nDot & Key,Bengaluru,560001,zeptonow.com,06d891e2-d394-5b6a-8be7-3312d1c9f966,Dot & Key Strawberry Dew Tinted Sunscreen SPF 50+ PA++++ - 01 Porcelain,489,549,11,1 pc (50 ml),true,10 MINS,https://www.zepto.com/pn/dot-key-strawberry-dew-tinted-sunscreen-spf-50-pa-01-porcelain/pvid/1403cf2f-25fc-4f7d-bfac-439d3c97e895\nDot & Key,Bengaluru,560001,bigbasket.com/jiomart,19284107,\"Dot & Key Sunscreen SPF 50 PA+++  with Vitamin C + E | for Even Toned & Glowing Skin | No White Cast, WaterLight I UVA/B  & Blue Light Protection I Better Vitamin D absorption I for Women & Men | 50gm\",387,445,13,387.00/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/dot-key-sunscreen-spf-50-pa-with-vitamin-c-e-for-even-toned-glowing-skin-no-white-cast-waterlight-i-uvab-blue-light-protection-i-better-vitamin-d-absorption-i-for-women-men-50gm-mi8sht-19284107/19284107\nDot & Key,Bengaluru,560001,bigbasket.com/jiomart,19284006,Dot & Key Watermelon Hyaluronic Cooling  Sunscreen SPF 50 PA+++|for Moisturized Skin| UV + Blue Light Protection| Lightweight | No White Cast | Boosts Vitamin D Absorption I Quick Absorbing | 50g,387,445,13,7.74/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/dot-key-watermelon-hyaluronic-cooling-sunscreen-spf-50-pa-50g-mi8shl-19284006/19284006\nDot & Key,Bengaluru,560001,bigbasket.com/jiomart,19296038,\"Dot & Key Vitamin C + E Super Bright Sunscreen SPF 50 | Water-Light, UVA/UVB & Blue Light Protection | For Even Toned & Glowing Skin | With Liquid SPF 50+++ | No White Cast, | For All Skin Types | 80g\",499,595,16,6.24/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/dot-key-vitamin-c-e-super-bright-sunscreen-spf-50-water-light-uvauvb-blue-light-protection-for-even-toned-glowing-skin-with-liquid-spf-50-no-white-cast-for-all-skin-types-80g-mi8t2m-19296038/19296038\nDot & Key,Bengaluru,560001,bigbasket.com/jiomart,19325164,\"Dot & Key CICA Niacinamide Face Sunscreen SPF 50 PA+++, UV Protection for Oily, and Acne Prone Skin. 50g\",387,445,13,7.74/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/dot-key-cica-niacinamide-face-sunscreen-spf-50-pa-50g-mi8u5r-19325164/19325164\nDot & Key,Bengaluru,560001,bigbasket.com/jiomart,19290108,\"Dot & Key Blueberry Hydrate Barrier Repair Sunscreen SPF 50+, PA++++ | For Dry & Sensitive Skin | Non - Greasy Finish | No White Cast | UV & Blue Light Protection | Broad Spectrum | For Women & Men | 50g\",387,445,13,6.45/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/dot-key-blueberry-hydrate-barrier-repair-sunscreen-spf-50-pa-for-dry-sensitive-skin-non-greasy-finish-no-white-cast-uv-blue-light-protection-broad-spectrum-for-women-men-50g-mi8srs-19290108/19290108\nDot & Key,Bengaluru,560001,bigbasket.com/jiomart,19427164,\"Dot & Key Strawberry Dew SPF 50 Sunscreen Stick On-the-Go | SPF 50 PA+++, Broad Spectrum | UVA / UVB Rays Protection | With Hyaluronic & Ceramide for Hydration & Skin Barrier | Mess Free & No White Cast |20g\",565,595,5,28.25/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/dot-key-strawberry-dew-spf-50-sunscreen-stick-on-the-go-spf-50-pa-broad-spectrum-uva-uvb-rays-protection-with-hyaluronic-ceramide-for-hydration-skin-barrier-mess-free-no-white-cast-20g-mi8xng-19427164/19427164\nDot & Key,Bengaluru,560001,amazon.in,B0CRH642BP,\"Vitamin C + E Super Bright Sunscreen In-Vivo Tested SPF 50+ PA++++ With New-Age UV Filters, Water-Light Fluid, Boosts Glow, Reduces Dullness & Dark Spots, Checks Tanning, No White Cast | 80G,Pack Of 1\",499,623.75,20,80G,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0CRH642BP\nDot & Key,Bengaluru,560001,amazon.in,B0CRHFHJ9X,\"Watermelon Cooling Sunscreen, In-Vivo Tested SPF 50+ PA++++, With New-Age UV Filters, Instantly Cools skin, Controls Excess Oil, Broad Spectrum Protection, No White Cast, No White Cast | 80g\",499,623.75,20,80g,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0CRHFHJ9X\nDot & Key,Bengaluru,560001,amazon.in,B0CX1HF45F,\"Blueberry Hydrate Barrier Repair Sunscreen In-Vivo Tested SPF 50+ PA++++ | With Ceramides & Hyaluronic, Hydrates & Protects Skin | Repairs Damaged Skin, Lightweight, Non-Sticky, Non-Greasy | 80g\",470,587.5,20,80g,true,\"Tue, 10 Nov\",https://www.amazon.in/dp/B0CX1HF45F\nDot & Key,Bengaluru,560001,amazon.in,B0GR8NWMCZ,\"Dragon Fruit Bounce Sunscreen In-Vivo Tested SPF 50+ PA++++, With New-Age UV Filters, Lightweight, Cushion-Gel Texture, Fast-Absorbing, Niacinamide Infused, Broad Spectrum Protection || 50g\",387,774,50,50g,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0GR8NWMCZ\nDot & Key,Bengaluru,560001,amazon.in,B0CX1Z5SPZ,\"Strawberry Dew Tinted Sunscreen In-Vivo Tested SPF 50+ PA++++ With New-Age UV Filters, Brightens & Protects Skin, Ultra-light, With Niacinamide, Natural Finish, Non-Sticky|50ml|03-Sand\",479,958,50,50ml,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0CX1Z5SPZ\nDot & Key,Bengaluru,560001,amazon.in,B0CRHPT8J3,\"Blueberry Hydrate Barrier Repair Sunscreen In-Vivo Tested SPF 50+ PA++++ All With Ceramides & Hyaluronic, Protects Skin Repairs Damaged Skin, Lightweight, Non-Sticky, Non-Greasy 50g\",387,774,50,50g,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0CRHPT8J3\nDot & Key,Bengaluru,560001,flipkart.com,SNRHKZQ89KAM5CWX,Dermatouch Sunscreen - SPF 50 PA++++ C-Defense UV Glow Fluid Lightweight Sunscreen for Anti Aging & Dullness,135,249,46,1 unit,true,Standard,https://www.flipkart.com/dermatouch-sunscreen-spf-50-pa-c-defense-uv-glow-fluid-lightweight-anti-aging-dullness/p/itm932b25038dc6d?pid=SNRHKZQ89KAM5CWX\nDot & Key,Bengaluru,560001,flipkart.com,SNRHGWJAZGFZZPGY,Dermatouch Sunscreen - SPF 50 PA++++ Bright & Even Skin Tone Sunscreen Gel Cream for Tanning & Uneven Skin Tone,158,349,55,1 unit,true,Standard,https://www.flipkart.com/dermatouch-sunscreen-spf-50-pa-bright-even-skin-tone-gel-cream-tanning-uneven/p/itm87883af920f05?pid=SNRHGWJAZGFZZPGY\nDot & Key,Bengaluru,560001,flipkart.com,SNRH8AHXSCANARJG,\"Dot & Key Sunscreen - SPF 50 PA++++ Vitamin C + E Super Bright Sunscreen, In-Vivo Tested or All Skin\",263,299,12,1 unit,true,Standard,https://www.flipkart.com/dot-key-sunscreen-spf-50-pa-vitamin-c-e-super-bright-sunscreen-in-vivo-tested-all-skin/p/itm63ccf2b9aa6eb?pid=SNRH8AHXSCANARJG\nDot & Key,Bengaluru,560001,flipkart.com,SNRH8AGAPMHFZTTT,\"Dot & Key Sunscreen - SPF 50 PA++++ Watermelon cooling Sunscreen, In-Vivo Tested With Hyaluronic\",263,299,12,1 unit,true,Standard,https://www.flipkart.com/dot-key-sunscreen-spf-50-pa-watermelon-cooling-sunscreen-in-vivo-tested-hyaluronic/p/itm1aa93a315ff03?pid=SNRH8AGAPMHFZTTT\nDot & Key,Bengaluru,560001,flipkart.com,SNRHGXGPAZKKGTFS,\"Dot & Key Sunscreen - SPF 50 PA++++ Blueberry Hydrate Barrier Repair,In-Vivo Tested, with Ceramides\",263,299,12,1 unit,true,Standard,https://www.flipkart.com/dot-key-sunscreen-spf-50-pa-blueberry-hydrate-barrier-repair-in-vivo-tested-ceramides/p/itmfc685fd217749?pid=SNRHGXGPAZKKGTFS\nDot & Key,Bengaluru,560001,flipkart.com,SNRGJZUDJZKGH9HF,\"Dot & Key Sunscreen - SPF 50 PA++++ Vitamin C + E Super Bright Sunscreen, In-Vivo Tested for All Skin\",387,445,13,1 unit,true,Standard,https://www.flipkart.com/dot-key-sunscreen-spf-50-pa-vitamin-c-e-super-bright-sunscreen-in-vivo-tested-all-skin/p/itm4b15fb958e8d9?pid=SNRGJZUDJZKGH9HF\nDot & Key,Mumbai,400001,blinkit.com,762742,WishCare Niacinamide Oil-Balance Fluid Sunscreen (SPF 50 PA++++),298,349,15,30 ml,true,13 MINS,https://blinkit.com/prn/wishcare-niacinamide-oil-balance-fluid-sunscreen-spf-50-pa/prid/762742\nDot & Key,Mumbai,400001,blinkit.com,607921,Dot & Key Watermelon Cooling Sunscreen (SPF 50+ PA++++),264,299,12,30 g,true,13 MINS,https://blinkit.com/prn/dot-key-watermelon-cooling-sunscreen-spf-50-pa/prid/607921\nDot & Key,Mumbai,400001,blinkit.com,614560,Dot & Key Watermelon Cooling Sunscreen (SPF 50+ PA++++) - Pack of 2,509,598,15,2 x 30 g,true,13 MINS,https://blinkit.com/prn/dot-key-watermelon-cooling-sunscreen-spf-50-pa-pack-of-2/prid/614560\nDot & Key,Mumbai,400001,blinkit.com,549684,Dot & Key Watermelon Cooling Sunscreen (SPF 50+ PA++++) - Pack of 2,748,890,16,2 x 50 g,true,13 MINS,https://blinkit.com/prn/dot-key-watermelon-cooling-sunscreen-spf-50-pa-pack-of-2/prid/549684\nDot & Key,Mumbai,400001,blinkit.com,507411,Dot & Key Watermelon Cooling Sunscreen (SPF 50+ PA++++),388,445,13,50 g,true,13 MINS,https://blinkit.com/prn/dot-key-watermelon-cooling-sunscreen-spf-50-pa/prid/507411\nDot & Key,Mumbai,400001,blinkit.com,549138,Dot & Key Watermelon Cooling Sunscreen (SPF 50+ PA++++),500,595,16,80 g,true,13 MINS,https://blinkit.com/prn/dot-key-watermelon-cooling-sunscreen-spf-50-pa/prid/549138\nDot & Key,Mumbai,400001,zeptonow.com,865ee0a6-ee88-5133-a539-9c9378bac8fc,Dot & Key Vitamin C + E Super Bright Sunscreen SPF 50+ PA++++,263,299,12,1 pc (30 g),true,10 MINS,https://www.zepto.com/pn/dot-key-vitamin-c-e-super-bright-sunscreen-spf-50-pa/pvid/936d5ab3-60b3-4e0e-b97c-85ddcf393135\nDot & Key,Mumbai,400001,zeptonow.com,668d0cf8-47f5-507d-93e2-421b505a1f54,\"Dot & Key Vitamin C + E Face Sunscreen SPF 50 PA+++ For Glowing Skin, 100% No White Cast\",387,445,13,1 pc (50 g),true,10 MINS,https://www.zepto.com/pn/dot-key-vitamin-c-e-face-sunscreen-spf-50-pa-for-glowing-skin-100-no-white-cast/pvid/f815ae04-2bbf-4c33-91fe-57db3c9eb735\nDot & Key,Mumbai,400001,zeptonow.com,2a1720ee-941b-534c-b58d-6580ebd9ab0c,Dot & Key Cica Niacinamide Face Sunscreen SPF 50 PA+++ Uv Protection For Oily And Acne Prone Ski,387,445,13,50 g,true,10 MINS,https://www.zepto.com/pn/dot-key-cica-niacinamide-face-sunscreen-spf-50-pa-uv-protection-for-oily-and-acne-prone-ski/pvid/44654f71-088e-4e3a-84fe-8bfbdefc771b\nDot & Key,Mumbai,400001,zeptonow.com,d0fa727e-0bea-589e-b6f1-26011fac5655,Dot & Key Watermelon Hyaluronic Cooling Sunscreen SPF 50 PA+++,387,445,13,1 pc (50 g),true,10 MINS,https://www.zepto.com/pn/dot-key-watermelon-hyaluronic-cooling-sunscreen-spf-50-pa/pvid/6a47f086-d281-4dac-a7ee-8220a29d5341\nDot & Key,Mumbai,400001,zeptonow.com,95b66a8f-9f81-5455-856a-7722f81854c7,Dot & Key Dragon Fruit Bounce Sunscreen In-Vivo Tested SPF 50+ PA++++,387,445,13,1 pc (50 g),true,10 MINS,https://www.zepto.com/pn/dot-key-dragon-fruit-bounce-sunscreen-in-vivo-tested-spf-50-pa/pvid/cfc10a0a-ea4a-4d2d-b6b3-cd6243341acc\nDot & Key,Mumbai,400001,zeptonow.com,06d891e2-d394-5b6a-8be7-3312d1c9f966,Dot & Key Strawberry Dew Tinted Sunscreen SPF 50+ PA++++ - 01 Porcelain,489,549,11,1 pc (50 ml),true,10 MINS,https://www.zepto.com/pn/dot-key-strawberry-dew-tinted-sunscreen-spf-50-pa-01-porcelain/pvid/1403cf2f-25fc-4f7d-bfac-439d3c97e895\nDot & Key,Mumbai,400001,bigbasket.com/jiomart,19284107,\"Dot & Key Sunscreen SPF 50 PA+++  with Vitamin C + E | for Even Toned & Glowing Skin | No White Cast, WaterLight I UVA/B  & Blue Light Protection I Better Vitamin D absorption I for Women & Men | 50gm\",387,445,13,387.00/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/dot-key-sunscreen-spf-50-pa-with-vitamin-c-e-for-even-toned-glowing-skin-no-white-cast-waterlight-i-uvab-blue-light-protection-i-better-vitamin-d-absorption-i-for-women-men-50gm-mi8sht-19284107/19284107\nDot & Key,Mumbai,400001,bigbasket.com/jiomart,19284006,Dot & Key Watermelon Hyaluronic Cooling  Sunscreen SPF 50 PA+++|for Moisturized Skin| UV + Blue Light Protection| Lightweight | No White Cast | Boosts Vitamin D Absorption I Quick Absorbing | 50g,387,445,13,7.74/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/dot-key-watermelon-hyaluronic-cooling-sunscreen-spf-50-pa-50g-mi8shl-19284006/19284006\nDot & Key,Mumbai,400001,bigbasket.com/jiomart,19296038,\"Dot & Key Vitamin C + E Super Bright Sunscreen SPF 50 | Water-Light, UVA/UVB & Blue Light Protection | For Even Toned & Glowing Skin | With Liquid SPF 50+++ | No White Cast, | For All Skin Types | 80g\",499,595,16,6.24/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/dot-key-vitamin-c-e-super-bright-sunscreen-spf-50-water-light-uvauvb-blue-light-protection-for-even-toned-glowing-skin-with-liquid-spf-50-no-white-cast-for-all-skin-types-80g-mi8t2m-19296038/19296038\nDot & Key,Mumbai,400001,bigbasket.com/jiomart,19325164,\"Dot & Key CICA Niacinamide Face Sunscreen SPF 50 PA+++, UV Protection for Oily, and Acne Prone Skin. 50g\",387,445,13,7.74/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/dot-key-cica-niacinamide-face-sunscreen-spf-50-pa-50g-mi8u5r-19325164/19325164\nDot & Key,Mumbai,400001,bigbasket.com/jiomart,19290108,\"Dot & Key Blueberry Hydrate Barrier Repair Sunscreen SPF 50+, PA++++ | For Dry & Sensitive Skin | Non - Greasy Finish | No White Cast | UV & Blue Light Protection | Broad Spectrum | For Women & Men | 50g\",387,445,13,6.45/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/dot-key-blueberry-hydrate-barrier-repair-sunscreen-spf-50-pa-for-dry-sensitive-skin-non-greasy-finish-no-white-cast-uv-blue-light-protection-broad-spectrum-for-women-men-50g-mi8srs-19290108/19290108\nDot & Key,Mumbai,400001,bigbasket.com/jiomart,19427164,\"Dot & Key Strawberry Dew SPF 50 Sunscreen Stick On-the-Go | SPF 50 PA+++, Broad Spectrum | UVA / UVB Rays Protection | With Hyaluronic & Ceramide for Hydration & Skin Barrier | Mess Free & No White Cast |20g\",565,595,5,28.25/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/dot-key-strawberry-dew-spf-50-sunscreen-stick-on-the-go-spf-50-pa-broad-spectrum-uva-uvb-rays-protection-with-hyaluronic-ceramide-for-hydration-skin-barrier-mess-free-no-white-cast-20g-mi8xng-19427164/19427164\nDot & Key,Delhi,110001,blinkit.com,607921,Dot & Key Watermelon Cooling Sunscreen (SPF 50+ PA++++),264,299,12,30 g,true,10 MINS,https://blinkit.com/prn/dot-key-watermelon-cooling-sunscreen-spf-50-pa/prid/607921\nDot & Key,Delhi,110001,blinkit.com,507411,Dot & Key Watermelon Cooling Sunscreen (SPF 50+ PA++++),388,445,13,50 g,true,10 MINS,https://blinkit.com/prn/dot-key-watermelon-cooling-sunscreen-spf-50-pa/prid/507411\nDot & Key,Delhi,110001,blinkit.com,614560,Dot & Key Watermelon Cooling Sunscreen (SPF 50+ PA++++) - Pack of 2,509,598,15,2 x 30 g,false,10 MINS,https://blinkit.com/prn/dot-key-watermelon-cooling-sunscreen-spf-50-pa-pack-of-2/prid/614560\nDot & Key,Delhi,110001,blinkit.com,549684,Dot & Key Watermelon Cooling Sunscreen (SPF 50+ PA++++) - Pack of 2,748,890,16,2 x 50 g,false,10 MINS,https://blinkit.com/prn/dot-key-watermelon-cooling-sunscreen-spf-50-pa-pack-of-2/prid/549684\nDot & Key,Delhi,110001,blinkit.com,607918,Dot & Key Vitamin C + E Super Bright Sunscreen (SPF 50+ PA++++),264,299,12,30 g,true,10 MINS,https://blinkit.com/prn/dot-key-vitamin-c-e-super-bright-sunscreen-spf-50-pa/prid/607918\nDot & Key,Delhi,110001,blinkit.com,499587,Dot & Key Vitamin C + E Super Bright Sunscreen (SPF 50+ PA++++),431,495,13,50 g,true,10 MINS,https://blinkit.com/prn/dot-key-vitamin-c-e-super-bright-sunscreen-spf-50-pa/prid/499587\nDot & Key,Delhi,110001,zeptonow.com,865ee0a6-ee88-5133-a539-9c9378bac8fc,Dot & Key Vitamin C + E Super Bright Sunscreen SPF 50+ PA++++,263,299,12,1 pc (30 g),true,10 MINS,https://www.zepto.com/pn/dot-key-vitamin-c-e-super-bright-sunscreen-spf-50-pa/pvid/936d5ab3-60b3-4e0e-b97c-85ddcf393135\nDot & Key,Delhi,110001,zeptonow.com,668d0cf8-47f5-507d-93e2-421b505a1f54,\"Dot & Key Vitamin C + E Face Sunscreen SPF 50 PA+++ For Glowing Skin, 100% No White Cast\",387,445,13,1 pc (50 g),true,10 MINS,https://www.zepto.com/pn/dot-key-vitamin-c-e-face-sunscreen-spf-50-pa-for-glowing-skin-100-no-white-cast/pvid/f815ae04-2bbf-4c33-91fe-57db3c9eb735\nDot & Key,Delhi,110001,zeptonow.com,2a1720ee-941b-534c-b58d-6580ebd9ab0c,Dot & Key Cica Niacinamide Face Sunscreen SPF 50 PA+++ Uv Protection For Oily And Acne Prone Ski,387,445,13,50 g,true,10 MINS,https://www.zepto.com/pn/dot-key-cica-niacinamide-face-sunscreen-spf-50-pa-uv-protection-for-oily-and-acne-prone-ski/pvid/44654f71-088e-4e3a-84fe-8bfbdefc771b\nDot & Key,Delhi,110001,zeptonow.com,d0fa727e-0bea-589e-b6f1-26011fac5655,Dot & Key Watermelon Hyaluronic Cooling Sunscreen SPF 50 PA+++,387,445,13,1 pc (50 g),true,10 MINS,https://www.zepto.com/pn/dot-key-watermelon-hyaluronic-cooling-sunscreen-spf-50-pa/pvid/6a47f086-d281-4dac-a7ee-8220a29d5341\nDot & Key,Delhi,110001,zeptonow.com,95b66a8f-9f81-5455-856a-7722f81854c7,Dot & Key Dragon Fruit Bounce Sunscreen In-Vivo Tested SPF 50+ PA++++,387,445,13,1 pc (50 g),true,10 MINS,https://www.zepto.com/pn/dot-key-dragon-fruit-bounce-sunscreen-in-vivo-tested-spf-50-pa/pvid/cfc10a0a-ea4a-4d2d-b6b3-cd6243341acc\nDot & Key,Delhi,110001,zeptonow.com,06d891e2-d394-5b6a-8be7-3312d1c9f966,Dot & Key Strawberry Dew Tinted Sunscreen SPF 50+ PA++++ - 01 Porcelain,489,549,11,1 pc (50 ml),true,10 MINS,https://www.zepto.com/pn/dot-key-strawberry-dew-tinted-sunscreen-spf-50-pa-01-porcelain/pvid/1403cf2f-25fc-4f7d-bfac-439d3c97e895\nDot & Key,Delhi,110001,bigbasket.com/jiomart,19284107,\"Dot & Key Sunscreen SPF 50 PA+++  with Vitamin C + E | for Even Toned & Glowing Skin | No White Cast, WaterLight I UVA/B  & Blue Light Protection I Better Vitamin D absorption I for Women & Men | 50gm\",387,445,13,387.00/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/dot-key-sunscreen-spf-50-pa-with-vitamin-c-e-for-even-toned-glowing-skin-no-white-cast-waterlight-i-uvab-blue-light-protection-i-better-vitamin-d-absorption-i-for-women-men-50gm-mi8sht-19284107/19284107\nDot & Key,Delhi,110001,bigbasket.com/jiomart,19284006,Dot & Key Watermelon Hyaluronic Cooling  Sunscreen SPF 50 PA+++|for Moisturized Skin| UV + Blue Light Protection| Lightweight | No White Cast | Boosts Vitamin D Absorption I Quick Absorbing | 50g,387,445,13,7.74/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/dot-key-watermelon-hyaluronic-cooling-sunscreen-spf-50-pa-50g-mi8shl-19284006/19284006\nDot & Key,Delhi,110001,bigbasket.com/jiomart,19296038,\"Dot & Key Vitamin C + E Super Bright Sunscreen SPF 50 | Water-Light, UVA/UVB & Blue Light Protection | For Even Toned & Glowing Skin | With Liquid SPF 50+++ | No White Cast, | For All Skin Types | 80g\",499,595,16,6.24/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/dot-key-vitamin-c-e-super-bright-sunscreen-spf-50-water-light-uvauvb-blue-light-protection-for-even-toned-glowing-skin-with-liquid-spf-50-no-white-cast-for-all-skin-types-80g-mi8t2m-19296038/19296038\nDot & Key,Delhi,110001,bigbasket.com/jiomart,19325164,\"Dot & Key CICA Niacinamide Face Sunscreen SPF 50 PA+++, UV Protection for Oily, and Acne Prone Skin. 50g\",387,445,13,7.74/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/dot-key-cica-niacinamide-face-sunscreen-spf-50-pa-50g-mi8u5r-19325164/19325164\nDot & Key,Delhi,110001,bigbasket.com/jiomart,19290108,\"Dot & Key Blueberry Hydrate Barrier Repair Sunscreen SPF 50+, PA++++ | For Dry & Sensitive Skin | Non - Greasy Finish | No White Cast | UV & Blue Light Protection | Broad Spectrum | For Women & Men | 50g\",387,445,13,6.45/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/dot-key-blueberry-hydrate-barrier-repair-sunscreen-spf-50-pa-for-dry-sensitive-skin-non-greasy-finish-no-white-cast-uv-blue-light-protection-broad-spectrum-for-women-men-50g-mi8srs-19290108/19290108\nDot & Key,Delhi,110001,bigbasket.com/jiomart,19427164,\"Dot & Key Strawberry Dew SPF 50 Sunscreen Stick On-the-Go | SPF 50 PA+++, Broad Spectrum | UVA / UVB Rays Protection | With Hyaluronic & Ceramide for Hydration & Skin Barrier | Mess Free & No White Cast |20g\",565,595,5,28.25/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/dot-key-strawberry-dew-spf-50-sunscreen-stick-on-the-go-spf-50-pa-broad-spectrum-uva-uvb-rays-protection-with-hyaluronic-ceramide-for-hydration-skin-barrier-mess-free-no-white-cast-20g-mi8xng-19427164/19427164\n";
+
+    function filterRows(mode) {
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const stock = row.getAttribute('data-stock');
+        if (mode === 'all') row.style.display = '';
+        else if (mode === 'oos') row.style.display = stock === 'oos' ? '' : 'none';
+        else if (mode === 'instock') row.style.display = stock === 'instock' ? '' : 'none';
+      });
+    }
+
+    function searchSkus() {
+      const q = document.getElementById('skuSearch').value.toLowerCase();
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const title = row.getAttribute('data-title') || '';
+        const platform = (row.getAttribute('data-platform') || '').toLowerCase();
+        row.style.display = (title.includes(q) || platform.includes(q)) ? '' : 'none';
+      });
+    }
+
+    function downloadCsv() {
+      const blob = new Blob([RAW_CSV], { type: 'text/csv;charset=utf-8;' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'dot-key-3city-audit.csv';
+      a.click();
+    }
+  </script>
+</body>
+</html>

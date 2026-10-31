@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Man Company — 3-City Quick-Commerce Dark-Store Audit Scorecard | Unscrape Radar</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background-color: #07080d; color: #f3f4f6; font-family: Inter, system-ui, -apple-system, sans-serif; }
+  </style>
+</head>
+<body class="min-h-screen pb-24">
+  <!-- Top Bar -->
+  <header class="border-b border-slate-800 bg-slate-950/90 backdrop-blur sticky top-0 z-20">
+    <div class="max-w-7xl mx-auto px-6 py-3.5 flex items-center justify-between flex-wrap gap-3">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="text-emerald-400 font-black text-lg tracking-tight hover:text-emerald-300">⚡ UNSCRAPE RADAR</a>
+        <span class="text-xs text-slate-500">/</span>
+        <span class="text-sm font-bold text-white">The Man Company Executive Scorecard</span>
+      </div>
+      <div class="flex items-center gap-2.5 text-xs">
+        <a href="index.html" class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700">← All 56 Brand Audits</a>
+        <button onclick="downloadCsv()" class="px-3.5 py-1.5 rounded-lg bg-emerald-500 text-slate-950 font-bold hover:bg-emerald-400">⬇ Download Raw CSV (38 SKUs)</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-6 pt-8">
+    <!-- Executive Header -->
+    <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 mb-8">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+        <div>
+          <div class="flex items-center gap-2.5 mb-2">
+            <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded bg-slate-800 text-emerald-400">Men's Fragrances &amp; Grooming</span>
+            <span class="text-xs text-slate-400 font-mono">Audited: 2026-10-30</span>
+          </div>
+          <h1 class="text-3xl md:text-4xl font-black text-white tracking-tight">The Man Company — Hyperlocal Dark-Store Audit</h1>
+          <p class="text-slate-400 text-sm mt-1">
+            Live multi-platform inventory & MOP/MRP price variance scan across <strong>Bengaluru (560001)</strong>, <strong>Mumbai (400001)</strong>, and <strong>Delhi (110001)</strong>.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 shrink-0">
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">SKUs Audited</div>
+            <div class="text-2xl font-black text-white mt-1">38</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">OOS Leaks</div>
+            <div class="text-2xl font-black text-emerald-400 mt-1">0</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">Max Markdown</div>
+            <div class="text-2xl font-black text-amber-300 mt-1">88%</div>
+          </div>
+          <div class="border rounded-xl p-3.5 text-center bg-emerald-500/15 text-emerald-400 border-emerald-500/30">
+            <div class="text-[11px] uppercase font-bold opacity-80">Shelf Health</div>
+            <div class="text-2xl font-black mt-1">100%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="bg-emerald-950/30 border border-emerald-500/30 rounded-2xl p-5 mb-8 flex items-center justify-between flex-wrap gap-3">
+      <div>
+        <span class="px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 font-bold text-xs uppercase">✓ 100% In-Stock Snapshot</span>
+        <span class="text-sm text-slate-200 ml-2">All 38 audited dark-store listings across Bengaluru, Mumbai & Delhi were in stock during this scan. Max discount variance: <strong>88% below MRP</strong>.</span>
+      </div>
+    </div>
+
+    <!-- Filter Controls -->
+    <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+      <div class="flex items-center gap-2 text-xs">
+        <button onclick="filterRows('all')" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-semibold">All SKUs (38)</button>
+        <button onclick="filterRows('oos')" class="px-3 py-1.5 rounded-lg bg-rose-500/15 border border-rose-500/30 text-rose-300 hover:bg-rose-500/25 font-semibold">Out-of-Stock Only (0)</button>
+        <button onclick="filterRows('instock')" class="px-3 py-1.5 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 hover:bg-emerald-500/25 font-semibold">In-Stock (38)</button>
+      </div>
+      <div class="flex items-center gap-2">
+        <input id="skuSearch" type="text" oninput="searchSkus()" placeholder="Filter SKU title or platform..." class="bg-slate-900 border border-slate-800 rounded-lg px-3.5 py-1.5 text-xs text-white w-64" />
+      </div>
+    </div>
+
+    <!-- SKU Table -->
+    <div class="bg-slate-900/50 border border-slate-800 rounded-2xl overflow-x-auto">
+      <table class="w-full text-left text-xs">
+        <thead class="bg-slate-950/90 text-slate-400 uppercase border-b border-slate-800">
+          <tr>
+            <th class="px-4 py-3">SKU Title</th>
+            <th class="px-4 py-3">Platform</th>
+            <th class="px-4 py-3">City / Pin</th>
+            <th class="px-4 py-3">Pack Size</th>
+            <th class="px-4 py-3">Selling Price</th>
+            <th class="px-4 py-3">MRP</th>
+            <th class="px-4 py-3">Discount</th>
+            <th class="px-4 py-3">Stock Status</th>
+            <th class="px-4 py-3">ETA</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-800/60">
+          <tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="the man company black and night perfume - 50ml x 2 | long-lasting deo perfume body spray">
+        <td class="px-4 py-3 font-medium text-white max-w-md">The Man Company BLACK and NIGHT Perfume - 50ml X 2 | Long-Lasting Deo Perfume Body Spray</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹399</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹2048</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">81% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="the man company black edp - 50 ml | premium long-lasting deo perfume body spray | edp for him | perfume for man">
+        <td class="px-4 py-3 font-medium text-white max-w-md">The Man Company BLACK EDP - 50 ml | Premium Long-Lasting Deo Perfume Body Spray | EDP for Him | Perfume for Man</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">5.98/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹299</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹699</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">57% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="the man company blanc body perfume 120 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">The Man Company Blanc Body Perfume 120 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1.66/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹199</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹399</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="the man company hope perfume for men - 50ml | long-lasting perfume body spray | edp for him">
+        <td class="px-4 py-3 font-medium text-white max-w-md">The Man company HOPE Perfume for Men - 50ml | Long-Lasting Perfume Body Spray | EDP for Him</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹299</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹699</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">57% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="the man company tranquil perfume for men - 50ml | premium long lasting fragrance | citrusy, floral and musky | gift for men | day outing body spray">
+        <td class="px-4 py-3 font-medium text-white max-w-md">The Man Company Tranquil Perfume For Men - 50ml | Premium Long Lasting Fragrance | Citrusy, Floral and Musky | Gift For Men | Day Outing Body Spray</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">3.98/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹199</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹749</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">73% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="the man company blanc edt (50ml) &amp; black edt (50ml) elegant perfume gift set for men | perfume eau de toillete | premium long lasting fragrance | best gift for men">
+        <td class="px-4 py-3 font-medium text-white max-w-md">The Man Company Blanc EDT (50ml) &amp; Black EDT (50ml) Elegant Perfume Gift Set for men | Perfume EAU DE Toillete | Premium Long Lasting Fragrance | Best Gift for Men</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹484</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹2198</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">78% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="the man company black and night perfume - 50ml x 2 | long-lasting deo perfume body spray">
+        <td class="px-4 py-3 font-medium text-white max-w-md">The Man Company BLACK and NIGHT Perfume - 50ml X 2 | Long-Lasting Deo Perfume Body Spray</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹399</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹2048</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">81% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="the man company black edp - 50 ml | premium long-lasting deo perfume body spray | edp for him | perfume for man">
+        <td class="px-4 py-3 font-medium text-white max-w-md">The Man Company BLACK EDP - 50 ml | Premium Long-Lasting Deo Perfume Body Spray | EDP for Him | Perfume for Man</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">5.98/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹299</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹699</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">57% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="the man company blanc body perfume 120 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">The Man Company Blanc Body Perfume 120 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1.66/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹199</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹399</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="the man company hope perfume for men - 50ml | long-lasting perfume body spray | edp for him">
+        <td class="px-4 py-3 font-medium text-white max-w-md">The Man company HOPE Perfume for Men - 50ml | Long-Lasting Perfume Body Spray | EDP for Him</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹299</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹699</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">57% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="the man company tranquil perfume for men - 50ml | premium long lasting fragrance | citrusy, floral and musky | gift for men | day outing body spray">
+        <td class="px-4 py-3 font-medium text-white max-w-md">The Man Company Tranquil Perfume For Men - 50ml | Premium Long Lasting Fragrance | Citrusy, Floral and Musky | Gift For Men | Day Outing Body Spray</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">3.98/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹199</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹749</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">73% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="the man company blanc edt (50ml) &amp; black edt (50ml) elegant perfume gift set for men | perfume eau de toillete | premium long lasting fragrance | best gift for men">
+        <td class="px-4 py-3 font-medium text-white max-w-md">The Man Company Blanc EDT (50ml) &amp; Black EDT (50ml) Elegant Perfume Gift Set for men | Perfume EAU DE Toillete | Premium Long Lasting Fragrance | Best Gift for Men</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹484</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹2198</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">78% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="the man company black and night perfume - 50ml x 2 | long-lasting deo perfume body spray">
+        <td class="px-4 py-3 font-medium text-white max-w-md">The Man Company BLACK and NIGHT Perfume - 50ml X 2 | Long-Lasting Deo Perfume Body Spray</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹399</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹2048</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">81% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="the man company black edp - 50 ml | premium long-lasting deo perfume body spray | edp for him | perfume for man">
+        <td class="px-4 py-3 font-medium text-white max-w-md">The Man Company BLACK EDP - 50 ml | Premium Long-Lasting Deo Perfume Body Spray | EDP for Him | Perfume for Man</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">5.98/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹299</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹699</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">57% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="the man company blanc body perfume 120 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">The Man Company Blanc Body Perfume 120 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1.66/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹199</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹399</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="the man company hope perfume for men - 50ml | long-lasting perfume body spray | edp for him">
+        <td class="px-4 py-3 font-medium text-white max-w-md">The Man company HOPE Perfume for Men - 50ml | Long-Lasting Perfume Body Spray | EDP for Him</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹299</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹699</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">57% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="the man company tranquil perfume for men - 50ml | premium long lasting fragrance | citrusy, floral and musky | gift for men | day outing body spray">
+        <td class="px-4 py-3 font-medium text-white max-w-md">The Man Company Tranquil Perfume For Men - 50ml | Premium Long Lasting Fragrance | Citrusy, Floral and Musky | Gift For Men | Day Outing Body Spray</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">3.98/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹199</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹749</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">73% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="the man company blanc edt (50ml) &amp; black edt (50ml) elegant perfume gift set for men | perfume eau de toillete | premium long lasting fragrance | best gift for men">
+        <td class="px-4 py-3 font-medium text-white max-w-md">The Man Company Blanc EDT (50ml) &amp; Black EDT (50ml) Elegant Perfume Gift Set for men | Perfume EAU DE Toillete | Premium Long Lasting Fragrance | Best Gift for Men</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹484</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹2198</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">78% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="the man company black perfume eau de toilette  -  50 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">THE MAN COMPANY Black perfume Eau de Toilette  -  50 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">50 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹189</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1299</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">85% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="the man company black edt perfume for men (pack of 2, 50ml each) long lasting perfume body spray eau de toilette  -  100 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">THE MAN COMPANY Black EDT Perfume For Men (Pack of 2, 50ml each) Long Lasting Perfume Body Spray Eau de Toilette  -  100 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">50ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹319</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹2598</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">88% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="the man company perfume gift set - timeless fragrances | luxury long-lasting perfumes for men perfume  -  200 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">THE MAN COMPANY Perfume Gift Set - Timeless Fragrances | Luxury Long-Lasting Perfumes For Men Perfume  -  200 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">200 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹600</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹3696</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">84% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="the man company blanc edt (50ml) &amp; black edt (50ml) long lasting perfume gift set eau de toilette  -  100 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">THE MAN COMPANY Blanc EDT (50ml) &amp; Black EDT (50ml) Long Lasting Perfume Gift Set Eau de Toilette  -  100 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">50ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹371</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹2198</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">83% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="the man company black edt &amp; night edp combo | long-lasting fragrance | party &amp; date night perfume  -  100 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">THE MAN COMPANY Black EDT &amp; Night EDP Combo | Long-Lasting Fragrance | Party &amp; Date Night Perfume  -  100 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">100 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹299</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹2048</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">85% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="the man company fire | long lasting perfume for men eau de parfum  -  50 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">THE MAN COMPANY Fire | Long Lasting Perfume for Men Eau de Parfum  -  50 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">50 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹292</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹749</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">61% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="the man company men's perfume | black">
+        <td class="px-4 py-3 font-medium text-white max-w-md">The Man Company Men's Perfume | Black</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (100 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹481</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹2499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">81% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="the man company perfume for men - signature duo | office &amp; party combo">
+        <td class="px-4 py-3 font-medium text-white max-w-md">The Man Company Perfume for men - Signature Duo | Office &amp; Party Combo</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 set ( 2 x 20 ml )</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹299</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹498</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">40% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="bella vita organic luxury perfumes gift set for men | long-lasting signature scents">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bella Vita Organic Luxury Perfumes Gift Set For Men | Long-Lasting Signature Scents</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 set (4 x 20 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹475</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹849</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">44% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="the man company blanc curation gift box for men">
+        <td class="px-4 py-3 font-medium text-white max-w-md">The Man Company Blanc Curation Gift Box for Men</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (4 pcs)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹999</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1299</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">23% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="fraganote unisex perfume experience set - sample pack">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Fraganote Unisex Perfume Experience Set - Sample Pack</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 set (10 x 2 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹823</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1299</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">37% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="the man company grooming gift set unforgettable him">
+        <td class="px-4 py-3 font-medium text-white max-w-md">The Man Company Grooming Gift Set Unforgettable Him</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (4 pcs)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1099</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">27% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="the man company mens perfume | hope">
+        <td class="px-4 py-3 font-medium text-white max-w-md">The Man Company Mens Perfume | Hope</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (50 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹308</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹449</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">31% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="bella vita organic ceo man eau de parfum for men | long-lasting hints of lemon and sugar">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bella Vita Organic CEO Man Eau De Parfum For Men | Long-Lasting Hints Of Lemon And Sugar</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (100 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹449</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹899</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="black eau de parfum for men | 100 ml | long lasting perfume | premium men's fragrance with intense, sophisticated scent, premium masculine fragrance for date night, office &amp; party | ideal for evening, party &amp; special occasions">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Black Eau De Parfum for Men | 100 ml | Long Lasting Perfume | Premium Men's Fragrance with Intense, Sophisticated Scent, Premium Masculine Fragrance for Date Night, Office &amp; Party | Ideal for Evening, Party &amp; Special Occasions</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">100 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹424</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹4.24</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Wed, 4 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="premium perfume gift set for men (4 x 50ml) with travel pouch – black, hope, destiny &amp; sky | long-lasting edp &amp; edt fragrances | luxury gift set for birthday, anniversary &amp; valentine's day">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Premium Perfume Gift Set for Men (4 x 50ml) with Travel Pouch – Black, Hope, Destiny &amp; Sky | Long-Lasting EDP &amp; EDT Fragrances | Luxury Gift Set for Birthday, Anniversary &amp; Valentine's Day</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">50ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹799</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹4</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="oud regal perfume for man | long lasting bold oud perfume | luxury edp fragrance with saffron &amp; patchouli | gift for him | 100 ml | anniversary fragrance gift | valentine gift set for man |">
+        <td class="px-4 py-3 font-medium text-white max-w-md">OUD REGAL Perfume for Man | Long Lasting Bold Oud Perfume | Luxury EDP Fragrance with Saffron &amp; Patchouli | Gift for Him | 100 ml | Anniversary fragrance gift | Valentine Gift Set For Man |</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">100 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹449</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹4.49</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="eau de toilette trio perfume gift set , 50ml each - fire, blanc, black | edp &amp; edt perfume for man | premium luxury long-lasting perfume spray | valentine gift for him | fresh scent for daily office wear | valentine gift set for boyfriend , husband">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Eau de Toilette Trio Perfume Gift Set , 50ml each - Fire, Blanc, Black | EDP &amp; EDT Perfume for Man | Premium Luxury Long-Lasting Perfume Spray | Valentine Gift For Him | fresh scent for daily office wear | Valentine gift Set for Boyfriend , Husband</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">50ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹629</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹209.67</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Thu, 5 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="beast mode collection set with 40% perfume oil concentration | long lasting | perfume for man | gift for men | spicy, wood, musk and oud premium fragrance for men | diwali gift hamper">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Beast Mode Collection Set with 40% Perfume oil concentration | Long Lasting | Perfume for Man | Gift for Men | Spicy, Wood, Musk and Oud Premium Fragrance for Men | Diwali Gift Hamper</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹549</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹799</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">31% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="fresh black edt perfume for man - 100ml | premium long-lasting fragrance | perfume gift for friend | anniversary fragrance gift | valentine gift for man">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Fresh Black Edt Perfume For Man - 100Ml | Premium Long-Lasting Fragrance | Perfume Gift for Friend | Anniversary Fragrance Gift | Valentine Gift For Man</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">100Ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹474</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹4.74</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- Sticky CTA Footer -->
+  <div class="fixed bottom-0 inset-x-0 bg-slate-950/95 border-t border-emerald-500/30 backdrop-blur px-6 py-3.5 z-30">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+      <div class="text-slate-200">
+        <span class="text-emerald-400 font-bold">⚡ Unscrape Radar:</span> Want real-time Slack/WhatsApp/Telegram alerts within 15 mins whenever <strong>The Man Company</strong> SKUs go Out-of-Stock across 20 BLR/MUM/DEL dark-store pin codes?
+      </div>
+      <div class="flex items-center gap-2.5 shrink-0">
+        <a href="https://github.com/deveshkolte/unscrape" target="_blank" class="px-4 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold">Unlock Automated 20-Pin-Code Monitor →</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const RAW_CSV = "brand,city,pincode,platform,skuId,title,sellingPriceInr,mrpInr,discountPercent,unit,inStock,deliveryEta,url\nThe Man Company,Bengaluru,560001,bigbasket.com/jiomart,72882568,The Man Company BLACK and NIGHT Perfume - 50ml X 2 | Long-Lasting Deo Perfume Body Spray,399,2048,81,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/the-man-company-black-and-night-perfume-50ml-x-2-long-lasting-deo-perfume-body-spray-ml6rfm-72882568/72882568\nThe Man Company,Bengaluru,560001,bigbasket.com/jiomart,72903083,The Man Company BLACK EDP - 50 ml | Premium Long-Lasting Deo Perfume Body Spray | EDP for Him | Perfume for Man,299,699,57,5.98/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/the-man-company-black-edp-50-ml-premium-long-lasting-deo-perfume-body-spray-edp-for-him-perfume-for-man-ml81fw-72903083/72903083\nThe Man Company,Bengaluru,560001,bigbasket.com/jiomart,7519676,The Man Company Blanc Body Perfume 120 ml,199,399,50,1.66/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/the-man-company-blanc-body-perfume-120-ml-mffmzp-7519676/7519676\nThe Man Company,Bengaluru,560001,bigbasket.com/jiomart,50693797,The Man company HOPE Perfume for Men - 50ml | Long-Lasting Perfume Body Spray | EDP for Him,299,699,57,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/the-man-company-hope-perfume-for-men-50ml-long-lasting-perfume-body-spray-edp-for-him-mj74t7-50693797/50693797\nThe Man Company,Bengaluru,560001,bigbasket.com/jiomart,19437052,\"The Man Company Tranquil Perfume For Men - 50ml | Premium Long Lasting Fragrance | Citrusy, Floral and Musky | Gift For Men | Day Outing Body Spray\",199,749,73,3.98/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/the-man-company-tranquil-perfume-for-men-50ml-premium-long-lasting-fragrance-citrusy-floral-and-musky-gift-for-men-day-outing-body-spray-mi8xx2-19437052/19437052\nThe Man Company,Bengaluru,560001,bigbasket.com/jiomart,19342762,The Man Company Blanc EDT (50ml) & Black EDT (50ml) Elegant Perfume Gift Set for men | Perfume EAU DE Toillete | Premium Long Lasting Fragrance | Best Gift for Men,484,2198,78,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/the-man-company-blanc-edt-50ml-black-edt-50ml-elegant-perfume-gift-set-for-men-perfume-eau-de-toillete-premium-long-lasting-fragrance-best-gift-for-men-mi8uqc-19342762/19342762\nThe Man Company,Mumbai,400001,bigbasket.com/jiomart,72882568,The Man Company BLACK and NIGHT Perfume - 50ml X 2 | Long-Lasting Deo Perfume Body Spray,399,2048,81,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/the-man-company-black-and-night-perfume-50ml-x-2-long-lasting-deo-perfume-body-spray-ml6rfm-72882568/72882568\nThe Man Company,Mumbai,400001,bigbasket.com/jiomart,72903083,The Man Company BLACK EDP - 50 ml | Premium Long-Lasting Deo Perfume Body Spray | EDP for Him | Perfume for Man,299,699,57,5.98/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/the-man-company-black-edp-50-ml-premium-long-lasting-deo-perfume-body-spray-edp-for-him-perfume-for-man-ml81fw-72903083/72903083\nThe Man Company,Mumbai,400001,bigbasket.com/jiomart,7519676,The Man Company Blanc Body Perfume 120 ml,199,399,50,1.66/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/the-man-company-blanc-body-perfume-120-ml-mffmzp-7519676/7519676\nThe Man Company,Mumbai,400001,bigbasket.com/jiomart,50693797,The Man company HOPE Perfume for Men - 50ml | Long-Lasting Perfume Body Spray | EDP for Him,299,699,57,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/the-man-company-hope-perfume-for-men-50ml-long-lasting-perfume-body-spray-edp-for-him-mj74t7-50693797/50693797\nThe Man Company,Mumbai,400001,bigbasket.com/jiomart,19437052,\"The Man Company Tranquil Perfume For Men - 50ml | Premium Long Lasting Fragrance | Citrusy, Floral and Musky | Gift For Men | Day Outing Body Spray\",199,749,73,3.98/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/the-man-company-tranquil-perfume-for-men-50ml-premium-long-lasting-fragrance-citrusy-floral-and-musky-gift-for-men-day-outing-body-spray-mi8xx2-19437052/19437052\nThe Man Company,Mumbai,400001,bigbasket.com/jiomart,19342762,The Man Company Blanc EDT (50ml) & Black EDT (50ml) Elegant Perfume Gift Set for men | Perfume EAU DE Toillete | Premium Long Lasting Fragrance | Best Gift for Men,484,2198,78,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/the-man-company-blanc-edt-50ml-black-edt-50ml-elegant-perfume-gift-set-for-men-perfume-eau-de-toillete-premium-long-lasting-fragrance-best-gift-for-men-mi8uqc-19342762/19342762\nThe Man Company,Delhi,110001,bigbasket.com/jiomart,72882568,The Man Company BLACK and NIGHT Perfume - 50ml X 2 | Long-Lasting Deo Perfume Body Spray,399,2048,81,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/the-man-company-black-and-night-perfume-50ml-x-2-long-lasting-deo-perfume-body-spray-ml6rfm-72882568/72882568\nThe Man Company,Delhi,110001,bigbasket.com/jiomart,72903083,The Man Company BLACK EDP - 50 ml | Premium Long-Lasting Deo Perfume Body Spray | EDP for Him | Perfume for Man,299,699,57,5.98/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/the-man-company-black-edp-50-ml-premium-long-lasting-deo-perfume-body-spray-edp-for-him-perfume-for-man-ml81fw-72903083/72903083\nThe Man Company,Delhi,110001,bigbasket.com/jiomart,7519676,The Man Company Blanc Body Perfume 120 ml,199,399,50,1.66/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/the-man-company-blanc-body-perfume-120-ml-mffmzp-7519676/7519676\nThe Man Company,Delhi,110001,bigbasket.com/jiomart,50693797,The Man company HOPE Perfume for Men - 50ml | Long-Lasting Perfume Body Spray | EDP for Him,299,699,57,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/the-man-company-hope-perfume-for-men-50ml-long-lasting-perfume-body-spray-edp-for-him-mj74t7-50693797/50693797\nThe Man Company,Delhi,110001,bigbasket.com/jiomart,19437052,\"The Man Company Tranquil Perfume For Men - 50ml | Premium Long Lasting Fragrance | Citrusy, Floral and Musky | Gift For Men | Day Outing Body Spray\",199,749,73,3.98/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/the-man-company-tranquil-perfume-for-men-50ml-premium-long-lasting-fragrance-citrusy-floral-and-musky-gift-for-men-day-outing-body-spray-mi8xx2-19437052/19437052\nThe Man Company,Delhi,110001,bigbasket.com/jiomart,19342762,The Man Company Blanc EDT (50ml) & Black EDT (50ml) Elegant Perfume Gift Set for men | Perfume EAU DE Toillete | Premium Long Lasting Fragrance | Best Gift for Men,484,2198,78,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/the-man-company-blanc-edt-50ml-black-edt-50ml-elegant-perfume-gift-set-for-men-perfume-eau-de-toillete-premium-long-lasting-fragrance-best-gift-for-men-mi8uqc-19342762/19342762\nThe Man Company,Bengaluru,560001,flipkart.com,PERFTY36CEY3UQY2,THE MAN COMPANY Black perfume Eau de Toilette  -  50 ml,189,1299,85,50 ml,true,15 MINS,https://www.flipkart.com/man-company-black-perfume-eau-de-toilette-50-ml/p/itm362a7d107d090?pid=PERFTY36CEY3UQY2&lid=LSTPERFTY36CEY3UQY2PQIPWU&marketplace=FLIPKART&q=the+man+company+perfume&store=g9b%2F0yh&srno=s_1_3&otracker=search&fm=organic&iid=17b31804-8daf-48c3-959f-9f6a7d912e3d.PERFTY36CEY3UQY2.SEARCH&ppt=None&ppn=None&ssid=fff6fit6k00000001793387314827&qH=a15a221b885e5570&ov_redirect=true&ov_redirect=true\nThe Man Company,Bengaluru,560001,flipkart.com,PERGEDZBRNPF3GGF,\"THE MAN COMPANY Black EDT Perfume For Men (Pack of 2, 50ml each) Long Lasting Perfume Body Spray Eau de Toilette  -  100 ml\",319,2598,88,50ml,true,15 MINS,https://www.flipkart.com/man-company-black-edt-perfume-men-pack-2-50ml-each-long-lasting-body-spray-eau-de-toilette-100-ml/p/itmec2b209ca9633?pid=PERGEDZBRNPF3GGF&lid=LSTPERGEDZBRNPF3GGFMEPGND&marketplace=FLIPKART&q=the+man+company+perfume&store=g9b%2F0yh&srno=s_1_2&otracker=search&fm=organic&iid=en_Po-zi8FcAIfcSubMFqlkXiz1xFEDh9cviKHKEg0ChWGjslvBc9pJOEncavia0zxmQT1lEDFop40TLvF8vpig51Tj-oj5lrynTe86TU2KD4_Jfwps53peu4DVs6BUzkhU&ppt=None&ppn=None&ssid=fff6fit6k00000001793387314827&qH=a15a221b885e5570&ov_redirect=true&ov_redirect=true\nThe Man Company,Bengaluru,560001,flipkart.com,PERGVYSZHSZFCRGB,THE MAN COMPANY Perfume Gift Set - Timeless Fragrances | Luxury Long-Lasting Perfumes For Men Perfume  -  200 ml,600,3696,84,200 ml,true,15 MINS,https://www.flipkart.com/man-company-perfume-gift-set-timeless-fragrances-luxury-long-lasting-perfumes-men-200-ml/p/itmfdbcd89a96cb5?pid=PERGVYSZHSZFCRGB&lid=LSTPERGVYSZHSZFCRGBP1VSPY&marketplace=FLIPKART&q=the+man+company+perfume&store=g9b%2F0yh&srno=s_1_4&otracker=search&fm=organic&iid=17b31804-8daf-48c3-959f-9f6a7d912e3d.PERGVYSZHSZFCRGB.SEARCH&ppt=None&ppn=None&ssid=fff6fit6k00000001793387314827&qH=a15a221b885e5570&ov_redirect=true&ov_redirect=true\nThe Man Company,Bengaluru,560001,flipkart.com,PERGEHRUHXRFPGCP,THE MAN COMPANY Blanc EDT (50ml) & Black EDT (50ml) Long Lasting Perfume Gift Set Eau de Toilette  -  100 ml,371,2198,83,50ml,true,15 MINS,https://www.flipkart.com/man-company-blanc-edt-50ml-black-long-lasting-perfume-gift-set-eau-de-toilette-100-ml/p/itm4b2e5a1f1de82?pid=PERGEHRUHXRFPGCP&lid=LSTPERGEHRUHXRFPGCPLGNSDC&marketplace=FLIPKART&q=the+man+company+perfume&store=g9b%2F0yh&srno=s_1_5&otracker=search&fm=organic&iid=17b31804-8daf-48c3-959f-9f6a7d912e3d.PERGEHRUHXRFPGCP.SEARCH&ppt=None&ppn=None&ssid=fff6fit6k00000001793387314827&qH=a15a221b885e5570&ov_redirect=true&ov_redirect=true\nThe Man Company,Bengaluru,560001,flipkart.com,PERGRHEVHNDPDTSN,THE MAN COMPANY Black EDT & Night EDP Combo | Long-Lasting Fragrance | Party & Date Night Perfume  -  100 ml,299,2048,85,100 ml,true,15 MINS,https://www.flipkart.com/man-company-black-edt-night-edp-combo-long-lasting-fragrance-party-date-perfume-100-ml/p/itm34ebebeb833c7?pid=PERGRHEVHNDPDTSN&lid=LSTPERGRHEVHNDPDTSN7M1ZIX&marketplace=FLIPKART&q=the+man+company+perfume&store=g9b%2F0yh&srno=s_1_6&otracker=search&fm=organic&iid=en_Po-zi8FcAIfcSubMFqlkXiz1xFEDh9cviKHKEg0ChWFQYOF36kZKuxIFsetpHDGegDDzgNi81NIgVlM-j1vZBliz3yi_EUG_bCNlq7KCc5U0pPTsAxQpJtWMLw61cYnj&ppt=None&ppn=None&ssid=fff6fit6k00000001793387314827&qH=a15a221b885e5570&ov_redirect=true&ov_redirect=true\nThe Man Company,Bengaluru,560001,flipkart.com,PERGHE3VZGFGUUFY,THE MAN COMPANY Fire | Long Lasting Perfume for Men Eau de Parfum  -  50 ml,292,749,61,50 ml,true,15 MINS,https://www.flipkart.com/man-company-fire-long-lasting-perfume-men-eau-de-parfum-50-ml/p/itma791f9f712e77?pid=PERGHE3VZGFGUUFY&lid=LSTPERGHE3VZGFGUUFYCVFEWK&marketplace=FLIPKART&q=the+man+company+perfume&store=g9b%2F0yh&srno=s_1_7&otracker=search&fm=organic&iid=17b31804-8daf-48c3-959f-9f6a7d912e3d.PERGHE3VZGFGUUFY.SEARCH&ppt=None&ppn=None&ssid=fff6fit6k00000001793387314827&qH=a15a221b885e5570&ov_redirect=true&ov_redirect=true\nThe Man Company,Bengaluru,560001,zeptonow.com,6f9f51b8-478e-55aa-b065-5076673298c6,The Man Company Men's Perfume | Black,481,2499,81,1 pc (100 ml),true,10 MINS,https://www.zepto.com/pn/the-man-company-men-s-perfume-black/pvid/6ed5d73c-31aa-4533-a84b-4a0b4a6eaa09\nThe Man Company,Bengaluru,560001,zeptonow.com,c4b9eb75-3ca1-50bc-9c65-aacc67f72721,The Man Company Perfume for men - Signature Duo | Office & Party Combo,299,498,40,1 set ( 2 x 20 ml ),true,10 MINS,https://www.zepto.com/pn/the-man-company-perfume-for-men-signature-duo-office-party-combo/pvid/1f5fc88a-4cc0-4284-86d3-249b2c868917\nThe Man Company,Bengaluru,560001,zeptonow.com,0ed9c17a-44f4-5e55-9d0f-b5be0067a86c,Bella Vita Organic Luxury Perfumes Gift Set For Men | Long-Lasting Signature Scents,475,849,44,1 set (4 x 20 ml),true,10 MINS,https://www.zepto.com/pn/bella-vita-organic-luxury-perfumes-gift-set-for-men-long-lasting-signature-scents/pvid/0c14b3fd-e27f-44de-88ee-4e05284923e4\nThe Man Company,Bengaluru,560001,zeptonow.com,02fcfc06-9324-506f-b430-b3fb48c90492,The Man Company Blanc Curation Gift Box for Men,999,1299,23,1 pack (4 pcs),true,10 MINS,https://www.zepto.com/pn/the-man-company-blanc-curation-gift-box-for-men/pvid/f6cba6fe-8190-4950-add2-42ce53481748\nThe Man Company,Bengaluru,560001,zeptonow.com,892f21e5-c036-5735-859d-0b2f2385f8f5,Fraganote Unisex Perfume Experience Set - Sample Pack,823,1299,37,1 set (10 x 2 ml),true,10 MINS,https://www.zepto.com/pn/fraganote-unisex-perfume-experience-set-sample-pack/pvid/18bacb61-ffb4-449b-abf4-dd0f124f283c\nThe Man Company,Bengaluru,560001,zeptonow.com,11a960b4-02d1-51f4-bb47-bfc66ed83236,The Man Company Grooming Gift Set Unforgettable Him,1099,1499,27,1 pack (4 pcs),true,10 MINS,https://www.zepto.com/pn/the-man-company-grooming-gift-set-unforgettable-him/pvid/375dd44a-cf0a-4a40-8a03-99f59cc41253\nThe Man Company,Bengaluru,560001,zeptonow.com,8c32e040-1db4-53f4-8044-28c647edde4a,The Man Company Mens Perfume | Hope,308,449,31,1 pc (50 ml),true,10 MINS,https://www.zepto.com/pn/the-man-company-mens-perfume-hope/pvid/98709cf4-ad7e-44dd-b63a-43cc9b828f4e\nThe Man Company,Bengaluru,560001,zeptonow.com,2d561e94-6e5d-5fe2-95dc-24baaa9ee275,Bella Vita Organic CEO Man Eau De Parfum For Men | Long-Lasting Hints Of Lemon And Sugar,449,899,50,1 pc (100 ml),true,10 MINS,https://www.zepto.com/pn/bella-vita-organic-ceo-man-eau-de-parfum-for-men-long-lasting-hints-of-lemon-and-sugar/pvid/5b569712-5ab4-4772-bbc2-10dfca24c281\nThe Man Company,Bengaluru,560001,amazon.in,B0H9J4KY5V,\"Black Eau De Parfum for Men | 100 ml | Long Lasting Perfume | Premium Men's Fragrance with Intense, Sophisticated Scent, Premium Masculine Fragrance for Date Night, Office & Party | Ideal for Evening, Party & Special Occasions\",424,4.24,0,100 ml,true,\"Wed, 4 Nov\",https://www.amazon.in/dp/B0H9J4KY5V\nThe Man Company,Bengaluru,560001,amazon.in,B0GHQJF56H,\"Premium Perfume Gift Set for Men (4 x 50ml) with Travel Pouch – Black, Hope, Destiny & Sky | Long-Lasting EDP & EDT Fragrances | Luxury Gift Set for Birthday, Anniversary & Valentine's Day\",799,4,0,50ml,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0GHQJF56H\nThe Man Company,Bengaluru,560001,amazon.in,B0F9YD15CC,OUD REGAL Perfume for Man | Long Lasting Bold Oud Perfume | Luxury EDP Fragrance with Saffron & Patchouli | Gift for Him | 100 ml | Anniversary fragrance gift | Valentine Gift Set For Man |,449,4.49,0,100 ml,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0F9YD15CC\nThe Man Company,Bengaluru,560001,amazon.in,B0DHCPKZWG,\"Eau de Toilette Trio Perfume Gift Set , 50ml each - Fire, Blanc, Black | EDP & EDT Perfume for Man | Premium Luxury Long-Lasting Perfume Spray | Valentine Gift For Him | fresh scent for daily office wear | Valentine gift Set for Boyfriend , Husband\",629,209.67,0,50ml,true,\"Thu, 5 Nov\",https://www.amazon.in/dp/B0DHCPKZWG\nThe Man Company,Bengaluru,560001,amazon.in,B0GDGQBYDQ,\"Beast Mode Collection Set with 40% Perfume oil concentration | Long Lasting | Perfume for Man | Gift for Men | Spicy, Wood, Musk and Oud Premium Fragrance for Men | Diwali Gift Hamper\",549,799,31,1 unit,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0GDGQBYDQ\nThe Man Company,Bengaluru,560001,amazon.in,B0CL2C97GY,Fresh Black Edt Perfume For Man - 100Ml | Premium Long-Lasting Fragrance | Perfume Gift for Friend | Anniversary Fragrance Gift | Valentine Gift For Man,474,4.74,0,100Ml,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0CL2C97GY\n";
+
+    function filterRows(mode) {
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const stock = row.getAttribute('data-stock');
+        if (mode === 'all') row.style.display = '';
+        else if (mode === 'oos') row.style.display = stock === 'oos' ? '' : 'none';
+        else if (mode === 'instock') row.style.display = stock === 'instock' ? '' : 'none';
+      });
+    }
+
+    function searchSkus() {
+      const q = document.getElementById('skuSearch').value.toLowerCase();
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const title = row.getAttribute('data-title') || '';
+        const platform = (row.getAttribute('data-platform') || '').toLowerCase();
+        row.style.display = (title.includes(q) || platform.includes(q)) ? '' : 'none';
+      });
+    }
+
+    function downloadCsv() {
+      const blob = new Blob([RAW_CSV], { type: 'text/csv;charset=utf-8;' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'the-man-company-3city-audit.csv';
+      a.click();
+    }
+  </script>
+</body>
+</html>

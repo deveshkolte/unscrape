@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mamaearth — 3-City Quick-Commerce Dark-Store Audit Scorecard | Unscrape Radar</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background-color: #07080d; color: #f3f4f6; font-family: Inter, system-ui, -apple-system, sans-serif; }
+  </style>
+</head>
+<body class="min-h-screen pb-24">
+  <!-- Top Bar -->
+  <header class="border-b border-slate-800 bg-slate-950/90 backdrop-blur sticky top-0 z-20">
+    <div class="max-w-7xl mx-auto px-6 py-3.5 flex items-center justify-between flex-wrap gap-3">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="text-emerald-400 font-black text-lg tracking-tight hover:text-emerald-300">⚡ UNSCRAPE RADAR</a>
+        <span class="text-xs text-slate-500">/</span>
+        <span class="text-sm font-bold text-white">Mamaearth Executive Scorecard</span>
+      </div>
+      <div class="flex items-center gap-2.5 text-xs">
+        <a href="index.html" class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700">← All 56 Brand Audits</a>
+        <button onclick="downloadCsv()" class="px-3.5 py-1.5 rounded-lg bg-emerald-500 text-slate-950 font-bold hover:bg-emerald-400">⬇ Download Raw CSV (40 SKUs)</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-6 pt-8">
+    <!-- Executive Header -->
+    <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 mb-8">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+        <div>
+          <div class="flex items-center gap-2.5 mb-2">
+            <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded bg-slate-800 text-emerald-400">Personal Care &amp; Baby</span>
+            <span class="text-xs text-slate-400 font-mono">Audited: 2026-10-30</span>
+          </div>
+          <h1 class="text-3xl md:text-4xl font-black text-white tracking-tight">Mamaearth — Hyperlocal Dark-Store Audit</h1>
+          <p class="text-slate-400 text-sm mt-1">
+            Live multi-platform inventory & MOP/MRP price variance scan across <strong>Bengaluru (560001)</strong>, <strong>Mumbai (400001)</strong>, and <strong>Delhi (110001)</strong>.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 shrink-0">
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">SKUs Audited</div>
+            <div class="text-2xl font-black text-white mt-1">40</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">OOS Leaks</div>
+            <div class="text-2xl font-black text-emerald-400 mt-1">0</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">Max Markdown</div>
+            <div class="text-2xl font-black text-amber-300 mt-1">70%</div>
+          </div>
+          <div class="border rounded-xl p-3.5 text-center bg-emerald-500/15 text-emerald-400 border-emerald-500/30">
+            <div class="text-[11px] uppercase font-bold opacity-80">Shelf Health</div>
+            <div class="text-2xl font-black mt-1">100%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="bg-emerald-950/30 border border-emerald-500/30 rounded-2xl p-5 mb-8 flex items-center justify-between flex-wrap gap-3">
+      <div>
+        <span class="px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 font-bold text-xs uppercase">✓ 100% In-Stock Snapshot</span>
+        <span class="text-sm text-slate-200 ml-2">All 40 audited dark-store listings across Bengaluru, Mumbai & Delhi were in stock during this scan. Max discount variance: <strong>70% below MRP</strong>.</span>
+      </div>
+    </div>
+
+    <!-- Filter Controls -->
+    <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+      <div class="flex items-center gap-2 text-xs">
+        <button onclick="filterRows('all')" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-semibold">All SKUs (40)</button>
+        <button onclick="filterRows('oos')" class="px-3 py-1.5 rounded-lg bg-rose-500/15 border border-rose-500/30 text-rose-300 hover:bg-rose-500/25 font-semibold">Out-of-Stock Only (0)</button>
+        <button onclick="filterRows('instock')" class="px-3 py-1.5 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 hover:bg-emerald-500/25 font-semibold">In-Stock (40)</button>
+      </div>
+      <div class="flex items-center gap-2">
+        <input id="skuSearch" type="text" oninput="searchSkus()" placeholder="Filter SKU title or platform..." class="bg-slate-900 border border-slate-800 rounded-lg px-3.5 py-1.5 text-xs text-white w-64" />
+      </div>
+    </div>
+
+    <!-- SKU Table -->
+    <div class="bg-slate-900/50 border border-slate-800 rounded-2xl overflow-x-auto">
+      <table class="w-full text-left text-xs">
+        <thead class="bg-slate-950/90 text-slate-400 uppercase border-b border-slate-800">
+          <tr>
+            <th class="px-4 py-3">SKU Title</th>
+            <th class="px-4 py-3">Platform</th>
+            <th class="px-4 py-3">City / Pin</th>
+            <th class="px-4 py-3">Pack Size</th>
+            <th class="px-4 py-3">Selling Price</th>
+            <th class="px-4 py-3">MRP</th>
+            <th class="px-4 py-3">Discount</th>
+            <th class="px-4 py-3">Stock Status</th>
+            <th class="px-4 py-3">ETA</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-800/60">
+          <tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="mamaearth rice face wash 150 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Mamaearth Rice Face Wash 150 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1.49/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹224</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹449</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="mamaearth rice face wash 50 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Mamaearth Rice Face Wash 50 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">2.36/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹118</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹125</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">6% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="mamaearth turmeric &amp; saffron ubtan face wash 150 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Mamaearth Turmeric &amp; Saffron Ubtan Face Wash 150 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1.49/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹224</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹449</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="mamaearth rice face wash with rice water &amp; niacinamide for glass skin - 100 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Mamaearth Rice Face Wash With Rice Water &amp; Niacinamide for Glass Skin - 100 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">2.56/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹256</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹269</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="mamaearth vitamin c &amp; turmeric daily glow face wash 100 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Mamaearth Vitamin C &amp; Turmeric Daily Glow Face Wash 100 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">2.70/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹270</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹285</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="mamaearth ubtan face wash with turmeric &amp; saffron for tan removal 100ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Mamaearth Ubtan Face Wash With Turmeric &amp; Saffron For Tan Removal 100ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">2.56/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹256</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹269</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="mamaearth rice face wash 150 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Mamaearth Rice Face Wash 150 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1.49/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹224</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹449</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="mamaearth rice face wash 50 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Mamaearth Rice Face Wash 50 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">2.36/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹118</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹125</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">6% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="mamaearth turmeric &amp; saffron ubtan face wash 150 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Mamaearth Turmeric &amp; Saffron Ubtan Face Wash 150 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1.49/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹224</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹449</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="mamaearth rice face wash with rice water &amp; niacinamide for glass skin - 100 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Mamaearth Rice Face Wash With Rice Water &amp; Niacinamide for Glass Skin - 100 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">2.56/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹256</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹269</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="mamaearth vitamin c &amp; turmeric daily glow face wash 100 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Mamaearth Vitamin C &amp; Turmeric Daily Glow Face Wash 100 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">2.70/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹270</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹285</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="mamaearth ubtan face wash with turmeric &amp; saffron for tan removal 100ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Mamaearth Ubtan Face Wash With Turmeric &amp; Saffron For Tan Removal 100ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">2.56/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹256</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹269</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="mamaearth rice face wash 150 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Mamaearth Rice Face Wash 150 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1.49/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹224</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹449</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="mamaearth rice face wash 50 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Mamaearth Rice Face Wash 50 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">2.36/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹118</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹125</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">6% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="mamaearth turmeric &amp; saffron ubtan face wash 150 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Mamaearth Turmeric &amp; Saffron Ubtan Face Wash 150 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1.49/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹224</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹449</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="mamaearth rice face wash with rice water &amp; niacinamide for glass skin - 100 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Mamaearth Rice Face Wash With Rice Water &amp; Niacinamide for Glass Skin - 100 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">2.56/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹256</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹269</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="mamaearth vitamin c &amp; turmeric daily glow face wash 100 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Mamaearth Vitamin C &amp; Turmeric Daily Glow Face Wash 100 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">2.70/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹270</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹285</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="mamaearth ubtan face wash with turmeric &amp; saffron for tan removal 100ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Mamaearth Ubtan Face Wash With Turmeric &amp; Saffron For Tan Removal 100ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">2.56/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹256</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹269</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="mamaearth rice face wash with rice water &amp; niacinamide for glass skin | hydrated, even skintone">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Mamaearth Rice Face Wash With Rice Water &amp; Niacinamide For Glass Skin | Hydrated, Even SkinTone</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (100 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹256</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹285</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">10% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="garnier bright complete brightening face wash">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Garnier Bright Complete Brightening Face Wash</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (100 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹190</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹235</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">19% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="mamaearth ubtan face wash with turmeric &amp; saffron for tan removal | skin brightening">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Mamaearth Ubtan Face Wash With Turmeric &amp; Saffron For Tan Removal | Skin Brightening</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (100 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹254</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹285</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">11% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="himalaya natural glow kesar face wash">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Himalaya Natural Glow Kesar Face Wash</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (150 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹167</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹279</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">40% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="mamaearth multani mitti face wash with multani mitti &amp; bulgarian rose">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Mamaearth Multani Mitti Face Wash With Multani Mitti &amp; Bulgarian Rose</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (100 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹256</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹285</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">10% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="foxtale detan glow face wash with papaya enzyme &amp; vitamin c">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Foxtale Detan Glow Face Wash with Papaya Enzyme &amp; Vitamin C</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (100 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹214</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹249</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">14% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="minimalist b12 + oat extract 6.5% gentle cleanser face wash">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Minimalist B12 + Oat Extract 6.5% Gentle Cleanser Face Wash</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (120 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹284</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹299</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="garnier men turbo bright anti-pollution double action face wash">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Garnier Men Turbo Bright Anti-Pollution Double Action Face Wash</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (100 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹240</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹319</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">25% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="minimalist salicylic acid + lha 02% face cleanser">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Minimalist Salicylic Acid + LHA 02% Face Cleanser</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">100 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹270</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹299</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">10% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="mamaearth rice water &amp; niacinamide face wash">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Mamaearth Rice Water &amp; Niacinamide Face Wash</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">100 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹256</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹285</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">10% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="mamaearth rice water &amp; niacinamide face wash - pack of 2">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Mamaearth Rice Water &amp; Niacinamide Face Wash - Pack of 2</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">2 x 100 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹501</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹570</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">12% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="mamaearth vitamin c face wash">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Mamaearth Vitamin C Face Wash</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">50 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹120</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹125</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">4% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="mamaearth vitamin c face wash - pack of 2">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Mamaearth Vitamin C Face Wash - Pack of 2</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">2 x 50 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹225</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹250</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">10% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="mamaearth tea tree pimple control face wash 100 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Mamaearth Tea Tree Pimple Control Face Wash 100 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">100 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹251</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹285</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">12% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="mamaearth tea tree pimple control face wash 100 ml - pack of 2">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Mamaearth Tea Tree Pimple Control Face Wash 100 ml - Pack of 2</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">2 x 100 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹484</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹570</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="cerave blemish control cleanser">
+        <td class="px-4 py-3 font-medium text-white max-w-md">CeraVe Blemish Control Cleanser</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">88 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹538</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹599</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">10% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="smart and handsome instant brightening and freshness face wash">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Smart and Handsome Instant Brightening and Freshness Face Wash</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹105</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹349</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">70% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="pond's bright miracle detox facewash with 10x power of charcoal face wash">
+        <td class="px-4 py-3 font-medium text-white max-w-md">POND's Bright Miracle Detox Facewash with 10X Power of Charcoal Face Wash</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹232</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹465</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="mamaearth rice water &amp; niacinamide  face wash">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Mamaearth Rice Water &amp; Niacinamide  Face Wash</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹238</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹285</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">16% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="mamaearth ubtan natural glow  with turmeric &amp; saffron for tan removal removes tan face wash">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Mamaearth Ubtan Natural Glow  with Turmeric &amp; Saffron for Tan Removal Removes Tan Face Wash</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹383</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹549</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">30% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="mamaearth tea tree natural  for acne &amp; pimples removal with neem face wash">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Mamaearth Tea Tree Natural  for Acne &amp; Pimples Removal with Neem Face Wash</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹239</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹285</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">16% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="cetaphil gentle skin cleanser face wash">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Cetaphil Gentle Skin Cleanser Face Wash</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹663</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹799</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">17% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- Sticky CTA Footer -->
+  <div class="fixed bottom-0 inset-x-0 bg-slate-950/95 border-t border-emerald-500/30 backdrop-blur px-6 py-3.5 z-30">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+      <div class="text-slate-200">
+        <span class="text-emerald-400 font-bold">⚡ Unscrape Radar:</span> Want real-time Slack/WhatsApp/Telegram alerts within 15 mins whenever <strong>Mamaearth</strong> SKUs go Out-of-Stock across 20 BLR/MUM/DEL dark-store pin codes?
+      </div>
+      <div class="flex items-center gap-2.5 shrink-0">
+        <a href="https://github.com/deveshkolte/unscrape" target="_blank" class="px-4 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold">Unlock Automated 20-Pin-Code Monitor →</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const RAW_CSV = "brand,city,pincode,platform,skuId,title,sellingPriceInr,mrpInr,discountPercent,unit,inStock,deliveryEta,url\nMamaearth,Bengaluru,560001,bigbasket.com/jiomart,7549121,Mamaearth Rice Face Wash 150 ml,224,449,50,1.49/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/mamaearth-rice-face-wash-150-ml-mffndo-7549121/7549121\nMamaearth,Bengaluru,560001,bigbasket.com/jiomart,7551800,Mamaearth Rice Face Wash 50 ml,118,125,6,2.36/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/mamaearth-rice-face-wash-50-ml-mffneu-7551800/7551800\nMamaearth,Bengaluru,560001,bigbasket.com/jiomart,7538826,Mamaearth Turmeric & Saffron Ubtan Face Wash 150 ml,224,449,50,1.49/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/mamaearth-turmeric-saffron-ubtan-face-wash-150-ml-mffn8c-7538826/7538826\nMamaearth,Bengaluru,560001,bigbasket.com/jiomart,49832831,Mamaearth Rice Face Wash With Rice Water & Niacinamide for Glass Skin - 100 ml,256,269,5,2.56/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/mamaearth-rice-face-wash-with-rice-water-niacinamide-for-glass-skin-100-ml-mj6zyk-49832831/49832831\nMamaearth,Bengaluru,560001,bigbasket.com/jiomart,7547670,Mamaearth Vitamin C & Turmeric Daily Glow Face Wash 100 ml,270,285,5,2.70/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/mamaearth-vitamin-c-turmeric-daily-glow-face-wash-100-ml-mffncr-7547670/7547670\nMamaearth,Bengaluru,560001,bigbasket.com/jiomart,49834712,Mamaearth Ubtan Face Wash With Turmeric & Saffron For Tan Removal 100ml,256,269,5,2.56/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/mamaearth-ubtan-face-wash-with-turmeric-saffron-for-tan-removal-100ml-mj6zyl-49834712/49834712\nMamaearth,Mumbai,400001,bigbasket.com/jiomart,7549121,Mamaearth Rice Face Wash 150 ml,224,449,50,1.49/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/mamaearth-rice-face-wash-150-ml-mffndo-7549121/7549121\nMamaearth,Mumbai,400001,bigbasket.com/jiomart,7551800,Mamaearth Rice Face Wash 50 ml,118,125,6,2.36/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/mamaearth-rice-face-wash-50-ml-mffneu-7551800/7551800\nMamaearth,Mumbai,400001,bigbasket.com/jiomart,7538826,Mamaearth Turmeric & Saffron Ubtan Face Wash 150 ml,224,449,50,1.49/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/mamaearth-turmeric-saffron-ubtan-face-wash-150-ml-mffn8c-7538826/7538826\nMamaearth,Mumbai,400001,bigbasket.com/jiomart,49832831,Mamaearth Rice Face Wash With Rice Water & Niacinamide for Glass Skin - 100 ml,256,269,5,2.56/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/mamaearth-rice-face-wash-with-rice-water-niacinamide-for-glass-skin-100-ml-mj6zyk-49832831/49832831\nMamaearth,Mumbai,400001,bigbasket.com/jiomart,7547670,Mamaearth Vitamin C & Turmeric Daily Glow Face Wash 100 ml,270,285,5,2.70/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/mamaearth-vitamin-c-turmeric-daily-glow-face-wash-100-ml-mffncr-7547670/7547670\nMamaearth,Mumbai,400001,bigbasket.com/jiomart,49834712,Mamaearth Ubtan Face Wash With Turmeric & Saffron For Tan Removal 100ml,256,269,5,2.56/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/mamaearth-ubtan-face-wash-with-turmeric-saffron-for-tan-removal-100ml-mj6zyl-49834712/49834712\nMamaearth,Delhi,110001,bigbasket.com/jiomart,7549121,Mamaearth Rice Face Wash 150 ml,224,449,50,1.49/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/mamaearth-rice-face-wash-150-ml-mffndo-7549121/7549121\nMamaearth,Delhi,110001,bigbasket.com/jiomart,7551800,Mamaearth Rice Face Wash 50 ml,118,125,6,2.36/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/mamaearth-rice-face-wash-50-ml-mffneu-7551800/7551800\nMamaearth,Delhi,110001,bigbasket.com/jiomart,7538826,Mamaearth Turmeric & Saffron Ubtan Face Wash 150 ml,224,449,50,1.49/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/mamaearth-turmeric-saffron-ubtan-face-wash-150-ml-mffn8c-7538826/7538826\nMamaearth,Delhi,110001,bigbasket.com/jiomart,49832831,Mamaearth Rice Face Wash With Rice Water & Niacinamide for Glass Skin - 100 ml,256,269,5,2.56/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/mamaearth-rice-face-wash-with-rice-water-niacinamide-for-glass-skin-100-ml-mj6zyk-49832831/49832831\nMamaearth,Delhi,110001,bigbasket.com/jiomart,7547670,Mamaearth Vitamin C & Turmeric Daily Glow Face Wash 100 ml,270,285,5,2.70/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/mamaearth-vitamin-c-turmeric-daily-glow-face-wash-100-ml-mffncr-7547670/7547670\nMamaearth,Delhi,110001,bigbasket.com/jiomart,49834712,Mamaearth Ubtan Face Wash With Turmeric & Saffron For Tan Removal 100ml,256,269,5,2.56/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/mamaearth-ubtan-face-wash-with-turmeric-saffron-for-tan-removal-100ml-mj6zyl-49834712/49834712\nMamaearth,Bengaluru,560001,zeptonow.com,f806df95-a6d8-5801-b050-09eff0f487f4,\"Mamaearth Rice Face Wash With Rice Water & Niacinamide For Glass Skin | Hydrated, Even SkinTone\",256,285,10,1 pc (100 ml),true,10 MINS,https://www.zepto.com/pn/mamaearth-rice-face-wash-with-rice-water-niacinamide-for-glass-skin-hydrated-even-skintone/pvid/79193eee-ca2b-4aa1-97d9-55154bc089e6\nMamaearth,Bengaluru,560001,zeptonow.com,9e28c9e4-4b70-5096-b34b-e93445792ead,Garnier Bright Complete Brightening Face Wash,190,235,19,1 pc (100 g),true,10 MINS,https://www.zepto.com/pn/garnier-bright-complete-brightening-face-wash/pvid/d92941bc-4e16-449e-8f8e-675cbd17badd\nMamaearth,Bengaluru,560001,zeptonow.com,73fc2dac-b02e-5797-a397-f43acf07e1ab,Mamaearth Ubtan Face Wash With Turmeric & Saffron For Tan Removal | Skin Brightening,254,285,11,1 pc (100 ml),true,10 MINS,https://www.zepto.com/pn/mamaearth-ubtan-face-wash-with-turmeric-saffron-for-tan-removal-skin-brightening/pvid/586b5db7-8fbc-4046-a50b-92ba2db0789f\nMamaearth,Bengaluru,560001,zeptonow.com,0e97738f-5390-5b68-8238-7453ee232723,Himalaya Natural Glow Kesar Face Wash,167,279,40,1 pc (150 ml),true,10 MINS,https://www.zepto.com/pn/himalaya-natural-glow-kesar-face-wash/pvid/68d5eacf-33ae-459b-a6c1-310f1fd1c4a4\nMamaearth,Bengaluru,560001,zeptonow.com,100aeef5-63ef-5db7-8962-955f51f75009,Mamaearth Multani Mitti Face Wash With Multani Mitti & Bulgarian Rose,256,285,10,1 pc (100 ml),true,10 MINS,https://www.zepto.com/pn/mamaearth-multani-mitti-face-wash-with-multani-mitti-bulgarian-rose/pvid/c61a108a-b750-40c1-b1a3-8915b3252b57\nMamaearth,Bengaluru,560001,zeptonow.com,0cc1243f-0c4b-5dda-906c-44ae4e8307e8,Foxtale Detan Glow Face Wash with Papaya Enzyme & Vitamin C,214,249,14,1 pc (100 ml),true,10 MINS,https://www.zepto.com/pn/foxtale-detan-glow-face-wash-with-papaya-enzyme-vitamin-c/pvid/892af132-08b8-4e6a-a750-9083b872e4e2\nMamaearth,Bengaluru,560001,zeptonow.com,c038bd4f-0d2f-59fb-953d-530d5c760a03,Minimalist B12 + Oat Extract 6.5% Gentle Cleanser Face Wash,284,299,5,1 pc (120 ml),true,10 MINS,https://www.zepto.com/pn/minimalist-b12-oat-extract-6-5-gentle-cleanser-face-wash/pvid/50122af8-1011-4e84-b272-a175ae4f0cd7\nMamaearth,Bengaluru,560001,zeptonow.com,936f5818-058e-56b1-b37f-89e67c2bfa35,Garnier Men Turbo Bright Anti-Pollution Double Action Face Wash,240,319,25,1 pc (100 g),true,10 MINS,https://www.zepto.com/pn/garnier-men-turbo-bright-anti-pollution-double-action-face-wash/pvid/3fa56b51-1500-4803-89c9-82772e89cfa9\nMamaearth,Bengaluru,560001,blinkit.com,500359,Minimalist Salicylic Acid + LHA 02% Face Cleanser,270,299,10,100 ml,true,10 MINS,https://blinkit.com/prn/minimalist-salicylic-acid-lha-02-face-cleanser/prid/500359\nMamaearth,Bengaluru,560001,blinkit.com,507262,Mamaearth Rice Water & Niacinamide Face Wash,256,285,10,100 ml,true,10 MINS,https://blinkit.com/prn/mamaearth-rice-water-niacinamide-face-wash/prid/507262\nMamaearth,Bengaluru,560001,blinkit.com,511889,Mamaearth Rice Water & Niacinamide Face Wash - Pack of 2,501,570,12,2 x 100 ml,true,10 MINS,https://blinkit.com/prn/mamaearth-rice-water-niacinamide-face-wash-pack-of-2/prid/511889\nMamaearth,Bengaluru,560001,blinkit.com,493520,Mamaearth Vitamin C Face Wash,120,125,4,50 ml,true,10 MINS,https://blinkit.com/prn/mamaearth-vitamin-c-face-wash/prid/493520\nMamaearth,Bengaluru,560001,blinkit.com,501535,Mamaearth Vitamin C Face Wash - Pack of 2,225,250,10,2 x 50 ml,true,10 MINS,https://blinkit.com/prn/mamaearth-vitamin-c-face-wash-pack-of-2/prid/501535\nMamaearth,Bengaluru,560001,blinkit.com,424116,Mamaearth Tea Tree Pimple Control Face Wash 100 ml,251,285,12,100 ml,true,10 MINS,https://blinkit.com/prn/mamaearth-tea-tree-pimple-control-face-wash-100-ml/prid/424116\nMamaearth,Bengaluru,560001,blinkit.com,428673,Mamaearth Tea Tree Pimple Control Face Wash 100 ml - Pack of 2,484,570,15,2 x 100 ml,true,10 MINS,https://blinkit.com/prn/mamaearth-tea-tree-pimple-control-face-wash-100-ml-pack-of-2/prid/428673\nMamaearth,Bengaluru,560001,blinkit.com,755320,CeraVe Blemish Control Cleanser,538,599,10,88 ml,true,10 MINS,https://blinkit.com/prn/cerave-blemish-control-cleanser/prid/755320\nMamaearth,Bengaluru,560001,flipkart.com,FCWGEH7UR7EPG2PP,Smart and Handsome Instant Brightening and Freshness Face Wash,105,349,70,1 unit,true,15 MINS,https://www.flipkart.com/smart-handsome-instant-brightening-freshness-face-wash/p/itmaa3040c621a97?pid=FCWGEH7UR7EPG2PP&lid=LSTFCWGEH7UR7EPG2PPKUIXCO&marketplace=FLIPKART&q=mamaearth+face+wash&store=g9b%2Fema%2F5la&srno=s_1_1&otracker=search&fm=organic&iid=en_Xhqx-MYzphgRhbm1vRAqBNzrvNpRjcD8ELev_ampambtVV1noFiGx_68xdPdX0bKNu3tZvorti3OzU4tayPnhCAQAcsxGAfR-BZcRHK0d2GPRSvRlkBhEhC4LNTG__0I&ppt=None&ppn=None&ssid=9cq9dnrxbk0000001793387211652&qH=a3ae089e61c43870&ov_redirect=true&ov_redirect=true\nMamaearth,Bengaluru,560001,flipkart.com,FCWFY8KFHFAJHNHA,POND's Bright Miracle Detox Facewash with 10X Power of Charcoal Face Wash,232,465,50,1 unit,true,15 MINS,https://www.flipkart.com/pond-s-bright-miracle-detox-facewash-10x-power-charcoal-face-wash/p/itm924c9a7960f31?pid=FCWFY8KFHFAJHNHA&lid=LSTFCWFY8KFHFAJHNHAX2YCT8&marketplace=FLIPKART&q=mamaearth+face+wash&store=g9b%2Fema%2F5la&srno=s_1_2&otracker=search&fm=organic&iid=en_Xhqx-MYzphgRhbm1vRAqBNzrvNpRjcD8ELev_ampama8E1zh8QDSbE5tqGEaZWTX91XMSoayJx83USphOrLNomSJoXvpEU1v-TqO5NICPiqPRSvRlkBhEhC4LNTG__0I&ppt=None&ppn=None&ssid=9cq9dnrxbk0000001793387211652&qH=a3ae089e61c43870&ov_redirect=true&ov_redirect=true\nMamaearth,Bengaluru,560001,flipkart.com,FCWGEMRZDJEESNZY,Mamaearth Rice Water & Niacinamide  Face Wash,238,285,16,1 unit,true,15 MINS,https://www.flipkart.com/mamaearth-rice-water-niacinamide-face-wash/p/itm261cd806094b2?pid=FCWGEMRZDJEESNZY&lid=LSTFCWGEMRZDJEESNZYYCFYTU&marketplace=FLIPKART&q=mamaearth+face+wash&store=g9b%2Fema%2F5la&spotlightTagId=default_BestsellerId_g9b%2Fema%2F5la&srno=s_1_3&otracker=search&fm=organic&iid=32a084c3-ef53-41d9-a54d-08de0695e479.FCWGEMRZDJEESNZY.SEARCH&ppt=sp&ppn=sp&ssid=9cq9dnrxbk0000001793387211652&qH=a3ae089e61c43870&ov_redirect=true&ov_redirect=true\nMamaearth,Bengaluru,560001,flipkart.com,FCWHFUX9XC5B9GFF,Mamaearth Ubtan Natural Glow  with Turmeric & Saffron for Tan Removal Removes Tan Face Wash,383,549,30,1 unit,true,15 MINS,https://www.flipkart.com/mamaearth-ubtan-natural-glow-turmeric-saffron-tan-removal-removes-face-wash/p/itmf2666f6247700?pid=FCWHFUX9XC5B9GFF&lid=LSTFCWHFUX9XC5B9GFFIEVULJ&marketplace=FLIPKART&q=mamaearth+face+wash&store=g9b%2Fema%2F5la&srno=s_1_4&otracker=search&fm=organic&iid=32a084c3-ef53-41d9-a54d-08de0695e479.FCWHFUX9XC5B9GFF.SEARCH&ppt=None&ppn=None&ssid=9cq9dnrxbk0000001793387211652&qH=a3ae089e61c43870&ov_redirect=true&ov_redirect=true\nMamaearth,Bengaluru,560001,flipkart.com,FCWF7DWUZJNFDFHD,Mamaearth Tea Tree Natural  for Acne & Pimples Removal with Neem Face Wash,239,285,16,1 unit,true,15 MINS,https://www.flipkart.com/mamaearth-tea-tree-natural-acne-pimples-removal-neem-face-wash/p/itm6569fa6f05849?pid=FCWF7DWUZJNFDFHD&lid=LSTFCWF7DWUZJNFDFHD4LSGOQ&marketplace=FLIPKART&q=mamaearth+face+wash&store=g9b%2Fema%2F5la&srno=s_1_5&otracker=search&fm=organic&iid=32a084c3-ef53-41d9-a54d-08de0695e479.FCWF7DWUZJNFDFHD.SEARCH&ppt=None&ppn=None&ssid=9cq9dnrxbk0000001793387211652&qH=a3ae089e61c43870&ov_redirect=true&ov_redirect=true\nMamaearth,Bengaluru,560001,flipkart.com,CNRENGGBDYD6GYY5,Cetaphil Gentle Skin Cleanser Face Wash,663,799,17,1 unit,true,15 MINS,https://www.flipkart.com/cetaphil-gentle-skin-cleanser-face-wash/p/itmfggzf7nyzgpkz?pid=CNRENGGBDYD6GYY5&lid=LSTCNRENGGBDYD6GYY5MJ5FMB&marketplace=FLIPKART&q=mamaearth+face+wash&store=g9b%2Fema%2F5la&srno=s_1_6&otracker=search&fm=organic&iid=en_Xhqx-MYzphgRhbm1vRAqBNzrvNpRjcD8ELev_ampama9DVifUd18T2P9PZoLWlfh5Blw8RZ4xGrLXtMQ0eANaVqmlRF1ynHRlUiIcf3X61yRiZjm1O5ucrWjL5ujfbXF&ppt=None&ppn=None&ssid=9cq9dnrxbk0000001793387211652&qH=a3ae089e61c43870&ov_redirect=true&ov_redirect=true\n";
+
+    function filterRows(mode) {
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const stock = row.getAttribute('data-stock');
+        if (mode === 'all') row.style.display = '';
+        else if (mode === 'oos') row.style.display = stock === 'oos' ? '' : 'none';
+        else if (mode === 'instock') row.style.display = stock === 'instock' ? '' : 'none';
+      });
+    }
+
+    function searchSkus() {
+      const q = document.getElementById('skuSearch').value.toLowerCase();
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const title = row.getAttribute('data-title') || '';
+        const platform = (row.getAttribute('data-platform') || '').toLowerCase();
+        row.style.display = (title.includes(q) || platform.includes(q)) ? '' : 'none';
+      });
+    }
+
+    function downloadCsv() {
+      const blob = new Blob([RAW_CSV], { type: 'text/csv;charset=utf-8;' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'mamaearth-3city-audit.csv';
+      a.click();
+    }
+  </script>
+</body>
+</html>

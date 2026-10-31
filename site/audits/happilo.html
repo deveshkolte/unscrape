@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happilo — 3-City Quick-Commerce Dark-Store Audit Scorecard | Unscrape Radar</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background-color: #07080d; color: #f3f4f6; font-family: Inter, system-ui, -apple-system, sans-serif; }
+  </style>
+</head>
+<body class="min-h-screen pb-24">
+  <!-- Top Bar -->
+  <header class="border-b border-slate-800 bg-slate-950/90 backdrop-blur sticky top-0 z-20">
+    <div class="max-w-7xl mx-auto px-6 py-3.5 flex items-center justify-between flex-wrap gap-3">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="text-emerald-400 font-black text-lg tracking-tight hover:text-emerald-300">⚡ UNSCRAPE RADAR</a>
+        <span class="text-xs text-slate-500">/</span>
+        <span class="text-sm font-bold text-white">Happilo Executive Scorecard</span>
+      </div>
+      <div class="flex items-center gap-2.5 text-xs">
+        <a href="index.html" class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700">← All 56 Brand Audits</a>
+        <button onclick="downloadCsv()" class="px-3.5 py-1.5 rounded-lg bg-emerald-500 text-slate-950 font-bold hover:bg-emerald-400">⬇ Download Raw CSV (46 SKUs)</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-6 pt-8">
+    <!-- Executive Header -->
+    <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 mb-8">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+        <div>
+          <div class="flex items-center gap-2.5 mb-2">
+            <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded bg-slate-800 text-emerald-400">Premium Dry Fruits</span>
+            <span class="text-xs text-slate-400 font-mono">Audited: 2026-10-30</span>
+          </div>
+          <h1 class="text-3xl md:text-4xl font-black text-white tracking-tight">Happilo — Hyperlocal Dark-Store Audit</h1>
+          <p class="text-slate-400 text-sm mt-1">
+            Live multi-platform inventory & MOP/MRP price variance scan across <strong>Bengaluru (560001)</strong>, <strong>Mumbai (400001)</strong>, and <strong>Delhi (110001)</strong>.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 shrink-0">
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">SKUs Audited</div>
+            <div class="text-2xl font-black text-white mt-1">46</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">OOS Leaks</div>
+            <div class="text-2xl font-black text-emerald-400 mt-1">0</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">Max Markdown</div>
+            <div class="text-2xl font-black text-amber-300 mt-1">48%</div>
+          </div>
+          <div class="border rounded-xl p-3.5 text-center bg-emerald-500/15 text-emerald-400 border-emerald-500/30">
+            <div class="text-[11px] uppercase font-bold opacity-80">Shelf Health</div>
+            <div class="text-2xl font-black mt-1">100%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="bg-emerald-950/30 border border-emerald-500/30 rounded-2xl p-5 mb-8 flex items-center justify-between flex-wrap gap-3">
+      <div>
+        <span class="px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 font-bold text-xs uppercase">✓ 100% In-Stock Snapshot</span>
+        <span class="text-sm text-slate-200 ml-2">All 46 audited dark-store listings across Bengaluru, Mumbai & Delhi were in stock during this scan. Max discount variance: <strong>48% below MRP</strong>.</span>
+      </div>
+    </div>
+
+    <!-- Filter Controls -->
+    <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+      <div class="flex items-center gap-2 text-xs">
+        <button onclick="filterRows('all')" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-semibold">All SKUs (46)</button>
+        <button onclick="filterRows('oos')" class="px-3 py-1.5 rounded-lg bg-rose-500/15 border border-rose-500/30 text-rose-300 hover:bg-rose-500/25 font-semibold">Out-of-Stock Only (0)</button>
+        <button onclick="filterRows('instock')" class="px-3 py-1.5 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 hover:bg-emerald-500/25 font-semibold">In-Stock (46)</button>
+      </div>
+      <div class="flex items-center gap-2">
+        <input id="skuSearch" type="text" oninput="searchSkus()" placeholder="Filter SKU title or platform..." class="bg-slate-900 border border-slate-800 rounded-lg px-3.5 py-1.5 text-xs text-white w-64" />
+      </div>
+    </div>
+
+    <!-- SKU Table -->
+    <div class="bg-slate-900/50 border border-slate-800 rounded-2xl overflow-x-auto">
+      <table class="w-full text-left text-xs">
+        <thead class="bg-slate-950/90 text-slate-400 uppercase border-b border-slate-800">
+          <tr>
+            <th class="px-4 py-3">SKU Title</th>
+            <th class="px-4 py-3">Platform</th>
+            <th class="px-4 py-3">City / Pin</th>
+            <th class="px-4 py-3">Pack Size</th>
+            <th class="px-4 py-3">Selling Price</th>
+            <th class="px-4 py-3">MRP</th>
+            <th class="px-4 py-3">Discount</th>
+            <th class="px-4 py-3">Stock Status</th>
+            <th class="px-4 py-3">ETA</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-800/60">
+          <tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="happi harvest premium california almonds &amp; pine nut combo pack 200g + 100g | crunchy ready-to-eat dry fruits &amp; healthy nut snack pack of 2">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Happi Harvest Premium California Almonds &amp; Pine Nut Combo Pack 200g + 100g | Crunchy Ready-to-Eat Dry Fruits &amp; Healthy Nut Snack Pack of 2</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1042</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1398</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">25% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="happi harvest premium california almonds &amp; walnut kernels combo pack 200g each | healthy ready-to-eat dry fruits &amp; nut snack pack of 2">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Happi Harvest Premium California Almonds &amp; Walnut Kernels Combo Pack 200g Each | Healthy Ready-to-Eat Dry Fruits &amp; Nut Snack Pack of 2</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹635</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹898</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">29% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="happi harvest premium california almonds &amp; green raisins combo pack 200g + 250g | sweet &amp; crunchy ready-to-eat dry fruits pack of 2">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Happi Harvest Premium California Almonds &amp; Green Raisins Combo Pack 200g + 250g | Sweet &amp; Crunchy Ready-to-Eat Dry Fruits Pack of 2</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹491</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹798</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">38% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="happi harvest premium california almonds &amp; afghani anjeer combo pack 200g each | healthy ready-to-eat dry fruits &amp; nut snack pack of 2">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Happi Harvest Premium California Almonds &amp; Afghani Anjeer Combo Pack 200g Each | Healthy Ready-to-Eat Dry Fruits &amp; Nut Snack Pack of 2</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹691</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹898</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">23% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="happi harvest premium california almonds &amp; phool makhana combo pack 200g each | crunchy roasted fox nuts &amp; healthy snack pack of 2">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Happi Harvest Premium California Almonds &amp; Phool Makhana Combo Pack 200g Each | Crunchy Roasted Fox Nuts &amp; Healthy Snack Pack of 2</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹658</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹998</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">34% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="happi harvest premium california almonds &amp; black dates combo pack 200g + 250g | healthy ready-to-eat dry fruits snack pack of 2">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Happi Harvest Premium California Almonds &amp; Black Dates Combo Pack 200g + 250g | Healthy Ready-to-Eat Dry Fruits Snack Pack of 2</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹548</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹798</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">31% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="happi harvest premium california almonds &amp; pine nut combo pack 200g + 100g | crunchy ready-to-eat dry fruits &amp; healthy nut snack pack of 2">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Happi Harvest Premium California Almonds &amp; Pine Nut Combo Pack 200g + 100g | Crunchy Ready-to-Eat Dry Fruits &amp; Healthy Nut Snack Pack of 2</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1042</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1398</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">25% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="happi harvest premium california almonds &amp; walnut kernels combo pack 200g each | healthy ready-to-eat dry fruits &amp; nut snack pack of 2">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Happi Harvest Premium California Almonds &amp; Walnut Kernels Combo Pack 200g Each | Healthy Ready-to-Eat Dry Fruits &amp; Nut Snack Pack of 2</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹635</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹898</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">29% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="happi harvest premium california almonds &amp; green raisins combo pack 200g + 250g | sweet &amp; crunchy ready-to-eat dry fruits pack of 2">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Happi Harvest Premium California Almonds &amp; Green Raisins Combo Pack 200g + 250g | Sweet &amp; Crunchy Ready-to-Eat Dry Fruits Pack of 2</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹491</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹798</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">38% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="happi harvest premium california almonds &amp; afghani anjeer combo pack 200g each | healthy ready-to-eat dry fruits &amp; nut snack pack of 2">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Happi Harvest Premium California Almonds &amp; Afghani Anjeer Combo Pack 200g Each | Healthy Ready-to-Eat Dry Fruits &amp; Nut Snack Pack of 2</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹691</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹898</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">23% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="happi harvest premium california almonds &amp; phool makhana combo pack 200g each | crunchy roasted fox nuts &amp; healthy snack pack of 2">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Happi Harvest Premium California Almonds &amp; Phool Makhana Combo Pack 200g Each | Crunchy Roasted Fox Nuts &amp; Healthy Snack Pack of 2</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹658</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹998</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">34% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="happi harvest premium california almonds &amp; black dates combo pack 200g + 250g | healthy ready-to-eat dry fruits snack pack of 2">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Happi Harvest Premium California Almonds &amp; Black Dates Combo Pack 200g + 250g | Healthy Ready-to-Eat Dry Fruits Snack Pack of 2</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹548</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹798</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">31% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="happi harvest premium california almonds &amp; pine nut combo pack 200g + 100g | crunchy ready-to-eat dry fruits &amp; healthy nut snack pack of 2">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Happi Harvest Premium California Almonds &amp; Pine Nut Combo Pack 200g + 100g | Crunchy Ready-to-Eat Dry Fruits &amp; Healthy Nut Snack Pack of 2</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1042</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1398</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">25% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="happi harvest premium california almonds &amp; walnut kernels combo pack 200g each | healthy ready-to-eat dry fruits &amp; nut snack pack of 2">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Happi Harvest Premium California Almonds &amp; Walnut Kernels Combo Pack 200g Each | Healthy Ready-to-Eat Dry Fruits &amp; Nut Snack Pack of 2</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹635</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹898</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">29% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="happi harvest premium california almonds &amp; green raisins combo pack 200g + 250g | sweet &amp; crunchy ready-to-eat dry fruits pack of 2">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Happi Harvest Premium California Almonds &amp; Green Raisins Combo Pack 200g + 250g | Sweet &amp; Crunchy Ready-to-Eat Dry Fruits Pack of 2</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹491</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹798</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">38% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="happi harvest premium california almonds &amp; afghani anjeer combo pack 200g each | healthy ready-to-eat dry fruits &amp; nut snack pack of 2">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Happi Harvest Premium California Almonds &amp; Afghani Anjeer Combo Pack 200g Each | Healthy Ready-to-Eat Dry Fruits &amp; Nut Snack Pack of 2</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹691</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹898</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">23% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="happi harvest premium california almonds &amp; phool makhana combo pack 200g each | crunchy roasted fox nuts &amp; healthy snack pack of 2">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Happi Harvest Premium California Almonds &amp; Phool Makhana Combo Pack 200g Each | Crunchy Roasted Fox Nuts &amp; Healthy Snack Pack of 2</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹658</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹998</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">34% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="happi harvest premium california almonds &amp; black dates combo pack 200g + 250g | healthy ready-to-eat dry fruits snack pack of 2">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Happi Harvest Premium California Almonds &amp; Black Dates Combo Pack 200g + 250g | Healthy Ready-to-Eat Dry Fruits Snack Pack of 2</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹548</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹798</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">31% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="tata sampann pure california almonds (badami)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Tata Sampann Pure California Almonds (Badami)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">500 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹626</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹830</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">25% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="happilo premium natural californian almonds (badami)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Happilo Premium Natural Californian Almonds (Badami)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">200 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹302</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹365</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">17% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="happilo californian almonds">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Happilo Californian Almonds</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">450 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹582</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹750</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">22% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="happilo californian roasted &amp; salted flavoured almonds (badami)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Happilo Californian Roasted &amp; Salted Flavoured Almonds (Badami)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">200 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹370</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹395</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">6% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="tata sampann california almonds (badami)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Tata Sampann California Almonds (Badami)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">200 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹350</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹390</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">10% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="happilo premium roasted &amp; salted californian flavoured almonds (badami)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Happilo Premium Roasted &amp; Salted Californian Flavoured Almonds (Badami)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">35 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹70</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹75</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">7% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="happilo choco nuts flavoured almonds">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Happilo Choco Nuts Flavoured Almonds</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">45 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹84</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹99</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="happilo 100% natural premium californian almonds (badami)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Happilo 100% Natural Premium Californian Almonds (Badami)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">900 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1102</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1650</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">33% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="true elements california almonds, premium dryfruits badam almonds">
+        <td class="px-4 py-3 font-medium text-white max-w-md">True Elements California Almonds, Premium Dryfruits Badam Almonds</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1030</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1359</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">24% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="lila dry fruits almond(100gm), cashew (100gm), walnut (100gm) &amp; figs(100 gm) combo almonds, cashews, walnuts, figs">
+        <td class="px-4 py-3 font-medium text-white max-w-md">lila dry fruits Almond(100gm), Cashew (100gm), Walnut (100gm) &amp; Figs(100 gm) Combo Almonds, Cashews, Walnuts, Figs</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">100gm</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹488</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹873</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">44% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="happilo natural premium californian almonds">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Happilo Natural Premium Californian Almonds</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1072</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1650</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">35% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="happilo essentials californian popular almonds">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Happilo Essentials Californian Popular Almonds</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹884</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1450</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">39% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="happilo premium naturals californian almonds">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Happilo Premium Naturals Californian Almonds</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹365</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">-</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="sainik's dry fruit mall start ur day&quot;traditional way california almonds \ amercian badam almonds">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Sainik's Dry Fruit Mall Start UR Day&quot;Traditional Way California Almonds \ Amercian Badam Almonds</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹336</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹649</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">48% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="happilo premium healthy nutmix | almonds, cashews, green raisins, pista, walnuts, black raisin">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Happilo Premium Healthy Nutmix | Almonds, Cashews, Green Raisins, Pista, Walnuts, Black Raisin</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (35 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹69</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹80</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">14% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="happilo premium california almonds | badam giri | dry fruits">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Happilo Premium California Almonds | Badam Giri | Dry Fruits</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (450 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹582</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹750</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">22% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="happilo popular california almonds | badam giri | dry fruits">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Happilo Popular California Almonds | Badam Giri | Dry Fruits</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (400 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹488</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹650</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">25% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="happilo premium california almonds | badam giri | dry fruits">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Happilo Premium California Almonds | Badam Giri | Dry Fruits</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (200 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹302</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹365</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">17% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="happilo premium californian roasted and salted almonds">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Happilo Premium Californian Roasted And Salted Almonds</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (200 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹370</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹395</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">6% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="daily good almond - badam | california">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Daily Good Almond - Badam | California</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (200 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹235</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹235</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="happilo premium whole cashew nuts | whole kaju | dry fruits">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Happilo Premium Whole Cashew Nuts | Whole Kaju | Dry Fruits</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (450 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹501</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹650</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">23% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="happilo premium whole cashew nuts | whole kaju | dry fruits">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Happilo Premium Whole Cashew Nuts | Whole Kaju | Dry Fruits</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (200 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹281</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹335</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">16% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="premium natural californian almonds 1 kg | badam giri, healthy snacks, dry fruits | crunchy nuts | high in fiber | rich in protein | magnesium | phosphorus | dietary fibre | zero cholesterol">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Premium Natural Californian Almonds 1 Kg | Badam Giri, Healthy Snacks, Dry Fruits | Crunchy Nuts | High in Fiber | Rich in Protein | Magnesium | Phosphorus | Dietary Fibre | Zero Cholesterol</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 Kg</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1299</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹129.9</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="californian almonds, 200g pouch | raw badam giri dry fruit | high protein, rich in magnesium &amp; dietary fibre nut snack">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Californian Almonds, 200g Pouch | Raw Badam Giri Dry Fruit | High Protein, Rich in Magnesium &amp; Dietary Fibre Nut Snack</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">200g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹299</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹149.5</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="premium natural californian almonds 500g | badam giri, healthy snacks, dry fruits | crunchy nuts | high in fiber | rich in protein | magnesium | phosphorus | dietary fibre | zero cholesterol">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Premium Natural Californian Almonds 500g | Badam Giri, Healthy Snacks, Dry Fruits | Crunchy Nuts | High in Fiber | Rich in Protein | Magnesium | Phosphorus | Dietary Fibre | Zero Cholesterol</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">500g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹699</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹139.8</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="pure california almonds whole, 500g, real nuts, high in fiber, badam giri, rich in protein, magnesium, phosphorus and dietary fibre, nuts &amp; dry fruits">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Pure California Almonds Whole, 500g, Real Nuts, High In Fiber, Badam Giri, Rich In Protein, Magnesium, Phosphorus And Dietary Fibre, Nuts &amp; Dry Fruits</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">500g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹635</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹127</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="premium californian almonds roasted &amp; salted 200g, dry fruit, high protien snack and super healthy crunchy nuts">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Premium Californian Almonds Roasted &amp; Salted 200g, Dry Fruit, High Protien Snack and Super Healthy Crunchy Nuts</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">200g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹335</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹167.5</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="natural popular almonds 200g | badam giri, healthy snacks, dry fruits | crunchy real nuts | high in fiber | rich in protein | magnesium | phosphorus | dietary fibre | zero cholesterol">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Natural Popular Almonds 200g | Badam Giri, Healthy Snacks, Dry Fruits | Crunchy Real Nuts | High in Fiber | Rich in Protein | Magnesium | Phosphorus | Dietary Fibre | Zero Cholesterol</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">200g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹229</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹114.5</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- Sticky CTA Footer -->
+  <div class="fixed bottom-0 inset-x-0 bg-slate-950/95 border-t border-emerald-500/30 backdrop-blur px-6 py-3.5 z-30">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+      <div class="text-slate-200">
+        <span class="text-emerald-400 font-bold">⚡ Unscrape Radar:</span> Want real-time Slack/WhatsApp/Telegram alerts within 15 mins whenever <strong>Happilo</strong> SKUs go Out-of-Stock across 20 BLR/MUM/DEL dark-store pin codes?
+      </div>
+      <div class="flex items-center gap-2.5 shrink-0">
+        <a href="https://github.com/deveshkolte/unscrape" target="_blank" class="px-4 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold">Unlock Automated 20-Pin-Code Monitor →</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const RAW_CSV = "brand,city,pincode,platform,skuId,title,sellingPriceInr,mrpInr,discountPercent,unit,inStock,deliveryEta,url\nHappilo,Bengaluru,560001,bigbasket.com/jiomart,101410654,Happi Harvest Premium California Almonds & Pine Nut Combo Pack 200g + 100g | Crunchy Ready-to-Eat Dry Fruits & Healthy Nut Snack Pack of 2,1042,1398,25,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/happi-harvest-premium-california-almonds-pine-nut-combo-pack-200g-100g-crunchy-ready-to-eat-dry-fruits-healthy-nut-snack-pack-of-2-mpdo0a-101410654/101410654\nHappilo,Bengaluru,560001,bigbasket.com/jiomart,101410241,Happi Harvest Premium California Almonds & Walnut Kernels Combo Pack 200g Each | Healthy Ready-to-Eat Dry Fruits & Nut Snack Pack of 2,635,898,29,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/happi-harvest-premium-california-almonds-walnut-kernels-combo-pack-200g-each-healthy-ready-to-eat-dry-fruits-nut-snack-pack-of-2-mpdmz5-101410241/101410241\nHappilo,Bengaluru,560001,bigbasket.com/jiomart,101410688,Happi Harvest Premium California Almonds & Green Raisins Combo Pack 200g + 250g | Sweet & Crunchy Ready-to-Eat Dry Fruits Pack of 2,491,798,38,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/happi-harvest-premium-california-almonds-green-raisins-combo-pack-200g-250g-sweet-crunchy-ready-to-eat-dry-fruits-pack-of-2-mpdo0j-101410688/101410688\nHappilo,Bengaluru,560001,bigbasket.com/jiomart,101410257,Happi Harvest Premium California Almonds & Afghani Anjeer Combo Pack 200g Each | Healthy Ready-to-Eat Dry Fruits & Nut Snack Pack of 2,691,898,23,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/happi-harvest-premium-california-almonds-afghani-anjeer-combo-pack-200g-each-healthy-ready-to-eat-dry-fruits-nut-snack-pack-of-2-mpdmzv-101410257/101410257\nHappilo,Bengaluru,560001,bigbasket.com/jiomart,101411720,Happi Harvest Premium California Almonds & Phool Makhana Combo Pack 200g Each | Crunchy Roasted Fox Nuts & Healthy Snack Pack of 2,658,998,34,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/happi-harvest-premium-california-almonds-phool-makhana-combo-pack-200g-each-crunchy-roasted-fox-nuts-healthy-snack-pack-of-2-mpdq45-101411720/101411720\nHappilo,Bengaluru,560001,bigbasket.com/jiomart,101410234,Happi Harvest Premium California Almonds & Black Dates Combo Pack 200g + 250g | Healthy Ready-to-Eat Dry Fruits Snack Pack of 2,548,798,31,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/happi-harvest-premium-california-almonds-black-dates-combo-pack-200g-250g-healthy-ready-to-eat-dry-fruits-snack-pack-of-2-mpdmyf-101410234/101410234\nHappilo,Mumbai,400001,bigbasket.com/jiomart,101410654,Happi Harvest Premium California Almonds & Pine Nut Combo Pack 200g + 100g | Crunchy Ready-to-Eat Dry Fruits & Healthy Nut Snack Pack of 2,1042,1398,25,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/happi-harvest-premium-california-almonds-pine-nut-combo-pack-200g-100g-crunchy-ready-to-eat-dry-fruits-healthy-nut-snack-pack-of-2-mpdo0a-101410654/101410654\nHappilo,Mumbai,400001,bigbasket.com/jiomart,101410241,Happi Harvest Premium California Almonds & Walnut Kernels Combo Pack 200g Each | Healthy Ready-to-Eat Dry Fruits & Nut Snack Pack of 2,635,898,29,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/happi-harvest-premium-california-almonds-walnut-kernels-combo-pack-200g-each-healthy-ready-to-eat-dry-fruits-nut-snack-pack-of-2-mpdmz5-101410241/101410241\nHappilo,Mumbai,400001,bigbasket.com/jiomart,101410688,Happi Harvest Premium California Almonds & Green Raisins Combo Pack 200g + 250g | Sweet & Crunchy Ready-to-Eat Dry Fruits Pack of 2,491,798,38,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/happi-harvest-premium-california-almonds-green-raisins-combo-pack-200g-250g-sweet-crunchy-ready-to-eat-dry-fruits-pack-of-2-mpdo0j-101410688/101410688\nHappilo,Mumbai,400001,bigbasket.com/jiomart,101410257,Happi Harvest Premium California Almonds & Afghani Anjeer Combo Pack 200g Each | Healthy Ready-to-Eat Dry Fruits & Nut Snack Pack of 2,691,898,23,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/happi-harvest-premium-california-almonds-afghani-anjeer-combo-pack-200g-each-healthy-ready-to-eat-dry-fruits-nut-snack-pack-of-2-mpdmzv-101410257/101410257\nHappilo,Mumbai,400001,bigbasket.com/jiomart,101411720,Happi Harvest Premium California Almonds & Phool Makhana Combo Pack 200g Each | Crunchy Roasted Fox Nuts & Healthy Snack Pack of 2,658,998,34,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/happi-harvest-premium-california-almonds-phool-makhana-combo-pack-200g-each-crunchy-roasted-fox-nuts-healthy-snack-pack-of-2-mpdq45-101411720/101411720\nHappilo,Mumbai,400001,bigbasket.com/jiomart,101410234,Happi Harvest Premium California Almonds & Black Dates Combo Pack 200g + 250g | Healthy Ready-to-Eat Dry Fruits Snack Pack of 2,548,798,31,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/happi-harvest-premium-california-almonds-black-dates-combo-pack-200g-250g-healthy-ready-to-eat-dry-fruits-snack-pack-of-2-mpdmyf-101410234/101410234\nHappilo,Delhi,110001,bigbasket.com/jiomart,101410654,Happi Harvest Premium California Almonds & Pine Nut Combo Pack 200g + 100g | Crunchy Ready-to-Eat Dry Fruits & Healthy Nut Snack Pack of 2,1042,1398,25,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/happi-harvest-premium-california-almonds-pine-nut-combo-pack-200g-100g-crunchy-ready-to-eat-dry-fruits-healthy-nut-snack-pack-of-2-mpdo0a-101410654/101410654\nHappilo,Delhi,110001,bigbasket.com/jiomart,101410241,Happi Harvest Premium California Almonds & Walnut Kernels Combo Pack 200g Each | Healthy Ready-to-Eat Dry Fruits & Nut Snack Pack of 2,635,898,29,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/happi-harvest-premium-california-almonds-walnut-kernels-combo-pack-200g-each-healthy-ready-to-eat-dry-fruits-nut-snack-pack-of-2-mpdmz5-101410241/101410241\nHappilo,Delhi,110001,bigbasket.com/jiomart,101410688,Happi Harvest Premium California Almonds & Green Raisins Combo Pack 200g + 250g | Sweet & Crunchy Ready-to-Eat Dry Fruits Pack of 2,491,798,38,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/happi-harvest-premium-california-almonds-green-raisins-combo-pack-200g-250g-sweet-crunchy-ready-to-eat-dry-fruits-pack-of-2-mpdo0j-101410688/101410688\nHappilo,Delhi,110001,bigbasket.com/jiomart,101410257,Happi Harvest Premium California Almonds & Afghani Anjeer Combo Pack 200g Each | Healthy Ready-to-Eat Dry Fruits & Nut Snack Pack of 2,691,898,23,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/happi-harvest-premium-california-almonds-afghani-anjeer-combo-pack-200g-each-healthy-ready-to-eat-dry-fruits-nut-snack-pack-of-2-mpdmzv-101410257/101410257\nHappilo,Delhi,110001,bigbasket.com/jiomart,101411720,Happi Harvest Premium California Almonds & Phool Makhana Combo Pack 200g Each | Crunchy Roasted Fox Nuts & Healthy Snack Pack of 2,658,998,34,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/happi-harvest-premium-california-almonds-phool-makhana-combo-pack-200g-each-crunchy-roasted-fox-nuts-healthy-snack-pack-of-2-mpdq45-101411720/101411720\nHappilo,Delhi,110001,bigbasket.com/jiomart,101410234,Happi Harvest Premium California Almonds & Black Dates Combo Pack 200g + 250g | Healthy Ready-to-Eat Dry Fruits Snack Pack of 2,548,798,31,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/happi-harvest-premium-california-almonds-black-dates-combo-pack-200g-250g-healthy-ready-to-eat-dry-fruits-snack-pack-of-2-mpdmyf-101410234/101410234\nHappilo,Bengaluru,560001,blinkit.com,477257,Tata Sampann Pure California Almonds (Badami),626,830,25,500 g,true,10 MINS,https://blinkit.com/prn/tata-sampann-pure-california-almonds-badami/prid/477257\nHappilo,Bengaluru,560001,blinkit.com,475804,Happilo Premium Natural Californian Almonds (Badami),302,365,17,200 g,true,10 MINS,https://blinkit.com/prn/happilo-premium-natural-californian-almonds-badami/prid/475804\nHappilo,Bengaluru,560001,blinkit.com,737737,Happilo Californian Almonds,582,750,22,450 g,true,10 MINS,https://blinkit.com/prn/happilo-californian-almonds/prid/737737\nHappilo,Bengaluru,560001,blinkit.com,379194,Happilo Californian Roasted & Salted Flavoured Almonds (Badami),370,395,6,200 g,true,10 MINS,https://blinkit.com/prn/happilo-californian-roasted-salted-flavoured-almonds-badami/prid/379194\nHappilo,Bengaluru,560001,blinkit.com,608021,Tata Sampann California Almonds (Badami),350,390,10,200 g,true,10 MINS,https://blinkit.com/prn/tata-sampann-california-almonds-badami/prid/608021\nHappilo,Bengaluru,560001,blinkit.com,542166,Happilo Premium Roasted & Salted Californian Flavoured Almonds (Badami),70,75,7,35 g,true,10 MINS,https://blinkit.com/prn/happilo-premium-roasted-salted-californian-flavoured-almonds-badami/prid/542166\nHappilo,Bengaluru,560001,blinkit.com,745502,Happilo Choco Nuts Flavoured Almonds,84,99,15,45 g,true,10 MINS,https://blinkit.com/prn/happilo-choco-nuts-flavoured-almonds/prid/745502\nHappilo,Bengaluru,560001,blinkit.com,531953,Happilo 100% Natural Premium Californian Almonds (Badami),1102,1650,33,900 g,true,10 MINS,https://blinkit.com/prn/happilo-100-natural-premium-californian-almonds-badami/prid/531953\nHappilo,Bengaluru,560001,flipkart.com,NDFGC7TYCYHKMNBU,\"True Elements California Almonds, Premium Dryfruits Badam Almonds\",1030,1359,24,1 unit,true,15 MINS,https://www.flipkart.com/true-elements-california-almonds-premium-dryfruits-badam-almonds/p/itmc6ec9d96f71c5?pid=NDFGC7TYCYHKMNBU&lid=LSTNDFGC7TYCYHKMNBUBQ9VUI&marketplace=FLIPKART&q=happilo+almonds&store=eat%2Fltb%2Fngb&srno=s_1_1&otracker=search&fm=organic&iid=en_Wz0IMl3Ng-bN2zoOCuNI9G3XoakcFTZUyLnDNfBIVgf9UvDDFnwNAvU91O-i7KzjrOk_pm741t-5nNG7rQHOsk_ZYxU1V1wqUsnYGhaT__s3t5HSpYSu6wwlwAlPm9s-&ppt=None&ppn=None&ssid=t81hf1eg0g0000001793387258081&qH=a72aa0ab0ab0166b&ov_redirect=true&ov_redirect=true\nHappilo,Bengaluru,560001,flipkart.com,NDFGZGGDNGVZHWGZ,\"lila dry fruits Almond(100gm), Cashew (100gm), Walnut (100gm) & Figs(100 gm) Combo Almonds, Cashews, Walnuts, Figs\",488,873,44,100gm,true,15 MINS,https://www.flipkart.com/lila-dry-fruits-almond-100gm-cashew-100gm-walnut-100gm-figs-100-gm-combo-almonds-cashews-walnuts-figs/p/itm44c30ef11c21b?pid=NDFGZGGDNGVZHWGZ&lid=LSTNDFGZGGDNGVZHWGZT7IOTA&marketplace=FLIPKART&q=happilo+almonds&store=eat%2Fltb%2Fngb&srno=s_1_2&otracker=search&fm=organic&iid=en_Wz0IMl3Ng-bN2zoOCuNI9G3XoakcFTZUyLnDNfBIVgcfizU0PpNCnhf6-ceMfkUUM5P20NLp_Z0y52tbid0fLunuARZHfgT2M2DpDjLNchF_ceJpVG52PRhBH0dusbVP&ppt=None&ppn=None&ssid=t81hf1eg0g0000001793387258081&qH=a72aa0ab0ab0166b&ov_redirect=true&ov_redirect=true\nHappilo,Bengaluru,560001,flipkart.com,NDFG4ZSXBH2A2TS4,Happilo Natural Premium Californian Almonds,1072,1650,35,1 unit,true,15 MINS,https://www.flipkart.com/happilo-natural-premium-californian-almonds/p/itm253fbdaafef5e?pid=NDFG4ZSXBH2A2TS4&lid=LSTNDFG4ZSXBH2A2TS4CWVOXV&marketplace=FLIPKART&q=happilo+almonds&store=eat%2Fltb%2Fngb&spotlightTagId=default_BestsellerId_eat%2Fltb%2Fngb&srno=s_1_3&otracker=search&fm=organic&iid=0aae8d08-05f8-4e32-b042-ab5086650d2b.NDFG4ZSXBH2A2TS4.SEARCH&ppt=None&ppn=None&ssid=t81hf1eg0g0000001793387258081&qH=a72aa0ab0ab0166b&ov_redirect=true&ov_redirect=true\nHappilo,Bengaluru,560001,flipkart.com,NDFGZ9F6UZUCGXDH,Happilo Essentials Californian Popular Almonds,884,1450,39,1 unit,true,15 MINS,https://www.flipkart.com/happilo-essentials-californian-popular-almonds/p/itm8844571a9deca?pid=NDFGZ9F6UZUCGXDH&lid=LSTNDFGZ9F6UZUCGXDHIQJD3W&marketplace=FLIPKART&q=happilo+almonds&store=eat%2Fltb%2Fngb&spotlightTagId=default_BestsellerId_eat%2Fltb%2Fngb&srno=s_1_4&otracker=search&fm=organic&iid=0aae8d08-05f8-4e32-b042-ab5086650d2b.NDFGZ9F6UZUCGXDH.SEARCH&ppt=None&ppn=None&ssid=t81hf1eg0g0000001793387258081&qH=a72aa0ab0ab0166b&ov_redirect=true&ov_redirect=true\nHappilo,Bengaluru,560001,flipkart.com,NDFF4N9PUD7PYPZ7,Happilo Premium Naturals Californian Almonds,365,,0,1 unit,true,15 MINS,https://www.flipkart.com/happilo-premium-naturals-californian-almonds/p/itm91dc68d0b1a8f?pid=NDFF4N9PUD7PYPZ7&lid=LSTNDFF4N9PUD7PYPZ7PZFEQ1&marketplace=FLIPKART&q=happilo+almonds&store=eat%2Fltb%2Fngb&srno=s_1_5&otracker=search&fm=organic&iid=0aae8d08-05f8-4e32-b042-ab5086650d2b.NDFF4N9PUD7PYPZ7.SEARCH&ppt=None&ppn=None&ssid=t81hf1eg0g0000001793387258081&qH=a72aa0ab0ab0166b&ov_redirect=true&ov_redirect=true\nHappilo,Bengaluru,560001,flipkart.com,NDFFVH4KVUCPZDJH,\"Sainik's Dry Fruit Mall Start UR Day\"\"Traditional Way California Almonds \\ Amercian Badam Almonds\",336,649,48,1 unit,true,15 MINS,https://www.flipkart.com/sainik-s-dry-fruit-mall-start-ur-day-traditional-way-california-almonds-amercian-badam/p/itme25901c23917f?pid=NDFFVH4KVUCPZDJH&lid=LSTNDFFVH4KVUCPZDJHXIGKXV&marketplace=FLIPKART&q=happilo+almonds&store=eat%2Fltb%2Fngb&srno=s_1_6&otracker=search&fm=organic&iid=en_Wz0IMl3Ng-bN2zoOCuNI9G3XoakcFTZUyLnDNfBIVgcst_Avmg6uE9xHae-ohOZHH3fxWxIHejCef8VAwQ9qDyYvxryXtXmg0uVbrv8s6tdlvKtOwU-DVmG8Ibj9TTg1&ppt=None&ppn=None&ssid=t81hf1eg0g0000001793387258081&qH=a72aa0ab0ab0166b&ov_redirect=true&ov_redirect=true\nHappilo,Bengaluru,560001,zeptonow.com,7e898373-edf7-53b5-9cd3-ee59f79027cc,\"Happilo Premium Healthy Nutmix | Almonds, Cashews, Green Raisins, Pista, Walnuts, Black Raisin\",69,80,14,1 pack (35 g),true,10 MINS,https://www.zepto.com/pn/happilo-premium-healthy-nutmix-almonds-cashews-green-raisins-pista-walnuts-black-raisin/pvid/749f7912-1443-44b7-a278-8599afdae5a5\nHappilo,Bengaluru,560001,zeptonow.com,e9fd3251-7e3c-5172-9851-2dfa3d0ee7fe,Happilo Premium California Almonds | Badam Giri | Dry Fruits,582,750,22,1 pack (450 g),true,10 MINS,https://www.zepto.com/pn/happilo-premium-california-almonds-badam-giri-dry-fruits/pvid/f745287f-81bd-4e0f-adb0-d97a9b3d3a76\nHappilo,Bengaluru,560001,zeptonow.com,2196ff3f-9ea5-5f8e-bb0d-904d12896824,Happilo Popular California Almonds | Badam Giri | Dry Fruits,488,650,25,1 pack (400 g),true,10 MINS,https://www.zepto.com/pn/happilo-popular-california-almonds-badam-giri-dry-fruits/pvid/001c9b87-508c-4d3c-ac83-dcae6dc92d25\nHappilo,Bengaluru,560001,zeptonow.com,89542aee-4000-5eef-9900-cef2e3620c74,Happilo Premium California Almonds | Badam Giri | Dry Fruits,302,365,17,1 pack (200 g),true,10 MINS,https://www.zepto.com/pn/happilo-premium-california-almonds-badam-giri-dry-fruits/pvid/6dde7b07-d8a2-44db-b9f2-869942b91d2e\nHappilo,Bengaluru,560001,zeptonow.com,fbd0ec89-ace9-532c-8aa0-f09358bcae80,Happilo Premium Californian Roasted And Salted Almonds,370,395,6,1 pack (200 g),true,10 MINS,https://www.zepto.com/pn/happilo-premium-californian-roasted-and-salted-almonds/pvid/8abd1f7e-b3e7-481d-9dbc-a2afb8b19655\nHappilo,Bengaluru,560001,zeptonow.com,b613e382-9cca-54be-856f-2ed11884f8ba,Daily Good Almond - Badam | California,235,235,0,1 pack (200 g),true,10 MINS,https://www.zepto.com/pn/daily-good-almond-badam-california/pvid/e079d563-e6f0-43c5-ac3a-9f918aeece73\nHappilo,Bengaluru,560001,zeptonow.com,69529cf8-f94d-595f-ae8b-5f20c19420a7,Happilo Premium Whole Cashew Nuts | Whole Kaju | Dry Fruits,501,650,23,1 pack (450 g),true,10 MINS,https://www.zepto.com/pn/happilo-premium-whole-cashew-nuts-whole-kaju-dry-fruits/pvid/acb799d8-6207-4c87-bb10-16424cd9bf12\nHappilo,Bengaluru,560001,zeptonow.com,973651fb-1835-50b8-a1f4-bd52c627dd40,Happilo Premium Whole Cashew Nuts | Whole Kaju | Dry Fruits,281,335,16,1 pack (200 g),true,10 MINS,https://www.zepto.com/pn/happilo-premium-whole-cashew-nuts-whole-kaju-dry-fruits/pvid/5d8d8d24-38a4-41af-8bcf-83aaafb2eb5d\nHappilo,Bengaluru,560001,amazon.in,B0992KMQYL,\"Premium Natural Californian Almonds 1 Kg | Badam Giri, Healthy Snacks, Dry Fruits | Crunchy Nuts | High in Fiber | Rich in Protein | Magnesium | Phosphorus | Dietary Fibre | Zero Cholesterol\",1299,129.9,0,1 Kg,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0992KMQYL\nHappilo,Bengaluru,560001,amazon.in,B01LY6B08A,\"Californian Almonds, 200g Pouch | Raw Badam Giri Dry Fruit | High Protein, Rich in Magnesium & Dietary Fibre Nut Snack\",299,149.5,0,200g,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B01LY6B08A\nHappilo,Bengaluru,560001,amazon.in,B084884GKX,\"Premium Natural Californian Almonds 500g | Badam Giri, Healthy Snacks, Dry Fruits | Crunchy Nuts | High in Fiber | Rich in Protein | Magnesium | Phosphorus | Dietary Fibre | Zero Cholesterol\",699,139.8,0,500g,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B084884GKX\nHappilo,Bengaluru,560001,amazon.in,B09GNV7YZM,\"Pure California Almonds Whole, 500g, Real Nuts, High In Fiber, Badam Giri, Rich In Protein, Magnesium, Phosphorus And Dietary Fibre, Nuts & Dry Fruits\",635,127,0,500g,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B09GNV7YZM\nHappilo,Bengaluru,560001,amazon.in,B01LYTLO7H,\"Premium Californian Almonds Roasted & Salted 200g, Dry Fruit, High Protien Snack and Super Healthy Crunchy Nuts\",335,167.5,0,200g,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B01LYTLO7H\nHappilo,Bengaluru,560001,amazon.in,B0D8SXVFHQ,\"Natural Popular Almonds 200g | Badam Giri, Healthy Snacks, Dry Fruits | Crunchy Real Nuts | High in Fiber | Rich in Protein | Magnesium | Phosphorus | Dietary Fibre | Zero Cholesterol\",229,114.5,0,200g,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0D8SXVFHQ\n";
+
+    function filterRows(mode) {
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const stock = row.getAttribute('data-stock');
+        if (mode === 'all') row.style.display = '';
+        else if (mode === 'oos') row.style.display = stock === 'oos' ? '' : 'none';
+        else if (mode === 'instock') row.style.display = stock === 'instock' ? '' : 'none';
+      });
+    }
+
+    function searchSkus() {
+      const q = document.getElementById('skuSearch').value.toLowerCase();
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const title = row.getAttribute('data-title') || '';
+        const platform = (row.getAttribute('data-platform') || '').toLowerCase();
+        row.style.display = (title.includes(q) || platform.includes(q)) ? '' : 'none';
+      });
+    }
+
+    function downloadCsv() {
+      const blob = new Blob([RAW_CSV], { type: 'text/csv;charset=utf-8;' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'happilo-3city-audit.csv';
+      a.click();
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rage Coffee — 3-City Quick-Commerce Dark-Store Audit Scorecard | Unscrape Radar</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background-color: #07080d; color: #f3f4f6; font-family: Inter, system-ui, -apple-system, sans-serif; }
+  </style>
+</head>
+<body class="min-h-screen pb-24">
+  <!-- Top Bar -->
+  <header class="border-b border-slate-800 bg-slate-950/90 backdrop-blur sticky top-0 z-20">
+    <div class="max-w-7xl mx-auto px-6 py-3.5 flex items-center justify-between flex-wrap gap-3">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="text-emerald-400 font-black text-lg tracking-tight hover:text-emerald-300">⚡ UNSCRAPE RADAR</a>
+        <span class="text-xs text-slate-500">/</span>
+        <span class="text-sm font-bold text-white">Rage Coffee Executive Scorecard</span>
+      </div>
+      <div class="flex items-center gap-2.5 text-xs">
+        <a href="index.html" class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700">← All 56 Brand Audits</a>
+        <button onclick="downloadCsv()" class="px-3.5 py-1.5 rounded-lg bg-emerald-500 text-slate-950 font-bold hover:bg-emerald-400">⬇ Download Raw CSV (46 SKUs)</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-6 pt-8">
+    <!-- Executive Header -->
+    <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 mb-8">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+        <div>
+          <div class="flex items-center gap-2.5 mb-2">
+            <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded bg-slate-800 text-emerald-400">Functional Coffee</span>
+            <span class="text-xs text-slate-400 font-mono">Audited: 2026-10-30</span>
+          </div>
+          <h1 class="text-3xl md:text-4xl font-black text-white tracking-tight">Rage Coffee — Hyperlocal Dark-Store Audit</h1>
+          <p class="text-slate-400 text-sm mt-1">
+            Live multi-platform inventory & MOP/MRP price variance scan across <strong>Bengaluru (560001)</strong>, <strong>Mumbai (400001)</strong>, and <strong>Delhi (110001)</strong>.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 shrink-0">
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">SKUs Audited</div>
+            <div class="text-2xl font-black text-white mt-1">46</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">OOS Leaks</div>
+            <div class="text-2xl font-black text-emerald-400 mt-1">0</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">Max Markdown</div>
+            <div class="text-2xl font-black text-amber-300 mt-1">96%</div>
+          </div>
+          <div class="border rounded-xl p-3.5 text-center bg-emerald-500/15 text-emerald-400 border-emerald-500/30">
+            <div class="text-[11px] uppercase font-bold opacity-80">Shelf Health</div>
+            <div class="text-2xl font-black mt-1">100%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="bg-emerald-950/30 border border-emerald-500/30 rounded-2xl p-5 mb-8 flex items-center justify-between flex-wrap gap-3">
+      <div>
+        <span class="px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 font-bold text-xs uppercase">✓ 100% In-Stock Snapshot</span>
+        <span class="text-sm text-slate-200 ml-2">All 46 audited dark-store listings across Bengaluru, Mumbai & Delhi were in stock during this scan. Max discount variance: <strong>96% below MRP</strong>.</span>
+      </div>
+    </div>
+
+    <!-- Filter Controls -->
+    <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+      <div class="flex items-center gap-2 text-xs">
+        <button onclick="filterRows('all')" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-semibold">All SKUs (46)</button>
+        <button onclick="filterRows('oos')" class="px-3 py-1.5 rounded-lg bg-rose-500/15 border border-rose-500/30 text-rose-300 hover:bg-rose-500/25 font-semibold">Out-of-Stock Only (0)</button>
+        <button onclick="filterRows('instock')" class="px-3 py-1.5 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 hover:bg-emerald-500/25 font-semibold">In-Stock (46)</button>
+      </div>
+      <div class="flex items-center gap-2">
+        <input id="skuSearch" type="text" oninput="searchSkus()" placeholder="Filter SKU title or platform..." class="bg-slate-900 border border-slate-800 rounded-lg px-3.5 py-1.5 text-xs text-white w-64" />
+      </div>
+    </div>
+
+    <!-- SKU Table -->
+    <div class="bg-slate-900/50 border border-slate-800 rounded-2xl overflow-x-auto">
+      <table class="w-full text-left text-xs">
+        <thead class="bg-slate-950/90 text-slate-400 uppercase border-b border-slate-800">
+          <tr>
+            <th class="px-4 py-3">SKU Title</th>
+            <th class="px-4 py-3">Platform</th>
+            <th class="px-4 py-3">City / Pin</th>
+            <th class="px-4 py-3">Pack Size</th>
+            <th class="px-4 py-3">Selling Price</th>
+            <th class="px-4 py-3">MRP</th>
+            <th class="px-4 py-3">Discount</th>
+            <th class="px-4 py-3">Stock Status</th>
+            <th class="px-4 py-3">ETA</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-800/60">
+          <tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="rage coffee silk blend - belgian chocolate &amp; creamy hazelnut 60 gms each | combo pack of 2">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Rage Coffee Silk Blend - Belgian Chocolate &amp; Creamy Hazelnut 60 Gms Each | Combo Pack of 2</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">119.50/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹239</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹498</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">52% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="rage coffee flavoured instant coffee | belgian chocolate silk blend 60 gms">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Rage Coffee Flavoured Instant Coffee | Belgian Chocolate Silk Blend 60 GMs</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹129</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹249</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">48% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="rage coffee silk blend assorted sachets | pack of 30 | (10 sachets each flavours)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Rage Coffee Silk Blend Assorted Sachets | Pack of 30 | (10 Sachets Each Flavours)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">4.30/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹129</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹199</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">35% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="rage coffee silk blend - vanilla velvet &amp; creamy hazelnut 60 gms each | combo pack of 2">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Rage Coffee Silk Blend - Vanilla Velvet &amp; Creamy Hazelnut 60 Gms Each | Combo Pack of 2</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹269</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹498</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">46% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="rage coffee - 100 gms original blend">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Rage Coffee - 100 GMS Original Blend</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">3.99/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹399</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹649</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">39% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="rage coffee silk blend - belgian chocolate &amp; vanilla velvet 60 gms each | combo pack of 2">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Rage Coffee Silk Blend - Belgian Chocolate &amp; Vanilla Velvet 60 Gms Each | Combo Pack of 2</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹299</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹498</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">40% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="rage coffee silk blend - belgian chocolate &amp; creamy hazelnut 60 gms each | combo pack of 2">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Rage Coffee Silk Blend - Belgian Chocolate &amp; Creamy Hazelnut 60 Gms Each | Combo Pack of 2</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">119.50/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹239</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹498</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">52% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="rage coffee flavoured instant coffee | belgian chocolate silk blend 60 gms">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Rage Coffee Flavoured Instant Coffee | Belgian Chocolate Silk Blend 60 GMs</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹129</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹249</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">48% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="rage coffee silk blend assorted sachets | pack of 30 | (10 sachets each flavours)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Rage Coffee Silk Blend Assorted Sachets | Pack of 30 | (10 Sachets Each Flavours)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">4.30/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹129</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹199</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">35% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="rage coffee silk blend - vanilla velvet &amp; creamy hazelnut 60 gms each | combo pack of 2">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Rage Coffee Silk Blend - Vanilla Velvet &amp; Creamy Hazelnut 60 Gms Each | Combo Pack of 2</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹269</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹498</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">46% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="rage coffee - 100 gms original blend">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Rage Coffee - 100 GMS Original Blend</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">3.99/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹399</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹649</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">39% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="rage coffee silk blend - belgian chocolate &amp; vanilla velvet 60 gms each | combo pack of 2">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Rage Coffee Silk Blend - Belgian Chocolate &amp; Vanilla Velvet 60 Gms Each | Combo Pack of 2</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹299</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹498</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">40% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="rage coffee silk blend - belgian chocolate &amp; creamy hazelnut 60 gms each | combo pack of 2">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Rage Coffee Silk Blend - Belgian Chocolate &amp; Creamy Hazelnut 60 Gms Each | Combo Pack of 2</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">119.50/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹239</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹498</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">52% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="rage coffee flavoured instant coffee | belgian chocolate silk blend 60 gms">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Rage Coffee Flavoured Instant Coffee | Belgian Chocolate Silk Blend 60 GMs</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹129</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹249</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">48% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="rage coffee silk blend assorted sachets | pack of 30 | (10 sachets each flavours)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Rage Coffee Silk Blend Assorted Sachets | Pack of 30 | (10 Sachets Each Flavours)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">4.30/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹129</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹199</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">35% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="rage coffee silk blend - vanilla velvet &amp; creamy hazelnut 60 gms each | combo pack of 2">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Rage Coffee Silk Blend - Vanilla Velvet &amp; Creamy Hazelnut 60 Gms Each | Combo Pack of 2</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹269</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹498</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">46% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="rage coffee - 100 gms original blend">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Rage Coffee - 100 GMS Original Blend</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">3.99/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹399</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹649</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">39% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="rage coffee silk blend - belgian chocolate &amp; vanilla velvet 60 gms each | combo pack of 2">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Rage Coffee Silk Blend - Belgian Chocolate &amp; Vanilla Velvet 60 Gms Each | Combo Pack of 2</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹299</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹498</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">40% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="rage silk combo- classic, belgian chocolate, creamy hazelnut, vanilla instant coffee">
+        <td class="px-4 py-3 font-medium text-white max-w-md">RAGE Silk Combo- Classic, Belgian Chocolate, Creamy Hazelnut, Vanilla Instant Coffee</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹740</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">51% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="bru tripti blend coffee powder pack of 1 (200) instant coffee">
+        <td class="px-4 py-3 font-medium text-white max-w-md">BRU Tripti Blend Coffee Powder Pack of 1 (200) Instant Coffee</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹302</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹700</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">57% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="rage sachets | pack of 30 |premium bold &amp; smooth instant coffee">
+        <td class="px-4 py-3 font-medium text-white max-w-md">RAGE Sachets | Pack of 30 |Premium Bold &amp; Smooth Instant Coffee</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹183</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹199</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">8% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="rage irish hazelnut flavour instant coffee">
+        <td class="px-4 py-3 font-medium text-white max-w-md">RAGE Irish Hazelnut Flavour Instant Coffee</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹607</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹649</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">6% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="rage belgian chocolate &amp; creamy hazelnut &amp; vanilla velvet 50 gms each | (pack of 3) instant coffee">
+        <td class="px-4 py-3 font-medium text-white max-w-md">RAGE Belgian Chocolate &amp; Creamy Hazelnut &amp; Vanilla Velvet 50 Gms Each | (Pack of 3) Instant Coffee</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹486</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹747</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">35% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="bru premium coffee beans coffee beans">
+        <td class="px-4 py-3 font-medium text-white max-w-md">BRU Premium Coffee Beans Coffee Beans</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹783</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹900</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">13% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="sleepy owl original 100% arabica instant coffee">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Sleepy Owl Original 100% Arabica Instant Coffee</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">100 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹538</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹665</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">19% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="nescafe classic instant coffee">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Nescafe Classic Instant Coffee</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">30 x 2.2 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹135</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹150</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">10% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="nescafe classic instant coffee powder">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Nescafe Classic Instant Coffee Powder</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">72 x 1 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹144</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹144</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="sleepy owl hazelnut 100% arabica instant flavoured coffee">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Sleepy Owl Hazelnut 100% Arabica Instant Flavoured Coffee</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">100 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹631</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹699</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">10% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="bru instant coffee">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bru Instant Coffee</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">200 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹373</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹520</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">28% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="bru instant coffee 50 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bru Instant Coffee 50 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">50 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹119</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹140</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="nescafe cafe style iced latte">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Nescafe Cafe Style Iced Latte</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">170 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹50</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹50</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="nescafe cafe style cold coffee">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Nescafe Cafe Style Cold Coffee</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">3 x 170 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹149</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹150</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">1% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="rage coffee assorted blend sachets - pack of 20">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Rage Coffee Assorted Blend Sachets - Pack Of 20</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (20 x 1.5 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹89</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹104</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">14% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="bevzilla 45 classic instant coffee powder sachets">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bevzilla 45 Classic Instant Coffee Powder Sachets</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (45 x 0.9 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹99</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹135</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">27% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="rage coffee silk blend creamy hazelnut instant coffee">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Rage Coffee Silk Blend Creamy Hazelnut Instant Coffee</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (60 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹199</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹249</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="bru gold freeze dried sachets">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bru Gold Freeze Dried Sachets</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (15 x 1.5 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹99</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹99</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="rage coffee irish hazelnut flavour premium arabica medium roast organic instant coffee">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Rage Coffee Irish Hazelnut Flavour Premium Arabica Medium Roast Organic Instant Coffee</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (100 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹519</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹649</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="tata coffee grand premium instant coffee, with flavour locked decoction crystalsjar">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Tata Coffee Grand Premium Instant Coffee, With Flavour Locked Decoction CrystalsJar</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (24 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹91</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹124</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">27% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="sleepy owl espresso intense instant coffee | black coffee dark roast">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Sleepy Owl Espresso Intense Instant Coffee | Black Coffee Dark Roast</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (100 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹306</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹440</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">30% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="tata coffee gold original instant &amp; pure coffee jar">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Tata Coffee Gold Original Instant &amp; Pure Coffee Jar</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (25 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹138</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹175</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">21% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="silk blend 60g x 4 flavoured instant coffee powder of belgian chocolate, classic, creamy hazelnut, perfect coffee blend | hot &amp; cold coffee | bottle| pack of 4- (240 gram)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Silk Blend 60G X 4 Flavoured Instant Coffee Powder Of Belgian Chocolate, Classic, Creamy Hazelnut, Perfect Coffee Blend | Hot &amp; Cold Coffee | Bottle| Pack Of 4- (240 Gram)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">60G</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹649</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹432.67</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Wed, 4 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="flavoured instant coffee premix sachets | zero added sugar, 39kcal per serving, prebiotic &amp; gut friendly | with tumbler | sweetened with monk fruit | just add water">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Flavoured Instant Coffee Premix Sachets | Zero Added Sugar, 39kcal Per Serving, Prebiotic &amp; Gut Friendly | With Tumbler | Sweetened With Monk Fruit | Just Add Water</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹399</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">-</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="daily coffee premix | 1 kg pouch | instant coffee | flavourful &amp; tasty | enticing aroma">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Daily Coffee Premix | 1 kg Pouch | Instant Coffee | Flavourful &amp; tasty | Enticing Aroma</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 kg</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹365</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹36.5</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="indulgence instant coffee 100g | imported coffee | premium arabica &amp; robusta blend | freeze-dried | bold &amp; strong flavor">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Indulgence Instant Coffee 100g | Imported Coffee | Premium Arabica &amp; Robusta Blend | Freeze-Dried | Bold &amp; Strong Flavor</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">100g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹999</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹999</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Tue, 3 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="premium instant coffee (can) (100 grams) | premium blend of 80% coffee &amp; 20% chicory| caffeine coffee with rich bold flavour for an energising experience">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Premium Instant Coffee (Can) (100 Grams) | Premium Blend of 80% Coffee &amp; 20% Chicory| Caffeine Coffee with Rich Bold Flavour for an Energising Experience</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹192</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹192</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="silk blend instant coffee combo pack of 4 | classic, belgian chocolate, creamy hazelnut &amp; vanilla velvet | premium bold &amp; smooth flavors | 120g each jar | 100% arabica | hot &amp; cold brew - 480g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Silk Blend Instant Coffee Combo Pack of 4 | Classic, Belgian Chocolate, Creamy Hazelnut &amp; Vanilla Velvet | Premium Bold &amp; Smooth Flavors | 120g Each Jar | 100% Arabica | Hot &amp; Cold Brew - 480g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">120g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹799</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹19975</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">96% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- Sticky CTA Footer -->
+  <div class="fixed bottom-0 inset-x-0 bg-slate-950/95 border-t border-emerald-500/30 backdrop-blur px-6 py-3.5 z-30">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+      <div class="text-slate-200">
+        <span class="text-emerald-400 font-bold">⚡ Unscrape Radar:</span> Want real-time Slack/WhatsApp/Telegram alerts within 15 mins whenever <strong>Rage Coffee</strong> SKUs go Out-of-Stock across 20 BLR/MUM/DEL dark-store pin codes?
+      </div>
+      <div class="flex items-center gap-2.5 shrink-0">
+        <a href="https://github.com/deveshkolte/unscrape" target="_blank" class="px-4 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold">Unlock Automated 20-Pin-Code Monitor →</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const RAW_CSV = "brand,city,pincode,platform,skuId,title,sellingPriceInr,mrpInr,discountPercent,unit,inStock,deliveryEta,url\nRage Coffee,Bengaluru,560001,bigbasket.com/jiomart,49863858,Rage Coffee Silk Blend - Belgian Chocolate & Creamy Hazelnut 60 Gms Each | Combo Pack of 2,239,498,52,119.50/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/rage-coffee-silk-blend-belgian-chocolate-creamy-hazelnut-60-gms-each-combo-pack-of-2-mj70ds-49863858/49863858\nRage Coffee,Bengaluru,560001,bigbasket.com/jiomart,49838458,Rage Coffee Flavoured Instant Coffee | Belgian Chocolate Silk Blend 60 GMs,129,249,48,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/rage-coffee-flavoured-instant-coffee-belgian-chocolate-silk-blend-60-gms-mj7011-49838458/49838458\nRage Coffee,Bengaluru,560001,bigbasket.com/jiomart,49868538,Rage Coffee Silk Blend Assorted Sachets | Pack of 30 | (10 Sachets Each Flavours),129,199,35,4.30/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/rage-coffee-silk-blend-assorted-sachets-pack-of-30-10-sachets-each-flavours-mj70ez-49868538/49868538\nRage Coffee,Bengaluru,560001,bigbasket.com/jiomart,49894169,Rage Coffee Silk Blend - Vanilla Velvet & Creamy Hazelnut 60 Gms Each | Combo Pack of 2,269,498,46,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/rage-coffee-silk-blend-vanilla-velvet-creamy-hazelnut-60-gms-each-combo-pack-of-2-mj70oy-49894169/49894169\nRage Coffee,Bengaluru,560001,bigbasket.com/jiomart,49849367,Rage Coffee - 100 GMS Original Blend,399,649,39,3.99/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/rage-coffee-100-gms-original-blend-mj705x-49849367/49849367\nRage Coffee,Bengaluru,560001,bigbasket.com/jiomart,49884342,Rage Coffee Silk Blend - Belgian Chocolate & Vanilla Velvet 60 Gms Each | Combo Pack of 2,299,498,40,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/rage-coffee-silk-blend-belgian-chocolate-vanilla-velvet-60-gms-each-combo-pack-of-2-mj70ke-49884342/49884342\nRage Coffee,Mumbai,400001,bigbasket.com/jiomart,49863858,Rage Coffee Silk Blend - Belgian Chocolate & Creamy Hazelnut 60 Gms Each | Combo Pack of 2,239,498,52,119.50/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/rage-coffee-silk-blend-belgian-chocolate-creamy-hazelnut-60-gms-each-combo-pack-of-2-mj70ds-49863858/49863858\nRage Coffee,Mumbai,400001,bigbasket.com/jiomart,49838458,Rage Coffee Flavoured Instant Coffee | Belgian Chocolate Silk Blend 60 GMs,129,249,48,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/rage-coffee-flavoured-instant-coffee-belgian-chocolate-silk-blend-60-gms-mj7011-49838458/49838458\nRage Coffee,Mumbai,400001,bigbasket.com/jiomart,49868538,Rage Coffee Silk Blend Assorted Sachets | Pack of 30 | (10 Sachets Each Flavours),129,199,35,4.30/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/rage-coffee-silk-blend-assorted-sachets-pack-of-30-10-sachets-each-flavours-mj70ez-49868538/49868538\nRage Coffee,Mumbai,400001,bigbasket.com/jiomart,49894169,Rage Coffee Silk Blend - Vanilla Velvet & Creamy Hazelnut 60 Gms Each | Combo Pack of 2,269,498,46,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/rage-coffee-silk-blend-vanilla-velvet-creamy-hazelnut-60-gms-each-combo-pack-of-2-mj70oy-49894169/49894169\nRage Coffee,Mumbai,400001,bigbasket.com/jiomart,49849367,Rage Coffee - 100 GMS Original Blend,399,649,39,3.99/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/rage-coffee-100-gms-original-blend-mj705x-49849367/49849367\nRage Coffee,Mumbai,400001,bigbasket.com/jiomart,49884342,Rage Coffee Silk Blend - Belgian Chocolate & Vanilla Velvet 60 Gms Each | Combo Pack of 2,299,498,40,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/rage-coffee-silk-blend-belgian-chocolate-vanilla-velvet-60-gms-each-combo-pack-of-2-mj70ke-49884342/49884342\nRage Coffee,Delhi,110001,bigbasket.com/jiomart,49863858,Rage Coffee Silk Blend - Belgian Chocolate & Creamy Hazelnut 60 Gms Each | Combo Pack of 2,239,498,52,119.50/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/rage-coffee-silk-blend-belgian-chocolate-creamy-hazelnut-60-gms-each-combo-pack-of-2-mj70ds-49863858/49863858\nRage Coffee,Delhi,110001,bigbasket.com/jiomart,49838458,Rage Coffee Flavoured Instant Coffee | Belgian Chocolate Silk Blend 60 GMs,129,249,48,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/rage-coffee-flavoured-instant-coffee-belgian-chocolate-silk-blend-60-gms-mj7011-49838458/49838458\nRage Coffee,Delhi,110001,bigbasket.com/jiomart,49868538,Rage Coffee Silk Blend Assorted Sachets | Pack of 30 | (10 Sachets Each Flavours),129,199,35,4.30/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/rage-coffee-silk-blend-assorted-sachets-pack-of-30-10-sachets-each-flavours-mj70ez-49868538/49868538\nRage Coffee,Delhi,110001,bigbasket.com/jiomart,49894169,Rage Coffee Silk Blend - Vanilla Velvet & Creamy Hazelnut 60 Gms Each | Combo Pack of 2,269,498,46,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/rage-coffee-silk-blend-vanilla-velvet-creamy-hazelnut-60-gms-each-combo-pack-of-2-mj70oy-49894169/49894169\nRage Coffee,Delhi,110001,bigbasket.com/jiomart,49849367,Rage Coffee - 100 GMS Original Blend,399,649,39,3.99/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/rage-coffee-100-gms-original-blend-mj705x-49849367/49849367\nRage Coffee,Delhi,110001,bigbasket.com/jiomart,49884342,Rage Coffee Silk Blend - Belgian Chocolate & Vanilla Velvet 60 Gms Each | Combo Pack of 2,299,498,40,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/rage-coffee-silk-blend-belgian-chocolate-vanilla-velvet-60-gms-each-combo-pack-of-2-mj70ke-49884342/49884342\nRage Coffee,Bengaluru,560001,flipkart.com,CFEGTNNAZHTU9QBM,\"RAGE Silk Combo- Classic, Belgian Chocolate, Creamy Hazelnut, Vanilla Instant Coffee\",740,1499,51,1 unit,true,15 MINS,https://www.flipkart.com/rage-silk-combo-classic-belgian-chocolate-creamy-hazelnut-vanilla-instant-coffee/p/itm6a000b2c62aa3?pid=CFEGTNNAZHTU9QBM&lid=LSTCFEGTNNAZHTU9QBML0VXXV&marketplace=FLIPKART&q=rage+coffee&store=eat%2Fdui&srno=s_1_1&otracker=search&fm=organic&iid=en_xcMhOEQmYabzSgk0GxWn03fAuoiTBt4_h7o2gZMPtlA7wh2f5T8IjCahQVEnNsfJ7HmX0AYmL5o4T6iNyKb5z4wGsCkrsKAraWJ3Y8pYmaKamsmlXuYnRhFxH2FH-0il&ppt=None&ppn=None&ssid=3tbm38uv1s0000001793387224890&qH=3c18955655658f0c&ov_redirect=true&ov_redirect=true\nRage Coffee,Bengaluru,560001,flipkart.com,CFEHJJF9ZS9HKGHP,BRU Tripti Blend Coffee Powder Pack of 1 (200) Instant Coffee,302,700,57,1 unit,true,15 MINS,https://www.flipkart.com/bru-tripti-blend-coffee-powder-pack-1-200-instant/p/itm6922bcd526a71?pid=CFEHJJF9ZS9HKGHP&lid=LSTCFEHJJF9ZS9HKGHP7GYZ4N&marketplace=FLIPKART&q=rage+coffee&store=eat%2Fdui&srno=s_1_2&otracker=search&fm=organic&iid=en_xcMhOEQmYabzSgk0GxWn03fAuoiTBt4_h7o2gZMPtlCJgGrlsuR1J1RdsWbtgB7qpaoFOiliqNEsQyefueuzcRrKeFT3QWLdPAuYrfqGIsFg-gM9ckeCzhNO_o4E5zV-&ppt=None&ppn=None&ssid=3tbm38uv1s0000001793387224890&qH=3c18955655658f0c&ov_redirect=true&ov_redirect=true\nRage Coffee,Bengaluru,560001,flipkart.com,CFEGQF6DFPARMBYU,RAGE Sachets | Pack of 30 |Premium Bold & Smooth Instant Coffee,183,199,8,1 unit,true,15 MINS,https://www.flipkart.com/rage-sachets-pack-30-premium-bold-smooth-instant-coffee/p/itm93d9e9165c653?pid=CFEGQF6DFPARMBYU&lid=LSTCFEGQF6DFPARMBYUGD1XDM&marketplace=FLIPKART&q=rage+coffee&store=eat%2Fdui&srno=s_1_3&otracker=search&fm=organic&iid=686c014a-6e1e-4754-8066-1f728d863ee0.CFEGQF6DFPARMBYU.SEARCH&ppt=None&ppn=None&ssid=3tbm38uv1s0000001793387224890&qH=3c18955655658f0c&ov_redirect=true&ov_redirect=true\nRage Coffee,Bengaluru,560001,flipkart.com,CFEFNAGUHTPFMEJZ,RAGE Irish Hazelnut Flavour Instant Coffee,607,649,6,1 unit,true,15 MINS,https://www.flipkart.com/rage-irish-hazelnut-flavour-instant-coffee/p/itm20cc604c084b9?pid=CFEFNAGUHTPFMEJZ&lid=LSTCFEFNAGUHTPFMEJZKKSIHZ&marketplace=FLIPKART&q=rage+coffee&store=eat%2Fdui&srno=s_1_4&otracker=search&fm=organic&iid=686c014a-6e1e-4754-8066-1f728d863ee0.CFEFNAGUHTPFMEJZ.SEARCH&ppt=None&ppn=None&ssid=3tbm38uv1s0000001793387224890&qH=3c18955655658f0c&ov_redirect=true&ov_redirect=true\nRage Coffee,Bengaluru,560001,flipkart.com,CFEGPGSQ4AAGQGDF,RAGE Belgian Chocolate & Creamy Hazelnut & Vanilla Velvet 50 Gms Each | (Pack of 3) Instant Coffee,486,747,35,1 unit,true,15 MINS,https://www.flipkart.com/rage-belgian-chocolate-creamy-hazelnut-vanilla-velvet-50-gms-each-pack-3-instant-coffee/p/itm4a17d9527452e?pid=CFEGPGSQ4AAGQGDF&lid=LSTCFEGPGSQ4AAGQGDFKOOS3U&marketplace=FLIPKART&q=rage+coffee&store=eat%2Fdui&srno=s_1_5&otracker=search&fm=organic&iid=686c014a-6e1e-4754-8066-1f728d863ee0.CFEGPGSQ4AAGQGDF.SEARCH&ppt=None&ppn=None&ssid=3tbm38uv1s0000001793387224890&qH=3c18955655658f0c&ov_redirect=true&ov_redirect=true\nRage Coffee,Bengaluru,560001,flipkart.com,CFEHNVVAVXWGRWBR,BRU Premium Coffee Beans Coffee Beans,783,900,13,1 unit,true,15 MINS,https://www.flipkart.com/bru-premium-coffee-beans/p/itm03f4da1379f86?pid=CFEHNVVAVXWGRWBR&lid=LSTCFEHNVVAVXWGRWBRV2DO2D&marketplace=FLIPKART&q=rage+coffee&store=eat%2Fdui&srno=s_1_6&otracker=search&fm=organic&iid=en_xcMhOEQmYabzSgk0GxWn03fAuoiTBt4_h7o2gZMPtlDfNBAtBOt-nb2bVSVD8NZCz5KWylLW4z4i6tQ-PDOdiwVvA5r9aAM30GjsKZF9SXqamsmlXuYnRhFxH2FH-0il&ppt=None&ppn=None&ssid=3tbm38uv1s0000001793387224890&qH=3c18955655658f0c&ov_redirect=true&ov_redirect=true\nRage Coffee,Bengaluru,560001,blinkit.com,479520,Sleepy Owl Original 100% Arabica Instant Coffee,538,665,19,100 g,true,10 MINS,https://blinkit.com/prn/sleepy-owl-original-100-arabica-instant-coffee/prid/479520\nRage Coffee,Bengaluru,560001,blinkit.com,728440,Nescafe Classic Instant Coffee,135,150,10,30 x 2.2 g,true,10 MINS,https://blinkit.com/prn/nescafe-classic-instant-coffee/prid/728440\nRage Coffee,Bengaluru,560001,blinkit.com,476609,Nescafe Classic Instant Coffee Powder,144,144,0,72 x 1 g,true,10 MINS,https://blinkit.com/prn/nescafe-classic-instant-coffee-powder/prid/476609\nRage Coffee,Bengaluru,560001,blinkit.com,479521,Sleepy Owl Hazelnut 100% Arabica Instant Flavoured Coffee,631,699,10,100 g,true,10 MINS,https://blinkit.com/prn/sleepy-owl-hazelnut-100-arabica-instant-flavoured-coffee/prid/479521\nRage Coffee,Bengaluru,560001,blinkit.com,233,Bru Instant Coffee,373,520,28,200 g,true,10 MINS,https://blinkit.com/prn/bru-instant-coffee/prid/233\nRage Coffee,Bengaluru,560001,blinkit.com,13965,Bru Instant Coffee 50 g,119,140,15,50 g,true,10 MINS,https://blinkit.com/prn/bru-instant-coffee-50-g/prid/13965\nRage Coffee,Bengaluru,560001,blinkit.com,400926,Nescafe Cafe Style Iced Latte,50,50,0,170 ml,true,10 MINS,https://blinkit.com/prn/nescafe-cafe-style-iced-latte/prid/400926\nRage Coffee,Bengaluru,560001,blinkit.com,520337,Nescafe Cafe Style Cold Coffee,149,150,1,3 x 170 ml,true,10 MINS,https://blinkit.com/prn/nescafe-cafe-style-cold-coffee/prid/520337\nRage Coffee,Bengaluru,560001,zeptonow.com,7076fc32-2f7c-5471-a0a4-a5a49dfbd3dc,Rage Coffee Assorted Blend Sachets - Pack Of 20,89,104,14,1 pack (20 x 1.5 g),true,10 MINS,https://www.zepto.com/pn/rage-coffee-assorted-blend-sachets-pack-of-20/pvid/77ff073f-6b7e-45d3-acee-adbbff017b49\nRage Coffee,Bengaluru,560001,zeptonow.com,1ab6f4e2-310e-51fc-95a6-c6c6241dd5ae,Bevzilla 45 Classic Instant Coffee Powder Sachets,99,135,27,1 pack (45 x 0.9 g),true,10 MINS,https://www.zepto.com/pn/bevzilla-45-classic-instant-coffee-powder-sachets/pvid/e8c75666-2294-4830-9b53-ca6e87139869\nRage Coffee,Bengaluru,560001,zeptonow.com,79d66fdb-24f2-50ba-830a-2420a9d0c54d,Rage Coffee Silk Blend Creamy Hazelnut Instant Coffee,199,249,20,1 pc (60 g),true,10 MINS,https://www.zepto.com/pn/rage-coffee-silk-blend-creamy-hazelnut-instant-coffee/pvid/5b76c369-70d8-4ffb-b0e6-f6fbe3050b8b\nRage Coffee,Bengaluru,560001,zeptonow.com,0898bba1-a491-5f7e-ba18-d2b91e48b4ef,Bru Gold Freeze Dried Sachets,99,99,0,1 pack (15 x 1.5 g),true,10 MINS,https://www.zepto.com/pn/bru-gold-freeze-dried-sachets/pvid/5e3232d6-1db7-4ae0-968c-e68a4dae49b4\nRage Coffee,Bengaluru,560001,zeptonow.com,ce5b3a9d-284a-5e2f-8b02-941d03c0e2e0,Rage Coffee Irish Hazelnut Flavour Premium Arabica Medium Roast Organic Instant Coffee,519,649,20,1 pc (100 g),true,10 MINS,https://www.zepto.com/pn/rage-coffee-irish-hazelnut-flavour-premium-arabica-medium-roast-organic-instant-coffee/pvid/5a8edf0a-fb8f-4e09-af3d-7e525768597c\nRage Coffee,Bengaluru,560001,zeptonow.com,86227fac-be2d-5e6b-9685-76878f87c7fb,\"Tata Coffee Grand Premium Instant Coffee, With Flavour Locked Decoction CrystalsJar\",91,124,27,1 pc (24 g),true,10 MINS,https://www.zepto.com/pn/tata-coffee-grand-premium-instant-coffee-with-flavour-locked-decoction-crystalsjar/pvid/bf4b09a9-8f27-4a9c-bf6b-6cdf7f5154b8\nRage Coffee,Bengaluru,560001,zeptonow.com,047d7701-0f09-562b-b230-3974e0f32e3c,Sleepy Owl Espresso Intense Instant Coffee | Black Coffee Dark Roast,306,440,30,1 pc (100 g),true,10 MINS,https://www.zepto.com/pn/sleepy-owl-espresso-intense-instant-coffee-black-coffee-dark-roast/pvid/256f509e-d774-43ed-a860-ee6c85fb7f1f\nRage Coffee,Bengaluru,560001,zeptonow.com,aa92223d-6ca4-52fb-b047-a11218004b17,Tata Coffee Gold Original Instant & Pure Coffee Jar,138,175,21,1 pack (25 g),true,10 MINS,https://www.zepto.com/pn/tata-coffee-gold-original-instant-pure-coffee-jar/pvid/f108ef06-25b9-457e-baf9-ec7003c9209a\nRage Coffee,Bengaluru,560001,amazon.in,B0CFV3SVGD,\"Silk Blend 60G X 4 Flavoured Instant Coffee Powder Of Belgian Chocolate, Classic, Creamy Hazelnut, Perfect Coffee Blend | Hot & Cold Coffee | Bottle| Pack Of 4- (240 Gram)\",649,432.67,0,60G,true,\"Wed, 4 Nov\",https://www.amazon.in/dp/B0CFV3SVGD\nRage Coffee,Bengaluru,560001,amazon.in,B0H4LZ2N1L,\"Flavoured Instant Coffee Premix Sachets | Zero Added Sugar, 39kcal Per Serving, Prebiotic & Gut Friendly | With Tumbler | Sweetened With Monk Fruit | Just Add Water\",399,,0,1 unit,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0H4LZ2N1L\nRage Coffee,Bengaluru,560001,amazon.in,B083X1Q62S,Daily Coffee Premix | 1 kg Pouch | Instant Coffee | Flavourful & tasty | Enticing Aroma,365,36.5,0,1 kg,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B083X1Q62S\nRage Coffee,Bengaluru,560001,amazon.in,B0BB9KVZT9,Indulgence Instant Coffee 100g | Imported Coffee | Premium Arabica & Robusta Blend | Freeze-Dried | Bold & Strong Flavor,999,999,0,100g,true,\"Tue, 3 Nov\",https://www.amazon.in/dp/B0BB9KVZT9\nRage Coffee,Bengaluru,560001,amazon.in,B07KZCW3ZN,Premium Instant Coffee (Can) (100 Grams) | Premium Blend of 80% Coffee & 20% Chicory| Caffeine Coffee with Rich Bold Flavour for an Energising Experience,192,192,0,1 unit,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B07KZCW3ZN\nRage Coffee,Bengaluru,560001,amazon.in,B0G714XLNF,\"Silk Blend Instant Coffee Combo Pack of 4 | Classic, Belgian Chocolate, Creamy Hazelnut & Vanilla Velvet | Premium Bold & Smooth Flavors | 120g Each Jar | 100% Arabica | Hot & Cold Brew - 480g\",799,19975,96,120g,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0G714XLNF\n";
+
+    function filterRows(mode) {
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const stock = row.getAttribute('data-stock');
+        if (mode === 'all') row.style.display = '';
+        else if (mode === 'oos') row.style.display = stock === 'oos' ? '' : 'none';
+        else if (mode === 'instock') row.style.display = stock === 'instock' ? '' : 'none';
+      });
+    }
+
+    function searchSkus() {
+      const q = document.getElementById('skuSearch').value.toLowerCase();
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const title = row.getAttribute('data-title') || '';
+        const platform = (row.getAttribute('data-platform') || '').toLowerCase();
+        row.style.display = (title.includes(q) || platform.includes(q)) ? '' : 'none';
+      });
+    }
+
+    function downloadCsv() {
+      const blob = new Blob([RAW_CSV], { type: 'text/csv;charset=utf-8;' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'rage-coffee-3city-audit.csv';
+      a.click();
+    }
+  </script>
+</body>
+</html>

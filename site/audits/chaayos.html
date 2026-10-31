@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chaayos — 3-City Quick-Commerce Dark-Store Audit Scorecard | Unscrape Radar</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background-color: #07080d; color: #f3f4f6; font-family: Inter, system-ui, -apple-system, sans-serif; }
+  </style>
+</head>
+<body class="min-h-screen pb-24">
+  <!-- Top Bar -->
+  <header class="border-b border-slate-800 bg-slate-950/90 backdrop-blur sticky top-0 z-20">
+    <div class="max-w-7xl mx-auto px-6 py-3.5 flex items-center justify-between flex-wrap gap-3">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="text-emerald-400 font-black text-lg tracking-tight hover:text-emerald-300">⚡ UNSCRAPE RADAR</a>
+        <span class="text-xs text-slate-500">/</span>
+        <span class="text-sm font-bold text-white">Chaayos Executive Scorecard</span>
+      </div>
+      <div class="flex items-center gap-2.5 text-xs">
+        <a href="index.html" class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700">← All 56 Brand Audits</a>
+        <button onclick="downloadCsv()" class="px-3.5 py-1.5 rounded-lg bg-emerald-500 text-slate-950 font-bold hover:bg-emerald-400">⬇ Download Raw CSV (46 SKUs)</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-6 pt-8">
+    <!-- Executive Header -->
+    <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 mb-8">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+        <div>
+          <div class="flex items-center gap-2.5 mb-2">
+            <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded bg-slate-800 text-emerald-400">Chai &amp; Snacks</span>
+            <span class="text-xs text-slate-400 font-mono">Audited: 2026-10-30</span>
+          </div>
+          <h1 class="text-3xl md:text-4xl font-black text-white tracking-tight">Chaayos — Hyperlocal Dark-Store Audit</h1>
+          <p class="text-slate-400 text-sm mt-1">
+            Live multi-platform inventory & MOP/MRP price variance scan across <strong>Bengaluru (560001)</strong>, <strong>Mumbai (400001)</strong>, and <strong>Delhi (110001)</strong>.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 shrink-0">
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">SKUs Audited</div>
+            <div class="text-2xl font-black text-white mt-1">46</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">OOS Leaks</div>
+            <div class="text-2xl font-black text-rose-400 mt-1">1</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">Max Markdown</div>
+            <div class="text-2xl font-black text-amber-300 mt-1">33%</div>
+          </div>
+          <div class="border rounded-xl p-3.5 text-center bg-emerald-500/15 text-emerald-400 border-emerald-500/30">
+            <div class="text-[11px] uppercase font-bold opacity-80">Shelf Health</div>
+            <div class="text-2xl font-black mt-1">98%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="bg-rose-950/50 border border-rose-500/40 rounded-2xl p-6 mb-8">
+      <div class="flex items-center justify-between flex-wrap gap-3 mb-4">
+        <div class="flex items-center gap-3">
+          <span class="px-3 py-1 rounded-full bg-rose-500 text-slate-950 font-black text-xs uppercase tracking-wider">🚨 REVENUE LEAK DETECTED</span>
+          <h2 class="text-lg font-bold text-white">1 Out-of-Stock Dark-Store Listing(s) Caught Live</h2>
+        </div>
+        <span class="text-xs font-mono text-rose-300">Immediate Shelf Conversion Loss</span>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+        
+          <div class="bg-slate-950/90 border border-rose-500/30 rounded-xl p-3.5 flex items-center justify-between gap-3">
+            <div>
+              <div class="text-sm font-bold text-white">Chaayos Masala Instant Tea Premix</div>
+              <div class="text-xs text-slate-400 mt-1">
+                Platform: <span class="text-rose-300 font-mono">zeptonow.com</span> ·
+                City: <span class="text-slate-200">Bengaluru (560001)</span> ·
+                Pack: <span class="text-slate-300">1 pack (4 pcs)</span>
+              </div>
+            </div>
+            <div class="text-right shrink-0">
+              <div class="text-sm font-extrabold text-rose-400">OUT OF STOCK</div>
+              <div class="text-xs text-slate-400">₹59</div>
+            </div>
+          </div>
+      </div>
+    </div>
+
+    <!-- Filter Controls -->
+    <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+      <div class="flex items-center gap-2 text-xs">
+        <button onclick="filterRows('all')" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-semibold">All SKUs (46)</button>
+        <button onclick="filterRows('oos')" class="px-3 py-1.5 rounded-lg bg-rose-500/15 border border-rose-500/30 text-rose-300 hover:bg-rose-500/25 font-semibold">Out-of-Stock Only (1)</button>
+        <button onclick="filterRows('instock')" class="px-3 py-1.5 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 hover:bg-emerald-500/25 font-semibold">In-Stock (45)</button>
+      </div>
+      <div class="flex items-center gap-2">
+        <input id="skuSearch" type="text" oninput="searchSkus()" placeholder="Filter SKU title or platform..." class="bg-slate-900 border border-slate-800 rounded-lg px-3.5 py-1.5 text-xs text-white w-64" />
+      </div>
+    </div>
+
+    <!-- SKU Table -->
+    <div class="bg-slate-900/50 border border-slate-800 rounded-2xl overflow-x-auto">
+      <table class="w-full text-left text-xs">
+        <thead class="bg-slate-950/90 text-slate-400 uppercase border-b border-slate-800">
+          <tr>
+            <th class="px-4 py-3">SKU Title</th>
+            <th class="px-4 py-3">Platform</th>
+            <th class="px-4 py-3">City / Pin</th>
+            <th class="px-4 py-3">Pack Size</th>
+            <th class="px-4 py-3">Selling Price</th>
+            <th class="px-4 py-3">MRP</th>
+            <th class="px-4 py-3">Discount</th>
+            <th class="px-4 py-3">Stock Status</th>
+            <th class="px-4 py-3">ETA</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-800/60">
+          <tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="chai point mixed instant tea ( ginger, masala, cardamom, classic) | 20 sachets| instant premix tea | authentic flavoured chai | chaipoint">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Chai Point Mixed Instant Tea ( Ginger, Masala, Cardamom, Classic) | 20 Sachets| Instant Premix Tea | Authentic Flavoured Chai | CHAIPOINT</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">17.90/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹358</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹398</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">10% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="chai point instant cardamom tea - 10 sachets | authentic elaichi chai | instant tea premix | assam tea with natural elaichi flavour | chaipoint">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Chai Point Instant Cardamom Tea - 10 Sachets | Authentic Elaichi Chai | Instant Tea Premix | Assam Tea with natural Elaichi flavour | CHAIPOINT</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">18.00/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹180</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹199</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">10% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="chai point instant masala tea (no sugar)| 10 sachets| incredibly authentic| masala flavored tea| masala chai| instant premix tea | chaipoint">
+        <td class="px-4 py-3 font-medium text-white max-w-md">CHAI POINT Instant Masala Tea (No Sugar)| 10 Sachets| Incredibly Authentic| Masala Flavored Tea| Masala Chai| Instant Premix Tea | CHAIPOINT</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">18.00/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹180</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹199</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">10% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="chai point instant masala tea - 10 sachets | authentic masala chai | instant tea premix | masala flavored tea | ready-to-drink chai | chaipoint">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Chai Point Instant Masala Tea - 10 Sachets | Authentic Masala Chai | Instant Tea Premix | Masala Flavored Tea | Ready-to-Drink Chai | CHAIPOINT</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">18.00/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹180</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹199</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">10% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="chai point instant cardamom tea ( without sugar) - 10 sachets | elaichi tea| instant chai| premix tea| assam tea| elaichi mix | chaipoint">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Chai Point Instant Cardamom Tea ( Without Sugar) - 10 Sachets | Elaichi Tea| Instant Chai| Premix Tea| Assam Tea| Elaichi Mix | CHAIPOINT</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">18.00/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹180</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹199</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">10% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="octavius ginger chai ready tea instant tea premix in tin gift can - 10 sachets (pack of 2)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Octavius Ginger Chai Ready Tea Instant Tea Premix in Tin Gift Can - 10 Sachets (Pack of 2)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">264.50/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹529</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹600</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">12% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="chai point mixed instant tea ( ginger, masala, cardamom, classic) | 20 sachets| instant premix tea | authentic flavoured chai | chaipoint">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Chai Point Mixed Instant Tea ( Ginger, Masala, Cardamom, Classic) | 20 Sachets| Instant Premix Tea | Authentic Flavoured Chai | CHAIPOINT</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">17.90/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹358</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹398</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">10% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="chai point instant cardamom tea - 10 sachets | authentic elaichi chai | instant tea premix | assam tea with natural elaichi flavour | chaipoint">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Chai Point Instant Cardamom Tea - 10 Sachets | Authentic Elaichi Chai | Instant Tea Premix | Assam Tea with natural Elaichi flavour | CHAIPOINT</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">18.00/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹180</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹199</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">10% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="chai point instant masala tea (no sugar)| 10 sachets| incredibly authentic| masala flavored tea| masala chai| instant premix tea | chaipoint">
+        <td class="px-4 py-3 font-medium text-white max-w-md">CHAI POINT Instant Masala Tea (No Sugar)| 10 Sachets| Incredibly Authentic| Masala Flavored Tea| Masala Chai| Instant Premix Tea | CHAIPOINT</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">18.00/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹180</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹199</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">10% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="chai point instant masala tea - 10 sachets | authentic masala chai | instant tea premix | masala flavored tea | ready-to-drink chai | chaipoint">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Chai Point Instant Masala Tea - 10 Sachets | Authentic Masala Chai | Instant Tea Premix | Masala Flavored Tea | Ready-to-Drink Chai | CHAIPOINT</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">18.00/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹180</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹199</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">10% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="chai point instant cardamom tea ( without sugar) - 10 sachets | elaichi tea| instant chai| premix tea| assam tea| elaichi mix | chaipoint">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Chai Point Instant Cardamom Tea ( Without Sugar) - 10 Sachets | Elaichi Tea| Instant Chai| Premix Tea| Assam Tea| Elaichi Mix | CHAIPOINT</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">18.00/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹180</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹199</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">10% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="octavius ginger chai ready tea instant tea premix in tin gift can - 10 sachets (pack of 2)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Octavius Ginger Chai Ready Tea Instant Tea Premix in Tin Gift Can - 10 Sachets (Pack of 2)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">264.50/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹529</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹600</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">12% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="chai point mixed instant tea ( ginger, masala, cardamom, classic) | 20 sachets| instant premix tea | authentic flavoured chai | chaipoint">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Chai Point Mixed Instant Tea ( Ginger, Masala, Cardamom, Classic) | 20 Sachets| Instant Premix Tea | Authentic Flavoured Chai | CHAIPOINT</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">17.90/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹358</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹398</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">10% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="chai point instant cardamom tea - 10 sachets | authentic elaichi chai | instant tea premix | assam tea with natural elaichi flavour | chaipoint">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Chai Point Instant Cardamom Tea - 10 Sachets | Authentic Elaichi Chai | Instant Tea Premix | Assam Tea with natural Elaichi flavour | CHAIPOINT</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">18.00/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹180</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹199</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">10% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="chai point instant masala tea (no sugar)| 10 sachets| incredibly authentic| masala flavored tea| masala chai| instant premix tea | chaipoint">
+        <td class="px-4 py-3 font-medium text-white max-w-md">CHAI POINT Instant Masala Tea (No Sugar)| 10 Sachets| Incredibly Authentic| Masala Flavored Tea| Masala Chai| Instant Premix Tea | CHAIPOINT</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">18.00/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹180</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹199</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">10% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="chai point instant masala tea - 10 sachets | authentic masala chai | instant tea premix | masala flavored tea | ready-to-drink chai | chaipoint">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Chai Point Instant Masala Tea - 10 Sachets | Authentic Masala Chai | Instant Tea Premix | Masala Flavored Tea | Ready-to-Drink Chai | CHAIPOINT</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">18.00/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹180</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹199</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">10% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="chai point instant cardamom tea ( without sugar) - 10 sachets | elaichi tea| instant chai| premix tea| assam tea| elaichi mix | chaipoint">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Chai Point Instant Cardamom Tea ( Without Sugar) - 10 Sachets | Elaichi Tea| Instant Chai| Premix Tea| Assam Tea| Elaichi Mix | CHAIPOINT</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">18.00/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹180</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹199</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">10% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="octavius ginger chai ready tea instant tea premix in tin gift can - 10 sachets (pack of 2)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Octavius Ginger Chai Ready Tea Instant Tea Premix in Tin Gift Can - 10 Sachets (Pack of 2)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">264.50/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹529</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹600</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">12% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="granules n beans gnb granules and beans masala instant tea premix chai |pack of 10 sachet spices, ginger, cardamom, cinnamon, cloves, black pepper instant tea box">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Granules N Beans GnB Granules and Beans Masala Instant Tea Premix chai |Pack of 10 Sachet Spices, Ginger, Cardamom, Cinnamon, Cloves, Black Pepper Instant Tea Box</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹120</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹142</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="granules n beans gnb grnules and beans kashmiri kahwa instant premix immunity | (3 x 10 sachets) saffron instant tea box">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Granules N Beans GnB Grnules and Beans Kashmiri Kahwa Instant Premix Immunity | (3 x 10 Sachets) Saffron Instant Tea Box</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹286</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹426</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">33% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="namhya foods kidney pack 25 tea bags unflavoured instant tea bags box">
+        <td class="px-4 py-3 font-medium text-white max-w-md">NAMHYA FOODS Kidney Pack 25 Tea Bags Unflavoured Instant Tea Bags Box</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹354</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹419</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">16% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="society elaichi instant tea plastic bottle">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Society Elaichi Instant Tea Plastic Bottle</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹183</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹225</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">19% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="society daily masala premix instant tea pouch">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Society Daily Masala Premix Instant Tea Pouch</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹270</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹400</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">33% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="namhya foods namhya kidney tea | loose tea unflavoured instant tea bags box">
+        <td class="px-4 py-3 font-medium text-white max-w-md">NAMHYA FOODS Namhya Kidney tea | Loose tea Unflavoured Instant Tea Bags Box</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹565</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹589</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">4% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="chaayos instant tea premix (masala)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Chaayos Instant Tea Premix (Masala)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">4 pcs</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹59</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹59</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="chaayos masala instant tea premix regular sugar">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Chaayos Masala Instant Tea Premix Regular Sugar</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">15 pcs</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹149</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹168</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">11% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="chaayos adrak elaichi instant tea premix (low sugar)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Chaayos Adrak Elaichi Instant Tea Premix (Low Sugar)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">15 pcs</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹169</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹186</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">9% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="chaayos instant tea premix (ginger)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Chaayos Instant Tea Premix (Ginger)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">4 pcs</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹59</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹59</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="chaayos cardamom instant tea premix regular sugar">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Chaayos Cardamom Instant Tea Premix Regular Sugar</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">15 pcs</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹152</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹168</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">10% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="chaayos instant lemon ice tea premix">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Chaayos Instant Lemon Ice Tea Premix</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">10 pcs</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹100</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹106</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">6% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="chaayos instant peach ice tea premix">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Chaayos Instant Peach Ice Tea Premix</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">10 pcs</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹99</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹106</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">7% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="chaayos masala chai tea bags">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Chaayos Masala Chai Tea Bags</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">25 pcs</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹150</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹159</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">6% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="chaayos cardamom instant tea premix">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Chaayos Cardamom Instant Tea Premix</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (10 or 15 Pcs)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹151</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹168</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">10% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="chaayos adrak elaichi instant tea premix - low sugar">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Chaayos Adrak Elaichi Instant Tea Premix - Low Sugar</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (10 or 15 Sachets)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹167</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹186</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">10% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="chaayos instant tea premix combo / masala + elaichi + ginger">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Chaayos Instant Tea Premix Combo / Masala + Elaichi + Ginger</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (12 pcs)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹135</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹150</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">10% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="chaayos instant masala tea premix">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Chaayos Instant Masala Tea Premix</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (10 or 15 Sachets)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹149</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹168</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">11% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="chaayos masala instant tea premix low sugar | instant masala tea">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Chaayos Masala Instant Tea Premix Low Sugar | Instant Masala Tea</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (10 x 12g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹98</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹120</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">18% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="chaayos ginger instant tea premix">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Chaayos Ginger Instant Tea Premix</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (4 pcs)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹59</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹59</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="oos" data-platform="zeptonow.com" data-title="chaayos masala instant tea premix">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Chaayos Masala Instant Tea Premix</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (4 pcs)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹59</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹59</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-rose-500/20 text-rose-400 border border-rose-500/30 font-mono text-[11px] font-bold">OUT OF STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="society omt masala instant tea premix">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Society OMT Masala Instant Tea Premix</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (10 Pcs)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹90</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹135</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">33% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="instant tea premix - adrak elaichi flavour - regular sugar (22g * 15 sachet) (makes 150ml), ginger powder, elaichi powder, premix tea, assam tea, desi chai">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Instant Tea Premix - Adrak Elaichi Flavour - Regular Sugar (22g * 15 Sachet) (Makes 150ml), Ginger Powder, Elaichi Powder, Premix Tea, Assam Tea, Desi Chai</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">22g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹265</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹17.67</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="adrak elaichi tea (ginger and cardamom) - premium desi chai patti for authentic masala flavour | immunity booster- 100g [50 cups]">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Adrak Elaichi Tea (Ginger and Cardamom) - Premium Desi Chai Patti for Authentic Masala Flavour | Immunity Booster- 100g [50 Cups]</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">100g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹177</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹177</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Wed, 4 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="instant tea premix - adrak elaichi flavour - low sugar (12g * 30 sachet) (makes 150ml), ginger powder, elaichi powder, premix tea, desi chai">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Instant Tea Premix - Adrak Elaichi Flavour - Low Sugar (12g * 30 Sachet) (Makes 150ml), Ginger Powder, Elaichi Powder, Premix Tea, Desi Chai</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">12g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹560</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹18.67</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="detox green tea - desi kahwa (25 tea bags), rich in antioxidant, helps improves digestion &amp; detoxification">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Detox Green Tea - Desi Kahwa (25 Tea Bags), Rich in Antioxidant, Helps Improves Digestion &amp; Detoxification</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹245</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹9.8</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Wed, 4 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="masala instant tea premix sachets - regular sugar (30 sachets) 30 x 22g (660g) | instant masala chai | ready mix masala tea premix">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Masala Instant Tea Premix Sachets - Regular Sugar (30 Sachets) 30 x 22g (660g) | Instant Masala Chai | Ready Mix Masala Tea Premix</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">22g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹551</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹15.31</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="peach instant iced tea premix - refreshing energy drink, pack of 10 sachets">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Peach Instant Iced Tea Premix - Refreshing Energy Drink, Pack of 10 Sachets</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹95</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹43.18</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Wed, 4 Nov</td>
+      </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- Sticky CTA Footer -->
+  <div class="fixed bottom-0 inset-x-0 bg-slate-950/95 border-t border-emerald-500/30 backdrop-blur px-6 py-3.5 z-30">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+      <div class="text-slate-200">
+        <span class="text-emerald-400 font-bold">⚡ Unscrape Radar:</span> Want real-time Slack/WhatsApp/Telegram alerts within 15 mins whenever <strong>Chaayos</strong> SKUs go Out-of-Stock across 20 BLR/MUM/DEL dark-store pin codes?
+      </div>
+      <div class="flex items-center gap-2.5 shrink-0">
+        <a href="https://github.com/deveshkolte/unscrape" target="_blank" class="px-4 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold">Unlock Automated 20-Pin-Code Monitor →</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const RAW_CSV = "brand,city,pincode,platform,skuId,title,sellingPriceInr,mrpInr,discountPercent,unit,inStock,deliveryEta,url\nChaayos,Bengaluru,560001,bigbasket.com/jiomart,20539060,\"Chai Point Mixed Instant Tea ( Ginger, Masala, Cardamom, Classic) | 20 Sachets| Instant Premix Tea | Authentic Flavoured Chai | CHAIPOINT\",358,398,10,17.90/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/chai-point-mixed-instant-tea-ginger-masala-cardamom-classic-20-sachets-instant-premix-tea-authentic-flavoured-chai-mia187-20539060/20539060\nChaayos,Bengaluru,560001,bigbasket.com/jiomart,20437326,Chai Point Instant Cardamom Tea - 10 Sachets | Authentic Elaichi Chai | Instant Tea Premix | Assam Tea with natural Elaichi flavour | CHAIPOINT,180,199,10,18.00/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/chai-point-instant-cardamom-tea-10-sachets-authentic-elaichi-chai-instant-tea-premix-assam-tea-with-natural-elaichi-flavour-mi9x3p-20437326/20437326\nChaayos,Bengaluru,560001,bigbasket.com/jiomart,19459428,CHAI POINT Instant Masala Tea (No Sugar)| 10 Sachets| Incredibly Authentic| Masala Flavored Tea| Masala Chai| Instant Premix Tea | CHAIPOINT,180,199,10,18.00/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/chai-point-instant-masala-tea-no-sugar-10-sachets-incredibly-authentic-masala-flavored-tea-masala-chai-instant-premix-tea-pack-of-1-mi8yoq-19459428/19459428\nChaayos,Bengaluru,560001,bigbasket.com/jiomart,19714445,Chai Point Instant Masala Tea - 10 Sachets | Authentic Masala Chai | Instant Tea Premix | Masala Flavored Tea | Ready-to-Drink Chai | CHAIPOINT,180,199,10,18.00/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/chai-point-instant-masala-tea-10-sachets-authentic-masala-chai-instant-tea-premix-masala-flavored-tea-ready-to-drink-chai-mi978l-19714445/19714445\nChaayos,Bengaluru,560001,bigbasket.com/jiomart,19735766,Chai Point Instant Cardamom Tea ( Without Sugar) - 10 Sachets | Elaichi Tea| Instant Chai| Premix Tea| Assam Tea| Elaichi Mix | CHAIPOINT,180,199,10,18.00/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/chai-point-instant-cardamom-tea-without-sugar-10-sachets-elaichi-tea-instant-chai-premix-tea-assam-tea-elaichi-mix-mi97ss-19735766/19735766\nChaayos,Bengaluru,560001,bigbasket.com/jiomart,35850880,Octavius Ginger Chai Ready Tea Instant Tea Premix in Tin Gift Can - 10 Sachets (Pack of 2),529,600,12,264.50/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/octavius-ginger-chai-ready-tea-instant-tea-premix-in-tin-gift-can-10-sachets-pack-of-2-mixkfw-35850880/35850880\nChaayos,Mumbai,400001,bigbasket.com/jiomart,20539060,\"Chai Point Mixed Instant Tea ( Ginger, Masala, Cardamom, Classic) | 20 Sachets| Instant Premix Tea | Authentic Flavoured Chai | CHAIPOINT\",358,398,10,17.90/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/chai-point-mixed-instant-tea-ginger-masala-cardamom-classic-20-sachets-instant-premix-tea-authentic-flavoured-chai-mia187-20539060/20539060\nChaayos,Mumbai,400001,bigbasket.com/jiomart,20437326,Chai Point Instant Cardamom Tea - 10 Sachets | Authentic Elaichi Chai | Instant Tea Premix | Assam Tea with natural Elaichi flavour | CHAIPOINT,180,199,10,18.00/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/chai-point-instant-cardamom-tea-10-sachets-authentic-elaichi-chai-instant-tea-premix-assam-tea-with-natural-elaichi-flavour-mi9x3p-20437326/20437326\nChaayos,Mumbai,400001,bigbasket.com/jiomart,19459428,CHAI POINT Instant Masala Tea (No Sugar)| 10 Sachets| Incredibly Authentic| Masala Flavored Tea| Masala Chai| Instant Premix Tea | CHAIPOINT,180,199,10,18.00/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/chai-point-instant-masala-tea-no-sugar-10-sachets-incredibly-authentic-masala-flavored-tea-masala-chai-instant-premix-tea-pack-of-1-mi8yoq-19459428/19459428\nChaayos,Mumbai,400001,bigbasket.com/jiomart,19714445,Chai Point Instant Masala Tea - 10 Sachets | Authentic Masala Chai | Instant Tea Premix | Masala Flavored Tea | Ready-to-Drink Chai | CHAIPOINT,180,199,10,18.00/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/chai-point-instant-masala-tea-10-sachets-authentic-masala-chai-instant-tea-premix-masala-flavored-tea-ready-to-drink-chai-mi978l-19714445/19714445\nChaayos,Mumbai,400001,bigbasket.com/jiomart,19735766,Chai Point Instant Cardamom Tea ( Without Sugar) - 10 Sachets | Elaichi Tea| Instant Chai| Premix Tea| Assam Tea| Elaichi Mix | CHAIPOINT,180,199,10,18.00/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/chai-point-instant-cardamom-tea-without-sugar-10-sachets-elaichi-tea-instant-chai-premix-tea-assam-tea-elaichi-mix-mi97ss-19735766/19735766\nChaayos,Mumbai,400001,bigbasket.com/jiomart,35850880,Octavius Ginger Chai Ready Tea Instant Tea Premix in Tin Gift Can - 10 Sachets (Pack of 2),529,600,12,264.50/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/octavius-ginger-chai-ready-tea-instant-tea-premix-in-tin-gift-can-10-sachets-pack-of-2-mixkfw-35850880/35850880\nChaayos,Delhi,110001,bigbasket.com/jiomart,20539060,\"Chai Point Mixed Instant Tea ( Ginger, Masala, Cardamom, Classic) | 20 Sachets| Instant Premix Tea | Authentic Flavoured Chai | CHAIPOINT\",358,398,10,17.90/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/chai-point-mixed-instant-tea-ginger-masala-cardamom-classic-20-sachets-instant-premix-tea-authentic-flavoured-chai-mia187-20539060/20539060\nChaayos,Delhi,110001,bigbasket.com/jiomart,20437326,Chai Point Instant Cardamom Tea - 10 Sachets | Authentic Elaichi Chai | Instant Tea Premix | Assam Tea with natural Elaichi flavour | CHAIPOINT,180,199,10,18.00/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/chai-point-instant-cardamom-tea-10-sachets-authentic-elaichi-chai-instant-tea-premix-assam-tea-with-natural-elaichi-flavour-mi9x3p-20437326/20437326\nChaayos,Delhi,110001,bigbasket.com/jiomart,19459428,CHAI POINT Instant Masala Tea (No Sugar)| 10 Sachets| Incredibly Authentic| Masala Flavored Tea| Masala Chai| Instant Premix Tea | CHAIPOINT,180,199,10,18.00/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/chai-point-instant-masala-tea-no-sugar-10-sachets-incredibly-authentic-masala-flavored-tea-masala-chai-instant-premix-tea-pack-of-1-mi8yoq-19459428/19459428\nChaayos,Delhi,110001,bigbasket.com/jiomart,19714445,Chai Point Instant Masala Tea - 10 Sachets | Authentic Masala Chai | Instant Tea Premix | Masala Flavored Tea | Ready-to-Drink Chai | CHAIPOINT,180,199,10,18.00/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/chai-point-instant-masala-tea-10-sachets-authentic-masala-chai-instant-tea-premix-masala-flavored-tea-ready-to-drink-chai-mi978l-19714445/19714445\nChaayos,Delhi,110001,bigbasket.com/jiomart,19735766,Chai Point Instant Cardamom Tea ( Without Sugar) - 10 Sachets | Elaichi Tea| Instant Chai| Premix Tea| Assam Tea| Elaichi Mix | CHAIPOINT,180,199,10,18.00/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/chai-point-instant-cardamom-tea-without-sugar-10-sachets-elaichi-tea-instant-chai-premix-tea-assam-tea-elaichi-mix-mi97ss-19735766/19735766\nChaayos,Delhi,110001,bigbasket.com/jiomart,35850880,Octavius Ginger Chai Ready Tea Instant Tea Premix in Tin Gift Can - 10 Sachets (Pack of 2),529,600,12,264.50/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/octavius-ginger-chai-ready-tea-instant-tea-premix-in-tin-gift-can-10-sachets-pack-of-2-mixkfw-35850880/35850880\nChaayos,Bengaluru,560001,flipkart.com,TEAH52FTZZJ57ZZD,\"Granules N Beans GnB Granules and Beans Masala Instant Tea Premix chai |Pack of 10 Sachet Spices, Ginger, Cardamom, Cinnamon, Cloves, Black Pepper Instant Tea Box\",120,142,15,1 unit,true,15 MINS,https://www.flipkart.com/granules-n-beans-gnb-masala-instant-tea-premix-chai-pack-10-sachet-spices-ginger-cardamom-cinnamon-cloves-black-pepper-box/p/itm436338061273b?pid=TEAH52FTZZJ57ZZD&lid=LSTTEAH52FTZZJ57ZZDKWF8OY&marketplace=FLIPKART&q=chaayos+instant+tea&store=eat%2Ffpm&srno=s_1_1&otracker=search&fm=organic&iid=a91fb998-0eee-4e20-89c9-3cf56ed8f08b.TEAH52FTZZJ57ZZD.SEARCH&ppt=sp&ppn=sp&ssid=saoeos2wio0000001793387412375&qH=809f04d4e873c37c&ov_redirect=true&ov_redirect=true\nChaayos,Bengaluru,560001,flipkart.com,TEAH52FT69GZGUWH,Granules N Beans GnB Grnules and Beans Kashmiri Kahwa Instant Premix Immunity | (3 x 10 Sachets) Saffron Instant Tea Box,286,426,33,1 unit,true,15 MINS,https://www.flipkart.com/granules-n-beans-gnb-grnules-kashmiri-kahwa-instant-premix-immunity-3-x-10-sachets-saffron-tea-box/p/itmea929def955cb?pid=TEAH52FT69GZGUWH&lid=LSTTEAH52FT69GZGUWHJOCCLY&marketplace=FLIPKART&q=chaayos+instant+tea&store=eat%2Ffpm&srno=s_1_2&otracker=search&fm=organic&iid=a91fb998-0eee-4e20-89c9-3cf56ed8f08b.TEAH52FT69GZGUWH.SEARCH&ppt=sp&ppn=sp&ssid=saoeos2wio0000001793387412375&qH=809f04d4e873c37c&ov_redirect=true&ov_redirect=true\nChaayos,Bengaluru,560001,flipkart.com,TEAHFBUJAZSEHVJV,NAMHYA FOODS Kidney Pack 25 Tea Bags Unflavoured Instant Tea Bags Box,354,419,16,1 unit,true,15 MINS,https://www.flipkart.com/namhya-foods-kidney-pack-25-tea-bags-unflavoured-instant-box/p/itmd5cff00732a97?pid=TEAHFBUJAZSEHVJV&lid=LSTTEAHFBUJAZSEHVJVCX5YET&marketplace=FLIPKART&q=chaayos+instant+tea&store=eat%2Ffpm&srno=s_1_3&otracker=search&fm=organic&iid=a91fb998-0eee-4e20-89c9-3cf56ed8f08b.TEAHFBUJAZSEHVJV.SEARCH&ppt=sp&ppn=sp&ssid=saoeos2wio0000001793387412375&qH=809f04d4e873c37c&ov_redirect=true&ov_redirect=true\nChaayos,Bengaluru,560001,flipkart.com,TEAGRZPW6KQJ7HZS,Society Elaichi Instant Tea Plastic Bottle,183,225,19,1 unit,true,15 MINS,https://www.flipkart.com/society-elaichi-instant-tea-plastic-bottle/p/itm3afe99d19cc27?pid=TEAGRZPW6KQJ7HZS&lid=LSTTEAGRZPW6KQJ7HZSQFYLIG&marketplace=FLIPKART&q=chaayos+instant+tea&store=eat%2Ffpm&srno=s_1_4&otracker=search&fm=organic&iid=a91fb998-0eee-4e20-89c9-3cf56ed8f08b.TEAGRZPW6KQJ7HZS.SEARCH&ppt=sp&ppn=sp&ssid=saoeos2wio0000001793387412375&qH=809f04d4e873c37c&ov_redirect=true&ov_redirect=true\nChaayos,Bengaluru,560001,flipkart.com,TEAGRU9HMUHYQZVK,Society Daily Masala Premix Instant Tea Pouch,270,400,33,1 unit,true,15 MINS,https://www.flipkart.com/society-daily-masala-premix-instant-tea-pouch/p/itm835afee885735?pid=TEAGRU9HMUHYQZVK&lid=LSTTEAGRU9HMUHYQZVKD1IUXY&marketplace=FLIPKART&q=chaayos+instant+tea&store=eat%2Ffpm&srno=s_1_5&otracker=search&fm=organic&iid=a91fb998-0eee-4e20-89c9-3cf56ed8f08b.TEAGRU9HMUHYQZVK.SEARCH&ppt=sp&ppn=sp&ssid=saoeos2wio0000001793387412375&qH=809f04d4e873c37c&ov_redirect=true&ov_redirect=true\nChaayos,Bengaluru,560001,flipkart.com,TEAHGAF7GUYFMXBJ,NAMHYA FOODS Namhya Kidney tea | Loose tea Unflavoured Instant Tea Bags Box,565,589,4,1 unit,true,15 MINS,https://www.flipkart.com/namhya-foods-kidney-tea-loose-unflavoured-instant-bags-box/p/itm2490070b9be7f?pid=TEAHGAF7GUYFMXBJ&lid=LSTTEAHGAF7GUYFMXBJIOQ40P&marketplace=FLIPKART&q=chaayos+instant+tea&store=eat%2Ffpm&srno=s_1_6&otracker=search&fm=organic&iid=en_h7wL1JZ7UFjb5vOgKHokiDRV-L_LBgwhBjy5PoUMaasRZm3cOmaTO1bgdd4E4XVktm8zd8hatXev7TRv6BlrpnDK7e2TpXDRQdAnwnQybVlj0CbTLjY1BN4P_k0LowuD&ppt=sp&ppn=sp&ssid=saoeos2wio0000001793387412375&qH=809f04d4e873c37c&ov_redirect=true&ov_redirect=true\nChaayos,Bengaluru,560001,blinkit.com,694023,Chaayos Instant Tea Premix (Masala),59,59,0,4 pcs,true,10 MINS,https://blinkit.com/prn/chaayos-instant-tea-premix-masala/prid/694023\nChaayos,Bengaluru,560001,blinkit.com,561393,Chaayos Masala Instant Tea Premix Regular Sugar,149,168,11,15 pcs,true,10 MINS,https://blinkit.com/prn/chaayos-masala-instant-tea-premix-regular-sugar/prid/561393\nChaayos,Bengaluru,560001,blinkit.com,609550,Chaayos Adrak Elaichi Instant Tea Premix (Low Sugar),169,186,9,15 pcs,true,10 MINS,https://blinkit.com/prn/chaayos-adrak-elaichi-instant-tea-premix-low-sugar/prid/609550\nChaayos,Bengaluru,560001,blinkit.com,693136,Chaayos Instant Tea Premix (Ginger),59,59,0,4 pcs,true,10 MINS,https://blinkit.com/prn/chaayos-instant-tea-premix-ginger/prid/693136\nChaayos,Bengaluru,560001,blinkit.com,561689,Chaayos Cardamom Instant Tea Premix Regular Sugar,152,168,10,15 pcs,true,10 MINS,https://blinkit.com/prn/chaayos-cardamom-instant-tea-premix-regular-sugar/prid/561689\nChaayos,Bengaluru,560001,blinkit.com,632754,Chaayos Instant Lemon Ice Tea Premix,100,106,6,10 pcs,true,10 MINS,https://blinkit.com/prn/chaayos-instant-lemon-ice-tea-premix/prid/632754\nChaayos,Bengaluru,560001,blinkit.com,632750,Chaayos Instant Peach Ice Tea Premix,99,106,7,10 pcs,true,10 MINS,https://blinkit.com/prn/chaayos-instant-peach-ice-tea-premix/prid/632750\nChaayos,Bengaluru,560001,blinkit.com,438462,Chaayos Masala Chai Tea Bags,150,159,6,25 pcs,true,10 MINS,https://blinkit.com/prn/chaayos-masala-chai-tea-bags/prid/438462\nChaayos,Bengaluru,560001,zeptonow.com,5c8eeae4-5498-5fb3-a7ce-c40b30749ad1,Chaayos Cardamom Instant Tea Premix,151,168,10,1 pack (10 or 15 Pcs),true,10 MINS,https://www.zepto.com/pn/chaayos-cardamom-instant-tea-premix/pvid/83ae76be-e951-4c27-a10b-455a2ed87b30\nChaayos,Bengaluru,560001,zeptonow.com,7755bb76-355b-58fd-947e-a077512ed035,Chaayos Adrak Elaichi Instant Tea Premix - Low Sugar,167,186,10,1 pack (10 or 15 Sachets),true,10 MINS,https://www.zepto.com/pn/chaayos-adrak-elaichi-instant-tea-premix-low-sugar/pvid/102842f3-8ded-4069-a4d0-1448fc74f924\nChaayos,Bengaluru,560001,zeptonow.com,53511909-ff6d-5d7e-8437-dcdaabb0eef2,Chaayos Instant Tea Premix Combo / Masala + Elaichi + Ginger,135,150,10,1 pack (12 pcs),true,10 MINS,https://www.zepto.com/pn/chaayos-instant-tea-premix-combo-masala-elaichi-ginger/pvid/807bf380-a82d-47af-9e43-2c80eecec08a\nChaayos,Bengaluru,560001,zeptonow.com,25a45476-7373-5087-a546-48e5646f2692,Chaayos Instant Masala Tea Premix,149,168,11,1 pack (10 or 15 Sachets),true,10 MINS,https://www.zepto.com/pn/chaayos-instant-masala-tea-premix/pvid/57d23528-9d15-4758-aa2a-1c9e25c9f94a\nChaayos,Bengaluru,560001,zeptonow.com,8e48b227-b451-5186-90eb-3448bf41d15b,Chaayos Masala Instant Tea Premix Low Sugar | Instant Masala Tea,98,120,18,1 pack (10 x 12g),true,10 MINS,https://www.zepto.com/pn/chaayos-masala-instant-tea-premix-low-sugar-instant-masala-tea/pvid/7974e194-2d25-4d1d-9783-ec2b1629d1c1\nChaayos,Bengaluru,560001,zeptonow.com,c60ff0a0-ae9b-5903-a684-ecb463f17f7c,Chaayos Ginger Instant Tea Premix,59,59,0,1 pack (4 pcs),true,10 MINS,https://www.zepto.com/pn/chaayos-ginger-instant-tea-premix/pvid/69a5e34f-19df-44b7-92bf-68858c3fadf0\nChaayos,Bengaluru,560001,zeptonow.com,7b5983c8-96a8-572f-b0ed-7bf4bde5e773,Chaayos Masala Instant Tea Premix,59,59,0,1 pack (4 pcs),false,10 MINS,https://www.zepto.com/pn/chaayos-masala-instant-tea-premix/pvid/f9262d25-1d58-441b-b7a5-2b5d7438102d\nChaayos,Bengaluru,560001,zeptonow.com,7187ed1a-583a-5861-923e-a67a61f6e1d6,Society OMT Masala Instant Tea Premix,90,135,33,1 pack (10 Pcs),true,10 MINS,https://www.zepto.com/pn/society-omt-masala-instant-tea-premix/pvid/1acf1c46-0854-49f6-9800-197d79a9f25e\nChaayos,Bengaluru,560001,amazon.in,B08TM9JNBJ,\"Instant Tea Premix - Adrak Elaichi Flavour - Regular Sugar (22g * 15 Sachet) (Makes 150ml), Ginger Powder, Elaichi Powder, Premix Tea, Assam Tea, Desi Chai\",265,17.67,0,22g,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B08TM9JNBJ\nChaayos,Bengaluru,560001,amazon.in,B08CRM2C3J,Adrak Elaichi Tea (Ginger and Cardamom) - Premium Desi Chai Patti for Authentic Masala Flavour | Immunity Booster- 100g [50 Cups],177,177,0,100g,true,\"Wed, 4 Nov\",https://www.amazon.in/dp/B08CRM2C3J\nChaayos,Bengaluru,560001,amazon.in,B07W4W9PK1,\"Instant Tea Premix - Adrak Elaichi Flavour - Low Sugar (12g * 30 Sachet) (Makes 150ml), Ginger Powder, Elaichi Powder, Premix Tea, Desi Chai\",560,18.67,0,12g,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B07W4W9PK1\nChaayos,Bengaluru,560001,amazon.in,B09N79KBWM,\"Detox Green Tea - Desi Kahwa (25 Tea Bags), Rich in Antioxidant, Helps Improves Digestion & Detoxification\",245,9.8,0,1 unit,true,\"Wed, 4 Nov\",https://www.amazon.in/dp/B09N79KBWM\nChaayos,Bengaluru,560001,amazon.in,B07WCBDPK8,Masala Instant Tea Premix Sachets - Regular Sugar (30 Sachets) 30 x 22g (660g) | Instant Masala Chai | Ready Mix Masala Tea Premix,551,15.31,0,22g,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B07WCBDPK8\nChaayos,Bengaluru,560001,amazon.in,B0F9F68TR2,\"Peach Instant Iced Tea Premix - Refreshing Energy Drink, Pack of 10 Sachets\",95,43.18,0,1 unit,true,\"Wed, 4 Nov\",https://www.amazon.in/dp/B0F9F68TR2\n";
+
+    function filterRows(mode) {
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const stock = row.getAttribute('data-stock');
+        if (mode === 'all') row.style.display = '';
+        else if (mode === 'oos') row.style.display = stock === 'oos' ? '' : 'none';
+        else if (mode === 'instock') row.style.display = stock === 'instock' ? '' : 'none';
+      });
+    }
+
+    function searchSkus() {
+      const q = document.getElementById('skuSearch').value.toLowerCase();
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const title = row.getAttribute('data-title') || '';
+        const platform = (row.getAttribute('data-platform') || '').toLowerCase();
+        row.style.display = (title.includes(q) || platform.includes(q)) ? '' : 'none';
+      });
+    }
+
+    function downloadCsv() {
+      const blob = new Blob([RAW_CSV], { type: 'text/csv;charset=utf-8;' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'chaayos-3city-audit.csv';
+      a.click();
+    }
+  </script>
+</body>
+</html>

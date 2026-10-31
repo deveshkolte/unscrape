@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bombay Shaving Company — 3-City Quick-Commerce Dark-Store Audit Scorecard | Unscrape Radar</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background-color: #07080d; color: #f3f4f6; font-family: Inter, system-ui, -apple-system, sans-serif; }
+  </style>
+</head>
+<body class="min-h-screen pb-24">
+  <!-- Top Bar -->
+  <header class="border-b border-slate-800 bg-slate-950/90 backdrop-blur sticky top-0 z-20">
+    <div class="max-w-7xl mx-auto px-6 py-3.5 flex items-center justify-between flex-wrap gap-3">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="text-emerald-400 font-black text-lg tracking-tight hover:text-emerald-300">⚡ UNSCRAPE RADAR</a>
+        <span class="text-xs text-slate-500">/</span>
+        <span class="text-sm font-bold text-white">Bombay Shaving Company Executive Scorecard</span>
+      </div>
+      <div class="flex items-center gap-2.5 text-xs">
+        <a href="index.html" class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700">← All 56 Brand Audits</a>
+        <button onclick="downloadCsv()" class="px-3.5 py-1.5 rounded-lg bg-emerald-500 text-slate-950 font-bold hover:bg-emerald-400">⬇ Download Raw CSV (46 SKUs)</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-6 pt-8">
+    <!-- Executive Header -->
+    <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 mb-8">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+        <div>
+          <div class="flex items-center gap-2.5 mb-2">
+            <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded bg-slate-800 text-emerald-400">Grooming &amp; Razors</span>
+            <span class="text-xs text-slate-400 font-mono">Audited: 2026-10-30</span>
+          </div>
+          <h1 class="text-3xl md:text-4xl font-black text-white tracking-tight">Bombay Shaving Company — Hyperlocal Dark-Store Audit</h1>
+          <p class="text-slate-400 text-sm mt-1">
+            Live multi-platform inventory & MOP/MRP price variance scan across <strong>Bengaluru (560001)</strong>, <strong>Mumbai (400001)</strong>, and <strong>Delhi (110001)</strong>.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 shrink-0">
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">SKUs Audited</div>
+            <div class="text-2xl font-black text-white mt-1">46</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">OOS Leaks</div>
+            <div class="text-2xl font-black text-emerald-400 mt-1">0</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">Max Markdown</div>
+            <div class="text-2xl font-black text-amber-300 mt-1">80%</div>
+          </div>
+          <div class="border rounded-xl p-3.5 text-center bg-emerald-500/15 text-emerald-400 border-emerald-500/30">
+            <div class="text-[11px] uppercase font-bold opacity-80">Shelf Health</div>
+            <div class="text-2xl font-black mt-1">100%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="bg-emerald-950/30 border border-emerald-500/30 rounded-2xl p-5 mb-8 flex items-center justify-between flex-wrap gap-3">
+      <div>
+        <span class="px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 font-bold text-xs uppercase">✓ 100% In-Stock Snapshot</span>
+        <span class="text-sm text-slate-200 ml-2">All 46 audited dark-store listings across Bengaluru, Mumbai & Delhi were in stock during this scan. Max discount variance: <strong>80% below MRP</strong>.</span>
+      </div>
+    </div>
+
+    <!-- Filter Controls -->
+    <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+      <div class="flex items-center gap-2 text-xs">
+        <button onclick="filterRows('all')" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-semibold">All SKUs (46)</button>
+        <button onclick="filterRows('oos')" class="px-3 py-1.5 rounded-lg bg-rose-500/15 border border-rose-500/30 text-rose-300 hover:bg-rose-500/25 font-semibold">Out-of-Stock Only (0)</button>
+        <button onclick="filterRows('instock')" class="px-3 py-1.5 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 hover:bg-emerald-500/25 font-semibold">In-Stock (46)</button>
+      </div>
+      <div class="flex items-center gap-2">
+        <input id="skuSearch" type="text" oninput="searchSkus()" placeholder="Filter SKU title or platform..." class="bg-slate-900 border border-slate-800 rounded-lg px-3.5 py-1.5 text-xs text-white w-64" />
+      </div>
+    </div>
+
+    <!-- SKU Table -->
+    <div class="bg-slate-900/50 border border-slate-800 rounded-2xl overflow-x-auto">
+      <table class="w-full text-left text-xs">
+        <thead class="bg-slate-950/90 text-slate-400 uppercase border-b border-slate-800">
+          <tr>
+            <th class="px-4 py-3">SKU Title</th>
+            <th class="px-4 py-3">Platform</th>
+            <th class="px-4 py-3">City / Pin</th>
+            <th class="px-4 py-3">Pack Size</th>
+            <th class="px-4 py-3">Selling Price</th>
+            <th class="px-4 py-3">MRP</th>
+            <th class="px-4 py-3">Discount</th>
+            <th class="px-4 py-3">Stock Status</th>
+            <th class="px-4 py-3">ETA</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-800/60">
+          <tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bombay shaving company flexi stud disposable razor pack of 5">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bombay Shaving Company Flexi Stud Disposable Razor Pack of 5</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">14.00/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹70</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹140</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bombay shaving company sensi smart 3 razor and charcoal shaving foam combo | 3 blades shaving razor for men &amp; charcoal shaving foam 50g | combo back | travel friendly shaving combo">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bombay Shaving Company Sensi Smart 3 Razor and Charcoal Shaving Foam Combo | 3 Blades Shaving Razor For Men &amp; Charcoal Shaving Foam 50g | Combo Back | Travel Friendly Shaving Combo</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹149</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹244</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">39% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bombay shaving company power groomer 11-in-1 body groomer 90 min runtime 3 length settings(blue)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bombay Shaving Company power groomer 11-IN-1 Body Groomer 90 min Runtime 3 Length Settings(Blue)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹999</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹2000</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bombay shaving company beard trimmer for men, 2x fast charging, usb type c, 2 yr warranty, 120min runtime, hair trimmer, shaving machine, cordless beard, 38 length settings">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bombay Shaving Company Beard Trimmer For Men, 2X Fast Charging, USB Type C, 2 Yr Warranty, 120Min runtime, Hair Trimmer, Shaving Machine, Cordless Beard, 38 length Settings</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹699</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1199</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">42% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bombay shaving company power play next trimmer, self sharpening blades, trimmer for men">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bombay Shaving Company Power Play Next Trimmer, Self sharpening blades, Trimmer for Men</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹599</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1000</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">40% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bombay shaving company power playnxt trimmer for men, 90 min runtime">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bombay Shaving Company Power PlayNxt Trimmer For Men, 90 Min Runtime</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹649</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1000</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">35% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bombay shaving company flexi stud disposable razor pack of 5">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bombay Shaving Company Flexi Stud Disposable Razor Pack of 5</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">14.00/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹70</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹140</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bombay shaving company sensi smart 3 razor and charcoal shaving foam combo | 3 blades shaving razor for men &amp; charcoal shaving foam 50g | combo back | travel friendly shaving combo">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bombay Shaving Company Sensi Smart 3 Razor and Charcoal Shaving Foam Combo | 3 Blades Shaving Razor For Men &amp; Charcoal Shaving Foam 50g | Combo Back | Travel Friendly Shaving Combo</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹149</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹244</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">39% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bombay shaving company power groomer 11-in-1 body groomer 90 min runtime 3 length settings(blue)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bombay Shaving Company power groomer 11-IN-1 Body Groomer 90 min Runtime 3 Length Settings(Blue)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹999</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹2000</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bombay shaving company beard trimmer for men, 2x fast charging, usb type c, 2 yr warranty, 120min runtime, hair trimmer, shaving machine, cordless beard, 38 length settings">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bombay Shaving Company Beard Trimmer For Men, 2X Fast Charging, USB Type C, 2 Yr Warranty, 120Min runtime, Hair Trimmer, Shaving Machine, Cordless Beard, 38 length Settings</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹699</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1199</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">42% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bombay shaving company power play next trimmer, self sharpening blades, trimmer for men">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bombay Shaving Company Power Play Next Trimmer, Self sharpening blades, Trimmer for Men</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹599</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1000</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">40% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bombay shaving company power playnxt trimmer for men, 90 min runtime">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bombay Shaving Company Power PlayNxt Trimmer For Men, 90 Min Runtime</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹649</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1000</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">35% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bombay shaving company flexi stud disposable razor pack of 5">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bombay Shaving Company Flexi Stud Disposable Razor Pack of 5</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">14.00/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹70</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹140</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bombay shaving company sensi smart 3 razor and charcoal shaving foam combo | 3 blades shaving razor for men &amp; charcoal shaving foam 50g | combo back | travel friendly shaving combo">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bombay Shaving Company Sensi Smart 3 Razor and Charcoal Shaving Foam Combo | 3 Blades Shaving Razor For Men &amp; Charcoal Shaving Foam 50g | Combo Back | Travel Friendly Shaving Combo</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹149</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹244</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">39% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bombay shaving company power groomer 11-in-1 body groomer 90 min runtime 3 length settings(blue)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bombay Shaving Company power groomer 11-IN-1 Body Groomer 90 min Runtime 3 Length Settings(Blue)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹999</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹2000</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bombay shaving company beard trimmer for men, 2x fast charging, usb type c, 2 yr warranty, 120min runtime, hair trimmer, shaving machine, cordless beard, 38 length settings">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bombay Shaving Company Beard Trimmer For Men, 2X Fast Charging, USB Type C, 2 Yr Warranty, 120Min runtime, Hair Trimmer, Shaving Machine, Cordless Beard, 38 length Settings</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹699</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1199</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">42% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bombay shaving company power play next trimmer, self sharpening blades, trimmer for men">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bombay Shaving Company Power Play Next Trimmer, Self sharpening blades, Trimmer for Men</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹599</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1000</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">40% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bombay shaving company power playnxt trimmer for men, 90 min runtime">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bombay Shaving Company Power PlayNxt Trimmer For Men, 90 Min Runtime</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹649</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1000</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">35% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="bombay shaving company fresh aqua &amp; intense musk 120mlx4 combo deodorant luxury long lasting fragrance deodorant spray  -  for men &amp; women">
+        <td class="px-4 py-3 font-medium text-white max-w-md">BOMBAY SHAVING COMPANY Fresh Aqua &amp; Intense Musk 120mlx4 Combo Deodorant Luxury Long Lasting Fragrance Deodorant Spray  -  For Men &amp; Women</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹180</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹800</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">78% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="bombay shaving company sensi smart 3 men's razor + 12 cartridges | annual shave pack, men">
+        <td class="px-4 py-3 font-medium text-white max-w-md">BOMBAY SHAVING COMPANY Sensi Smart 3 Men's Razor + 12 Cartridges | Annual Shave Pack, Men</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹498</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹999</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="bombay shaving company red spice &amp; black vibe 150ml x 2 combo deodorant spray  -  for men">
+        <td class="px-4 py-3 font-medium text-white max-w-md">BOMBAY SHAVING COMPANY Red Spice &amp; Black Vibe 150ml x 2 Combo Deodorant Spray  -  For Men</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">150ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹212</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹710</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">70% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="bombay shaving company vita charge 3 razor and 2 cartridges, men">
+        <td class="px-4 py-3 font-medium text-white max-w-md">BOMBAY SHAVING COMPANY Vita Charge 3 Razor and 2 cartridges, Men</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹198</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹358</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">45% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="bombay shaving company sensi smart 1 shaving razor for men (handle + cartridge + shaving foam), men">
+        <td class="px-4 py-3 font-medium text-white max-w-md">BOMBAY SHAVING COMPANY Sensi Smart 1 Shaving Razor for Men (Handle + Cartridge + Shaving Foam), Men</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹170</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹244</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">30% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="bombay shaving company red spice &amp; black vibe 150ml x 4 combo deodorant spray  -  for men">
+        <td class="px-4 py-3 font-medium text-white max-w-md">BOMBAY SHAVING COMPANY Red Spice &amp; Black Vibe 150ml x 4 Combo Deodorant Spray  -  For Men</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">150ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹279</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1420</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">80% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="bombay shaving company 11-in-1 full men's multi grooming trimmer">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bombay Shaving Company 11-In-1 Full Men's Multi Grooming Trimmer</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹974</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹2000</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">51% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="bombay shaving company sensi smart 3 men's razor cartridge">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bombay Shaving Company Sensi Smart 3 Men's Razor Cartridge</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">2 pcs</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹99</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹165</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">40% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="bombay shaving company sensi smart 3 men's razor cartridge - pack of 2">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bombay Shaving Company Sensi Smart 3 Men's Razor Cartridge - Pack of 2</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">2 x 2 pcs</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹195</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹330</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">41% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="bombay shaving company sensi smart 3- men's razor cartridge - pack of 3">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bombay Shaving Company Sensi Smart 3- Men's Razor Cartridge - Pack of 3</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">3 x 2 pcs</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹293</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹495</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">41% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="bombay shaving company sensi smart 3 men's razor">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bombay Shaving Company Sensi Smart 3 Men's Razor</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹99</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹149</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">34% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="bombay shaving company sensi smart 3 razor &amp; charcoal shaving foam combo">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bombay Shaving Company Sensi Smart 3 Razor &amp; Charcoal Shaving Foam Combo</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹149</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹254</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">41% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="gillette guard 3 in 1 men's razor - 2 cartridge + 1 razor">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Gillette Guard 3 in 1 Men's Razor - 2 Cartridge + 1 Razor</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 set</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹200</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹224</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">11% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="bombay shaving company desire men's deodorant">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bombay Shaving Company Desire Men's Deodorant</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">150 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹129</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹355</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">64% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="guard 3in1 shaving razor blade for men - 2 cartridges + 1 razor | smooth shave | aqua gel lubrastrip | 3 platinum coated blades | rubber handle grip | flexi head | good for sensitive skin">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Guard 3in1 Shaving Razor Blade for men - 2 Cartridges + 1 Razor | Smooth Shave | Aqua gel Lubrastrip | 3 Platinum Coated Blades | Rubber Handle Grip | Flexi Head | good for Sensitive Skin</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹150</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹150</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Tue, 3 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="mach3, shaving blades for men | 10 cartridges, super value pack | 10 cartridges last up-to 150 shaves | your most comfortable shave">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Mach3, Shaving Blades For Men | 10 Cartridges, Super Value Pack | 10 Cartridges Last Up-To 150 Shaves | Your Most Comfortable Shave</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1131</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹113.1</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="mach3 turbo, pro shaving blades for men | 10 cartridges, super value pack | enhanced lubrication | 10 cartridges last up-to 150 shaves | your most comfortable shave">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Mach3 Turbo, Pro Shaving Blades For Men | 10 Cartridges, Super Value Pack | Enhanced Lubrication | 10 Cartridges Last Up-To 150 Shaves | Your Most Comfortable Shave</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1420</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹142</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Tue, 10 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="godfather premium trimmer kit for men | full body grooming kit with 6 magnetic attachments | 8000 rpm motor, 120 min runtime, travel lock | self-sharpening blades, aluminium body | full body trimmer for men">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Godfather Premium Trimmer Kit for Men | Full Body Grooming Kit with 6 Magnetic Attachments | 8000 RPM Motor, 120 Min Runtime, Travel Lock | Self-Sharpening Blades, Aluminium Body | Full Body Trimmer for Men</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹2499</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹3999</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">38% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="india's no.1 men's trimmer* | one tool, ultimate precision | beardsense technology- scans your beard 125x/sec &amp; adapts to density | all-in-one grooming kit- beard, hair, nose, body, intimate | 120 min runtime/ 1 hour charge| ipx7 waterproof | 5yr warranty* | mg7922">
+        <td class="px-4 py-3 font-medium text-white max-w-md">India's No.1 Men's Trimmer* | One tool, ultimate precision | BeardSense Technology- Scans your beard 125x/sec &amp; adapts to density | All-in-One Grooming Kit- Beard, Hair, Nose, Body, Intimate | 120 min runtime/ 1 hour charge| IPX7 Waterproof | 5yr warranty* | MG7922</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹3249</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹4999</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">35% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="full body trimmer for men all in one | beard trimmer for man | hair trimmer for man | body trimmer for man | type c, ipx6 waterproof | trimmer men beard | trimmers for man">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Full Body Trimmer for Men All in One | Beard Trimmer for Man | Hair Trimmer for Man | Body Trimmer for Man | Type C, IPX6 Waterproof | Trimmer Men Beard | Trimmers for Man</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹2991</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹5000</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">40% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="bombay shaving company 3 blade razor cartridges | pack of 2 blades | sensi smart 3">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bombay Shaving Company 3 Blade Razor Cartridges | Pack of 2 blades | Sensi Smart 3</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (2 pcs)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹130</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹165</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">21% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="bombay shaving company power styler edge beard trimmer">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bombay Shaving Company Power Styler Edge Beard Trimmer</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 set</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹779</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹2000</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">61% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="bombay shaving company 3 blade razor for men | aloe lubra strip | sensi smart 3">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bombay Shaving Company 3 Blade Razor for Men | Aloe Lubra Strip | Sensi Smart 3</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹117</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹149</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">21% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="vega turbolite beard trimmer for men with 90 min runtime (vhth-41) | usb type c | 2 comb attachment">
+        <td class="px-4 py-3 font-medium text-white max-w-md">VEGA Turbolite Beard Trimmer for Men with 90 Min Runtime (VHTH-41) | USB Type C | 2 Comb Attachment</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 set</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹549</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹999</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">45% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="bombay shaving company full body trimmer| type c | waterproof">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bombay Shaving Company Full Body Trimmer| Type C | Waterproof</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 set</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹2639</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹4499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">41% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="gillette guard 3in1 mens razor cartridge">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Gillette Guard 3in1 Mens Razor Cartridge</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹179</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹179</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="cetaphil optimal hydration daily cream">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Cetaphil Optimal Hydration Daily Cream</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (50 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1188</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1422</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">16% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="vega og 15 in 1 trimmer for men | 3 hrs runtime | usb type c | vhth-37">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Vega OG 15 in 1 Trimmer for Men | 3 Hrs Runtime | USB Type C | VHTH-37</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1849</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹2999</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">38% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- Sticky CTA Footer -->
+  <div class="fixed bottom-0 inset-x-0 bg-slate-950/95 border-t border-emerald-500/30 backdrop-blur px-6 py-3.5 z-30">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+      <div class="text-slate-200">
+        <span class="text-emerald-400 font-bold">⚡ Unscrape Radar:</span> Want real-time Slack/WhatsApp/Telegram alerts within 15 mins whenever <strong>Bombay Shaving Company</strong> SKUs go Out-of-Stock across 20 BLR/MUM/DEL dark-store pin codes?
+      </div>
+      <div class="flex items-center gap-2.5 shrink-0">
+        <a href="https://github.com/deveshkolte/unscrape" target="_blank" class="px-4 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold">Unlock Automated 20-Pin-Code Monitor →</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const RAW_CSV = "brand,city,pincode,platform,skuId,title,sellingPriceInr,mrpInr,discountPercent,unit,inStock,deliveryEta,url\nBombay Shaving Company,Bengaluru,560001,bigbasket.com/jiomart,7543283,Bombay Shaving Company Flexi Stud Disposable Razor Pack of 5,70,140,50,14.00/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/bombay-shaving-company-flexi-stud-disposable-razor-pack-of-5-mffnag-7543283/7543283\nBombay Shaving Company,Bengaluru,560001,bigbasket.com/jiomart,19294964,Bombay Shaving Company Sensi Smart 3 Razor and Charcoal Shaving Foam Combo | 3 Blades Shaving Razor For Men & Charcoal Shaving Foam 50g | Combo Back | Travel Friendly Shaving Combo,149,244,39,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/bombay-shaving-company-sensi-smart-3-razor-and-charcoal-shaving-foam-combo-3-blades-shaving-razor-for-men-charcoal-shaving-foam-50g-combo-back-travel-friendly-shaving-combo-mi8t0d-19294964/19294964\nBombay Shaving Company,Bengaluru,560001,bigbasket.com/jiomart,63612880,Bombay Shaving Company power groomer 11-IN-1 Body Groomer 90 min Runtime 3 Length Settings(Blue),999,2000,50,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/bombay-shaving-company-power-groomer-11-in-1-body-groomer-90-min-runtime-3-length-settings-blue-mjblpa-63612880/63612880\nBombay Shaving Company,Bengaluru,560001,bigbasket.com/jiomart,63606993,\"Bombay Shaving Company Beard Trimmer For Men, 2X Fast Charging, USB Type C, 2 Yr Warranty, 120Min runtime, Hair Trimmer, Shaving Machine, Cordless Beard, 38 length Settings\",699,1199,42,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/bombay-shaving-company-beard-trimmer-for-men-2x-fast-charging-usb-type-c-2-yr-warranty-120min-runtime-hair-trimmer-shaving-machine-cordless-beard-38-length-settings-mjbln6-63606993/63606993\nBombay Shaving Company,Bengaluru,560001,bigbasket.com/jiomart,63610248,\"Bombay Shaving Company Power Play Next Trimmer, Self sharpening blades, Trimmer for Men\",599,1000,40,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/bombay-shaving-company-power-play-next-trimmer-self-sharpening-blades-trimmer-for-men-mjbloj-63610248/63610248\nBombay Shaving Company,Bengaluru,560001,bigbasket.com/jiomart,63599578,\"Bombay Shaving Company Power PlayNxt Trimmer For Men, 90 Min Runtime\",649,1000,35,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/bombay-shaving-company-power-playnxt-trimmer-for-men-90-min-runtime-mjblkt-63599578/63599578\nBombay Shaving Company,Mumbai,400001,bigbasket.com/jiomart,7543283,Bombay Shaving Company Flexi Stud Disposable Razor Pack of 5,70,140,50,14.00/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/bombay-shaving-company-flexi-stud-disposable-razor-pack-of-5-mffnag-7543283/7543283\nBombay Shaving Company,Mumbai,400001,bigbasket.com/jiomart,19294964,Bombay Shaving Company Sensi Smart 3 Razor and Charcoal Shaving Foam Combo | 3 Blades Shaving Razor For Men & Charcoal Shaving Foam 50g | Combo Back | Travel Friendly Shaving Combo,149,244,39,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/bombay-shaving-company-sensi-smart-3-razor-and-charcoal-shaving-foam-combo-3-blades-shaving-razor-for-men-charcoal-shaving-foam-50g-combo-back-travel-friendly-shaving-combo-mi8t0d-19294964/19294964\nBombay Shaving Company,Mumbai,400001,bigbasket.com/jiomart,63612880,Bombay Shaving Company power groomer 11-IN-1 Body Groomer 90 min Runtime 3 Length Settings(Blue),999,2000,50,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/bombay-shaving-company-power-groomer-11-in-1-body-groomer-90-min-runtime-3-length-settings-blue-mjblpa-63612880/63612880\nBombay Shaving Company,Mumbai,400001,bigbasket.com/jiomart,63606993,\"Bombay Shaving Company Beard Trimmer For Men, 2X Fast Charging, USB Type C, 2 Yr Warranty, 120Min runtime, Hair Trimmer, Shaving Machine, Cordless Beard, 38 length Settings\",699,1199,42,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/bombay-shaving-company-beard-trimmer-for-men-2x-fast-charging-usb-type-c-2-yr-warranty-120min-runtime-hair-trimmer-shaving-machine-cordless-beard-38-length-settings-mjbln6-63606993/63606993\nBombay Shaving Company,Mumbai,400001,bigbasket.com/jiomart,63610248,\"Bombay Shaving Company Power Play Next Trimmer, Self sharpening blades, Trimmer for Men\",599,1000,40,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/bombay-shaving-company-power-play-next-trimmer-self-sharpening-blades-trimmer-for-men-mjbloj-63610248/63610248\nBombay Shaving Company,Mumbai,400001,bigbasket.com/jiomart,63599578,\"Bombay Shaving Company Power PlayNxt Trimmer For Men, 90 Min Runtime\",649,1000,35,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/bombay-shaving-company-power-playnxt-trimmer-for-men-90-min-runtime-mjblkt-63599578/63599578\nBombay Shaving Company,Delhi,110001,bigbasket.com/jiomart,7543283,Bombay Shaving Company Flexi Stud Disposable Razor Pack of 5,70,140,50,14.00/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/bombay-shaving-company-flexi-stud-disposable-razor-pack-of-5-mffnag-7543283/7543283\nBombay Shaving Company,Delhi,110001,bigbasket.com/jiomart,19294964,Bombay Shaving Company Sensi Smart 3 Razor and Charcoal Shaving Foam Combo | 3 Blades Shaving Razor For Men & Charcoal Shaving Foam 50g | Combo Back | Travel Friendly Shaving Combo,149,244,39,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/bombay-shaving-company-sensi-smart-3-razor-and-charcoal-shaving-foam-combo-3-blades-shaving-razor-for-men-charcoal-shaving-foam-50g-combo-back-travel-friendly-shaving-combo-mi8t0d-19294964/19294964\nBombay Shaving Company,Delhi,110001,bigbasket.com/jiomart,63612880,Bombay Shaving Company power groomer 11-IN-1 Body Groomer 90 min Runtime 3 Length Settings(Blue),999,2000,50,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/bombay-shaving-company-power-groomer-11-in-1-body-groomer-90-min-runtime-3-length-settings-blue-mjblpa-63612880/63612880\nBombay Shaving Company,Delhi,110001,bigbasket.com/jiomart,63606993,\"Bombay Shaving Company Beard Trimmer For Men, 2X Fast Charging, USB Type C, 2 Yr Warranty, 120Min runtime, Hair Trimmer, Shaving Machine, Cordless Beard, 38 length Settings\",699,1199,42,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/bombay-shaving-company-beard-trimmer-for-men-2x-fast-charging-usb-type-c-2-yr-warranty-120min-runtime-hair-trimmer-shaving-machine-cordless-beard-38-length-settings-mjbln6-63606993/63606993\nBombay Shaving Company,Delhi,110001,bigbasket.com/jiomart,63610248,\"Bombay Shaving Company Power Play Next Trimmer, Self sharpening blades, Trimmer for Men\",599,1000,40,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/bombay-shaving-company-power-play-next-trimmer-self-sharpening-blades-trimmer-for-men-mjbloj-63610248/63610248\nBombay Shaving Company,Delhi,110001,bigbasket.com/jiomart,63599578,\"Bombay Shaving Company Power PlayNxt Trimmer For Men, 90 Min Runtime\",649,1000,35,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/bombay-shaving-company-power-playnxt-trimmer-for-men-90-min-runtime-mjblkt-63599578/63599578\nBombay Shaving Company,Bengaluru,560001,flipkart.com,DEOHD7FZMWNPGGZV,BOMBAY SHAVING COMPANY Fresh Aqua & Intense Musk 120mlx4 Combo Deodorant Luxury Long Lasting Fragrance Deodorant Spray  -  For Men & Women,180,800,78,1 unit,true,15 MINS,https://www.flipkart.com/bombay-shaving-company-fresh-aqua-intense-musk-120mlx4-combo-deodorant-luxury-long-lasting-fragrance-spray-men-women/p/itm219da1e18919a?pid=DEOHD7FZMWNPGGZV&lid=LSTDEOHD7FZMWNPGGZVASOKVJ&marketplace=FLIPKART&q=bombay+shaving+company&store=g9b&srno=s_1_1&otracker=search&fm=organic&iid=570f9d02-5806-4e00-a9e9-5dc2c47d32b8.DEOHD7FZMWNPGGZV.SEARCH&ppt=None&ppn=None&ssid=ffojj2n2tc0000001793387312214&qH=4f4330bf3cdb668a&ov_redirect=true&ov_redirect=true\nBombay Shaving Company,Bengaluru,560001,flipkart.com,SHRHZ2H2DNPXMBYP,\"BOMBAY SHAVING COMPANY Sensi Smart 3 Men's Razor + 12 Cartridges | Annual Shave Pack, Men\",498,999,50,1 unit,true,15 MINS,https://www.flipkart.com/bombay-shaving-company-sensi-smart-3-men-s-razor-12-cartridges-annual-shave-pack-men/p/itmedf2a15c3b314?pid=SHRHZ2H2DNPXMBYP&lid=LSTSHRHZ2H2DNPXMBYPZ8K0IW&marketplace=FLIPKART&q=bombay+shaving+company&store=g9b&srno=s_1_2&otracker=search&fm=organic&iid=570f9d02-5806-4e00-a9e9-5dc2c47d32b8.SHRHZ2H2DNPXMBYP.SEARCH&ppt=None&ppn=None&ssid=ffojj2n2tc0000001793387312214&qH=4f4330bf3cdb668a&ov_redirect=true&ov_redirect=true\nBombay Shaving Company,Bengaluru,560001,flipkart.com,DEOGE58RYYNXJMPB,BOMBAY SHAVING COMPANY Red Spice & Black Vibe 150ml x 2 Combo Deodorant Spray  -  For Men,212,710,70,150ml,true,15 MINS,https://www.flipkart.com/bombay-shaving-company-red-spice-black-vibe-150ml-x-2-combo-deodorant-spray-men/p/itm5cb0eb36d2386?pid=DEOGE58RYYNXJMPB&lid=LSTDEOGE58RYYNXJMPBNME14S&marketplace=FLIPKART&q=bombay+shaving+company&store=g9b&srno=s_1_3&otracker=search&fm=organic&iid=570f9d02-5806-4e00-a9e9-5dc2c47d32b8.DEOGE58RYYNXJMPB.SEARCH&ppt=None&ppn=None&ssid=ffojj2n2tc0000001793387312214&qH=4f4330bf3cdb668a&ov_redirect=true&ov_redirect=true\nBombay Shaving Company,Bengaluru,560001,flipkart.com,SHRHGS8GBJWUCDM7,\"BOMBAY SHAVING COMPANY Vita Charge 3 Razor and 2 cartridges, Men\",198,358,45,1 unit,true,15 MINS,https://www.flipkart.com/bombay-shaving-company-vita-charge-3-razor-2-cartridges-men/p/itm7b48d42c50bdf?pid=SHRHGS8GBJWUCDM7&lid=LSTSHRHGS8GBJWUCDM7AZZ24O&marketplace=FLIPKART&q=bombay+shaving+company&store=g9b&srno=s_1_4&otracker=search&fm=organic&iid=570f9d02-5806-4e00-a9e9-5dc2c47d32b8.SHRHGS8GBJWUCDM7.SEARCH&ppt=None&ppn=None&ssid=ffojj2n2tc0000001793387312214&qH=4f4330bf3cdb668a&ov_redirect=true&ov_redirect=true\nBombay Shaving Company,Bengaluru,560001,flipkart.com,SHRGRV5VSKNSJBQY,\"BOMBAY SHAVING COMPANY Sensi Smart 1 Shaving Razor for Men (Handle + Cartridge + Shaving Foam), Men\",170,244,30,1 unit,true,15 MINS,https://www.flipkart.com/bombay-shaving-company-sensi-smart-1-razor-men-handle-cartridge-foam/p/itmfcc3de0f80fd5?pid=SHRGRV5VSKNSJBQY&lid=LSTSHRGRV5VSKNSJBQYWRGSZO&marketplace=FLIPKART&q=bombay+shaving+company&store=g9b&srno=s_1_5&otracker=search&fm=organic&iid=570f9d02-5806-4e00-a9e9-5dc2c47d32b8.SHRGRV5VSKNSJBQY.SEARCH&ppt=None&ppn=None&ssid=ffojj2n2tc0000001793387312214&qH=4f4330bf3cdb668a&ov_redirect=true&ov_redirect=true\nBombay Shaving Company,Bengaluru,560001,flipkart.com,DEOGG8W6KRAMCGVC,BOMBAY SHAVING COMPANY Red Spice & Black Vibe 150ml x 4 Combo Deodorant Spray  -  For Men,279,1420,80,150ml,true,15 MINS,https://www.flipkart.com/bombay-shaving-company-red-spice-black-vibe-150ml-x-4-combo-deodorant-spray-men/p/itmc12e3b7e31c57?pid=DEOGG8W6KRAMCGVC&lid=LSTDEOGG8W6KRAMCGVCJLOA9T&marketplace=FLIPKART&q=bombay+shaving+company&store=g9b&srno=s_1_6&otracker=search&fm=organic&iid=570f9d02-5806-4e00-a9e9-5dc2c47d32b8.DEOGG8W6KRAMCGVC.SEARCH&ppt=None&ppn=None&ssid=ffojj2n2tc0000001793387312214&qH=4f4330bf3cdb668a&ov_redirect=true&ov_redirect=true\nBombay Shaving Company,Bengaluru,560001,blinkit.com,565294,Bombay Shaving Company 11-In-1 Full Men's Multi Grooming Trimmer,974,2000,51,1 unit,true,10 MINS,https://blinkit.com/prn/bombay-shaving-company-11-in-1-full-men-s-multi-grooming-trimmer/prid/565294\nBombay Shaving Company,Bengaluru,560001,blinkit.com,533537,Bombay Shaving Company Sensi Smart 3 Men's Razor Cartridge,99,165,40,2 pcs,true,10 MINS,https://blinkit.com/prn/bombay-shaving-company-sensi-smart-3-men-s-razor-cartridge/prid/533537\nBombay Shaving Company,Bengaluru,560001,blinkit.com,657802,Bombay Shaving Company Sensi Smart 3 Men's Razor Cartridge - Pack of 2,195,330,41,2 x 2 pcs,true,10 MINS,https://blinkit.com/prn/bombay-shaving-company-sensi-smart-3-men-s-razor-cartridge-pack-of-2/prid/657802\nBombay Shaving Company,Bengaluru,560001,blinkit.com,657804,Bombay Shaving Company Sensi Smart 3- Men's Razor Cartridge - Pack of 3,293,495,41,3 x 2 pcs,true,10 MINS,https://blinkit.com/prn/bombay-shaving-company-sensi-smart-3-men-s-razor-cartridge-pack-of-3/prid/657804\nBombay Shaving Company,Bengaluru,560001,blinkit.com,533536,Bombay Shaving Company Sensi Smart 3 Men's Razor,99,149,34,1 pc,true,10 MINS,https://blinkit.com/prn/bombay-shaving-company-sensi-smart-3-men-s-razor/prid/533536\nBombay Shaving Company,Bengaluru,560001,blinkit.com,546194,Bombay Shaving Company Sensi Smart 3 Razor & Charcoal Shaving Foam Combo,149,254,41,1 pack,true,10 MINS,https://blinkit.com/prn/bombay-shaving-company-sensi-smart-3-razor-charcoal-shaving-foam-combo/prid/546194\nBombay Shaving Company,Bengaluru,560001,blinkit.com,751892,Gillette Guard 3 in 1 Men's Razor - 2 Cartridge + 1 Razor,200,224,11,1 set,true,10 MINS,https://blinkit.com/prn/gillette-guard-3-in-1-men-s-razor-2-cartridge-1-razor/prid/751892\nBombay Shaving Company,Bengaluru,560001,blinkit.com,544362,Bombay Shaving Company Desire Men's Deodorant,129,355,64,150 ml,true,10 MINS,https://blinkit.com/prn/bombay-shaving-company-desire-men-s-deodorant/prid/544362\nBombay Shaving Company,Bengaluru,560001,amazon.in,B0GJDX8GMW,Guard 3in1 Shaving Razor Blade for men - 2 Cartridges + 1 Razor | Smooth Shave | Aqua gel Lubrastrip | 3 Platinum Coated Blades | Rubber Handle Grip | Flexi Head | good for Sensitive Skin,150,150,0,1 unit,true,\"Tue, 3 Nov\",https://www.amazon.in/dp/B0GJDX8GMW\nBombay Shaving Company,Bengaluru,560001,amazon.in,B07VGXLKBM,\"Mach3, Shaving Blades For Men | 10 Cartridges, Super Value Pack | 10 Cartridges Last Up-To 150 Shaves | Your Most Comfortable Shave\",1131,113.1,0,1 unit,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B07VGXLKBM\nBombay Shaving Company,Bengaluru,560001,amazon.in,B07VFTCXKR,\"Mach3 Turbo, Pro Shaving Blades For Men | 10 Cartridges, Super Value Pack | Enhanced Lubrication | 10 Cartridges Last Up-To 150 Shaves | Your Most Comfortable Shave\",1420,142,0,1 unit,true,\"Tue, 10 Nov\",https://www.amazon.in/dp/B07VFTCXKR\nBombay Shaving Company,Bengaluru,560001,amazon.in,B0GYSCXRPT,\"Godfather Premium Trimmer Kit for Men | Full Body Grooming Kit with 6 Magnetic Attachments | 8000 RPM Motor, 120 Min Runtime, Travel Lock | Self-Sharpening Blades, Aluminium Body | Full Body Trimmer for Men\",2499,3999,38,1 unit,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0GYSCXRPT\nBombay Shaving Company,Bengaluru,560001,amazon.in,B0G2S8C4VQ,\"India's No.1 Men's Trimmer* | One tool, ultimate precision | BeardSense Technology- Scans your beard 125x/sec & adapts to density | All-in-One Grooming Kit- Beard, Hair, Nose, Body, Intimate | 120 min runtime/ 1 hour charge| IPX7 Waterproof | 5yr warranty* | MG7922\",3249,4999,35,1 unit,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0G2S8C4VQ\nBombay Shaving Company,Bengaluru,560001,amazon.in,B0DMP2S942,\"Full Body Trimmer for Men All in One | Beard Trimmer for Man | Hair Trimmer for Man | Body Trimmer for Man | Type C, IPX6 Waterproof | Trimmer Men Beard | Trimmers for Man\",2991,5000,40,1 unit,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0DMP2S942\nBombay Shaving Company,Bengaluru,560001,zeptonow.com,ec441226-1e45-5cd2-bc61-2bbb4c79b0ec,Bombay Shaving Company 3 Blade Razor Cartridges | Pack of 2 blades | Sensi Smart 3,130,165,21,1 pack (2 pcs),true,10 MINS,https://www.zepto.com/pn/bombay-shaving-company-3-blade-razor-cartridges-pack-of-2-blades-sensi-smart-3/pvid/49b3ddc1-1126-42f7-a779-e5f1085a8833\nBombay Shaving Company,Bengaluru,560001,zeptonow.com,b9b063f6-e296-5788-8032-d5fda1d72433,Bombay Shaving Company Power Styler Edge Beard Trimmer,779,2000,61,1 set,true,10 MINS,https://www.zepto.com/pn/bombay-shaving-company-power-styler-edge-beard-trimmer/pvid/5d8bd069-406f-4103-a5ac-8675f23dad72\nBombay Shaving Company,Bengaluru,560001,zeptonow.com,44adeaaa-c398-59d6-aacc-7f1990566d73,Bombay Shaving Company 3 Blade Razor for Men | Aloe Lubra Strip | Sensi Smart 3,117,149,21,1 pc,true,10 MINS,https://www.zepto.com/pn/bombay-shaving-company-3-blade-razor-for-men-aloe-lubra-strip-sensi-smart-3/pvid/045766c6-0f80-4a49-a6ec-be0c2667bb21\nBombay Shaving Company,Bengaluru,560001,zeptonow.com,5b023950-258d-5322-812b-9b19357bdb53,VEGA Turbolite Beard Trimmer for Men with 90 Min Runtime (VHTH-41) | USB Type C | 2 Comb Attachment,549,999,45,1 set,true,10 MINS,https://www.zepto.com/pn/vega-turbolite-beard-trimmer-for-men-with-90-min-runtime-vhth-41-usb-type-c-2-comb-attachment/pvid/9fa40ffe-f149-4ab7-a47e-e6511b173dc2\nBombay Shaving Company,Bengaluru,560001,zeptonow.com,d7458c26-cce0-57bd-92d0-ffa07ad6017a,Bombay Shaving Company Full Body Trimmer| Type C | Waterproof,2639,4499,41,1 set,true,10 MINS,https://www.zepto.com/pn/bombay-shaving-company-full-body-trimmer-type-c-waterproof/pvid/e077c825-e440-4e25-be84-e853f20e45d0\nBombay Shaving Company,Bengaluru,560001,zeptonow.com,96b98f22-0ccd-531b-9fa4-b6c6828a06d9,Gillette Guard 3in1 Mens Razor Cartridge,179,179,0,1 pack,true,10 MINS,https://www.zepto.com/pn/gillette-guard-3in1-mens-razor-cartridge/pvid/82641d67-b29b-4805-bbea-cb198be5d39b\nBombay Shaving Company,Bengaluru,560001,zeptonow.com,d032c723-9ca1-51f3-a5a4-6337e2afa5c7,Cetaphil Optimal Hydration Daily Cream,1188,1422,16,1 pc (50 g),true,10 MINS,https://www.zepto.com/pn/cetaphil-optimal-hydration-daily-cream/pvid/4e7dd428-ff21-470e-8dcf-060d1d9a9f51\nBombay Shaving Company,Bengaluru,560001,zeptonow.com,364b1cc2-1b88-5269-8737-0af31ec1c719,Vega OG 15 in 1 Trimmer for Men | 3 Hrs Runtime | USB Type C | VHTH-37,1849,2999,38,1 pc,true,10 MINS,https://www.zepto.com/pn/vega-og-15-in-1-trimmer-for-men-3-hrs-runtime-usb-type-c-vhth-37/pvid/e2599afb-4a39-4308-853d-6edff3bb0309\n";
+
+    function filterRows(mode) {
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const stock = row.getAttribute('data-stock');
+        if (mode === 'all') row.style.display = '';
+        else if (mode === 'oos') row.style.display = stock === 'oos' ? '' : 'none';
+        else if (mode === 'instock') row.style.display = stock === 'instock' ? '' : 'none';
+      });
+    }
+
+    function searchSkus() {
+      const q = document.getElementById('skuSearch').value.toLowerCase();
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const title = row.getAttribute('data-title') || '';
+        const platform = (row.getAttribute('data-platform') || '').toLowerCase();
+        row.style.display = (title.includes(q) || platform.includes(q)) ? '' : 'none';
+      });
+    }
+
+    function downloadCsv() {
+      const blob = new Blob([RAW_CSV], { type: 'text/csv;charset=utf-8;' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'bombay-shaving-company-3city-audit.csv';
+      a.click();
+    }
+  </script>
+</body>
+</html>

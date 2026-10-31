@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bagrry's — 3-City Quick-Commerce Dark-Store Audit Scorecard | Unscrape Radar</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background-color: #07080d; color: #f3f4f6; font-family: Inter, system-ui, -apple-system, sans-serif; }
+  </style>
+</head>
+<body class="min-h-screen pb-24">
+  <!-- Top Bar -->
+  <header class="border-b border-slate-800 bg-slate-950/90 backdrop-blur sticky top-0 z-20">
+    <div class="max-w-7xl mx-auto px-6 py-3.5 flex items-center justify-between flex-wrap gap-3">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="text-emerald-400 font-black text-lg tracking-tight hover:text-emerald-300">⚡ UNSCRAPE RADAR</a>
+        <span class="text-xs text-slate-500">/</span>
+        <span class="text-sm font-bold text-white">Bagrry's Executive Scorecard</span>
+      </div>
+      <div class="flex items-center gap-2.5 text-xs">
+        <a href="index.html" class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700">← All 56 Brand Audits</a>
+        <button onclick="downloadCsv()" class="px-3.5 py-1.5 rounded-lg bg-emerald-500 text-slate-950 font-bold hover:bg-emerald-400">⬇ Download Raw CSV (38 SKUs)</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-6 pt-8">
+    <!-- Executive Header -->
+    <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 mb-8">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+        <div>
+          <div class="flex items-center gap-2.5 mb-2">
+            <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded bg-slate-800 text-emerald-400">Muesli, Oats &amp; Bran</span>
+            <span class="text-xs text-slate-400 font-mono">Audited: 2026-10-30</span>
+          </div>
+          <h1 class="text-3xl md:text-4xl font-black text-white tracking-tight">Bagrry's — Hyperlocal Dark-Store Audit</h1>
+          <p class="text-slate-400 text-sm mt-1">
+            Live multi-platform inventory & MOP/MRP price variance scan across <strong>Bengaluru (560001)</strong>, <strong>Mumbai (400001)</strong>, and <strong>Delhi (110001)</strong>.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 shrink-0">
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">SKUs Audited</div>
+            <div class="text-2xl font-black text-white mt-1">38</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">OOS Leaks</div>
+            <div class="text-2xl font-black text-emerald-400 mt-1">0</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">Max Markdown</div>
+            <div class="text-2xl font-black text-amber-300 mt-1">70%</div>
+          </div>
+          <div class="border rounded-xl p-3.5 text-center bg-emerald-500/15 text-emerald-400 border-emerald-500/30">
+            <div class="text-[11px] uppercase font-bold opacity-80">Shelf Health</div>
+            <div class="text-2xl font-black mt-1">100%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="bg-emerald-950/30 border border-emerald-500/30 rounded-2xl p-5 mb-8 flex items-center justify-between flex-wrap gap-3">
+      <div>
+        <span class="px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 font-bold text-xs uppercase">✓ 100% In-Stock Snapshot</span>
+        <span class="text-sm text-slate-200 ml-2">All 38 audited dark-store listings across Bengaluru, Mumbai & Delhi were in stock during this scan. Max discount variance: <strong>70% below MRP</strong>.</span>
+      </div>
+    </div>
+
+    <!-- Filter Controls -->
+    <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+      <div class="flex items-center gap-2 text-xs">
+        <button onclick="filterRows('all')" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-semibold">All SKUs (38)</button>
+        <button onclick="filterRows('oos')" class="px-3 py-1.5 rounded-lg bg-rose-500/15 border border-rose-500/30 text-rose-300 hover:bg-rose-500/25 font-semibold">Out-of-Stock Only (0)</button>
+        <button onclick="filterRows('instock')" class="px-3 py-1.5 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 hover:bg-emerald-500/25 font-semibold">In-Stock (38)</button>
+      </div>
+      <div class="flex items-center gap-2">
+        <input id="skuSearch" type="text" oninput="searchSkus()" placeholder="Filter SKU title or platform..." class="bg-slate-900 border border-slate-800 rounded-lg px-3.5 py-1.5 text-xs text-white w-64" />
+      </div>
+    </div>
+
+    <!-- SKU Table -->
+    <div class="bg-slate-900/50 border border-slate-800 rounded-2xl overflow-x-auto">
+      <table class="w-full text-left text-xs">
+        <thead class="bg-slate-950/90 text-slate-400 uppercase border-b border-slate-800">
+          <tr>
+            <th class="px-4 py-3">SKU Title</th>
+            <th class="px-4 py-3">Platform</th>
+            <th class="px-4 py-3">City / Pin</th>
+            <th class="px-4 py-3">Pack Size</th>
+            <th class="px-4 py-3">Selling Price</th>
+            <th class="px-4 py-3">MRP</th>
+            <th class="px-4 py-3">Discount</th>
+            <th class="px-4 py-3">Stock Status</th>
+            <th class="px-4 py-3">ETA</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-800/60">
+          <tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bagrry's crunchy nutty fruity muesli 1 kg">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bagrry's Crunchy Nutty Fruity Muesli 1 kg</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">320.00/kg</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹320</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹640</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bagrry's crunchy muesli with 30% fruit &amp; nut cranberries, 750 gm |34% fibre rich oats|no sugar infuesed fruits|real fruits|breakfast cereal|protein rich|cranberry muesli">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bagrry's Crunchy Muesli with 30% Fruit &amp; Nut Cranberries, 750 GM |34% Fibre Rich Oats|No Sugar Infuesed Fruits|Real Fruits|Breakfast Cereal|Protein Rich|Cranberry Muesli</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹344</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">31% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bagrry's whey protein muesli, 750 gm |15gm protein per serve |chocolate flavour|whole oats &amp; californian almonds|breakfast cereal|protein rich|premium american whey muesli">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bagrry's Whey Protein Muesli, 750 GM |15gm Protein Per Serve |Chocolate Flavour|Whole Oats &amp; Californian Almonds|Breakfast Cereal|Protein Rich|Premium American Whey Muesli</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹459</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹599</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">23% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bagrry's crunchy muesli with 30% fruit &amp; nut cranberries 1kg jar|34% fibre rich oats|no sugar infuesed fruits|real fruits|breakfast cereal|protein rich|cranberry muesli">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bagrry's Crunchy Muesli with 30% Fruit &amp; Nut Cranberries 1kg Jar|34% Fibre Rich Oats|No Sugar Infuesed Fruits|Real Fruits|Breakfast Cereal|Protein Rich|Cranberry Muesli</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹561</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹749</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">25% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bagrrys crunchy dark choco berry muesli with almond,quinoa &amp; cranberries, 750 gm|100% dark chocolate|86% fruits, nuts &amp; grains|0% artificial ingredients">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bagrrys Crunchy Dark Choco Berry Muesli with Almond,Quinoa &amp; Cranberries, 750 GM|100% Dark Chocolate|86% Fruits, Nuts &amp; Grains|0% Artificial Ingredients</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.47/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹349</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">30% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bagrry's crunchy muesli, 750 gm | 40% fibre rich oats with bran | 82% multi grains, almonds, raisins &amp; honey | breakfast cereal | natural muesli">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bagrry's Crunchy Muesli, 750 GM | 40% Fibre Rich Oats with Bran | 82% Multi Grains, Almonds, Raisins &amp; Honey | Breakfast Cereal | Natural Muesli</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹349</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">30% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bagrry's crunchy nutty fruity muesli 1 kg">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bagrry's Crunchy Nutty Fruity Muesli 1 kg</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">320.00/kg</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹320</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹640</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bagrry's crunchy muesli with 30% fruit &amp; nut cranberries, 750 gm |34% fibre rich oats|no sugar infuesed fruits|real fruits|breakfast cereal|protein rich|cranberry muesli">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bagrry's Crunchy Muesli with 30% Fruit &amp; Nut Cranberries, 750 GM |34% Fibre Rich Oats|No Sugar Infuesed Fruits|Real Fruits|Breakfast Cereal|Protein Rich|Cranberry Muesli</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹344</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">31% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bagrry's whey protein muesli, 750 gm |15gm protein per serve |chocolate flavour|whole oats &amp; californian almonds|breakfast cereal|protein rich|premium american whey muesli">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bagrry's Whey Protein Muesli, 750 GM |15gm Protein Per Serve |Chocolate Flavour|Whole Oats &amp; Californian Almonds|Breakfast Cereal|Protein Rich|Premium American Whey Muesli</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹459</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹599</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">23% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bagrry's crunchy muesli with 30% fruit &amp; nut cranberries 1kg jar|34% fibre rich oats|no sugar infuesed fruits|real fruits|breakfast cereal|protein rich|cranberry muesli">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bagrry's Crunchy Muesli with 30% Fruit &amp; Nut Cranberries 1kg Jar|34% Fibre Rich Oats|No Sugar Infuesed Fruits|Real Fruits|Breakfast Cereal|Protein Rich|Cranberry Muesli</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹561</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹749</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">25% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bagrrys crunchy dark choco berry muesli with almond,quinoa &amp; cranberries, 750 gm|100% dark chocolate|86% fruits, nuts &amp; grains|0% artificial ingredients">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bagrrys Crunchy Dark Choco Berry Muesli with Almond,Quinoa &amp; Cranberries, 750 GM|100% Dark Chocolate|86% Fruits, Nuts &amp; Grains|0% Artificial Ingredients</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.47/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹349</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">30% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bagrry's crunchy muesli, 750 gm | 40% fibre rich oats with bran | 82% multi grains, almonds, raisins &amp; honey | breakfast cereal | natural muesli">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bagrry's Crunchy Muesli, 750 GM | 40% Fibre Rich Oats with Bran | 82% Multi Grains, Almonds, Raisins &amp; Honey | Breakfast Cereal | Natural Muesli</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹349</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">30% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bagrry's crunchy nutty fruity muesli 1 kg">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bagrry's Crunchy Nutty Fruity Muesli 1 kg</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">320.00/kg</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹320</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹640</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bagrry's crunchy muesli with 30% fruit &amp; nut cranberries, 750 gm |34% fibre rich oats|no sugar infuesed fruits|real fruits|breakfast cereal|protein rich|cranberry muesli">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bagrry's Crunchy Muesli with 30% Fruit &amp; Nut Cranberries, 750 GM |34% Fibre Rich Oats|No Sugar Infuesed Fruits|Real Fruits|Breakfast Cereal|Protein Rich|Cranberry Muesli</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹344</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">31% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bagrry's whey protein muesli, 750 gm |15gm protein per serve |chocolate flavour|whole oats &amp; californian almonds|breakfast cereal|protein rich|premium american whey muesli">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bagrry's Whey Protein Muesli, 750 GM |15gm Protein Per Serve |Chocolate Flavour|Whole Oats &amp; Californian Almonds|Breakfast Cereal|Protein Rich|Premium American Whey Muesli</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹459</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹599</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">23% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bagrry's crunchy muesli with 30% fruit &amp; nut cranberries 1kg jar|34% fibre rich oats|no sugar infuesed fruits|real fruits|breakfast cereal|protein rich|cranberry muesli">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bagrry's Crunchy Muesli with 30% Fruit &amp; Nut Cranberries 1kg Jar|34% Fibre Rich Oats|No Sugar Infuesed Fruits|Real Fruits|Breakfast Cereal|Protein Rich|Cranberry Muesli</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹561</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹749</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">25% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bagrrys crunchy dark choco berry muesli with almond,quinoa &amp; cranberries, 750 gm|100% dark chocolate|86% fruits, nuts &amp; grains|0% artificial ingredients">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bagrrys Crunchy Dark Choco Berry Muesli with Almond,Quinoa &amp; Cranberries, 750 GM|100% Dark Chocolate|86% Fruits, Nuts &amp; Grains|0% Artificial Ingredients</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">0.47/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹349</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">30% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bagrry's crunchy muesli, 750 gm | 40% fibre rich oats with bran | 82% multi grains, almonds, raisins &amp; honey | breakfast cereal | natural muesli">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bagrry's Crunchy Muesli, 750 GM | 40% Fibre Rich Oats with Bran | 82% Multi Grains, Almonds, Raisins &amp; Honey | Breakfast Cereal | Natural Muesli</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹349</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">30% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="bagrry's bagrry's nutty fruity muesli with seeds &amp; berries pouch (1 kg) muesli">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bagrry's Bagrry's Nutty Fruity Muesli with Seeds &amp; Berries Pouch (1 kg) Muesli</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 kg</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹384</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹640</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">40% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="bagrry's bagrry's 16 in 1 fruit &amp; nut muesli with cranberries pouch (375 g) muesli">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bagrry's Bagrry's 16 in 1 Fruit &amp; Nut Muesli with Cranberries Pouch (375 g) Muesli</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">375 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹360</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹368</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">2% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="bagrry's by bagrry's bagrry's no added sugar crunchy muesli jar (1 kg) muesli">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bagrry's by Bagrry's Bagrry's No Added Sugar Crunchy Muesli Jar (1 kg) Muesli</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 kg</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹504</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹630</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="bagrry's bagrry's nutty fruity muesli with seeds &amp; berries pouch (425 g) muesli">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bagrry's Bagrry's Nutty Fruity Muesli with Seeds &amp; Berries Pouch (425 g) Muesli</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">425 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹398</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹399</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="bagrry's healthy crunch nutty fruity muesli with seeds, nuts &amp; berries 425g pouch pouch">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bagrry's Healthy Crunch Nutty Fruity Muesli with Seeds, Nuts &amp; Berries 425g Pouch Pouch</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">425g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹408</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹410</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="bagrry's by bagrry's bagrry's chocolate whey protein muesli (with 20g+ protein per 100g) box (500 g) muesli">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bagrry's by Bagrry's Bagrry's Chocolate Whey Protein Muesli (with 20g+ protein per 100g) Box (500 g) Muesli</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">20g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹420</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">-</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="bagrry's whey protein chocolate muesli with almonds | 20g protein | pure whole oats | 500gm carton">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bagrry's Whey Protein Chocolate Muesli with Almonds | 20g protein | Pure Whole Oats | 500gm carton</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (500 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹290</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹420</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">31% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="yoga bar muesli fruits, nuts &amp; seeds, protein rich, millets, strawberry &amp; raisins">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Yoga Bar Muesli Fruits, Nuts &amp; Seeds, Protein Rich, Millets, Strawberry &amp; Raisins</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (1 kg)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹445</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹890</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="bagrry's crunchy muesli with almonds, raisins &amp; honey(40% oat clusters)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bagrry's Crunchy Muesli with Almonds, Raisins &amp; Honey(40% Oat Clusters)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (750 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹361</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">28% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="true elements muesli dark chocolate">
+        <td class="px-4 py-3 font-medium text-white max-w-md">True Elements Muesli Dark Chocolate</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (1 kg)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹433</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹649</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">33% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="bagrry's whey protein muesli protein per serve chocolate flavour whole oats &amp; californian almonds">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bagrry's Whey Protein Muesli Protein Per Serve Chocolate Flavour Whole Oats &amp; Californian Almonds</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (750 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹377</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹599</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">37% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="yoga bar 23g high protein muesli choco almond &amp; cranberry, added probiotics, fibre rich, omega - 3">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Yoga Bar 23g High Protein Muesli Choco Almond &amp; Cranberry, Added Probiotics, Fibre Rich, Omega - 3</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (1 kg)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹486</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹890</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">45% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="yoga bar 23g high protein muesli choco almond &amp; cranberry, added probiotics, fibre rich, omega - 3">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Yoga Bar 23g High Protein Muesli Choco Almond &amp; Cranberry, Added Probiotics, Fibre Rich, Omega - 3</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (850 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹390</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹535</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">27% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="bagrry's no added sugar muesli fruits nuts and seeds">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bagrry'S No Added Sugar Muesli Fruits Nuts And Seeds</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (700 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹329</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹598</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">45% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="kellogg’s 25g high protein muesli dark choco crunch 400g | gut-friendly prebiotics | no palm oil">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Kellogg’s 25g High Protein Muesli Dark Choco Crunch 400g | Gut-friendly Prebiotics | No Palm Oil</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">25g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹285</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹712.5</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">60% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Wed, 4 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="25g high protein dark chocolate &amp; cranberry muesli 1kg, no refined sugar, high fibre, breakfast cereal">
+        <td class="px-4 py-3 font-medium text-white max-w-md">25g High Protein Dark Chocolate &amp; Cranberry Muesli 1kg, No Refined Sugar, High Fibre, Breakfast Cereal</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">25g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹497</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹497</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="honey crunch muesli 300g each pack of 2 | healthy and nutritious breakfast cereals with whole nuts | no refined sugar | clean label">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Honey Crunch Muesli 300g each Pack of 2 | Healthy and Nutritious Breakfast Cereals with Whole Nuts | No Refined Sugar | Clean Label</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">300g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹640</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1066.67</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">40% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Fri, 6 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="muesli sugar free - pumpkin, flax &amp; chia seeds, dry fruit &amp; nuts - rolled oats + millet flakes | no added sugar snack | gluten free healthy breakfast 700g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Muesli Sugar free - Pumpkin, Flax &amp; Chia seeds, Dry fruit &amp; Nuts - Rolled Oats + Millet flakes | No added Sugar snack | Gluten free Healthy Breakfast 700g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">700g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹479</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹684.29</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">30% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Tue, 3 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="dr. sivaraman's arogya dia muesli | no added sugar | millet &amp; nuts - 300 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dr. Sivaraman's Arogya Dia Muesli | No Added Sugar | Millet &amp; Nuts - 300 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">300 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹350</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1166.67</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">70% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Thu, 5 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="bagrry’s crunchy fruit &amp; nut muesli with 30% fruits, nuts, seeds, bran &amp; honey – 750g | 16 power ingredients | freeze dried fruits, nuts, seeds &amp; cranberries muesli | no candy | 38% rolled oats, no corn flakes | fibre &amp; protein rich breakfast cereal | no palm oil | no added preservatives">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bagrry’s Crunchy Fruit &amp; Nut Muesli with 30% Fruits, Nuts, Seeds, Bran &amp; Honey – 750G | 16 Power Ingredients | Freeze Dried Fruits, Nuts, Seeds &amp; Cranberries Muesli | No Candy | 38% Rolled Oats, No Corn flakes | Fibre &amp; Protein Rich Breakfast Cereal | No Palm Oil | No Added Preservatives</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">750G</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹341</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹454.67</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">25% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Wed, 4 Nov</td>
+      </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- Sticky CTA Footer -->
+  <div class="fixed bottom-0 inset-x-0 bg-slate-950/95 border-t border-emerald-500/30 backdrop-blur px-6 py-3.5 z-30">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+      <div class="text-slate-200">
+        <span class="text-emerald-400 font-bold">⚡ Unscrape Radar:</span> Want real-time Slack/WhatsApp/Telegram alerts within 15 mins whenever <strong>Bagrry's</strong> SKUs go Out-of-Stock across 20 BLR/MUM/DEL dark-store pin codes?
+      </div>
+      <div class="flex items-center gap-2.5 shrink-0">
+        <a href="https://github.com/deveshkolte/unscrape" target="_blank" class="px-4 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold">Unlock Automated 20-Pin-Code Monitor →</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const RAW_CSV = "brand,city,pincode,platform,skuId,title,sellingPriceInr,mrpInr,discountPercent,unit,inStock,deliveryEta,url\nBagrry's,Bengaluru,560001,bigbasket.com/jiomart,7508904,Bagrry's Crunchy Nutty Fruity Muesli 1 kg,320,640,50,320.00/kg,true,15-30 MINS,https://www.jiomart.com/p/groceries/bagrrys-crunchy-nutty-fruity-muesli-1-kg-mffmui-7508904/7508904\nBagrry's,Bengaluru,560001,bigbasket.com/jiomart,67692589,\"Bagrry's Crunchy Muesli with 30% Fruit & Nut Cranberries, 750 GM |34% Fibre Rich Oats|No Sugar Infuesed Fruits|Real Fruits|Breakfast Cereal|Protein Rich|Cranberry Muesli\",344,499,31,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/bagrry-s-crunchy-muesli-with-30-fruit-nut-cranberries-750-gm-34-fibre-rich-oats-no-sugar-infuesed-fruits-real-fruits-breakfast-cereal-protein-rich-cranberry-muesli-mjhdq1-67692589/67692589\nBagrry's,Bengaluru,560001,bigbasket.com/jiomart,67693709,\"Bagrry's Whey Protein Muesli, 750 GM |15gm Protein Per Serve |Chocolate Flavour|Whole Oats & Californian Almonds|Breakfast Cereal|Protein Rich|Premium American Whey Muesli\",459,599,23,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/bagrry-s-whey-protein-muesli-750-gm-15gm-protein-per-serve-chocolate-flavour-whole-oats-californian-almonds-breakfast-cereal-protein-rich-premium-american-whey-muesli-mjhds7-67693709/67693709\nBagrry's,Bengaluru,560001,bigbasket.com/jiomart,67694163,Bagrry's Crunchy Muesli with 30% Fruit & Nut Cranberries 1kg Jar|34% Fibre Rich Oats|No Sugar Infuesed Fruits|Real Fruits|Breakfast Cereal|Protein Rich|Cranberry Muesli,561,749,25,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/bagrry-s-crunchy-muesli-with-30-fruit-nut-cranberries-1kg-jar-34-fibre-rich-oats-no-sugar-infuesed-fruits-real-fruits-breakfast-cereal-protein-rich-cranberry-muesli-mjhds1-67694163/67694163\nBagrry's,Bengaluru,560001,bigbasket.com/jiomart,67693264,\"Bagrrys Crunchy Dark Choco Berry Muesli with Almond,Quinoa & Cranberries, 750 GM|100% Dark Chocolate|86% Fruits, Nuts & Grains|0% Artificial Ingredients\",349,499,30,0.47/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/bagrrys-crunchy-dark-choco-berry-muesli-with-almond-quinoa-cranberries-750-gm-100-dark-chocolate-86-fruits-nuts-grains-0-artificial-ingredients-mjhdrh-67693264/67693264\nBagrry's,Bengaluru,560001,bigbasket.com/jiomart,67702661,\"Bagrry's Crunchy Muesli, 750 GM | 40% Fibre Rich Oats with Bran | 82% Multi Grains, Almonds, Raisins & Honey | Breakfast Cereal | Natural Muesli\",349,499,30,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/bagrry-s-crunchy-muesli-750-gm-40-fibre-rich-oats-with-bran-82-multi-grains-almonds-raisins-honey-breakfast-cereal-natural-muesli-mjhdwd-67702661/67702661\nBagrry's,Mumbai,400001,bigbasket.com/jiomart,7508904,Bagrry's Crunchy Nutty Fruity Muesli 1 kg,320,640,50,320.00/kg,true,15-30 MINS,https://www.jiomart.com/p/groceries/bagrrys-crunchy-nutty-fruity-muesli-1-kg-mffmui-7508904/7508904\nBagrry's,Mumbai,400001,bigbasket.com/jiomart,67692589,\"Bagrry's Crunchy Muesli with 30% Fruit & Nut Cranberries, 750 GM |34% Fibre Rich Oats|No Sugar Infuesed Fruits|Real Fruits|Breakfast Cereal|Protein Rich|Cranberry Muesli\",344,499,31,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/bagrry-s-crunchy-muesli-with-30-fruit-nut-cranberries-750-gm-34-fibre-rich-oats-no-sugar-infuesed-fruits-real-fruits-breakfast-cereal-protein-rich-cranberry-muesli-mjhdq1-67692589/67692589\nBagrry's,Mumbai,400001,bigbasket.com/jiomart,67693709,\"Bagrry's Whey Protein Muesli, 750 GM |15gm Protein Per Serve |Chocolate Flavour|Whole Oats & Californian Almonds|Breakfast Cereal|Protein Rich|Premium American Whey Muesli\",459,599,23,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/bagrry-s-whey-protein-muesli-750-gm-15gm-protein-per-serve-chocolate-flavour-whole-oats-californian-almonds-breakfast-cereal-protein-rich-premium-american-whey-muesli-mjhds7-67693709/67693709\nBagrry's,Mumbai,400001,bigbasket.com/jiomart,67694163,Bagrry's Crunchy Muesli with 30% Fruit & Nut Cranberries 1kg Jar|34% Fibre Rich Oats|No Sugar Infuesed Fruits|Real Fruits|Breakfast Cereal|Protein Rich|Cranberry Muesli,561,749,25,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/bagrry-s-crunchy-muesli-with-30-fruit-nut-cranberries-1kg-jar-34-fibre-rich-oats-no-sugar-infuesed-fruits-real-fruits-breakfast-cereal-protein-rich-cranberry-muesli-mjhds1-67694163/67694163\nBagrry's,Mumbai,400001,bigbasket.com/jiomart,67693264,\"Bagrrys Crunchy Dark Choco Berry Muesli with Almond,Quinoa & Cranberries, 750 GM|100% Dark Chocolate|86% Fruits, Nuts & Grains|0% Artificial Ingredients\",349,499,30,0.47/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/bagrrys-crunchy-dark-choco-berry-muesli-with-almond-quinoa-cranberries-750-gm-100-dark-chocolate-86-fruits-nuts-grains-0-artificial-ingredients-mjhdrh-67693264/67693264\nBagrry's,Mumbai,400001,bigbasket.com/jiomart,67702661,\"Bagrry's Crunchy Muesli, 750 GM | 40% Fibre Rich Oats with Bran | 82% Multi Grains, Almonds, Raisins & Honey | Breakfast Cereal | Natural Muesli\",349,499,30,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/bagrry-s-crunchy-muesli-750-gm-40-fibre-rich-oats-with-bran-82-multi-grains-almonds-raisins-honey-breakfast-cereal-natural-muesli-mjhdwd-67702661/67702661\nBagrry's,Delhi,110001,bigbasket.com/jiomart,7508904,Bagrry's Crunchy Nutty Fruity Muesli 1 kg,320,640,50,320.00/kg,true,15-30 MINS,https://www.jiomart.com/p/groceries/bagrrys-crunchy-nutty-fruity-muesli-1-kg-mffmui-7508904/7508904\nBagrry's,Delhi,110001,bigbasket.com/jiomart,67692589,\"Bagrry's Crunchy Muesli with 30% Fruit & Nut Cranberries, 750 GM |34% Fibre Rich Oats|No Sugar Infuesed Fruits|Real Fruits|Breakfast Cereal|Protein Rich|Cranberry Muesli\",344,499,31,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/bagrry-s-crunchy-muesli-with-30-fruit-nut-cranberries-750-gm-34-fibre-rich-oats-no-sugar-infuesed-fruits-real-fruits-breakfast-cereal-protein-rich-cranberry-muesli-mjhdq1-67692589/67692589\nBagrry's,Delhi,110001,bigbasket.com/jiomart,67693709,\"Bagrry's Whey Protein Muesli, 750 GM |15gm Protein Per Serve |Chocolate Flavour|Whole Oats & Californian Almonds|Breakfast Cereal|Protein Rich|Premium American Whey Muesli\",459,599,23,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/bagrry-s-whey-protein-muesli-750-gm-15gm-protein-per-serve-chocolate-flavour-whole-oats-californian-almonds-breakfast-cereal-protein-rich-premium-american-whey-muesli-mjhds7-67693709/67693709\nBagrry's,Delhi,110001,bigbasket.com/jiomart,67694163,Bagrry's Crunchy Muesli with 30% Fruit & Nut Cranberries 1kg Jar|34% Fibre Rich Oats|No Sugar Infuesed Fruits|Real Fruits|Breakfast Cereal|Protein Rich|Cranberry Muesli,561,749,25,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/bagrry-s-crunchy-muesli-with-30-fruit-nut-cranberries-1kg-jar-34-fibre-rich-oats-no-sugar-infuesed-fruits-real-fruits-breakfast-cereal-protein-rich-cranberry-muesli-mjhds1-67694163/67694163\nBagrry's,Delhi,110001,bigbasket.com/jiomart,67693264,\"Bagrrys Crunchy Dark Choco Berry Muesli with Almond,Quinoa & Cranberries, 750 GM|100% Dark Chocolate|86% Fruits, Nuts & Grains|0% Artificial Ingredients\",349,499,30,0.47/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/bagrrys-crunchy-dark-choco-berry-muesli-with-almond-quinoa-cranberries-750-gm-100-dark-chocolate-86-fruits-nuts-grains-0-artificial-ingredients-mjhdrh-67693264/67693264\nBagrry's,Delhi,110001,bigbasket.com/jiomart,67702661,\"Bagrry's Crunchy Muesli, 750 GM | 40% Fibre Rich Oats with Bran | 82% Multi Grains, Almonds, Raisins & Honey | Breakfast Cereal | Natural Muesli\",349,499,30,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/bagrry-s-crunchy-muesli-750-gm-40-fibre-rich-oats-with-bran-82-multi-grains-almonds-raisins-honey-breakfast-cereal-natural-muesli-mjhdwd-67702661/67702661\nBagrry's,Bengaluru,560001,flipkart.com,CAFGGX8VTZH4GCXG,Bagrry's Bagrry's Nutty Fruity Muesli with Seeds & Berries Pouch (1 kg) Muesli,384,640,40,1 kg,true,15 MINS,https://www.flipkart.com/bagrry-s-nutty-fruity-muesli-seeds-berries-pouch-1-kg/p/itm520f05205f8d0?pid=CAFGGX8VTZH4GCXG&lid=LSTCAFGGX8VTZH4GCXGLR0CT8&marketplace=FLIPKART&q=bagrrys+muesli&store=eat%2Fcpy&srno=s_1_1&otracker=search&fm=organic&iid=801e5945-a0bb-4f96-b452-5001b737ffa9.CAFGGX8VTZH4GCXG.SEARCH&ppt=sp&ppn=sp&ssid=2dz5nwj4tc0000001793387416542&qH=6787220919da562e&ov_redirect=true&ov_redirect=true\nBagrry's,Bengaluru,560001,flipkart.com,CAFGPFN4TQQ8UDWW,Bagrry's Bagrry's 16 in 1 Fruit & Nut Muesli with Cranberries Pouch (375 g) Muesli,360,368,2,375 g,true,15 MINS,https://www.flipkart.com/bagrry-s-16-1-fruit-nut-muesli-cranberries-pouch-375-g/p/itm0b23c16e4c547?pid=CAFGPFN4TQQ8UDWW&lid=LSTCAFGPFN4TQQ8UDWWCBHDGM&marketplace=FLIPKART&q=bagrrys+muesli&store=eat%2Fcpy&srno=s_1_2&otracker=search&fm=organic&iid=801e5945-a0bb-4f96-b452-5001b737ffa9.CAFGPFN4TQQ8UDWW.SEARCH&ppt=sp&ppn=sp&ssid=2dz5nwj4tc0000001793387416542&qH=6787220919da562e&ov_redirect=true&ov_redirect=true\nBagrry's,Bengaluru,560001,flipkart.com,CAFF5VAA7TAGXJHG,Bagrry's by Bagrry's Bagrry's No Added Sugar Crunchy Muesli Jar (1 kg) Muesli,504,630,20,1 kg,true,15 MINS,https://www.flipkart.com/bagrry-s-no-added-sugar-crunchy-muesli-jar-1-kg/p/itmfeqgwst6zhzgu?pid=CAFF5VAA7TAGXJHG&lid=LSTCAFF5VAA7TAGXJHGHL9DFV&marketplace=FLIPKART&q=bagrrys+muesli&store=eat%2Fcpy&srno=s_1_3&otracker=search&fm=organic&iid=801e5945-a0bb-4f96-b452-5001b737ffa9.CAFF5VAA7TAGXJHG.SEARCH&ppt=sp&ppn=sp&ssid=2dz5nwj4tc0000001793387416542&qH=6787220919da562e&ov_redirect=true&ov_redirect=true\nBagrry's,Bengaluru,560001,flipkart.com,CAFGPFN4ESHCFTWR,Bagrry's Bagrry's Nutty Fruity Muesli with Seeds & Berries Pouch (425 g) Muesli,398,399,0,425 g,true,15 MINS,https://www.flipkart.com/bagrry-s-nutty-fruity-muesli-seeds-berries-pouch-425-g/p/itm26efb5410e841?pid=CAFGPFN4ESHCFTWR&lid=LSTCAFGPFN4ESHCFTWRB7YUWY&marketplace=FLIPKART&q=bagrrys+muesli&store=eat%2Fcpy&srno=s_1_4&otracker=search&fm=organic&iid=801e5945-a0bb-4f96-b452-5001b737ffa9.CAFGPFN4ESHCFTWR.SEARCH&ppt=sp&ppn=sp&ssid=2dz5nwj4tc0000001793387416542&qH=6787220919da562e&ov_redirect=true&ov_redirect=true\nBagrry's,Bengaluru,560001,flipkart.com,CAFGRV6ZKPEJFJMQ,\"Bagrry's Healthy Crunch Nutty Fruity Muesli with Seeds, Nuts & Berries 425g Pouch Pouch\",408,410,0,425g,true,15 MINS,https://www.flipkart.com/bagrry-s-healthy-crunch-nutty-fruity-muesli-seeds-nuts-berries-425g-pouch/p/itmaebddd1c16440?pid=CAFGRV6ZKPEJFJMQ&lid=LSTCAFGRV6ZKPEJFJMQMMX34K&marketplace=FLIPKART&q=bagrrys+muesli&store=eat%2Fcpy&srno=s_1_5&otracker=search&fm=organic&iid=801e5945-a0bb-4f96-b452-5001b737ffa9.CAFGRV6ZKPEJFJMQ.SEARCH&ppt=sp&ppn=sp&ssid=2dz5nwj4tc0000001793387416542&qH=6787220919da562e&ov_redirect=true&ov_redirect=true\nBagrry's,Bengaluru,560001,flipkart.com,CAFF5Q4WCYFXNN99,Bagrry's by Bagrry's Bagrry's Chocolate Whey Protein Muesli (with 20g+ protein per 100g) Box (500 g) Muesli,420,,0,20g,true,15 MINS,https://www.flipkart.com/bagrry-s-chocolate-whey-protein-muesli-with-20g-per-100g-box-500-g/p/itmfba971cb955c9?pid=CAFF5Q4WCYFXNN99&lid=LSTCAFF5Q4WCYFXNN99YKCRQG&marketplace=FLIPKART&q=bagrrys+muesli&store=eat%2Fcpy&srno=s_1_6&otracker=search&fm=organic&iid=801e5945-a0bb-4f96-b452-5001b737ffa9.CAFF5Q4WCYFXNN99.SEARCH&ppt=sp&ppn=sp&ssid=2dz5nwj4tc0000001793387416542&qH=6787220919da562e&ov_redirect=true&ov_redirect=true\nBagrry's,Bengaluru,560001,zeptonow.com,3f8f7685-4d63-55c3-94b9-87e2cf1d079f,Bagrry's Whey Protein Chocolate Muesli with Almonds | 20g protein | Pure Whole Oats | 500gm carton,290,420,31,1 pack (500 g),true,10 MINS,https://www.zepto.com/pn/bagrry-s-whey-protein-chocolate-muesli-with-almonds-20g-protein-pure-whole-oats-500gm-carton/pvid/9cc7bb84-9b9c-4e84-93f7-45952ea20c4b\nBagrry's,Bengaluru,560001,zeptonow.com,654042cd-61ef-597b-b0a9-2247b1471bac,\"Yoga Bar Muesli Fruits, Nuts & Seeds, Protein Rich, Millets, Strawberry & Raisins\",445,890,50,1 pack (1 kg),true,10 MINS,https://www.zepto.com/pn/yoga-bar-muesli-fruits-nuts-seeds-protein-rich-millets-strawberry-raisins/pvid/bbd265a5-dba3-43d3-bb72-54e10d8cbb91\nBagrry's,Bengaluru,560001,zeptonow.com,bdc65f2a-b153-5f52-ae35-fc8d224a80e7,\"Bagrry's Crunchy Muesli with Almonds, Raisins & Honey(40% Oat Clusters)\",361,499,28,1 pack (750 g),true,10 MINS,https://www.zepto.com/pn/bagrry-s-crunchy-muesli-with-almonds-raisins-honey-40-oat-clusters/pvid/ad061e23-583a-4473-bb7c-ac8a812ab744\nBagrry's,Bengaluru,560001,zeptonow.com,6226183d-5689-5fbb-85b6-95c483cf70fe,True Elements Muesli Dark Chocolate,433,649,33,1 pack (1 kg),true,10 MINS,https://www.zepto.com/pn/true-elements-muesli-dark-chocolate/pvid/577bb7a1-1f20-42ce-9d65-88a08cb89224\nBagrry's,Bengaluru,560001,zeptonow.com,12702f06-f87c-5388-a727-17517c12f186,Bagrry's Whey Protein Muesli Protein Per Serve Chocolate Flavour Whole Oats & Californian Almonds,377,599,37,1 pack (750 g),true,10 MINS,https://www.zepto.com/pn/bagrry-s-whey-protein-muesli-protein-per-serve-chocolate-flavour-whole-oats-californian-almonds/pvid/37e4d1f9-e6d6-4b6c-a0e0-0f69dc084292\nBagrry's,Bengaluru,560001,zeptonow.com,c1c84dca-e0ea-54f5-91d3-4cfc5d1b088a,\"Yoga Bar 23g High Protein Muesli Choco Almond & Cranberry, Added Probiotics, Fibre Rich, Omega - 3\",486,890,45,1 pack (1 kg),true,10 MINS,https://www.zepto.com/pn/yoga-bar-23g-high-protein-muesli-choco-almond-cranberry-added-probiotics-fibre-rich-omega-3/pvid/c40fe7eb-6b2f-4e90-bacf-89372190dd13\nBagrry's,Bengaluru,560001,zeptonow.com,d3d6592e-f2d7-5dd9-9dfa-18174186ae39,\"Yoga Bar 23g High Protein Muesli Choco Almond & Cranberry, Added Probiotics, Fibre Rich, Omega - 3\",390,535,27,1 pack (850 g),true,10 MINS,https://www.zepto.com/pn/yoga-bar-23g-high-protein-muesli-choco-almond-cranberry-added-probiotics-fibre-rich-omega-3/pvid/ebeb50bd-bb39-4e86-a20d-e424151c9718\nBagrry's,Bengaluru,560001,zeptonow.com,adadbfb7-c769-536a-81a7-91383e75aae2,Bagrry'S No Added Sugar Muesli Fruits Nuts And Seeds,329,598,45,1 pack (700 g),true,10 MINS,https://www.zepto.com/pn/bagrry-s-no-added-sugar-muesli-fruits-nuts-and-seeds/pvid/924bff98-fbb8-44ca-b7bb-1fec2162c7ac\nBagrry's,Bengaluru,560001,amazon.in,B0HGR4X4V2,Kellogg’s 25g High Protein Muesli Dark Choco Crunch 400g | Gut-friendly Prebiotics | No Palm Oil,285,712.5,60,25g,true,\"Wed, 4 Nov\",https://www.amazon.in/dp/B0HGR4X4V2\nBagrry's,Bengaluru,560001,amazon.in,B0D86WGZQ3,\"25g High Protein Dark Chocolate & Cranberry Muesli 1kg, No Refined Sugar, High Fibre, Breakfast Cereal\",497,497,0,25g,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0D86WGZQ3\nBagrry's,Bengaluru,560001,amazon.in,B07DMNGHTZ,Honey Crunch Muesli 300g each Pack of 2 | Healthy and Nutritious Breakfast Cereals with Whole Nuts | No Refined Sugar | Clean Label,640,1066.67,40,300g,true,\"Fri, 6 Nov\",https://www.amazon.in/dp/B07DMNGHTZ\nBagrry's,Bengaluru,560001,amazon.in,B0CWPF36PT,\"Muesli Sugar free - Pumpkin, Flax & Chia seeds, Dry fruit & Nuts - Rolled Oats + Millet flakes | No added Sugar snack | Gluten free Healthy Breakfast 700g\",479,684.29,30,700g,true,\"Tue, 3 Nov\",https://www.amazon.in/dp/B0CWPF36PT\nBagrry's,Bengaluru,560001,amazon.in,B0H8786N4B,Dr. Sivaraman's Arogya Dia Muesli | No Added Sugar | Millet & Nuts - 300 g,350,1166.67,70,300 g,true,\"Thu, 5 Nov\",https://www.amazon.in/dp/B0H8786N4B\nBagrry's,Bengaluru,560001,amazon.in,B07M8W8H7Q,\"Bagrry’s Crunchy Fruit & Nut Muesli with 30% Fruits, Nuts, Seeds, Bran & Honey – 750G | 16 Power Ingredients | Freeze Dried Fruits, Nuts, Seeds & Cranberries Muesli | No Candy | 38% Rolled Oats, No Corn flakes | Fibre & Protein Rich Breakfast Cereal | No Palm Oil | No Added Preservatives\",341,454.67,25,750G,true,\"Wed, 4 Nov\",https://www.amazon.in/dp/B07M8W8H7Q\n";
+
+    function filterRows(mode) {
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const stock = row.getAttribute('data-stock');
+        if (mode === 'all') row.style.display = '';
+        else if (mode === 'oos') row.style.display = stock === 'oos' ? '' : 'none';
+        else if (mode === 'instock') row.style.display = stock === 'instock' ? '' : 'none';
+      });
+    }
+
+    function searchSkus() {
+      const q = document.getElementById('skuSearch').value.toLowerCase();
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const title = row.getAttribute('data-title') || '';
+        const platform = (row.getAttribute('data-platform') || '').toLowerCase();
+        row.style.display = (title.includes(q) || platform.includes(q)) ? '' : 'none';
+      });
+    }
+
+    function downloadCsv() {
+      const blob = new Blob([RAW_CSV], { type: 'text/csv;charset=utf-8;' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'bagrry-s-3city-audit.csv';
+      a.click();
+    }
+  </script>
+</body>
+</html>

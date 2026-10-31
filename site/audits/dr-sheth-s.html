@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dr. Sheth's — 3-City Quick-Commerce Dark-Store Audit Scorecard | Unscrape Radar</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background-color: #07080d; color: #f3f4f6; font-family: Inter, system-ui, -apple-system, sans-serif; }
+  </style>
+</head>
+<body class="min-h-screen pb-24">
+  <!-- Top Bar -->
+  <header class="border-b border-slate-800 bg-slate-950/90 backdrop-blur sticky top-0 z-20">
+    <div class="max-w-7xl mx-auto px-6 py-3.5 flex items-center justify-between flex-wrap gap-3">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="text-emerald-400 font-black text-lg tracking-tight hover:text-emerald-300">⚡ UNSCRAPE RADAR</a>
+        <span class="text-xs text-slate-500">/</span>
+        <span class="text-sm font-bold text-white">Dr. Sheth's Executive Scorecard</span>
+      </div>
+      <div class="flex items-center gap-2.5 text-xs">
+        <a href="index.html" class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700">← All 56 Brand Audits</a>
+        <button onclick="downloadCsv()" class="px-3.5 py-1.5 rounded-lg bg-emerald-500 text-slate-950 font-bold hover:bg-emerald-400">⬇ Download Raw CSV (38 SKUs)</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-6 pt-8">
+    <!-- Executive Header -->
+    <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 mb-8">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+        <div>
+          <div class="flex items-center gap-2.5 mb-2">
+            <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded bg-slate-800 text-emerald-400">Indian Skin Formulations</span>
+            <span class="text-xs text-slate-400 font-mono">Audited: 2026-10-30</span>
+          </div>
+          <h1 class="text-3xl md:text-4xl font-black text-white tracking-tight">Dr. Sheth's — Hyperlocal Dark-Store Audit</h1>
+          <p class="text-slate-400 text-sm mt-1">
+            Live multi-platform inventory & MOP/MRP price variance scan across <strong>Bengaluru (560001)</strong>, <strong>Mumbai (400001)</strong>, and <strong>Delhi (110001)</strong>.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 shrink-0">
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">SKUs Audited</div>
+            <div class="text-2xl font-black text-white mt-1">38</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">OOS Leaks</div>
+            <div class="text-2xl font-black text-emerald-400 mt-1">0</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">Max Markdown</div>
+            <div class="text-2xl font-black text-amber-300 mt-1">50%</div>
+          </div>
+          <div class="border rounded-xl p-3.5 text-center bg-emerald-500/15 text-emerald-400 border-emerald-500/30">
+            <div class="text-[11px] uppercase font-bold opacity-80">Shelf Health</div>
+            <div class="text-2xl font-black mt-1">100%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="bg-emerald-950/30 border border-emerald-500/30 rounded-2xl p-5 mb-8 flex items-center justify-between flex-wrap gap-3">
+      <div>
+        <span class="px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 font-bold text-xs uppercase">✓ 100% In-Stock Snapshot</span>
+        <span class="text-sm text-slate-200 ml-2">All 38 audited dark-store listings across Bengaluru, Mumbai & Delhi were in stock during this scan. Max discount variance: <strong>50% below MRP</strong>.</span>
+      </div>
+    </div>
+
+    <!-- Filter Controls -->
+    <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+      <div class="flex items-center gap-2 text-xs">
+        <button onclick="filterRows('all')" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-semibold">All SKUs (38)</button>
+        <button onclick="filterRows('oos')" class="px-3 py-1.5 rounded-lg bg-rose-500/15 border border-rose-500/30 text-rose-300 hover:bg-rose-500/25 font-semibold">Out-of-Stock Only (0)</button>
+        <button onclick="filterRows('instock')" class="px-3 py-1.5 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 hover:bg-emerald-500/25 font-semibold">In-Stock (38)</button>
+      </div>
+      <div class="flex items-center gap-2">
+        <input id="skuSearch" type="text" oninput="searchSkus()" placeholder="Filter SKU title or platform..." class="bg-slate-900 border border-slate-800 rounded-lg px-3.5 py-1.5 text-xs text-white w-64" />
+      </div>
+    </div>
+
+    <!-- SKU Table -->
+    <div class="bg-slate-900/50 border border-slate-800 rounded-2xl overflow-x-auto">
+      <table class="w-full text-left text-xs">
+        <thead class="bg-slate-950/90 text-slate-400 uppercase border-b border-slate-800">
+          <tr>
+            <th class="px-4 py-3">SKU Title</th>
+            <th class="px-4 py-3">Platform</th>
+            <th class="px-4 py-3">City / Pin</th>
+            <th class="px-4 py-3">Pack Size</th>
+            <th class="px-4 py-3">Selling Price</th>
+            <th class="px-4 py-3">MRP</th>
+            <th class="px-4 py-3">Discount</th>
+            <th class="px-4 py-3">Stock Status</th>
+            <th class="px-4 py-3">ETA</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-800/60">
+          <tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="dr. sheth's ceramide &amp; vitamin c sunscreen | spf 50+ pa+++ | in-vivo tested | for bright skin &amp; healthy glow | non-greasy, quick-absorbing, no white cast | uva/b &amp; bluelight protection | for men &amp; women | for all skin type | 50 g x 2">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dr. Sheth's Ceramide &amp; Vitamin C Sunscreen | SPF 50+ Pa+++ | In-Vivo Tested | For Bright Skin &amp; Healthy Glow | Non-Greasy, Quick-Absorbing, No White Cast | UVA/B &amp; Bluelight Protection | For Men &amp; Women | For All Skin Type | 50 g x 2</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">6.49/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹649</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹998</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">35% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="dr. sheth's glow &amp; sun protect duo | lightweight sunscreen &amp; oil-free moisturizer combo | nourished &amp; protected skin | for normal to combination skin | for men &amp; women | 50 g x 2">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dr. Sheth's Glow &amp; Sun Protect Duo | Lightweight Sunscreen &amp; Oil-Free Moisturizer Combo | Nourished &amp; Protected Skin | For Normal to Combination Skin | For Men &amp; Women | 50 g x 2</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">337.50/N</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹675</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹848</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="dr. sheth's haldi &amp; hyaluronic acid sunscreen with 1% hyaluronic acid | spf 50+ pa+++ | protects against uva/b &amp; blue light | hydrating &amp; brightening | for men &amp; women | for all skin type | 50 g x 2">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dr. Sheth's Haldi &amp; Hyaluronic Acid Sunscreen with 1% Hyaluronic Acid | Spf 50+ Pa+++ | Protects Against UVA/B &amp; Blue Light | Hydrating &amp; Brightening | For Men &amp; Women | For All Skin Type | 50 g x 2</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">7.96/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹796</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹998</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="dr. sheth's intense skin hydration duo spf 50 for all skin types, pack of 1">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dr. Sheth's Intense Skin Hydration Duo SPF 50 For All Skin Types, Pack Of 1</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">719.00/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹719</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹848</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="keya seth aromatherapy umbrella sunscreen solution spf 60 pa+++ broad spectrum uv protection, no white cast, lightweight matte finish, 100ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">KEYA SETH AROMATHERAPY Umbrella Sunscreen Solution SPF 60 PA+++ Broad Spectrum UV Protection, No White Cast, Lightweight Matte Finish, 100ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">4.58/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹458</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹549</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">17% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="keya seth aromatherapy umbrella sunscreen solution spf 40 pa+++ uv protection, sweat resistant oil control formula with avocado &amp; wheatgerm essential oil, 100ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">KEYA SETH AROMATHERAPY Umbrella Sunscreen Solution SPF 40 PA+++ UV Protection, Sweat Resistant Oil Control Formula with Avocado &amp; Wheatgerm Essential Oil, 100ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">3.05/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹305</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹399</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">24% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="dr. sheth's ceramide &amp; vitamin c sunscreen | spf 50+ pa+++ | in-vivo tested | for bright skin &amp; healthy glow | non-greasy, quick-absorbing, no white cast | uva/b &amp; bluelight protection | for men &amp; women | for all skin type | 50 g x 2">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dr. Sheth's Ceramide &amp; Vitamin C Sunscreen | SPF 50+ Pa+++ | In-Vivo Tested | For Bright Skin &amp; Healthy Glow | Non-Greasy, Quick-Absorbing, No White Cast | UVA/B &amp; Bluelight Protection | For Men &amp; Women | For All Skin Type | 50 g x 2</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">6.49/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹649</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹998</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">35% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="dr. sheth's glow &amp; sun protect duo | lightweight sunscreen &amp; oil-free moisturizer combo | nourished &amp; protected skin | for normal to combination skin | for men &amp; women | 50 g x 2">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dr. Sheth's Glow &amp; Sun Protect Duo | Lightweight Sunscreen &amp; Oil-Free Moisturizer Combo | Nourished &amp; Protected Skin | For Normal to Combination Skin | For Men &amp; Women | 50 g x 2</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">337.50/N</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹675</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹848</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="dr. sheth's haldi &amp; hyaluronic acid sunscreen with 1% hyaluronic acid | spf 50+ pa+++ | protects against uva/b &amp; blue light | hydrating &amp; brightening | for men &amp; women | for all skin type | 50 g x 2">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dr. Sheth's Haldi &amp; Hyaluronic Acid Sunscreen with 1% Hyaluronic Acid | Spf 50+ Pa+++ | Protects Against UVA/B &amp; Blue Light | Hydrating &amp; Brightening | For Men &amp; Women | For All Skin Type | 50 g x 2</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">7.96/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹796</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹998</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="dr. sheth's intense skin hydration duo spf 50 for all skin types, pack of 1">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dr. Sheth's Intense Skin Hydration Duo SPF 50 For All Skin Types, Pack Of 1</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">719.00/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹719</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹848</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="keya seth aromatherapy umbrella sunscreen solution spf 60 pa+++ broad spectrum uv protection, no white cast, lightweight matte finish, 100ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">KEYA SETH AROMATHERAPY Umbrella Sunscreen Solution SPF 60 PA+++ Broad Spectrum UV Protection, No White Cast, Lightweight Matte Finish, 100ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">4.58/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹458</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹549</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">17% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="keya seth aromatherapy umbrella sunscreen solution spf 40 pa+++ uv protection, sweat resistant oil control formula with avocado &amp; wheatgerm essential oil, 100ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">KEYA SETH AROMATHERAPY Umbrella Sunscreen Solution SPF 40 PA+++ UV Protection, Sweat Resistant Oil Control Formula with Avocado &amp; Wheatgerm Essential Oil, 100ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">3.05/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹305</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹399</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">24% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="dr. sheth's ceramide &amp; vitamin c sunscreen | spf 50+ pa+++ | in-vivo tested | for bright skin &amp; healthy glow | non-greasy, quick-absorbing, no white cast | uva/b &amp; bluelight protection | for men &amp; women | for all skin type | 50 g x 2">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dr. Sheth's Ceramide &amp; Vitamin C Sunscreen | SPF 50+ Pa+++ | In-Vivo Tested | For Bright Skin &amp; Healthy Glow | Non-Greasy, Quick-Absorbing, No White Cast | UVA/B &amp; Bluelight Protection | For Men &amp; Women | For All Skin Type | 50 g x 2</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">6.49/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹649</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹998</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">35% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="dr. sheth's glow &amp; sun protect duo | lightweight sunscreen &amp; oil-free moisturizer combo | nourished &amp; protected skin | for normal to combination skin | for men &amp; women | 50 g x 2">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dr. Sheth's Glow &amp; Sun Protect Duo | Lightweight Sunscreen &amp; Oil-Free Moisturizer Combo | Nourished &amp; Protected Skin | For Normal to Combination Skin | For Men &amp; Women | 50 g x 2</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">337.50/N</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹675</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹848</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="dr. sheth's haldi &amp; hyaluronic acid sunscreen with 1% hyaluronic acid | spf 50+ pa+++ | protects against uva/b &amp; blue light | hydrating &amp; brightening | for men &amp; women | for all skin type | 50 g x 2">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dr. Sheth's Haldi &amp; Hyaluronic Acid Sunscreen with 1% Hyaluronic Acid | Spf 50+ Pa+++ | Protects Against UVA/B &amp; Blue Light | Hydrating &amp; Brightening | For Men &amp; Women | For All Skin Type | 50 g x 2</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">7.96/g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹796</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹998</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="dr. sheth's intense skin hydration duo spf 50 for all skin types, pack of 1">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dr. Sheth's Intense Skin Hydration Duo SPF 50 For All Skin Types, Pack Of 1</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">719.00/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹719</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹848</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="keya seth aromatherapy umbrella sunscreen solution spf 60 pa+++ broad spectrum uv protection, no white cast, lightweight matte finish, 100ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">KEYA SETH AROMATHERAPY Umbrella Sunscreen Solution SPF 60 PA+++ Broad Spectrum UV Protection, No White Cast, Lightweight Matte Finish, 100ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">4.58/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹458</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹549</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">17% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="keya seth aromatherapy umbrella sunscreen solution spf 40 pa+++ uv protection, sweat resistant oil control formula with avocado &amp; wheatgerm essential oil, 100ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">KEYA SETH AROMATHERAPY Umbrella Sunscreen Solution SPF 40 PA+++ UV Protection, Sweat Resistant Oil Control Formula with Avocado &amp; Wheatgerm Essential Oil, 100ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">3.05/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹305</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹399</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">24% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="dr. sheth's ceramide &amp; vitamin c sunscreen spf 50 pa+++ no white cast for all skin type">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dr. Sheth'S Ceramide &amp; Vitamin C Sunscreen Spf 50 Pa+++ No White Cast For All Skin Type</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (80 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹559</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹699</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="dot &amp; key blueberry hydrate barrier repair sunscreen spf 50+, pa++++">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dot &amp; Key Blueberry Hydrate Barrier Repair Sunscreen SPF 50+, PA++++</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (50 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹387</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹445</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">13% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="dr. sheth's kesar &amp; kojic acid oil free sunscreen spf 50+ pa++++reduces pigmentation, for oily skin">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dr. Sheth'S Kesar &amp; Kojic Acid Oil Free Sunscreen Spf 50+ Pa++++Reduces Pigmentation, For Oily Skin</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (30 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹299</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹299</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="foxtale glow sunscreen spf50 pa++++ in-vivo tested">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Foxtale Glow Sunscreen SPF50 PA++++ In-Vivo Tested</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (50 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹300</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹375</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="dr. sheth's ceramide &amp; vitamin c sunscreen spf 50 pa+++ no white cast for all skin type">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dr. Sheth'S Ceramide &amp; Vitamin C Sunscreen Spf 50 Pa+++ No White Cast For All Skin Type</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (30 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹269</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹299</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">10% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="dr. sheth's ceramide &amp; vitamin c lightweight sunscreen with spf 50+ pa++++ (in-vivo tested)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dr. Sheth's Ceramide &amp; Vitamin C Lightweight Sunscreen with SPF 50+ PA++++ (In-vivo Tested)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (50 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹434</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">13% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="plum 2% niacinamide &amp; rice water hybrid face sunscreen with spf 50">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Plum 2% Niacinamide &amp; Rice Water Hybrid Face Sunscreen With SPF 50</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (50 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹315</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹420</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">25% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="dr. sheth's kesar &amp; kojic acid lightweight sunscreen spf 50+ pa++++ | reduces pigmentation">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dr. Sheth's Kesar &amp; Kojic Acid Lightweight Sunscreen SPF 50+ PA++++ | Reduces Pigmentation</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (50 g)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹374</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">25% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="dr. sheth’s sunscreen - spf 50 pa++++ ceramide &amp; vitamin c | spf 50+ pa++++| all skin types">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dr. Sheth’s Sunscreen - SPF 50 PA++++ Ceramide &amp; Vitamin C | SPF 50+ Pa++++| All Skin Types</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹265</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹299</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">11% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="dr. sheth’s sunscreen - spf 50 pa++++ kesar &amp; kojic acid sunscreen | for pigmentation-free skin | no white cast">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dr. Sheth’s Sunscreen - SPF 50 PA++++ Kesar &amp; Kojic Acid Sunscreen | For Pigmentation-Free Skin | No White Cast</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹262</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹299</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">12% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="dr. sheth’s sunscreen - spf 50 pa++++ ceramide &amp; vitamin c|spf 50+ pa+++| all skin types">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dr. Sheth’s Sunscreen - SPF 50 PA++++ Ceramide &amp; Vitamin C|SPF 50+ Pa+++| All Skin Types</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹408</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">18% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="dr. sheth’s sunscreen - spf 50 pa++++ ceramide &amp; vitamin c oil-free sunscreen spf 50+ pa++++ | clinically tested |">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dr. Sheth’s Sunscreen - SPF 50 PA++++ Ceramide &amp; Vitamin C Oil-Free Sunscreen SPF 50+ PA++++ | Clinically Tested |</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹242</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹299</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">19% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="dr. sheth’s sunscreen - spf 50 pa++++ haldi &amp; hyaluronic acid sunscreen | hydrating spf 50+ pa+++| pack of 2">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dr. Sheth’s Sunscreen - SPF 50 PA++++ Haldi &amp; Hyaluronic Acid Sunscreen | Hydrating SPF 50+ PA+++| Pack of 2</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹723</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹998</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">28% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="dr. sheth’s sunscreen - spf 50 pa++++ kesar &amp; kojic acid oil-free sunscreen | reduces pigmentation">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Dr. Sheth’s Sunscreen - SPF 50 PA++++ Kesar &amp; Kojic Acid Oil-Free Sunscreen | Reduces Pigmentation</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹377</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">24% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="ceramide &amp; vitamin c sunscreen spf 50+ pa++++ |in-vivo tested | for healthy &amp; bright skin | lightweight &amp; non greasy | for uva/uvb &amp; blue light &amp; ir protection | no white cast | for all skin types | for men &amp; women | 80 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Ceramide &amp; Vitamin C Sunscreen SPF 50+ PA++++ |In-Vivo Tested | For Healthy &amp; Bright Skin | Lightweight &amp; Non Greasy | For UVA/UVB &amp; Blue Light &amp; IR Protection | No white cast | For All Skin Types | For Men &amp; Women | 80 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">80 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹508</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹635</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">20% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="ceramide &amp; vitamin c oil-free sunscreen spf 50+ pa++++ | in-vivo tested | oil-free tan protection | specially made for oily skin &amp; lightweight | 50 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Ceramide &amp; Vitamin C Oil-Free Sunscreen SPF 50+ PA++++ | In-Vivo tested | Oil-Free Tan Protection | Specially Made for Oily Skin &amp; Lightweight | 50 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">50 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹339</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹678</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="100% mineral invisible fluid sunscreen | in-vivo tested | spf 50+ pa++++ | 3x protection shield against sun damage, pollution &amp; photo-aging | ultra fluid texture | zero white cast | pregnancy-safe formula | 50g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">100% Mineral Invisible Fluid Sunscreen | In-Vivo Tested | SPF 50+ PA++++ | 3X Protection Shield Against Sun Damage, Pollution &amp; Photo-Aging | Ultra Fluid Texture | Zero White Cast | Pregnancy-Safe Formula | 50g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">50g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹507</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1014</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Wed, 4 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="lakme tinted sunscreen with niacinamide for even toned skin, spf 50 pa+++, in-vivo tested,with new-age uv filters, boosts glow, reduces dullness &amp; dark spots 50 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Lakme Tinted Sunscreen with Niacinamide for Even Toned Skin, SPF 50 PA+++, in-Vivo Tested,with New-Age UV Filters, Boosts Glow, Reduces Dullness &amp; Dark Spots 50 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">50 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹197</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹394</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="lakme tinted sunscreen with niacinamide for even toned skin, spf 50 pa+++, in-vivo tested, 100 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Lakme Tinted Sunscreen with Niacinamide for Even Toned Skin, SPF 50 PA+++, in-Vivo Tested, 100 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">100 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹271</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹271</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Tue, 3 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="ceramide &amp; vitamin c sunscreen spf 50+ pa++++ |in-vivo tested | for healthy &amp; bright skin | lightweight &amp; non greasy | for uva/uvb &amp; blue light &amp; ir protection | no white cast | for all skin types | for men &amp; women | 125 g">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Ceramide &amp; Vitamin C Sunscreen SPF 50+ PA++++ |In-Vivo Tested | For Healthy &amp; Bright Skin | Lightweight &amp; Non Greasy | For UVA/UVB &amp; Blue Light &amp; IR Protection | No white cast | For All Skin Types | For Men &amp; Women | 125 g</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">125 g</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹899</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹719.2</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- Sticky CTA Footer -->
+  <div class="fixed bottom-0 inset-x-0 bg-slate-950/95 border-t border-emerald-500/30 backdrop-blur px-6 py-3.5 z-30">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+      <div class="text-slate-200">
+        <span class="text-emerald-400 font-bold">⚡ Unscrape Radar:</span> Want real-time Slack/WhatsApp/Telegram alerts within 15 mins whenever <strong>Dr. Sheth's</strong> SKUs go Out-of-Stock across 20 BLR/MUM/DEL dark-store pin codes?
+      </div>
+      <div class="flex items-center gap-2.5 shrink-0">
+        <a href="https://github.com/deveshkolte/unscrape" target="_blank" class="px-4 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold">Unlock Automated 20-Pin-Code Monitor →</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const RAW_CSV = "brand,city,pincode,platform,skuId,title,sellingPriceInr,mrpInr,discountPercent,unit,inStock,deliveryEta,url\nDr. Sheth's,Bengaluru,560001,bigbasket.com/jiomart,67765628,\"Dr. Sheth's Ceramide & Vitamin C Sunscreen | SPF 50+ Pa+++ | In-Vivo Tested | For Bright Skin & Healthy Glow | Non-Greasy, Quick-Absorbing, No White Cast | UVA/B & Bluelight Protection | For Men & Women | For All Skin Type | 50 g x 2\",649,998,35,6.49/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/dr-sheth-s-ceramide-vitamin-c-sunscreen-spf-50-pa-in-vivo-tested-for-bright-skin-healthy-glow-non-greasy-quick-absorbing-no-white-cast-uva-b-bluelight-protection-for-men-women-for-all-skin-type-50-g-x-2-mjhfqy-67765628/67765628\nDr. Sheth's,Bengaluru,560001,bigbasket.com/jiomart,67765643,Dr. Sheth's Glow & Sun Protect Duo | Lightweight Sunscreen & Oil-Free Moisturizer Combo | Nourished & Protected Skin | For Normal to Combination Skin | For Men & Women | 50 g x 2,675,848,20,337.50/N,true,15-30 MINS,https://www.jiomart.com/p/groceries/dr-sheth-s-glow-sun-protect-duo-lightweight-sunscreen-oil-free-moisturizer-combo-nourished-protected-skin-for-normal-to-combination-skin-for-men-women-50-g-x-2-mjhfqz-67765643/67765643\nDr. Sheth's,Bengaluru,560001,bigbasket.com/jiomart,67766205,Dr. Sheth's Haldi & Hyaluronic Acid Sunscreen with 1% Hyaluronic Acid | Spf 50+ Pa+++ | Protects Against UVA/B & Blue Light | Hydrating & Brightening | For Men & Women | For All Skin Type | 50 g x 2,796,998,20,7.96/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/dr-sheth-s-haldi-hyaluronic-acid-sunscreen-with-1-hyaluronic-acid-spf-50-pa-protects-against-uva-b-blue-light-hydrating-brightening-for-men-women-for-all-skin-type-50-g-x-2-mjhfqz-67766205/67766205\nDr. Sheth's,Bengaluru,560001,bigbasket.com/jiomart,67765730,\"Dr. Sheth's Intense Skin Hydration Duo SPF 50 For All Skin Types, Pack Of 1\",719,848,15,719.00/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/dr-sheth-s-intense-skin-hydration-duo-spf-50-for-all-skin-types-pack-of-1-mjhfqz-67765730/67765730\nDr. Sheth's,Bengaluru,560001,bigbasket.com/jiomart,19772337,\"KEYA SETH AROMATHERAPY Umbrella Sunscreen Solution SPF 60 PA+++ Broad Spectrum UV Protection, No White Cast, Lightweight Matte Finish, 100ml\",458,549,17,4.58/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/keya-seth-aromatherapy-umbrella-sunscreen-solution-spf-60-uvb-pa-mi98vs-19772337/19772337\nDr. Sheth's,Bengaluru,560001,bigbasket.com/jiomart,20406786,\"KEYA SETH AROMATHERAPY Umbrella Sunscreen Solution SPF 40 PA+++ UV Protection, Sweat Resistant Oil Control Formula with Avocado & Wheatgerm Essential Oil, 100ml\",305,399,24,3.05/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/keya-seth-aromatherapy-umbrella-sunscreen-solution-spf-40-pa-mi9vqc-20406786/20406786\nDr. Sheth's,Mumbai,400001,bigbasket.com/jiomart,67765628,\"Dr. Sheth's Ceramide & Vitamin C Sunscreen | SPF 50+ Pa+++ | In-Vivo Tested | For Bright Skin & Healthy Glow | Non-Greasy, Quick-Absorbing, No White Cast | UVA/B & Bluelight Protection | For Men & Women | For All Skin Type | 50 g x 2\",649,998,35,6.49/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/dr-sheth-s-ceramide-vitamin-c-sunscreen-spf-50-pa-in-vivo-tested-for-bright-skin-healthy-glow-non-greasy-quick-absorbing-no-white-cast-uva-b-bluelight-protection-for-men-women-for-all-skin-type-50-g-x-2-mjhfqy-67765628/67765628\nDr. Sheth's,Mumbai,400001,bigbasket.com/jiomart,67765643,Dr. Sheth's Glow & Sun Protect Duo | Lightweight Sunscreen & Oil-Free Moisturizer Combo | Nourished & Protected Skin | For Normal to Combination Skin | For Men & Women | 50 g x 2,675,848,20,337.50/N,true,15-30 MINS,https://www.jiomart.com/p/groceries/dr-sheth-s-glow-sun-protect-duo-lightweight-sunscreen-oil-free-moisturizer-combo-nourished-protected-skin-for-normal-to-combination-skin-for-men-women-50-g-x-2-mjhfqz-67765643/67765643\nDr. Sheth's,Mumbai,400001,bigbasket.com/jiomart,67766205,Dr. Sheth's Haldi & Hyaluronic Acid Sunscreen with 1% Hyaluronic Acid | Spf 50+ Pa+++ | Protects Against UVA/B & Blue Light | Hydrating & Brightening | For Men & Women | For All Skin Type | 50 g x 2,796,998,20,7.96/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/dr-sheth-s-haldi-hyaluronic-acid-sunscreen-with-1-hyaluronic-acid-spf-50-pa-protects-against-uva-b-blue-light-hydrating-brightening-for-men-women-for-all-skin-type-50-g-x-2-mjhfqz-67766205/67766205\nDr. Sheth's,Mumbai,400001,bigbasket.com/jiomart,67765730,\"Dr. Sheth's Intense Skin Hydration Duo SPF 50 For All Skin Types, Pack Of 1\",719,848,15,719.00/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/dr-sheth-s-intense-skin-hydration-duo-spf-50-for-all-skin-types-pack-of-1-mjhfqz-67765730/67765730\nDr. Sheth's,Mumbai,400001,bigbasket.com/jiomart,19772337,\"KEYA SETH AROMATHERAPY Umbrella Sunscreen Solution SPF 60 PA+++ Broad Spectrum UV Protection, No White Cast, Lightweight Matte Finish, 100ml\",458,549,17,4.58/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/keya-seth-aromatherapy-umbrella-sunscreen-solution-spf-60-uvb-pa-mi98vs-19772337/19772337\nDr. Sheth's,Mumbai,400001,bigbasket.com/jiomart,20406786,\"KEYA SETH AROMATHERAPY Umbrella Sunscreen Solution SPF 40 PA+++ UV Protection, Sweat Resistant Oil Control Formula with Avocado & Wheatgerm Essential Oil, 100ml\",305,399,24,3.05/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/keya-seth-aromatherapy-umbrella-sunscreen-solution-spf-40-pa-mi9vqc-20406786/20406786\nDr. Sheth's,Delhi,110001,bigbasket.com/jiomart,67765628,\"Dr. Sheth's Ceramide & Vitamin C Sunscreen | SPF 50+ Pa+++ | In-Vivo Tested | For Bright Skin & Healthy Glow | Non-Greasy, Quick-Absorbing, No White Cast | UVA/B & Bluelight Protection | For Men & Women | For All Skin Type | 50 g x 2\",649,998,35,6.49/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/dr-sheth-s-ceramide-vitamin-c-sunscreen-spf-50-pa-in-vivo-tested-for-bright-skin-healthy-glow-non-greasy-quick-absorbing-no-white-cast-uva-b-bluelight-protection-for-men-women-for-all-skin-type-50-g-x-2-mjhfqy-67765628/67765628\nDr. Sheth's,Delhi,110001,bigbasket.com/jiomart,67765643,Dr. Sheth's Glow & Sun Protect Duo | Lightweight Sunscreen & Oil-Free Moisturizer Combo | Nourished & Protected Skin | For Normal to Combination Skin | For Men & Women | 50 g x 2,675,848,20,337.50/N,true,15-30 MINS,https://www.jiomart.com/p/groceries/dr-sheth-s-glow-sun-protect-duo-lightweight-sunscreen-oil-free-moisturizer-combo-nourished-protected-skin-for-normal-to-combination-skin-for-men-women-50-g-x-2-mjhfqz-67765643/67765643\nDr. Sheth's,Delhi,110001,bigbasket.com/jiomart,67766205,Dr. Sheth's Haldi & Hyaluronic Acid Sunscreen with 1% Hyaluronic Acid | Spf 50+ Pa+++ | Protects Against UVA/B & Blue Light | Hydrating & Brightening | For Men & Women | For All Skin Type | 50 g x 2,796,998,20,7.96/g,true,15-30 MINS,https://www.jiomart.com/p/groceries/dr-sheth-s-haldi-hyaluronic-acid-sunscreen-with-1-hyaluronic-acid-spf-50-pa-protects-against-uva-b-blue-light-hydrating-brightening-for-men-women-for-all-skin-type-50-g-x-2-mjhfqz-67766205/67766205\nDr. Sheth's,Delhi,110001,bigbasket.com/jiomart,67765730,\"Dr. Sheth's Intense Skin Hydration Duo SPF 50 For All Skin Types, Pack Of 1\",719,848,15,719.00/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/dr-sheth-s-intense-skin-hydration-duo-spf-50-for-all-skin-types-pack-of-1-mjhfqz-67765730/67765730\nDr. Sheth's,Delhi,110001,bigbasket.com/jiomart,19772337,\"KEYA SETH AROMATHERAPY Umbrella Sunscreen Solution SPF 60 PA+++ Broad Spectrum UV Protection, No White Cast, Lightweight Matte Finish, 100ml\",458,549,17,4.58/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/keya-seth-aromatherapy-umbrella-sunscreen-solution-spf-60-uvb-pa-mi98vs-19772337/19772337\nDr. Sheth's,Delhi,110001,bigbasket.com/jiomart,20406786,\"KEYA SETH AROMATHERAPY Umbrella Sunscreen Solution SPF 40 PA+++ UV Protection, Sweat Resistant Oil Control Formula with Avocado & Wheatgerm Essential Oil, 100ml\",305,399,24,3.05/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/keya-seth-aromatherapy-umbrella-sunscreen-solution-spf-40-pa-mi9vqc-20406786/20406786\nDr. Sheth's,Bengaluru,560001,zeptonow.com,c09cd20e-3385-5c03-a685-7d8d6f979895,Dr. Sheth'S Ceramide & Vitamin C Sunscreen Spf 50 Pa+++ No White Cast For All Skin Type,559,699,20,1 pc (80 g),true,10 MINS,https://www.zepto.com/pn/dr-sheth-s-ceramide-vitamin-c-sunscreen-spf-50-pa-no-white-cast-for-all-skin-type/pvid/abe5c0ea-d362-4927-987d-cf04bec98c20\nDr. Sheth's,Bengaluru,560001,zeptonow.com,72382888-09f0-5f5a-a621-b1e285149c36,\"Dot & Key Blueberry Hydrate Barrier Repair Sunscreen SPF 50+, PA++++\",387,445,13,1 pc (50 g),true,10 MINS,https://www.zepto.com/pn/dot-key-blueberry-hydrate-barrier-repair-sunscreen-spf-50-pa/pvid/e8027f79-4427-48e0-8243-b146537e4f81\nDr. Sheth's,Bengaluru,560001,zeptonow.com,286e8a04-255c-5551-818f-dce7e3839f4b,\"Dr. Sheth'S Kesar & Kojic Acid Oil Free Sunscreen Spf 50+ Pa++++Reduces Pigmentation, For Oily Skin\",299,299,0,1 pc (30 g),true,10 MINS,https://www.zepto.com/pn/dr-sheth-s-kesar-kojic-acid-oil-free-sunscreen-spf-50-pa-reduces-pigmentation-for-oily-skin/pvid/ed9ea56d-daf5-41cb-af68-e24d2b10ee62\nDr. Sheth's,Bengaluru,560001,zeptonow.com,c4199c12-0e1b-5314-8e4b-b5cf98d4cf92,Foxtale Glow Sunscreen SPF50 PA++++ In-Vivo Tested,300,375,20,1 pc (50 ml),true,10 MINS,https://www.zepto.com/pn/foxtale-glow-sunscreen-spf50-pa-in-vivo-tested/pvid/d9ad7dd7-344e-4d55-8dce-4b78e17e8a56\nDr. Sheth's,Bengaluru,560001,zeptonow.com,634d254f-ae65-5e03-949c-9362859b6370,Dr. Sheth'S Ceramide & Vitamin C Sunscreen Spf 50 Pa+++ No White Cast For All Skin Type,269,299,10,1 pc (30 g),true,10 MINS,https://www.zepto.com/pn/dr-sheth-s-ceramide-vitamin-c-sunscreen-spf-50-pa-no-white-cast-for-all-skin-type/pvid/39560d0c-c86f-4f6b-92b3-c3d5c2abbe00\nDr. Sheth's,Bengaluru,560001,zeptonow.com,6016f9c3-7f12-5389-beda-dd5ba4ac0525,Dr. Sheth's Ceramide & Vitamin C Lightweight Sunscreen with SPF 50+ PA++++ (In-vivo Tested),434,499,13,1 pc (50 g),true,10 MINS,https://www.zepto.com/pn/dr-sheth-s-ceramide-vitamin-c-lightweight-sunscreen-with-spf-50-pa-in-vivo-tested/pvid/0b683f70-0161-4f75-ae9c-82c5823cd705\nDr. Sheth's,Bengaluru,560001,zeptonow.com,6b0e7c14-7b69-5431-9ea2-5876209f2ae4,Plum 2% Niacinamide & Rice Water Hybrid Face Sunscreen With SPF 50,315,420,25,1 pc (50 g),true,10 MINS,https://www.zepto.com/pn/plum-2-niacinamide-rice-water-hybrid-face-sunscreen-with-spf-50/pvid/748ccc2d-64fd-4543-a03d-d640b55bd6e9\nDr. Sheth's,Bengaluru,560001,zeptonow.com,1c0f1aa8-616d-526a-b47e-4fc4a56d6037,Dr. Sheth's Kesar & Kojic Acid Lightweight Sunscreen SPF 50+ PA++++ | Reduces Pigmentation,374,499,25,1 pc (50 g),true,10 MINS,https://www.zepto.com/pn/dr-sheth-s-kesar-kojic-acid-lightweight-sunscreen-spf-50-pa-reduces-pigmentation/pvid/aaf0c664-ec0c-48b2-9805-626d361caa6a\nDr. Sheth's,Bengaluru,560001,flipkart.com,SNRHYFYSBNVDG5YX,Dr. Sheth’s Sunscreen - SPF 50 PA++++ Ceramide & Vitamin C | SPF 50+ Pa++++| All Skin Types,265,299,11,1 unit,true,15 MINS,https://www.flipkart.com/dr-sheths-sunscreen-spf-50-pa-ceramide-vitamin-c-50-pa-all-skin-types/p/itm37e4e486a6f20?pid=SNRHYFYSBNVDG5YX&lid=LSTSNRHYFYSBNVDG5YXGBPPXK&marketplace=FLIPKART&q=dr+sheths+sunscreen&store=g9b%2Fema%2F5la%2Fxrh&srno=s_1_1&otracker=search&fm=organic&iid=3c6bef8c-fe2f-4a29-98d6-2f784c8c3dd3.SNRHYFYSBNVDG5YX.SEARCH&ppt=sp&ppn=sp&ssid=9del6ds5340000001793387340573&qH=b67bd05e31bc92f2&ov_redirect=true&ov_redirect=true\nDr. Sheth's,Bengaluru,560001,flipkart.com,SNRH2YFZ5CZXHWQX,Dr. Sheth’s Sunscreen - SPF 50 PA++++ Kesar & Kojic Acid Sunscreen | For Pigmentation-Free Skin | No White Cast,262,299,12,1 unit,true,15 MINS,https://www.flipkart.com/dr-sheths-sunscreen-spf-50-pa-kesar-kojic-acid-pigmentation-free-skin-no-white-cast/p/itm30102ac4e932f?pid=SNRH2YFZ5CZXHWQX&lid=LSTSNRH2YFZ5CZXHWQXQFVQPU&marketplace=FLIPKART&q=dr+sheths+sunscreen&store=g9b%2Fema%2F5la%2Fxrh&srno=s_1_2&otracker=search&fm=organic&iid=3c6bef8c-fe2f-4a29-98d6-2f784c8c3dd3.SNRH2YFZ5CZXHWQX.SEARCH&ppt=sp&ppn=sp&ssid=9del6ds5340000001793387340573&qH=b67bd05e31bc92f2&ov_redirect=true&ov_redirect=true\nDr. Sheth's,Bengaluru,560001,flipkart.com,SNRGF4B8KQGFEJHU,Dr. Sheth’s Sunscreen - SPF 50 PA++++ Ceramide & Vitamin C|SPF 50+ Pa+++| All Skin Types,408,499,18,1 unit,true,15 MINS,https://www.flipkart.com/dr-sheths-sunscreen-spf-50-pa-ceramide-vitamin-c-spf-50-pa-all-skin-types/p/itm5a20d778dfe4f?pid=SNRGF4B8KQGFEJHU&lid=LSTSNRGF4B8KQGFEJHUPGS3GU&marketplace=FLIPKART&q=dr+sheths+sunscreen&store=g9b%2Fema%2F5la%2Fxrh&srno=s_1_3&otracker=search&fm=organic&iid=3c6bef8c-fe2f-4a29-98d6-2f784c8c3dd3.SNRGF4B8KQGFEJHU.SEARCH&ppt=sp&ppn=sp&ssid=9del6ds5340000001793387340573&qH=b67bd05e31bc92f2&ov_redirect=true&ov_redirect=true\nDr. Sheth's,Bengaluru,560001,flipkart.com,SNRHEPCRFHF8P9RS,Dr. Sheth’s Sunscreen - SPF 50 PA++++ Ceramide & Vitamin C Oil-Free Sunscreen SPF 50+ PA++++ | Clinically Tested |,242,299,19,1 unit,true,15 MINS,https://www.flipkart.com/dr-sheths-sunscreen-spf-50-pa-ceramide-vitamin-c-oil-free-50-clinically-tested/p/itmaea73ff448582?pid=SNRHEPCRFHF8P9RS&lid=LSTSNRHEPCRFHF8P9RSCS4IKN&marketplace=FLIPKART&q=dr+sheths+sunscreen&store=g9b%2Fema%2F5la%2Fxrh&srno=s_1_4&otracker=search&fm=organic&iid=3c6bef8c-fe2f-4a29-98d6-2f784c8c3dd3.SNRHEPCRFHF8P9RS.SEARCH&ppt=sp&ppn=sp&ssid=9del6ds5340000001793387340573&qH=b67bd05e31bc92f2&ov_redirect=true&ov_redirect=true\nDr. Sheth's,Bengaluru,560001,flipkart.com,SNRGZJADHX6HQKCZ,Dr. Sheth’s Sunscreen - SPF 50 PA++++ Haldi & Hyaluronic Acid Sunscreen | Hydrating SPF 50+ PA+++| Pack of 2,723,998,28,1 unit,true,15 MINS,https://www.flipkart.com/dr-sheths-sunscreen-spf-50-pa-haldi-hyaluronic-acid-hydrating-50-pa-pack-2/p/itm2c20ba71083f6?pid=SNRGZJADHX6HQKCZ&lid=LSTSNRGZJADHX6HQKCZWZXXJ1&marketplace=FLIPKART&q=dr+sheths+sunscreen&store=g9b%2Fema%2F5la%2Fxrh&srno=s_1_5&otracker=search&fm=organic&iid=3c6bef8c-fe2f-4a29-98d6-2f784c8c3dd3.SNRGZJADHX6HQKCZ.SEARCH&ppt=sp&ppn=sp&ssid=9del6ds5340000001793387340573&qH=b67bd05e31bc92f2&ov_redirect=true&ov_redirect=true\nDr. Sheth's,Bengaluru,560001,flipkart.com,SNRH9C3ZSHZEZAVB,Dr. Sheth’s Sunscreen - SPF 50 PA++++ Kesar & Kojic Acid Oil-Free Sunscreen | Reduces Pigmentation,377,499,24,1 unit,true,15 MINS,https://www.flipkart.com/dr-sheths-sunscreen-spf-50-pa-kesar-kojic-acid-oil-free-reduces-pigmentation/p/itmbca630a3519f7?pid=SNRH9C3ZSHZEZAVB&lid=LSTSNRH9C3ZSHZEZAVBNTB5MO&marketplace=FLIPKART&q=dr+sheths+sunscreen&store=g9b%2Fema%2F5la%2Fxrh&srno=s_1_6&otracker=search&fm=organic&iid=3c6bef8c-fe2f-4a29-98d6-2f784c8c3dd3.SNRH9C3ZSHZEZAVB.SEARCH&ppt=sp&ppn=sp&ssid=9del6ds5340000001793387340573&qH=b67bd05e31bc92f2&ov_redirect=true&ov_redirect=true\nDr. Sheth's,Bengaluru,560001,amazon.in,B0C6KBHPZW,Ceramide & Vitamin C Sunscreen SPF 50+ PA++++ |In-Vivo Tested | For Healthy & Bright Skin | Lightweight & Non Greasy | For UVA/UVB & Blue Light & IR Protection | No white cast | For All Skin Types | For Men & Women | 80 g,508,635,20,80 g,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0C6KBHPZW\nDr. Sheth's,Bengaluru,560001,amazon.in,B0DVB9CGDS,Ceramide & Vitamin C Oil-Free Sunscreen SPF 50+ PA++++ | In-Vivo tested | Oil-Free Tan Protection | Specially Made for Oily Skin & Lightweight | 50 g,339,678,50,50 g,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0DVB9CGDS\nDr. Sheth's,Bengaluru,560001,amazon.in,B0GX1WQNNY,\"100% Mineral Invisible Fluid Sunscreen | In-Vivo Tested | SPF 50+ PA++++ | 3X Protection Shield Against Sun Damage, Pollution & Photo-Aging | Ultra Fluid Texture | Zero White Cast | Pregnancy-Safe Formula | 50g\",507,1014,50,50g,true,\"Wed, 4 Nov\",https://www.amazon.in/dp/B0GX1WQNNY\nDr. Sheth's,Bengaluru,560001,amazon.in,B085WJVX7C,\"Lakme Tinted Sunscreen with Niacinamide for Even Toned Skin, SPF 50 PA+++, in-Vivo Tested,with New-Age UV Filters, Boosts Glow, Reduces Dullness & Dark Spots 50 ml\",197,394,50,50 ml,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B085WJVX7C\nDr. Sheth's,Bengaluru,560001,amazon.in,B085T374WK,\"Lakme Tinted Sunscreen with Niacinamide for Even Toned Skin, SPF 50 PA+++, in-Vivo Tested, 100 ml\",271,271,0,100 ml,true,\"Tue, 3 Nov\",https://www.amazon.in/dp/B085T374WK\nDr. Sheth's,Bengaluru,560001,amazon.in,B0D398ZT8Z,Ceramide & Vitamin C Sunscreen SPF 50+ PA++++ |In-Vivo Tested | For Healthy & Bright Skin | Lightweight & Non Greasy | For UVA/UVB & Blue Light & IR Protection | No white cast | For All Skin Types | For Men & Women | 125 g,899,719.2,0,125 g,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0D398ZT8Z\n";
+
+    function filterRows(mode) {
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const stock = row.getAttribute('data-stock');
+        if (mode === 'all') row.style.display = '';
+        else if (mode === 'oos') row.style.display = stock === 'oos' ? '' : 'none';
+        else if (mode === 'instock') row.style.display = stock === 'instock' ? '' : 'none';
+      });
+    }
+
+    function searchSkus() {
+      const q = document.getElementById('skuSearch').value.toLowerCase();
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const title = row.getAttribute('data-title') || '';
+        const platform = (row.getAttribute('data-platform') || '').toLowerCase();
+        row.style.display = (title.includes(q) || platform.includes(q)) ? '' : 'none';
+      });
+    }
+
+    function downloadCsv() {
+      const blob = new Blob([RAW_CSV], { type: 'text/csv;charset=utf-8;' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'dr-sheth-s-3city-audit.csv';
+      a.click();
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bella Vita Organic — 3-City Quick-Commerce Dark-Store Audit Scorecard | Unscrape Radar</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background-color: #07080d; color: #f3f4f6; font-family: Inter, system-ui, -apple-system, sans-serif; }
+  </style>
+</head>
+<body class="min-h-screen pb-24">
+  <!-- Top Bar -->
+  <header class="border-b border-slate-800 bg-slate-950/90 backdrop-blur sticky top-0 z-20">
+    <div class="max-w-7xl mx-auto px-6 py-3.5 flex items-center justify-between flex-wrap gap-3">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="text-emerald-400 font-black text-lg tracking-tight hover:text-emerald-300">⚡ UNSCRAPE RADAR</a>
+        <span class="text-xs text-slate-500">/</span>
+        <span class="text-sm font-bold text-white">Bella Vita Organic Executive Scorecard</span>
+      </div>
+      <div class="flex items-center gap-2.5 text-xs">
+        <a href="index.html" class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700">← All 56 Brand Audits</a>
+        <button onclick="downloadCsv()" class="px-3.5 py-1.5 rounded-lg bg-emerald-500 text-slate-950 font-bold hover:bg-emerald-400">⬇ Download Raw CSV (46 SKUs)</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-6 pt-8">
+    <!-- Executive Header -->
+    <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 mb-8">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+        <div>
+          <div class="flex items-center gap-2.5 mb-2">
+            <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded bg-slate-800 text-emerald-400">Luxury Perfumes</span>
+            <span class="text-xs text-slate-400 font-mono">Audited: 2026-10-30</span>
+          </div>
+          <h1 class="text-3xl md:text-4xl font-black text-white tracking-tight">Bella Vita Organic — Hyperlocal Dark-Store Audit</h1>
+          <p class="text-slate-400 text-sm mt-1">
+            Live multi-platform inventory & MOP/MRP price variance scan across <strong>Bengaluru (560001)</strong>, <strong>Mumbai (400001)</strong>, and <strong>Delhi (110001)</strong>.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 shrink-0">
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">SKUs Audited</div>
+            <div class="text-2xl font-black text-white mt-1">46</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">OOS Leaks</div>
+            <div class="text-2xl font-black text-emerald-400 mt-1">0</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">Max Markdown</div>
+            <div class="text-2xl font-black text-amber-300 mt-1">81%</div>
+          </div>
+          <div class="border rounded-xl p-3.5 text-center bg-emerald-500/15 text-emerald-400 border-emerald-500/30">
+            <div class="text-[11px] uppercase font-bold opacity-80">Shelf Health</div>
+            <div class="text-2xl font-black mt-1">100%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="bg-emerald-950/30 border border-emerald-500/30 rounded-2xl p-5 mb-8 flex items-center justify-between flex-wrap gap-3">
+      <div>
+        <span class="px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 font-bold text-xs uppercase">✓ 100% In-Stock Snapshot</span>
+        <span class="text-sm text-slate-200 ml-2">All 46 audited dark-store listings across Bengaluru, Mumbai & Delhi were in stock during this scan. Max discount variance: <strong>81% below MRP</strong>.</span>
+      </div>
+    </div>
+
+    <!-- Filter Controls -->
+    <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+      <div class="flex items-center gap-2 text-xs">
+        <button onclick="filterRows('all')" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-semibold">All SKUs (46)</button>
+        <button onclick="filterRows('oos')" class="px-3 py-1.5 rounded-lg bg-rose-500/15 border border-rose-500/30 text-rose-300 hover:bg-rose-500/25 font-semibold">Out-of-Stock Only (0)</button>
+        <button onclick="filterRows('instock')" class="px-3 py-1.5 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 hover:bg-emerald-500/25 font-semibold">In-Stock (46)</button>
+      </div>
+      <div class="flex items-center gap-2">
+        <input id="skuSearch" type="text" oninput="searchSkus()" placeholder="Filter SKU title or platform..." class="bg-slate-900 border border-slate-800 rounded-lg px-3.5 py-1.5 text-xs text-white w-64" />
+      </div>
+    </div>
+
+    <!-- SKU Table -->
+    <div class="bg-slate-900/50 border border-slate-800 rounded-2xl overflow-x-auto">
+      <table class="w-full text-left text-xs">
+        <thead class="bg-slate-950/90 text-slate-400 uppercase border-b border-slate-800">
+          <tr>
+            <th class="px-4 py-3">SKU Title</th>
+            <th class="px-4 py-3">Platform</th>
+            <th class="px-4 py-3">City / Pin</th>
+            <th class="px-4 py-3">Pack Size</th>
+            <th class="px-4 py-3">Selling Price</th>
+            <th class="px-4 py-3">MRP</th>
+            <th class="px-4 py-3">Discount</th>
+            <th class="px-4 py-3">Stock Status</th>
+            <th class="px-4 py-3">ETA</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-800/60">
+          <tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bella vita luxury unisex perfume gift set (4 x 20 ml)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bella Vita Luxury Unisex Perfume Gift Set (4 x 20 ml)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">4.05/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹324</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹649</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bella vita luxury man perfume gift set (4 x 20 ml)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bella Vita Luxury Man Perfume Gift Set (4 x 20 ml)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">4.05/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹324</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹649</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bellavita ceo man and white oud unisex | long lasting perfume for man &amp; woman | eau de parfum pack of 2x20ml each | tonka, agarwood &amp; orange | woody, spicy &amp; citrus premium fragrance">
+        <td class="px-4 py-3 font-medium text-white max-w-md">BELLAVITA CEO MAN and WHITE OUD Unisex | Long Lasting Perfume for Man &amp; Woman | Eau De Parfum pack of 2x20ml each | Tonka, Agarwood &amp; Orange | Woody, Spicy &amp; Citrus Premium Fragrance</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">179.00/Sets</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹179</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹748</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">76% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bella vita luxury ceo men eau de perfume 100 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bella Vita Luxury CEO Men Eau De Perfume 100 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">3.99/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹399</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹599</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">33% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bella vita luxury white oud perfume 100 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bella Vita Luxury White Oud Perfume 100 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">3.99/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹399</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹599</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">33% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bella vita luxury women perfume gift set (4 x 20 ml)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bella Vita Luxury Women Perfume Gift Set (4 x 20 ml)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">4.05/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹324</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹649</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bella vita luxury unisex perfume gift set (4 x 20 ml)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bella Vita Luxury Unisex Perfume Gift Set (4 x 20 ml)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">4.05/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹324</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹649</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bella vita luxury man perfume gift set (4 x 20 ml)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bella Vita Luxury Man Perfume Gift Set (4 x 20 ml)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">4.05/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹324</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹649</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bellavita ceo man and white oud unisex | long lasting perfume for man &amp; woman | eau de parfum pack of 2x20ml each | tonka, agarwood &amp; orange | woody, spicy &amp; citrus premium fragrance">
+        <td class="px-4 py-3 font-medium text-white max-w-md">BELLAVITA CEO MAN and WHITE OUD Unisex | Long Lasting Perfume for Man &amp; Woman | Eau De Parfum pack of 2x20ml each | Tonka, Agarwood &amp; Orange | Woody, Spicy &amp; Citrus Premium Fragrance</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">179.00/Sets</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹179</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹748</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">76% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bella vita luxury ceo men eau de perfume 100 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bella Vita Luxury CEO Men Eau De Perfume 100 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">3.99/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹399</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹599</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">33% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bella vita luxury white oud perfume 100 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bella Vita Luxury White Oud Perfume 100 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">3.99/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹399</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹599</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">33% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bella vita luxury women perfume gift set (4 x 20 ml)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bella Vita Luxury Women Perfume Gift Set (4 x 20 ml)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">4.05/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹324</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹649</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bella vita luxury unisex perfume gift set (4 x 20 ml)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bella Vita Luxury Unisex Perfume Gift Set (4 x 20 ml)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">4.05/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹324</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹649</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bella vita luxury man perfume gift set (4 x 20 ml)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bella Vita Luxury Man Perfume Gift Set (4 x 20 ml)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">4.05/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹324</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹649</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bellavita ceo man and white oud unisex | long lasting perfume for man &amp; woman | eau de parfum pack of 2x20ml each | tonka, agarwood &amp; orange | woody, spicy &amp; citrus premium fragrance">
+        <td class="px-4 py-3 font-medium text-white max-w-md">BELLAVITA CEO MAN and WHITE OUD Unisex | Long Lasting Perfume for Man &amp; Woman | Eau De Parfum pack of 2x20ml each | Tonka, Agarwood &amp; Orange | Woody, Spicy &amp; Citrus Premium Fragrance</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">179.00/Sets</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹179</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹748</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">76% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bella vita luxury ceo men eau de perfume 100 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bella Vita Luxury CEO Men Eau De Perfume 100 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">3.99/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹399</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹599</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">33% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bella vita luxury white oud perfume 100 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bella Vita Luxury White Oud Perfume 100 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">3.99/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹399</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹599</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">33% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="bella vita luxury women perfume gift set (4 x 20 ml)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bella Vita Luxury Women Perfume Gift Set (4 x 20 ml)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">4.05/ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹324</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹649</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="bellavita ceo man perfume &amp; white oud perfume combo| citrus &amp; woody notes |long lasting| eau de parfum  -  40 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">BELLAVITA CEO MAN perfume &amp; WHITE OUD perfume combo| Citrus &amp; Woody Notes |Long Lasting| Eau de Parfum  -  40 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">40 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹179</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹748</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">76% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="bellavita fresh perfume &amp; skai aquatic perfume combo|2x20ml|with citrus &amp; woody notes| perfume  -  40 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">BELLAVITA FRESH perfume &amp; SKAI AQUATIC perfume combo|2X20ML|With Citrus &amp; Woody Notes| Perfume  -  40 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">40 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹179</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹748</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">76% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="bellavita white oud perfume &amp; honey oud perfume combo|2x20ml|with citrus &amp; woody notes| eau de parfum  -  40 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">BELLAVITA WHITE OUD perfume &amp; HONEY OUD perfume combo|2X20ML|With Citrus &amp; Woody Notes| Eau de Parfum  -  40 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">40 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹179</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹890</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">80% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="bellavita beast perfume &amp; devil fever perfume combo|2x20ml|with fruity &amp; woody notes| eau de parfum  -  40 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">BELLAVITA BEAST Perfume &amp; DEVIL FEVER Perfume combo|2X20ML|With Fruity &amp; Woody Notes| Eau de Parfum  -  40 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">40 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹149</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹798</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">81% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="bellavita date perfume &amp; senorita perfume combo|2x20ml|with fruity &amp; woody notes| eau de parfum  -  40 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">BELLAVITA DATE perfume &amp; SENORITA perfume combo|2X20ML|With Fruity &amp; Woody Notes| Eau de Parfum  -  40 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">40 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹179</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹749</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">76% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="bellavita fresh eau de toilette unisex perfume with bergamot, orris lavender &amp; ylang ylang perfume  -  100 ml">
+        <td class="px-4 py-3 font-medium text-white max-w-md">BELLAVITA Fresh Eau De Toilette Unisex Perfume with Bergamot, Orris Lavender &amp; Ylang Ylang Perfume  -  100 ml</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">100 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹449</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹899</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="moody premium perfume gift set">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Moody Premium Perfume Gift Set</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">8 x 10 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹350</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹492</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">29% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="bella vita organic ceo men's eau de parfum">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bella Vita Organic CEO Men's Eau de Parfum</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">100 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹449</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹899</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="bella vita organic women's luxury perfume gift set">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bella Vita Organic Women's Luxury Perfume Gift Set</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">4 x 20 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹475</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹849</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">44% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="bella vita organic men's luxury perfume gift set">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bella Vita Organic Men's Luxury Perfume Gift Set</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">4 x 20 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹475</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹849</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">44% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="wild stone eau de parfum for men (edge)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Wild Stone Eau de Parfum for Men (Edge)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">100 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹406</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹799</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">49% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="bella vita organic unisex eau de parfum (white oud)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bella Vita Organic Unisex Eau de Parfum (White Oud)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">100 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹499</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹999</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="bella vita beast mode collection perfume gift set for men">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bella Vita Beast Mode Collection Perfume Gift Set for Men</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">3 x 20 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹549</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹799</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">31% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="bella vita eau de parfum date women's perfume">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bella Vita Eau de Parfum Date Women's Perfume</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">100 ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹499</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹999</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="bella vita organic luxury perfumes gift set for women | elegant everyday fragrance blends">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bella Vita Organic Luxury Perfumes Gift Set For Women | Elegant Everyday Fragrance Blends</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 set (4 x 20 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹475</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹849</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">44% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="bella vita organic unisex luxury perfume gift set | premium fragrance">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bella Vita Organic Unisex Luxury Perfume Gift Set | Premium Fragrance</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 set (4 x 20 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹475</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹849</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">44% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="bella vita white oud unisex perfume for men and women">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bella Vita White OUD Unisex Perfume for Men and Women</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (20 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹149</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹449</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">67% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="bella vita organic luxury perfumes gift set for men | long-lasting signature scents">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bella Vita Organic Luxury Perfumes Gift Set For Men | Long-Lasting Signature Scents</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 set (4 x 20 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹475</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹849</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">44% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="bella vita beast mode collection perfume gift set for men">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bella Vita Beast Mode Collection Perfume Gift Set For Men</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pack (3 x 20 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹549</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹799</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">31% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="bella vita organic ceo man eau de parfum for men | long-lasting hints of lemon and sugar">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bella Vita Organic CEO Man Eau De Parfum For Men | Long-Lasting Hints Of Lemon And Sugar</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (100 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹449</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹899</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">50% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="bella vita organic luxury skai aquatic unisex eau de cologne perfume | everyday fragrance">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bella Vita Organic Luxury Skai Aquatic Unisex Eau De Cologne Perfume | Everyday Fragrance</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (100 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹449</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹699</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">36% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="zeptonow.com" data-title="skinn by titan celeste perfume for women eau de parfum | premium fragrance">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Skinn By Titan Celeste Perfume For Women Eau De Parfum | Premium Fragrance</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">zeptonow.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 pc (50 ml)</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1499</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1995</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">25% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="bellavita beast mode collection set with 40% perfume oil concentration | long lasting | perfume for man | gift for men | spicy, wood, musk and oud premium fragrance for men | diwali gift hamper">
+        <td class="px-4 py-3 font-medium text-white max-w-md">BELLAVITA Beast Mode Collection Set with 40% Perfume oil concentration | Long Lasting | Perfume for Man | Gift for Men | Spicy, Wood, Musk and Oud Premium Fragrance for Men | Diwali Gift Hamper</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹549</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹799</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">31% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="bella vita luxury unisex perfume 4x20ml | long lasting edp for man and woman | unisex gift set | with skai, fresh, whiteoud, honey oud | premium fragrance scents | ideal diwali gift">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bella Vita Luxury Unisex Perfume 4X20ml | Long Lasting EDP for Man and Woman | Unisex Gift Set | with SKAI, Fresh, WHITEOUD, Honey Oud | Premium Fragrance Scents | Ideal Diwali Gift</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹475</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹5.94</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="bella vita luxury | perfume gift set for women 4x20ml | karwachauth gift for wife | gift for woman | perfume for woman | date, senorita, glam, rose long lasting edp | floral &amp; fruity premium fragrance | ideal diwali gift">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bella Vita Luxury | Perfume Gift Set for Women 4x20ml | Karwachauth Gift for Wife | Gift for Woman | Perfume for Woman | Date, Senorita, Glam, Rose Long Lasting EDP | Floral &amp; Fruity Premium Fragrance | Ideal Diwali Gift</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹475</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹849</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">44% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="bella vita luxury 4 x 20 ml perfume for man| long lasting edp men gift set| with klub, oud, ceo, g.o.a.t | woody, citrusy premium fragrance scents | ideal diwali gift">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Bella Vita Luxury 4 X 20 Ml Perfume for Man| Long Lasting EDP Men Gift Set| With Klub, Oud, CEO, G.O.A.T | Woody, Citrusy Premium Fragrance Scents | Ideal Diwali Gift</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">20 Ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹475</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹599</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">21% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="bellavita luxury arabic gift set | dubai crafted | perfume for man | gift for man | 3 x 20ml | | long lasting edp | 25% oil concentration | oud, saffron, patchouli | premium long lasting perfume">
+        <td class="px-4 py-3 font-medium text-white max-w-md">BELLAVITA Luxury Arabic Gift Set | Dubai Crafted | Perfume for Man | Gift For Man | 3 x 20ml | | Long Lasting EDP | 25% Oil Concentration | Oud, Saffron, Patchouli | Premium Long Lasting Perfume</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">20ml</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹649</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹799</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">19% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Tue, 3 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="bellavita ceo man and white oud unisex perfume | 2x20ml each| long lasting fragrance | eau de parfum| tonka, agarwood &amp; orange | woody, spicy &amp; citrus premium fragrance | perfume for man and woman">
+        <td class="px-4 py-3 font-medium text-white max-w-md">BELLAVITA CEO MAN and WHITE OUD Unisex Perfume | 2x20ml each| Long Lasting Fragrance | Eau De Parfum| Tonka, Agarwood &amp; Orange | Woody, Spicy &amp; Citrus Premium Fragrance | Perfume for Man and Woman</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹179</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹4.48</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Tue, 3 Nov</td>
+      </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- Sticky CTA Footer -->
+  <div class="fixed bottom-0 inset-x-0 bg-slate-950/95 border-t border-emerald-500/30 backdrop-blur px-6 py-3.5 z-30">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+      <div class="text-slate-200">
+        <span class="text-emerald-400 font-bold">⚡ Unscrape Radar:</span> Want real-time Slack/WhatsApp/Telegram alerts within 15 mins whenever <strong>Bella Vita Organic</strong> SKUs go Out-of-Stock across 20 BLR/MUM/DEL dark-store pin codes?
+      </div>
+      <div class="flex items-center gap-2.5 shrink-0">
+        <a href="https://github.com/deveshkolte/unscrape" target="_blank" class="px-4 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold">Unlock Automated 20-Pin-Code Monitor →</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const RAW_CSV = "brand,city,pincode,platform,skuId,title,sellingPriceInr,mrpInr,discountPercent,unit,inStock,deliveryEta,url\nBella Vita Organic,Bengaluru,560001,bigbasket.com/jiomart,7515197,Bella Vita Luxury Unisex Perfume Gift Set (4 x 20 ml),324,649,50,4.05/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/bella-vita-luxury-unisex-perfume-gift-set-4-x-20-ml-mffmxg-7515197/7515197\nBella Vita Organic,Bengaluru,560001,bigbasket.com/jiomart,7529983,Bella Vita Luxury Man Perfume Gift Set (4 x 20 ml),324,649,50,4.05/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/bella-vita-luxury-man-perfume-gift-set-4-x-20-ml-mffn4d-7529983/7529983\nBella Vita Organic,Bengaluru,560001,bigbasket.com/jiomart,116994987,\"BELLAVITA CEO MAN and WHITE OUD Unisex | Long Lasting Perfume for Man & Woman | Eau De Parfum pack of 2x20ml each | Tonka, Agarwood & Orange | Woody, Spicy & Citrus Premium Fragrance\",179,748,76,179.00/Sets,true,15-30 MINS,https://www.jiomart.com/p/groceries/bellavita-ceo-man-and-white-oud-unisex-long-lasting-perfume-for-man-woman-eau-de-parfum-pack-of-2x20ml-each-tonka-agarwood-orange-woody-spicy-citrus-premium-fragrance-mqkssq-116994987/116994987\nBella Vita Organic,Bengaluru,560001,bigbasket.com/jiomart,7510639,Bella Vita Luxury CEO Men Eau De Perfume 100 ml,399,599,33,3.99/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/bella-vita-luxury-ceo-men-eau-de-perfume-100-ml-mffmvb-7510639/7510639\nBella Vita Organic,Bengaluru,560001,bigbasket.com/jiomart,7514776,Bella Vita Luxury White Oud Perfume 100 ml,399,599,33,3.99/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/bella-vita-luxury-white-oud-perfume-100-ml-mffmx9-7514776/7514776\nBella Vita Organic,Bengaluru,560001,bigbasket.com/jiomart,7505837,Bella Vita Luxury Women Perfume Gift Set (4 x 20 ml),324,649,50,4.05/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/bella-vita-luxury-women-perfume-gift-set-4-x-20-ml-mffmt1-7505837/7505837\nBella Vita Organic,Mumbai,400001,bigbasket.com/jiomart,7515197,Bella Vita Luxury Unisex Perfume Gift Set (4 x 20 ml),324,649,50,4.05/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/bella-vita-luxury-unisex-perfume-gift-set-4-x-20-ml-mffmxg-7515197/7515197\nBella Vita Organic,Mumbai,400001,bigbasket.com/jiomart,7529983,Bella Vita Luxury Man Perfume Gift Set (4 x 20 ml),324,649,50,4.05/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/bella-vita-luxury-man-perfume-gift-set-4-x-20-ml-mffn4d-7529983/7529983\nBella Vita Organic,Mumbai,400001,bigbasket.com/jiomart,116994987,\"BELLAVITA CEO MAN and WHITE OUD Unisex | Long Lasting Perfume for Man & Woman | Eau De Parfum pack of 2x20ml each | Tonka, Agarwood & Orange | Woody, Spicy & Citrus Premium Fragrance\",179,748,76,179.00/Sets,true,15-30 MINS,https://www.jiomart.com/p/groceries/bellavita-ceo-man-and-white-oud-unisex-long-lasting-perfume-for-man-woman-eau-de-parfum-pack-of-2x20ml-each-tonka-agarwood-orange-woody-spicy-citrus-premium-fragrance-mqkssq-116994987/116994987\nBella Vita Organic,Mumbai,400001,bigbasket.com/jiomart,7510639,Bella Vita Luxury CEO Men Eau De Perfume 100 ml,399,599,33,3.99/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/bella-vita-luxury-ceo-men-eau-de-perfume-100-ml-mffmvb-7510639/7510639\nBella Vita Organic,Mumbai,400001,bigbasket.com/jiomart,7514776,Bella Vita Luxury White Oud Perfume 100 ml,399,599,33,3.99/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/bella-vita-luxury-white-oud-perfume-100-ml-mffmx9-7514776/7514776\nBella Vita Organic,Mumbai,400001,bigbasket.com/jiomart,7505837,Bella Vita Luxury Women Perfume Gift Set (4 x 20 ml),324,649,50,4.05/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/bella-vita-luxury-women-perfume-gift-set-4-x-20-ml-mffmt1-7505837/7505837\nBella Vita Organic,Delhi,110001,bigbasket.com/jiomart,7515197,Bella Vita Luxury Unisex Perfume Gift Set (4 x 20 ml),324,649,50,4.05/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/bella-vita-luxury-unisex-perfume-gift-set-4-x-20-ml-mffmxg-7515197/7515197\nBella Vita Organic,Delhi,110001,bigbasket.com/jiomart,7529983,Bella Vita Luxury Man Perfume Gift Set (4 x 20 ml),324,649,50,4.05/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/bella-vita-luxury-man-perfume-gift-set-4-x-20-ml-mffn4d-7529983/7529983\nBella Vita Organic,Delhi,110001,bigbasket.com/jiomart,116994987,\"BELLAVITA CEO MAN and WHITE OUD Unisex | Long Lasting Perfume for Man & Woman | Eau De Parfum pack of 2x20ml each | Tonka, Agarwood & Orange | Woody, Spicy & Citrus Premium Fragrance\",179,748,76,179.00/Sets,true,15-30 MINS,https://www.jiomart.com/p/groceries/bellavita-ceo-man-and-white-oud-unisex-long-lasting-perfume-for-man-woman-eau-de-parfum-pack-of-2x20ml-each-tonka-agarwood-orange-woody-spicy-citrus-premium-fragrance-mqkssq-116994987/116994987\nBella Vita Organic,Delhi,110001,bigbasket.com/jiomart,7510639,Bella Vita Luxury CEO Men Eau De Perfume 100 ml,399,599,33,3.99/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/bella-vita-luxury-ceo-men-eau-de-perfume-100-ml-mffmvb-7510639/7510639\nBella Vita Organic,Delhi,110001,bigbasket.com/jiomart,7514776,Bella Vita Luxury White Oud Perfume 100 ml,399,599,33,3.99/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/bella-vita-luxury-white-oud-perfume-100-ml-mffmx9-7514776/7514776\nBella Vita Organic,Delhi,110001,bigbasket.com/jiomart,7505837,Bella Vita Luxury Women Perfume Gift Set (4 x 20 ml),324,649,50,4.05/ml,true,15-30 MINS,https://www.jiomart.com/p/groceries/bella-vita-luxury-women-perfume-gift-set-4-x-20-ml-mffmt1-7505837/7505837\nBella Vita Organic,Bengaluru,560001,flipkart.com,CBKGT64DQQYHSMV3,BELLAVITA CEO MAN perfume & WHITE OUD perfume combo| Citrus & Woody Notes |Long Lasting| Eau de Parfum  -  40 ml,179,748,76,40 ml,true,15 MINS,https://www.flipkart.com/bellavita-ceo-man-perfume-white-oud-combo-citrus-woody-notes-long-lasting-eau-de-parfum-40-ml/p/itm86b43f6b9aa98?pid=CBKGT64DQQYHSMV3&lid=LSTCBKGT64DQQYHSMV3RN9TVK&marketplace=FLIPKART&q=bella+vita+perfume&store=g9b%2F0yh%2Fjhz&spotlightTagId=default_BestsellerId_g9b%2F0yh%2Fjhz&srno=s_1_1&otracker=search&fm=organic&iid=5efdab1d-438e-4e91-90fd-b0baf15ecc36.CBKGT64DQQYHSMV3.SEARCH&ppt=sp&ppn=sp&ssid=iz11s8jkg00000001793387356798&qH=01fb4e0d5bac706a&ov_redirect=true&ov_redirect=true\nBella Vita Organic,Bengaluru,560001,flipkart.com,PERGZ5GD4MG57HMW,BELLAVITA FRESH perfume & SKAI AQUATIC perfume combo|2X20ML|With Citrus & Woody Notes| Perfume  -  40 ml,179,748,76,40 ml,true,15 MINS,https://www.flipkart.com/bellavita-fresh-perfume-skai-aquatic-combo-2x20ml-with-citrus-woody-notes-40-ml/p/itmcba69aa7b0211?pid=PERGZ5GD4MG57HMW&lid=LSTPERGZ5GD4MG57HMWSVCHFC&marketplace=FLIPKART&q=bella+vita+perfume&store=g9b%2F0yh%2Fjhz&srno=s_1_2&otracker=search&fm=organic&iid=5efdab1d-438e-4e91-90fd-b0baf15ecc36.PERGZ5GD4MG57HMW.SEARCH&ppt=sp&ppn=sp&ssid=iz11s8jkg00000001793387356798&qH=01fb4e0d5bac706a&ov_redirect=true&ov_redirect=true\nBella Vita Organic,Bengaluru,560001,flipkart.com,PERHYWWKY2FQSVER,BELLAVITA WHITE OUD perfume & HONEY OUD perfume combo|2X20ML|With Citrus & Woody Notes| Eau de Parfum  -  40 ml,179,890,80,40 ml,true,15 MINS,https://www.flipkart.com/bellavita-white-oud-perfume-honey-combo-2x20ml-with-citrus-woody-notes-eau-de-parfum-40-ml/p/itmb74167372ebf7?pid=PERHYWWKY2FQSVER&lid=LSTPERHYWWKY2FQSVERH04BYS&marketplace=FLIPKART&q=bella+vita+perfume&store=g9b%2F0yh%2Fjhz&spotlightTagId=default_BestsellerId_g9b%2F0yh%2Fjhz&srno=s_1_3&otracker=search&fm=organic&iid=5efdab1d-438e-4e91-90fd-b0baf15ecc36.PERHYWWKY2FQSVER.SEARCH&ppt=sp&ppn=sp&ssid=iz11s8jkg00000001793387356798&qH=01fb4e0d5bac706a&ov_redirect=true&ov_redirect=true\nBella Vita Organic,Bengaluru,560001,flipkart.com,PERH93G7X9SCG7GP,BELLAVITA BEAST Perfume & DEVIL FEVER Perfume combo|2X20ML|With Fruity & Woody Notes| Eau de Parfum  -  40 ml,149,798,81,40 ml,true,15 MINS,https://www.flipkart.com/bellavita-beast-perfume-devil-fever-combo-2x20ml-with-fruity-woody-notes-eau-de-parfum-40-ml/p/itmcf09362aae2b9?pid=PERH93G7X9SCG7GP&lid=LSTPERH93G7X9SCG7GP9SLYX2&marketplace=FLIPKART&q=bella+vita+perfume&store=g9b%2F0yh%2Fjhz&srno=s_1_4&otracker=search&fm=organic&iid=5efdab1d-438e-4e91-90fd-b0baf15ecc36.PERH93G7X9SCG7GP.SEARCH&ppt=sp&ppn=sp&ssid=iz11s8jkg00000001793387356798&qH=01fb4e0d5bac706a&ov_redirect=true&ov_redirect=true\nBella Vita Organic,Bengaluru,560001,flipkart.com,PERH27MZSWYBGWUU,BELLAVITA DATE perfume & SENORITA perfume combo|2X20ML|With Fruity & Woody Notes| Eau de Parfum  -  40 ml,179,749,76,40 ml,true,15 MINS,https://www.flipkart.com/bellavita-date-perfume-senorita-combo-2x20ml-with-fruity-woody-notes-eau-de-parfum-40-ml/p/itmdfc8886c52d4f?pid=PERH27MZSWYBGWUU&lid=LSTPERH27MZSWYBGWUUH9ACAV&marketplace=FLIPKART&q=bella+vita+perfume&store=g9b%2F0yh%2Fjhz&spotlightTagId=default_BestsellerId_g9b%2F0yh%2Fjhz&srno=s_1_5&otracker=search&fm=organic&iid=5efdab1d-438e-4e91-90fd-b0baf15ecc36.PERH27MZSWYBGWUU.SEARCH&ppt=sp&ppn=sp&ssid=iz11s8jkg00000001793387356798&qH=01fb4e0d5bac706a&ov_redirect=true&ov_redirect=true\nBella Vita Organic,Bengaluru,560001,flipkart.com,PERGF9PRXRHHUPP5,\"BELLAVITA Fresh Eau De Toilette Unisex Perfume with Bergamot, Orris Lavender & Ylang Ylang Perfume  -  100 ml\",449,899,50,100 ml,true,15 MINS,https://www.flipkart.com/bellavita-fresh-eau-de-toilette-unisex-perfume-bergamot-orris-lavender-ylang-100-ml/p/itm5b434dad40381?pid=PERGF9PRXRHHUPP5&lid=LSTPERGF9PRXRHHUPP5QVH922&marketplace=FLIPKART&q=bella+vita+perfume&store=g9b%2F0yh%2Fjhz&srno=s_1_6&otracker=search&fm=organic&iid=5efdab1d-438e-4e91-90fd-b0baf15ecc36.PERGF9PRXRHHUPP5.SEARCH&ppt=sp&ppn=sp&ssid=iz11s8jkg00000001793387356798&qH=01fb4e0d5bac706a&ov_redirect=true&ov_redirect=true\nBella Vita Organic,Bengaluru,560001,blinkit.com,571525,Moody Premium Perfume Gift Set,350,492,29,8 x 10 ml,true,10 MINS,https://blinkit.com/prn/moody-premium-perfume-gift-set/prid/571525\nBella Vita Organic,Bengaluru,560001,blinkit.com,457771,Bella Vita Organic CEO Men's Eau de Parfum,449,899,50,100 ml,true,10 MINS,https://blinkit.com/prn/bella-vita-organic-ceo-men-s-eau-de-parfum/prid/457771\nBella Vita Organic,Bengaluru,560001,blinkit.com,457926,Bella Vita Organic Women's Luxury Perfume Gift Set,475,849,44,4 x 20 ml,true,10 MINS,https://blinkit.com/prn/bella-vita-organic-women-s-luxury-perfume-gift-set/prid/457926\nBella Vita Organic,Bengaluru,560001,blinkit.com,457925,Bella Vita Organic Men's Luxury Perfume Gift Set,475,849,44,4 x 20 ml,true,10 MINS,https://blinkit.com/prn/bella-vita-organic-men-s-luxury-perfume-gift-set/prid/457925\nBella Vita Organic,Bengaluru,560001,blinkit.com,619160,Wild Stone Eau de Parfum for Men (Edge),406,799,49,100 ml,true,10 MINS,https://blinkit.com/prn/wild-stone-eau-de-parfum-for-men-edge/prid/619160\nBella Vita Organic,Bengaluru,560001,blinkit.com,457783,Bella Vita Organic Unisex Eau de Parfum (White Oud),499,999,50,100 ml,true,10 MINS,https://blinkit.com/prn/bella-vita-organic-unisex-eau-de-parfum-white-oud/prid/457783\nBella Vita Organic,Bengaluru,560001,blinkit.com,790114,Bella Vita Beast Mode Collection Perfume Gift Set for Men,549,799,31,3 x 20 ml,true,10 MINS,https://blinkit.com/prn/bella-vita-beast-mode-collection-perfume-gift-set-for-men/prid/790114\nBella Vita Organic,Bengaluru,560001,blinkit.com,500097,Bella Vita Eau de Parfum Date Women's Perfume,499,999,50,100 ml,true,10 MINS,https://blinkit.com/prn/bella-vita-eau-de-parfum-date-women-s-perfume/prid/500097\nBella Vita Organic,Bengaluru,560001,zeptonow.com,c8cdd16d-b46b-5a9c-935a-0d7b351dea87,Bella Vita Organic Luxury Perfumes Gift Set For Women | Elegant Everyday Fragrance Blends,475,849,44,1 set (4 x 20 ml),true,10 MINS,https://www.zepto.com/pn/bella-vita-organic-luxury-perfumes-gift-set-for-women-elegant-everyday-fragrance-blends/pvid/a987c914-98dd-4590-931a-efe84291287a\nBella Vita Organic,Bengaluru,560001,zeptonow.com,6777e674-5de6-55f9-941a-4b4ff52c11f6,Bella Vita Organic Unisex Luxury Perfume Gift Set | Premium Fragrance,475,849,44,1 set (4 x 20 ml),true,10 MINS,https://www.zepto.com/pn/bella-vita-organic-unisex-luxury-perfume-gift-set-premium-fragrance/pvid/0741cb87-68d5-4c67-bf66-33110995d5ce\nBella Vita Organic,Bengaluru,560001,zeptonow.com,19ce44bc-dc46-5227-96c3-8659b6ad532c,Bella Vita White OUD Unisex Perfume for Men and Women,149,449,67,1 pc (20 ml),true,10 MINS,https://www.zepto.com/pn/bella-vita-white-oud-unisex-perfume-for-men-and-women/pvid/be839d08-11b8-4496-a1f6-f20bbf2cc9a6\nBella Vita Organic,Bengaluru,560001,zeptonow.com,0ed9c17a-44f4-5e55-9d0f-b5be0067a86c,Bella Vita Organic Luxury Perfumes Gift Set For Men | Long-Lasting Signature Scents,475,849,44,1 set (4 x 20 ml),true,10 MINS,https://www.zepto.com/pn/bella-vita-organic-luxury-perfumes-gift-set-for-men-long-lasting-signature-scents/pvid/0c14b3fd-e27f-44de-88ee-4e05284923e4\nBella Vita Organic,Bengaluru,560001,zeptonow.com,3755dc1c-c29d-5b59-8c32-d8ed5b99e3fd,Bella Vita Beast Mode Collection Perfume Gift Set For Men,549,799,31,1 pack (3 x 20 ml),true,10 MINS,https://www.zepto.com/pn/bella-vita-beast-mode-collection-perfume-gift-set-for-men/pvid/af4b45b7-a356-4c9d-87d1-33486b4b1067\nBella Vita Organic,Bengaluru,560001,zeptonow.com,2d561e94-6e5d-5fe2-95dc-24baaa9ee275,Bella Vita Organic CEO Man Eau De Parfum For Men | Long-Lasting Hints Of Lemon And Sugar,449,899,50,1 pc (100 ml),true,10 MINS,https://www.zepto.com/pn/bella-vita-organic-ceo-man-eau-de-parfum-for-men-long-lasting-hints-of-lemon-and-sugar/pvid/5b569712-5ab4-4772-bbc2-10dfca24c281\nBella Vita Organic,Bengaluru,560001,zeptonow.com,6602f85d-7986-5d07-8b5a-0851877d39c9,Bella Vita Organic Luxury Skai Aquatic Unisex Eau De Cologne Perfume | Everyday Fragrance,449,699,36,1 pc (100 ml),true,10 MINS,https://www.zepto.com/pn/bella-vita-organic-luxury-skai-aquatic-unisex-eau-de-cologne-perfume-everyday-fragrance/pvid/7bc0979a-cabe-4e9d-805d-58a36c9e69f8\nBella Vita Organic,Bengaluru,560001,zeptonow.com,499cbcf1-29b4-5cff-a1d6-14312a43171a,Skinn By Titan Celeste Perfume For Women Eau De Parfum | Premium Fragrance,1499,1995,25,1 pc (50 ml),true,10 MINS,https://www.zepto.com/pn/skinn-by-titan-celeste-perfume-for-women-eau-de-parfum-premium-fragrance/pvid/541f407f-b190-4f36-8a86-ba1bc5c0f548\nBella Vita Organic,Bengaluru,560001,amazon.in,B0GDGQBYDQ,\"BELLAVITA Beast Mode Collection Set with 40% Perfume oil concentration | Long Lasting | Perfume for Man | Gift for Men | Spicy, Wood, Musk and Oud Premium Fragrance for Men | Diwali Gift Hamper\",549,799,31,1 unit,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0GDGQBYDQ\nBella Vita Organic,Bengaluru,560001,amazon.in,B09XLK9GVS,\"Bella Vita Luxury Unisex Perfume 4X20ml | Long Lasting EDP for Man and Woman | Unisex Gift Set | with SKAI, Fresh, WHITEOUD, Honey Oud | Premium Fragrance Scents | Ideal Diwali Gift\",475,5.94,0,1 unit,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B09XLK9GVS\nBella Vita Organic,Bengaluru,560001,amazon.in,B09232XNTX,\"Bella Vita Luxury | Perfume Gift Set for Women 4x20ml | Karwachauth Gift for Wife | Gift for Woman | Perfume for Woman | Date, Senorita, Glam, Rose Long Lasting EDP | Floral & Fruity Premium Fragrance | Ideal Diwali Gift\",475,849,44,1 unit,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B09232XNTX\nBella Vita Organic,Bengaluru,560001,amazon.in,B09231NL5H,\"Bella Vita Luxury 4 X 20 Ml Perfume for Man| Long Lasting EDP Men Gift Set| With Klub, Oud, CEO, G.O.A.T | Woody, Citrusy Premium Fragrance Scents | Ideal Diwali Gift\",475,599,21,20 Ml,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B09231NL5H\nBella Vita Organic,Bengaluru,560001,amazon.in,B0H4HDSVRJ,\"BELLAVITA Luxury Arabic Gift Set | Dubai Crafted | Perfume for Man | Gift For Man | 3 x 20ml | | Long Lasting EDP | 25% Oil Concentration | Oud, Saffron, Patchouli | Premium Long Lasting Perfume\",649,799,19,20ml,true,\"Tue, 3 Nov\",https://www.amazon.in/dp/B0H4HDSVRJ\nBella Vita Organic,Bengaluru,560001,amazon.in,B0CHW268JT,\"BELLAVITA CEO MAN and WHITE OUD Unisex Perfume | 2x20ml each| Long Lasting Fragrance | Eau De Parfum| Tonka, Agarwood & Orange | Woody, Spicy & Citrus Premium Fragrance | Perfume for Man and Woman\",179,4.48,0,1 unit,true,\"Tue, 3 Nov\",https://www.amazon.in/dp/B0CHW268JT\n";
+
+    function filterRows(mode) {
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const stock = row.getAttribute('data-stock');
+        if (mode === 'all') row.style.display = '';
+        else if (mode === 'oos') row.style.display = stock === 'oos' ? '' : 'none';
+        else if (mode === 'instock') row.style.display = stock === 'instock' ? '' : 'none';
+      });
+    }
+
+    function searchSkus() {
+      const q = document.getElementById('skuSearch').value.toLowerCase();
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const title = row.getAttribute('data-title') || '';
+        const platform = (row.getAttribute('data-platform') || '').toLowerCase();
+        row.style.display = (title.includes(q) || platform.includes(q)) ? '' : 'none';
+      });
+    }
+
+    function downloadCsv() {
+      const blob = new Blob([RAW_CSV], { type: 'text/csv;charset=utf-8;' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'bella-vita-organic-3city-audit.csv';
+      a.click();
+    }
+  </script>
+</body>
+</html>

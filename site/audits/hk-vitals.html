@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HK Vitals — 3-City Quick-Commerce Dark-Store Audit Scorecard | Unscrape Radar</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background-color: #07080d; color: #f3f4f6; font-family: Inter, system-ui, -apple-system, sans-serif; }
+  </style>
+</head>
+<body class="min-h-screen pb-24">
+  <!-- Top Bar -->
+  <header class="border-b border-slate-800 bg-slate-950/90 backdrop-blur sticky top-0 z-20">
+    <div class="max-w-7xl mx-auto px-6 py-3.5 flex items-center justify-between flex-wrap gap-3">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="text-emerald-400 font-black text-lg tracking-tight hover:text-emerald-300">⚡ UNSCRAPE RADAR</a>
+        <span class="text-xs text-slate-500">/</span>
+        <span class="text-sm font-bold text-white">HK Vitals Executive Scorecard</span>
+      </div>
+      <div class="flex items-center gap-2.5 text-xs">
+        <a href="index.html" class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700">← All 56 Brand Audits</a>
+        <button onclick="downloadCsv()" class="px-3.5 py-1.5 rounded-lg bg-emerald-500 text-slate-950 font-bold hover:bg-emerald-400">⬇ Download Raw CSV (38 SKUs)</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-6 pt-8">
+    <!-- Executive Header -->
+    <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 mb-8">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+        <div>
+          <div class="flex items-center gap-2.5 mb-2">
+            <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded bg-slate-800 text-emerald-400">Vitamins &amp; Supplements</span>
+            <span class="text-xs text-slate-400 font-mono">Audited: 2026-10-30</span>
+          </div>
+          <h1 class="text-3xl md:text-4xl font-black text-white tracking-tight">HK Vitals — Hyperlocal Dark-Store Audit</h1>
+          <p class="text-slate-400 text-sm mt-1">
+            Live multi-platform inventory & MOP/MRP price variance scan across <strong>Bengaluru (560001)</strong>, <strong>Mumbai (400001)</strong>, and <strong>Delhi (110001)</strong>.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 shrink-0">
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">SKUs Audited</div>
+            <div class="text-2xl font-black text-white mt-1">38</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">OOS Leaks</div>
+            <div class="text-2xl font-black text-rose-400 mt-1">1</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">Max Markdown</div>
+            <div class="text-2xl font-black text-amber-300 mt-1">40%</div>
+          </div>
+          <div class="border rounded-xl p-3.5 text-center bg-amber-500/15 text-amber-300 border-amber-500/30">
+            <div class="text-[11px] uppercase font-bold opacity-80">Shelf Health</div>
+            <div class="text-2xl font-black mt-1">97%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="bg-rose-950/50 border border-rose-500/40 rounded-2xl p-6 mb-8">
+      <div class="flex items-center justify-between flex-wrap gap-3 mb-4">
+        <div class="flex items-center gap-3">
+          <span class="px-3 py-1 rounded-full bg-rose-500 text-slate-950 font-black text-xs uppercase tracking-wider">🚨 REVENUE LEAK DETECTED</span>
+          <h2 class="text-lg font-bold text-white">1 Out-of-Stock Dark-Store Listing(s) Caught Live</h2>
+        </div>
+        <span class="text-xs font-mono text-rose-300">Immediate Shelf Conversion Loss</span>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+        
+          <div class="bg-slate-950/90 border border-rose-500/30 rounded-xl p-3.5 flex items-center justify-between gap-3">
+            <div>
+              <div class="text-sm font-bold text-white">OZiva Hair Growth Biotin Vitamin Supplement</div>
+              <div class="text-xs text-slate-400 mt-1">
+                Platform: <span class="text-rose-300 font-mono">blinkit.com</span> ·
+                City: <span class="text-slate-200">Bengaluru (560001)</span> ·
+                Pack: <span class="text-slate-300">2 x 60 pcs</span>
+              </div>
+            </div>
+            <div class="text-right shrink-0">
+              <div class="text-sm font-extrabold text-rose-400">OUT OF STOCK</div>
+              <div class="text-xs text-slate-400">₹1239</div>
+            </div>
+          </div>
+      </div>
+    </div>
+
+    <!-- Filter Controls -->
+    <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+      <div class="flex items-center gap-2 text-xs">
+        <button onclick="filterRows('all')" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-semibold">All SKUs (38)</button>
+        <button onclick="filterRows('oos')" class="px-3 py-1.5 rounded-lg bg-rose-500/15 border border-rose-500/30 text-rose-300 hover:bg-rose-500/25 font-semibold">Out-of-Stock Only (1)</button>
+        <button onclick="filterRows('instock')" class="px-3 py-1.5 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 hover:bg-emerald-500/25 font-semibold">In-Stock (37)</button>
+      </div>
+      <div class="flex items-center gap-2">
+        <input id="skuSearch" type="text" oninput="searchSkus()" placeholder="Filter SKU title or platform..." class="bg-slate-900 border border-slate-800 rounded-lg px-3.5 py-1.5 text-xs text-white w-64" />
+      </div>
+    </div>
+
+    <!-- SKU Table -->
+    <div class="bg-slate-900/50 border border-slate-800 rounded-2xl overflow-x-auto">
+      <table class="w-full text-left text-xs">
+        <thead class="bg-slate-950/90 text-slate-400 uppercase border-b border-slate-800">
+          <tr>
+            <th class="px-4 py-3">SKU Title</th>
+            <th class="px-4 py-3">Platform</th>
+            <th class="px-4 py-3">City / Pin</th>
+            <th class="px-4 py-3">Pack Size</th>
+            <th class="px-4 py-3">Selling Price</th>
+            <th class="px-4 py-3">MRP</th>
+            <th class="px-4 py-3">Discount</th>
+            <th class="px-4 py-3">Stock Status</th>
+            <th class="px-4 py-3">ETA</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-800/60">
+          <tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="healthkart hk vitals dht blocker with biotin, helps reduce hair fall, 30 no">
+        <td class="px-4 py-3 font-medium text-white max-w-md">HealthKart HK Vitals DHT Blocker with Biotin, Helps Reduce Hair Fall, 30 No</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">10.97/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹329</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹359</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">8% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="healthkart hk vitals dht blocker with biotin, stinging nettle and soya protein, helps reduce hair fall, stimulates hair growth, 60 tablets">
+        <td class="px-4 py-3 font-medium text-white max-w-md">HealthKart HK Vitals DHT Blocker with Biotin, Stinging Nettle and Soya Protein, Helps Reduce Hair Fall, Stimulates Hair Growth, 60 Tablets</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">7.32/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹439</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹539</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">19% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="healthkart hk vitals biotin, high strength supplement for hair growth, skin &amp; nails health (60 no)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">HealthKart HK Vitals Biotin, High Strength Supplement for Hair Growth, Skin &amp; Nails Health (60 No)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">6.48/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹389</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹469</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">17% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="healthkart hk vitals hair strength gummies, biotin from sesbania extract, with zinc, vitamin c, a, and e, vegan, gluten free, for healthier skin, hair, and nails, strawberry, 60 biotin gummies">
+        <td class="px-4 py-3 font-medium text-white max-w-md">HealthKart HK Vitals Hair Strength Gummies, Biotin from Sesbania Extract, with Zinc, Vitamin C, A, and E, Vegan, Gluten Free, for Healthier Skin, Hair, and Nails, Strawberry, 60 Biotin Gummies</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">14.48/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹869</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1069</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">19% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="healthkart hk vitals biotin, supplement for hair growth, strong hair and glowing skin, fights nail brittleness, 90 biotin tablets">
+        <td class="px-4 py-3 font-medium text-white max-w-md">HealthKart HK Vitals Biotin, Supplement for Hair Growth, Strong Hair and Glowing Skin, Fights Nail Brittleness, 90 Biotin Tablets</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">5.99/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹539</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹619</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">13% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="healthkart hk vitals biotin, 60 tablets and dht blocker with biotin, supplement for hair growth, strong hair and glowing skin, 60 tablets (combo pack)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">HealthKart HK Vitals Biotin, 60 Tablets and DHT Blocker with Biotin, Supplement for Hair Growth, Strong Hair and Glowing Skin, 60 Tablets (Combo Pack)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹749</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1008</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">26% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="healthkart hk vitals dht blocker with biotin, helps reduce hair fall, 30 no">
+        <td class="px-4 py-3 font-medium text-white max-w-md">HealthKart HK Vitals DHT Blocker with Biotin, Helps Reduce Hair Fall, 30 No</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">10.97/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹329</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹359</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">8% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="healthkart hk vitals dht blocker with biotin, stinging nettle and soya protein, helps reduce hair fall, stimulates hair growth, 60 tablets">
+        <td class="px-4 py-3 font-medium text-white max-w-md">HealthKart HK Vitals DHT Blocker with Biotin, Stinging Nettle and Soya Protein, Helps Reduce Hair Fall, Stimulates Hair Growth, 60 Tablets</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">7.32/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹439</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹539</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">19% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="healthkart hk vitals biotin, high strength supplement for hair growth, skin &amp; nails health (60 no)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">HealthKart HK Vitals Biotin, High Strength Supplement for Hair Growth, Skin &amp; Nails Health (60 No)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">6.48/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹389</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹469</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">17% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="healthkart hk vitals hair strength gummies, biotin from sesbania extract, with zinc, vitamin c, a, and e, vegan, gluten free, for healthier skin, hair, and nails, strawberry, 60 biotin gummies">
+        <td class="px-4 py-3 font-medium text-white max-w-md">HealthKart HK Vitals Hair Strength Gummies, Biotin from Sesbania Extract, with Zinc, Vitamin C, A, and E, Vegan, Gluten Free, for Healthier Skin, Hair, and Nails, Strawberry, 60 Biotin Gummies</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">14.48/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹869</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1069</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">19% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="healthkart hk vitals biotin, supplement for hair growth, strong hair and glowing skin, fights nail brittleness, 90 biotin tablets">
+        <td class="px-4 py-3 font-medium text-white max-w-md">HealthKart HK Vitals Biotin, Supplement for Hair Growth, Strong Hair and Glowing Skin, Fights Nail Brittleness, 90 Biotin Tablets</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">5.99/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹539</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹619</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">13% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="healthkart hk vitals biotin, 60 tablets and dht blocker with biotin, supplement for hair growth, strong hair and glowing skin, 60 tablets (combo pack)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">HealthKart HK Vitals Biotin, 60 Tablets and DHT Blocker with Biotin, Supplement for Hair Growth, Strong Hair and Glowing Skin, 60 Tablets (Combo Pack)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Mumbai <span class="text-slate-500 font-mono">(400001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹749</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1008</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">26% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="healthkart hk vitals dht blocker with biotin, helps reduce hair fall, 30 no">
+        <td class="px-4 py-3 font-medium text-white max-w-md">HealthKart HK Vitals DHT Blocker with Biotin, Helps Reduce Hair Fall, 30 No</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">10.97/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹329</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹359</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">8% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="healthkart hk vitals dht blocker with biotin, stinging nettle and soya protein, helps reduce hair fall, stimulates hair growth, 60 tablets">
+        <td class="px-4 py-3 font-medium text-white max-w-md">HealthKart HK Vitals DHT Blocker with Biotin, Stinging Nettle and Soya Protein, Helps Reduce Hair Fall, Stimulates Hair Growth, 60 Tablets</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">7.32/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹439</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹539</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">19% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="healthkart hk vitals biotin, high strength supplement for hair growth, skin &amp; nails health (60 no)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">HealthKart HK Vitals Biotin, High Strength Supplement for Hair Growth, Skin &amp; Nails Health (60 No)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">6.48/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹389</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹469</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">17% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="healthkart hk vitals hair strength gummies, biotin from sesbania extract, with zinc, vitamin c, a, and e, vegan, gluten free, for healthier skin, hair, and nails, strawberry, 60 biotin gummies">
+        <td class="px-4 py-3 font-medium text-white max-w-md">HealthKart HK Vitals Hair Strength Gummies, Biotin from Sesbania Extract, with Zinc, Vitamin C, A, and E, Vegan, Gluten Free, for Healthier Skin, Hair, and Nails, Strawberry, 60 Biotin Gummies</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">14.48/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹869</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1069</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">19% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="healthkart hk vitals biotin, supplement for hair growth, strong hair and glowing skin, fights nail brittleness, 90 biotin tablets">
+        <td class="px-4 py-3 font-medium text-white max-w-md">HealthKart HK Vitals Biotin, Supplement for Hair Growth, Strong Hair and Glowing Skin, Fights Nail Brittleness, 90 Biotin Tablets</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">5.99/Pieces</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹539</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹619</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">13% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="bigbasket.com/jiomart" data-title="healthkart hk vitals biotin, 60 tablets and dht blocker with biotin, supplement for hair growth, strong hair and glowing skin, 60 tablets (combo pack)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">HealthKart HK Vitals Biotin, 60 Tablets and DHT Blocker with Biotin, Supplement for Hair Growth, Strong Hair and Glowing Skin, 60 Tablets (Combo Pack)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">bigbasket.com/jiomart</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Delhi <span class="text-slate-500 font-mono">(110001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹749</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1008</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">26% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15-30 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="revital biotin for hair growth">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Revital Biotin for Hair Growth</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">50 tabs</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹455</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹650</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">30% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="hk vitals biotin for strong, thick &amp; shiny hair">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Hk Vitals Biotin for Strong, Thick &amp; Shiny Hair</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">90 pcs</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹539</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹619</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">13% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="oziva hair growth biotin vitamin supplement">
+        <td class="px-4 py-3 font-medium text-white max-w-md">OZiva Hair Growth Biotin Vitamin Supplement</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">60 pcs</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹628</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹859</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">27% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="oos" data-platform="blinkit.com" data-title="oziva hair growth biotin vitamin supplement">
+        <td class="px-4 py-3 font-medium text-white max-w-md">OZiva Hair Growth Biotin Vitamin Supplement</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">2 x 60 pcs</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1239</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1718</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">28% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-rose-500/20 text-rose-400 border border-rose-500/30 font-mono text-[11px] font-bold">OUT OF STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="siens 3 in 1 hair skin nails biotin">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Siens 3 in 1 Hair Skin Nails Biotin</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">30 pcs</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹417</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹490</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="man matters biotin hair gummies">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Man Matters Biotin Hair Gummies</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">30 pcs</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹699</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹699</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="man matters biotin hair gummies">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Man Matters Biotin Hair Gummies</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">2 x 30 pcs</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1329</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹1398</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">5% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="blinkit.com" data-title="be bodywise biotin hair gummies">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Be Bodywise Biotin Hair Gummies</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">blinkit.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">60 pcs</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹849</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹999</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">15% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">10 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="hk vitals multivitamin with probiotics | with vitamins c, b, d &amp; zinc">
+        <td class="px-4 py-3 font-medium text-white max-w-md">hk vitals Multivitamin with Probiotics | With Vitamins C, B, D &amp; Zinc</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹299</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹499</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">40% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="hk vitals bi-layer multivitamin plus men | supports heart, bone &amp; muscle health">
+        <td class="px-4 py-3 font-medium text-white max-w-md">hk vitals Bi-Layer Multivitamin Plus Men | Supports Heart, Bone &amp; Muscle Health</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹389</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹529</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">26% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="hk vitals biotin | supplement for hair growth, strong hair &amp; glowing skin">
+        <td class="px-4 py-3 font-medium text-white max-w-md">hk vitals Biotin | Supplement for Hair Growth, Strong Hair &amp; Glowing Skin</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹389</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹469</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">17% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="hk vitals biotin | supplement for hair growth, strong hair &amp; glowing skin">
+        <td class="px-4 py-3 font-medium text-white max-w-md">hk vitals Biotin | Supplement for Hair Growth, Strong Hair &amp; Glowing Skin</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹489</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹619</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">21% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="hk vitals dht blocker with biotin| stinging nettle and soya protein">
+        <td class="px-4 py-3 font-medium text-white max-w-md">hk vitals DHT Blocker with Biotin| Stinging Nettle and Soya Protein</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹389</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹539</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">28% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="flipkart.com" data-title="hk vitals bi-layer multivitamin plus women | supports joint, skin &amp; hair health">
+        <td class="px-4 py-3 font-medium text-white max-w-md">hk vitals Bi-Layer Multivitamin Plus Women | Supports Joint, Skin &amp; Hair Health</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">flipkart.com</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹689</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹799</td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono text-[11px]">14% OFF</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">15 MINS</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="hk vitals biotin, 90 tablets">
+        <td class="px-4 py-3 font-medium text-white max-w-md">hk vitals Biotin, 90 Tablets</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹489</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹5.43</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="wellbeing nutrition slow skin hair and nails capsule for men &amp; women | skin hair nails vitamins | glutathione, hyaluronic acid, biotin | for glowing skin, hair growth and strong nails (60 capsules)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">WELLBEING NUTRITION Slow Skin Hair And Nails Capsule For Men &amp; Women | Skin Hair Nails Vitamins | Glutathione, Hyaluronic Acid, Biotin | For Glowing Skin, Hair Growth And Strong Nails (60 Capsules)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹1259</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹20.98</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Tue, 3 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="tata 1mg biotin + advanced tablet,supports strong hair, skin and nails (pack of 1, 60 tablets)">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Tata 1mg Biotin + Advanced Tablet,Supports Strong Hair, Skin And Nails (Pack Of 1, 60 Tablets)</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹295</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹4.92</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="cureforever biotin tablets for hair growth, skin &amp; nails – 100% rda with zinc, selenium &amp; coconut mct | supplement for healthy hair, nails &amp; skin | 90 veg tablets for men &amp; women | 3 months supply | 1 daily dose">
+        <td class="px-4 py-3 font-medium text-white max-w-md">CUREFOREVER Biotin Tablets for Hair Growth, Skin &amp; Nails – 100% RDA with Zinc, Selenium &amp; Coconut MCT | Supplement For Healthy Hair, Nails &amp; Skin | 90 Veg Tablets for Men &amp; Women | 3 Months Supply | 1 Daily Dose</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹555</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹6.17</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="revital biotin+ with amla and dht blockers for hair growth | biotin, amla, zinc, vitamin e &amp; pantothenic acid | supports hair strength &amp; skin health | 50 tablets">
+        <td class="px-4 py-3 font-medium text-white max-w-md">Revital Biotin+ with Amla and DHT Blockers for Hair Growth | Biotin, Amla, Zinc, Vitamin E &amp; Pantothenic Acid | Supports Hair Strength &amp; Skin Health | 50 tablets</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹351</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹351</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+<tr class="sku-row hover:bg-slate-900/80 transition" data-stock="instock" data-platform="amazon.in" data-title="hk vitals dht blocker with biotin, 60 tablets">
+        <td class="px-4 py-3 font-medium text-white max-w-md">hk vitals DHT Blocker with Biotin, 60 Tablets</td>
+        <td class="px-4 py-3 font-mono text-xs text-emerald-300">amazon.in</td>
+        <td class="px-4 py-3 text-xs text-slate-300">Bengaluru <span class="text-slate-500 font-mono">(560001)</span></td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-300">1 unit</td>
+        <td class="px-4 py-3 font-mono text-sm font-bold text-white">₹389</td>
+        <td class="px-4 py-3 font-mono text-xs text-slate-400">₹6.48</td>
+        <td class="px-4 py-3"><span class="text-slate-500 font-mono text-[11px]">MRP</span></td>
+        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono text-[11px] font-bold">IN STOCK</span></td>
+        <td class="px-4 py-3 text-xs font-mono text-slate-400">Mon, 2 Nov</td>
+      </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- Sticky CTA Footer -->
+  <div class="fixed bottom-0 inset-x-0 bg-slate-950/95 border-t border-emerald-500/30 backdrop-blur px-6 py-3.5 z-30">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+      <div class="text-slate-200">
+        <span class="text-emerald-400 font-bold">⚡ Unscrape Radar:</span> Want real-time Slack/WhatsApp/Telegram alerts within 15 mins whenever <strong>HK Vitals</strong> SKUs go Out-of-Stock across 20 BLR/MUM/DEL dark-store pin codes?
+      </div>
+      <div class="flex items-center gap-2.5 shrink-0">
+        <a href="https://github.com/deveshkolte/unscrape" target="_blank" class="px-4 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold">Unlock Automated 20-Pin-Code Monitor →</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const RAW_CSV = "brand,city,pincode,platform,skuId,title,sellingPriceInr,mrpInr,discountPercent,unit,inStock,deliveryEta,url\nHK Vitals,Bengaluru,560001,bigbasket.com/jiomart,19514871,\"HealthKart HK Vitals DHT Blocker with Biotin, Helps Reduce Hair Fall, 30 No\",329,359,8,10.97/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/healthkart-hk-vitals-dht-blocker-with-biotin-helps-reduce-hair-fall-30-no-mi90vm-19514871/19514871\nHK Vitals,Bengaluru,560001,bigbasket.com/jiomart,19447228,\"HealthKart HK Vitals DHT Blocker with Biotin, Stinging Nettle and Soya Protein, Helps Reduce Hair Fall, Stimulates Hair Growth, 60 Tablets\",439,539,19,7.32/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/healthkart-hk-vitals-dht-blocker-with-biotin-helps-reduce-hair-fall-60-no-60-tablets-mi8y9m-19447228/19447228\nHK Vitals,Bengaluru,560001,bigbasket.com/jiomart,19338959,\"HealthKart HK Vitals Biotin, High Strength Supplement for Hair Growth, Skin & Nails Health (60 No)\",389,469,17,6.48/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/healthkart-hk-vitals-biotin-high-strength-supplement-for-hair-growth-skin-nails-health-60-no-mi8ulh-19338959/19338959\nHK Vitals,Bengaluru,560001,bigbasket.com/jiomart,20135876,\"HealthKart HK Vitals Hair Strength Gummies, Biotin from Sesbania Extract, with Zinc, Vitamin C, A, and E, Vegan, Gluten Free, for Healthier Skin, Hair, and Nails, Strawberry, 60 Biotin Gummies\",869,1069,19,14.48/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/healthkart-hk-vitals-hair-strength-gummies-vegan-strawberry-60-gummies-mi9lav-20135876/20135876\nHK Vitals,Bengaluru,560001,bigbasket.com/jiomart,19443290,\"HealthKart HK Vitals Biotin, Supplement for Hair Growth, Strong Hair and Glowing Skin, Fights Nail Brittleness, 90 Biotin Tablets\",539,619,13,5.99/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/healthkart-hk-vitals-biotin-supplement-for-hair-growth-strong-hair-90-biotin-tablets-mi8y3r-19443290/19443290\nHK Vitals,Bengaluru,560001,bigbasket.com/jiomart,20405446,\"HealthKart HK Vitals Biotin, 60 Tablets and DHT Blocker with Biotin, Supplement for Hair Growth, Strong Hair and Glowing Skin, 60 Tablets (Combo Pack)\",749,1008,26,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/healthkart-hk-vitals-biotin-60-tablets-and-dht-blocker-with-biotin-60-tablets-combo-pack-mi9vop-20405446/20405446\nHK Vitals,Mumbai,400001,bigbasket.com/jiomart,19514871,\"HealthKart HK Vitals DHT Blocker with Biotin, Helps Reduce Hair Fall, 30 No\",329,359,8,10.97/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/healthkart-hk-vitals-dht-blocker-with-biotin-helps-reduce-hair-fall-30-no-mi90vm-19514871/19514871\nHK Vitals,Mumbai,400001,bigbasket.com/jiomart,19447228,\"HealthKart HK Vitals DHT Blocker with Biotin, Stinging Nettle and Soya Protein, Helps Reduce Hair Fall, Stimulates Hair Growth, 60 Tablets\",439,539,19,7.32/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/healthkart-hk-vitals-dht-blocker-with-biotin-helps-reduce-hair-fall-60-no-60-tablets-mi8y9m-19447228/19447228\nHK Vitals,Mumbai,400001,bigbasket.com/jiomart,19338959,\"HealthKart HK Vitals Biotin, High Strength Supplement for Hair Growth, Skin & Nails Health (60 No)\",389,469,17,6.48/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/healthkart-hk-vitals-biotin-high-strength-supplement-for-hair-growth-skin-nails-health-60-no-mi8ulh-19338959/19338959\nHK Vitals,Mumbai,400001,bigbasket.com/jiomart,20135876,\"HealthKart HK Vitals Hair Strength Gummies, Biotin from Sesbania Extract, with Zinc, Vitamin C, A, and E, Vegan, Gluten Free, for Healthier Skin, Hair, and Nails, Strawberry, 60 Biotin Gummies\",869,1069,19,14.48/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/healthkart-hk-vitals-hair-strength-gummies-vegan-strawberry-60-gummies-mi9lav-20135876/20135876\nHK Vitals,Mumbai,400001,bigbasket.com/jiomart,19443290,\"HealthKart HK Vitals Biotin, Supplement for Hair Growth, Strong Hair and Glowing Skin, Fights Nail Brittleness, 90 Biotin Tablets\",539,619,13,5.99/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/healthkart-hk-vitals-biotin-supplement-for-hair-growth-strong-hair-90-biotin-tablets-mi8y3r-19443290/19443290\nHK Vitals,Mumbai,400001,bigbasket.com/jiomart,20405446,\"HealthKart HK Vitals Biotin, 60 Tablets and DHT Blocker with Biotin, Supplement for Hair Growth, Strong Hair and Glowing Skin, 60 Tablets (Combo Pack)\",749,1008,26,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/healthkart-hk-vitals-biotin-60-tablets-and-dht-blocker-with-biotin-60-tablets-combo-pack-mi9vop-20405446/20405446\nHK Vitals,Delhi,110001,bigbasket.com/jiomart,19514871,\"HealthKart HK Vitals DHT Blocker with Biotin, Helps Reduce Hair Fall, 30 No\",329,359,8,10.97/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/healthkart-hk-vitals-dht-blocker-with-biotin-helps-reduce-hair-fall-30-no-mi90vm-19514871/19514871\nHK Vitals,Delhi,110001,bigbasket.com/jiomart,19447228,\"HealthKart HK Vitals DHT Blocker with Biotin, Stinging Nettle and Soya Protein, Helps Reduce Hair Fall, Stimulates Hair Growth, 60 Tablets\",439,539,19,7.32/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/healthkart-hk-vitals-dht-blocker-with-biotin-helps-reduce-hair-fall-60-no-60-tablets-mi8y9m-19447228/19447228\nHK Vitals,Delhi,110001,bigbasket.com/jiomart,19338959,\"HealthKart HK Vitals Biotin, High Strength Supplement for Hair Growth, Skin & Nails Health (60 No)\",389,469,17,6.48/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/healthkart-hk-vitals-biotin-high-strength-supplement-for-hair-growth-skin-nails-health-60-no-mi8ulh-19338959/19338959\nHK Vitals,Delhi,110001,bigbasket.com/jiomart,20135876,\"HealthKart HK Vitals Hair Strength Gummies, Biotin from Sesbania Extract, with Zinc, Vitamin C, A, and E, Vegan, Gluten Free, for Healthier Skin, Hair, and Nails, Strawberry, 60 Biotin Gummies\",869,1069,19,14.48/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/healthkart-hk-vitals-hair-strength-gummies-vegan-strawberry-60-gummies-mi9lav-20135876/20135876\nHK Vitals,Delhi,110001,bigbasket.com/jiomart,19443290,\"HealthKart HK Vitals Biotin, Supplement for Hair Growth, Strong Hair and Glowing Skin, Fights Nail Brittleness, 90 Biotin Tablets\",539,619,13,5.99/Pieces,true,15-30 MINS,https://www.jiomart.com/p/groceries/healthkart-hk-vitals-biotin-supplement-for-hair-growth-strong-hair-90-biotin-tablets-mi8y3r-19443290/19443290\nHK Vitals,Delhi,110001,bigbasket.com/jiomart,20405446,\"HealthKart HK Vitals Biotin, 60 Tablets and DHT Blocker with Biotin, Supplement for Hair Growth, Strong Hair and Glowing Skin, 60 Tablets (Combo Pack)\",749,1008,26,1 unit,true,15-30 MINS,https://www.jiomart.com/p/groceries/healthkart-hk-vitals-biotin-60-tablets-and-dht-blocker-with-biotin-60-tablets-combo-pack-mi9vop-20405446/20405446\nHK Vitals,Bengaluru,560001,blinkit.com,657254,Revital Biotin for Hair Growth,455,650,30,50 tabs,true,10 MINS,https://blinkit.com/prn/revital-biotin-for-hair-growth/prid/657254\nHK Vitals,Bengaluru,560001,blinkit.com,491907,\"Hk Vitals Biotin for Strong, Thick & Shiny Hair\",539,619,13,90 pcs,true,10 MINS,https://blinkit.com/prn/hk-vitals-biotin-for-strong-thick-shiny-hair/prid/491907\nHK Vitals,Bengaluru,560001,blinkit.com,560414,OZiva Hair Growth Biotin Vitamin Supplement,628,859,27,60 pcs,true,10 MINS,https://blinkit.com/prn/oziva-hair-growth-biotin-vitamin-supplement/prid/560414\nHK Vitals,Bengaluru,560001,blinkit.com,611941,OZiva Hair Growth Biotin Vitamin Supplement,1239,1718,28,2 x 60 pcs,false,10 MINS,https://blinkit.com/prn/oziva-hair-growth-biotin-vitamin-supplement/prid/611941\nHK Vitals,Bengaluru,560001,blinkit.com,607007,Siens 3 in 1 Hair Skin Nails Biotin,417,490,15,30 pcs,true,10 MINS,https://blinkit.com/prn/siens-3-in-1-hair-skin-nails-biotin/prid/607007\nHK Vitals,Bengaluru,560001,blinkit.com,547531,Man Matters Biotin Hair Gummies,699,699,0,30 pcs,true,10 MINS,https://blinkit.com/prn/man-matters-biotin-hair-gummies/prid/547531\nHK Vitals,Bengaluru,560001,blinkit.com,553598,Man Matters Biotin Hair Gummies,1329,1398,5,2 x 30 pcs,true,10 MINS,https://blinkit.com/prn/man-matters-biotin-hair-gummies/prid/553598\nHK Vitals,Bengaluru,560001,blinkit.com,604163,Be Bodywise Biotin Hair Gummies,849,999,15,60 pcs,true,10 MINS,https://blinkit.com/prn/be-bodywise-biotin-hair-gummies/prid/604163\nHK Vitals,Bengaluru,560001,flipkart.com,VSLG4VE6YEZFY26N,\"hk vitals Multivitamin with Probiotics | With Vitamins C, B, D & Zinc\",299,499,40,1 unit,true,15 MINS,https://www.flipkart.com/hk-vitals-multivitamin-probiotics-vitamins-c-b-d-zinc/p/itm01a0a2b850c5e?pid=VSLG4VE6YEZFY26N&lid=LSTVSLG4VE6YEZFY26NDETB2E&marketplace=FLIPKART&q=hk+vitals+biotin&store=hlc%2Fetg%2Fqtw&srno=s_1_1&otracker=search&fm=organic&iid=en_e90idPsLI31KDCEZ19pjQO4-XQJzI6uwmp1xCXf0eYc7-uGBNlMtAEtrITfaNHwi5wLp3Pg3Jd9TTJY1QtFLLtrwN3baapy4DOS8ERsi4K7R51hJjYksI479R7qsUXig&ppt=None&ppn=None&ssid=sojvq3d3sg0000001793387282432&qH=5a6acf397ce98566&ov_redirect=true&ov_redirect=true\nHK Vitals,Bengaluru,560001,flipkart.com,VSLGUECKZZDPHKGW,\"hk vitals Bi-Layer Multivitamin Plus Men | Supports Heart, Bone & Muscle Health\",389,529,26,1 unit,true,15 MINS,https://www.flipkart.com/hk-vitals-bi-layer-multivitamin-plus-men-supports-heart-bone-muscle-health/p/itm2ea69660ea7f9?pid=VSLGUECKZZDPHKGW&lid=LSTVSLGUECKZZDPHKGWFXHL3J&marketplace=FLIPKART&q=hk+vitals+biotin&store=hlc%2Fetg%2Fqtw&srno=s_1_2&otracker=search&fm=organic&iid=en_e90idPsLI31KDCEZ19pjQO4-XQJzI6uwmp1xCXf0eYepjjvHqxWi25W22tJy0Ljc6F_oo3qcVDhVOIfd6gBurX_qgtARLMAvg1pJCP3ao_KvlKIU-z4aDkNULNx0O3aO&ppt=None&ppn=None&ssid=sojvq3d3sg0000001793387282432&qH=5a6acf397ce98566&ov_redirect=true&ov_redirect=true\nHK Vitals,Bengaluru,560001,flipkart.com,VSLFPGG5FAMSN895,\"hk vitals Biotin | Supplement for Hair Growth, Strong Hair & Glowing Skin\",389,469,17,1 unit,true,15 MINS,https://www.flipkart.com/hk-vitals-biotin-supplement-hair-growth-strong-glowing-skin/p/itme049ea144c16e?pid=VSLFPGG5FAMSN895&lid=LSTVSLFPGG5FAMSN895HAKS1D&marketplace=FLIPKART&q=hk+vitals+biotin&store=hlc%2Fetg%2Fqtw&srno=s_1_3&otracker=search&fm=organic&iid=bc0be191-7fef-471f-815c-0d94db0bf28f.VSLFPGG5FAMSN895.SEARCH&ppt=None&ppn=None&ssid=sojvq3d3sg0000001793387282432&qH=5a6acf397ce98566&ov_redirect=true&ov_redirect=true\nHK Vitals,Bengaluru,560001,flipkart.com,VSLFDNNX2GDAXZYF,\"hk vitals Biotin | Supplement for Hair Growth, Strong Hair & Glowing Skin\",489,619,21,1 unit,true,15 MINS,https://www.flipkart.com/hk-vitals-biotin-supplement-hair-growth-strong-glowing-skin/p/itme049ea144c16e?pid=VSLFDNNX2GDAXZYF&lid=LSTVSLFDNNX2GDAXZYFZPINE9&marketplace=FLIPKART&q=hk+vitals+biotin&store=hlc%2Fetg%2Fqtw&srno=s_1_4&otracker=search&fm=organic&iid=bc0be191-7fef-471f-815c-0d94db0bf28f.VSLFDNNX2GDAXZYF.SEARCH&ppt=None&ppn=None&ssid=sojvq3d3sg0000001793387282432&qH=5a6acf397ce98566&ov_redirect=true&ov_redirect=true\nHK Vitals,Bengaluru,560001,flipkart.com,VSLGE9B6YZGZHRAR,hk vitals DHT Blocker with Biotin| Stinging Nettle and Soya Protein,389,539,28,1 unit,true,15 MINS,https://www.flipkart.com/hk-vitals-dht-blocker-biotin-stinging-nettle-soya-protein/p/itm0e60cd906b196?pid=VSLGE9B6YZGZHRAR&lid=LSTVSLGE9B6YZGZHRARBOID5S&marketplace=FLIPKART&q=hk+vitals+biotin&store=hlc%2Fetg%2Fqtw&srno=s_1_5&otracker=search&fm=organic&iid=bc0be191-7fef-471f-815c-0d94db0bf28f.VSLGE9B6YZGZHRAR.SEARCH&ppt=None&ppn=None&ssid=sojvq3d3sg0000001793387282432&qH=5a6acf397ce98566&ov_redirect=true&ov_redirect=true\nHK Vitals,Bengaluru,560001,flipkart.com,VSLGTAEYYZGGTSZA,\"hk vitals Bi-Layer Multivitamin Plus Women | Supports Joint, Skin & Hair Health\",689,799,14,1 unit,true,15 MINS,https://www.flipkart.com/hk-vitals-bi-layer-multivitamin-plus-women-supports-joint-skin-hair-health/p/itmb2288163b468b?pid=VSLGTAEYYZGGTSZA&lid=LSTVSLGTAEYYZGGTSZA8C5R0U&marketplace=FLIPKART&q=hk+vitals+biotin&store=hlc%2Fetg%2Fqtw&srno=s_1_6&otracker=search&fm=organic&iid=en_e90idPsLI31KDCEZ19pjQO4-XQJzI6uwmp1xCXf0eYe1LhkdJoct84zG1VAEUirWttCkAUuqQ7NircbZjpqMLEg5tYHxgZrwpDnni2lvANO62HDYoKm2sluDNHdnImwh&ppt=None&ppn=None&ssid=sojvq3d3sg0000001793387282432&qH=5a6acf397ce98566&ov_redirect=true&ov_redirect=true\nHK Vitals,Bengaluru,560001,amazon.in,B07NL7H9MT,\"hk vitals Biotin, 90 Tablets\",489,5.43,0,1 unit,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B07NL7H9MT\nHK Vitals,Bengaluru,560001,amazon.in,B09WF15NDS,\"WELLBEING NUTRITION Slow Skin Hair And Nails Capsule For Men & Women | Skin Hair Nails Vitamins | Glutathione, Hyaluronic Acid, Biotin | For Glowing Skin, Hair Growth And Strong Nails (60 Capsules)\",1259,20.98,0,1 unit,true,\"Tue, 3 Nov\",https://www.amazon.in/dp/B09WF15NDS\nHK Vitals,Bengaluru,560001,amazon.in,B0C7RD1LRL,\"Tata 1mg Biotin + Advanced Tablet,Supports Strong Hair, Skin And Nails (Pack Of 1, 60 Tablets)\",295,4.92,0,1 unit,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0C7RD1LRL\nHK Vitals,Bengaluru,560001,amazon.in,B0DTKPBCMH,\"CUREFOREVER Biotin Tablets for Hair Growth, Skin & Nails – 100% RDA with Zinc, Selenium & Coconut MCT | Supplement For Healthy Hair, Nails & Skin | 90 Veg Tablets for Men & Women | 3 Months Supply | 1 Daily Dose\",555,6.17,0,1 unit,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0DTKPBCMH\nHK Vitals,Bengaluru,560001,amazon.in,B0DZHGX3X8,\"Revital Biotin+ with Amla and DHT Blockers for Hair Growth | Biotin, Amla, Zinc, Vitamin E & Pantothenic Acid | Supports Hair Strength & Skin Health | 50 tablets\",351,351,0,1 unit,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0DZHGX3X8\nHK Vitals,Bengaluru,560001,amazon.in,B0B152TBRS,\"hk vitals DHT Blocker with Biotin, 60 Tablets\",389,6.48,0,1 unit,true,\"Mon, 2 Nov\",https://www.amazon.in/dp/B0B152TBRS\n";
+
+    function filterRows(mode) {
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const stock = row.getAttribute('data-stock');
+        if (mode === 'all') row.style.display = '';
+        else if (mode === 'oos') row.style.display = stock === 'oos' ? '' : 'none';
+        else if (mode === 'instock') row.style.display = stock === 'instock' ? '' : 'none';
+      });
+    }
+
+    function searchSkus() {
+      const q = document.getElementById('skuSearch').value.toLowerCase();
+      document.querySelectorAll('.sku-row').forEach(row => {
+        const title = row.getAttribute('data-title') || '';
+        const platform = (row.getAttribute('data-platform') || '').toLowerCase();
+        row.style.display = (title.includes(q) || platform.includes(q)) ? '' : 'none';
+      });
+    }
+
+    function downloadCsv() {
+      const blob = new Blob([RAW_CSV], { type: 'text/csv;charset=utf-8;' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'hk-vitals-3city-audit.csv';
+      a.click();
+    }
+  </script>
+</body>
+</html>
